@@ -14,6 +14,7 @@ interface ChampionGridProps {
   ddragonVersion: string;
   loading: boolean;
   error: string | null;
+  isPlayerTurn?: boolean;
 }
 
 const ROLE_LABELS: Record<RoleFilter, string> = {
@@ -52,6 +53,7 @@ export function ChampionGrid({
   ddragonVersion,
   loading,
   error,
+  isPlayerTurn = true,
 }: ChampionGridProps) {
   const [search, setSearch] = useState("");
   const [filterRole, setFilterRole] = useState<RoleFilter>("ALL");
@@ -87,7 +89,7 @@ export function ChampionGrid({
   }, [champions, search, filterRole, championPositions]);
 
   const isPickTurn = draft.currentActionType === "pick";
-  const isDisabled = draft.isDraftComplete || loading || Boolean(error);
+  const isDisabled = draft.isDraftComplete || loading || Boolean(error) || !isPlayerTurn;
   const gridColumns = GRID_COLUMNS[gridSize];
 
   function handleRoleFilter(role: RoleFilter) {

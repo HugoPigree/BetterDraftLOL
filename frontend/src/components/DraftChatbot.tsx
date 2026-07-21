@@ -1,9 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { DraftPick, Team } from "../types/draft";
-import type { PredictionMode, PredictResponse } from "../types/predict";
-import { askChatbotRules, suggestRetrospectiveBan, suggestRetrospectivePick } from "../services/api";
+import type { DraftPick } from "../types/draft";
+import type {
+  PredictionMode,
+  PredictResponse,
+  RetrospectiveBanSuggestion,
+  RetrospectivePickSuggestion,
+} from "../types/predict";
+import { askChatbotRules } from "../services/api";
 import { EXAMPLE_QUESTIONS } from "../constants/chatbotExamples";
 import { getAvailableChampions } from "../utils/draftTeamBuilder";
+import { resolveLoserSide } from "../utils/resolveLoserSide";
 
 interface ChatMessage {
   id: string;
@@ -22,14 +28,8 @@ interface DraftChatbotProps {
   usedChampions: string[];
   blueWinProbability: number;
   redWinProbability: number;
-}
-
-function resolveLoserSide(blueProb: number, redProb: number): Team | null {
-  const diff = Math.abs(blueProb - redProb);
-  if (diff < 0.02) {
-    return null;
-  }
-  return blueProb < redProb ? "blue" : "red";
+  retrospectivePicks: RetrospectivePickSuggestion[];
+  retrospectiveBans: RetrospectiveBanSuggestion[];
 }
 
 export function DraftChatbot({
@@ -42,6 +42,8 @@ export function DraftChatbot({
   usedChampions,
   blueWinProbability,
   redWinProbability,
+  retrospectivePicks,
+  retrospectiveBans,
 }: DraftChatbotProps) {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -53,12 +55,6 @@ export function DraftChatbot({
       text: "Pose-moi une question sur les scores, les termes du modèle, ou simule un changement de pick.",
     },
   ]);
-  const [retrospectivePicks, setRetrospectivePicks] = useState<
-    Array<{ champion: string; role: string; reason: string }>
-  >([]);
-  const [retrospectiveBans, setRetrospectiveBans] = useState<
-    Array<{ champion: string; role: string; reason: string }>
-  >([]);
   const listRef = useRef<HTMLDivElement>(null);
 
   const loserSide = useMemo(
@@ -75,12 +71,20 @@ export function DraftChatbot({
     () => ({
       mode: predictionMode,
       patch,
-      focus_team_side: loserSide ?? "blue",
+      focus_team_side: loserSide,
       blue_team: bluePicks,
       red_team: redPicks,
       prediction: result,
-      retrospective_picks: retrospectivePicks,
-      retrospective_bans: retrospectiveBans,
+      retrospective_picks: retrospectivePicks.map((item) => ({
+        champion: item.champion,
+        role: item.role,
+        reason: item.reason,
+      })),
+      retrospective_bans: retrospectiveBans.map((item) => ({
+        champion: item.champion,
+        role: item.role,
+        reason: item.reason,
+      })),
     }),
     [
       predictionMode,
@@ -93,56 +97,6 @@ export function DraftChatbot({
       retrospectiveBans,
     ],
   );
-
-  useEffect(() => {
-    if (!loserSide) {
-      return;
-    }
-
-    let cancelled = false;
-    const teamPicks = loserSide === "blue" ? bluePicks : redPicks;
-    const opponentPicks = loserSide === "blue" ? redPicks : bluePicks;
-
-    Promise.all([
-      suggestRetrospectivePick(
-        loserSide,
-        teamPicks,
-        opponentPicks,
-        patch,
-        availableChampions,
-        predictionMode,
-      ),
-      suggestRetrospectiveBan(
-        loserSide,
-        teamPicks,
-        opponentPicks,
-        patch,
-        availableChampions,
-        predictionMode,
-      ),
-    ])
-      .then(([pickResult, banResult]) => {
-        if (cancelled) {
-          return;
-        }
-        setRetrospectivePicks(pickResult.suggestions);
-        setRetrospectiveBans(banResult.suggestions);
-      })
-      .catch(() => {
-        /* suggestions optionnelles pour le contexte */
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [
-    loserSide,
-    bluePicks,
-    redPicks,
-    patch,
-    availableChampions,
-    predictionMode,
-  ]);
 
   useEffect(() => {
     if (listRef.current) {
@@ -209,9 +163,6 @@ export function DraftChatbot({
                 className={`draft-chatbot__message draft-chatbot__message--${message.role}`}
               >
                 <p className="draft-chatbot__message-text">{message.text}</p>
-                {message.intent && message.intent !== "unknown" && (
-                  <span className="draft-chatbot__intent">Intent : {message.intent}</span>
-                )}
                 {message.intent === "unknown" && message.role === "bot" && (
                   <ul className="draft-chatbot__examples">
                     {EXAMPLE_QUESTIONS.map((example) => (

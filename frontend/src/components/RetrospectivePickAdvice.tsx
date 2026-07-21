@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { suggestRetrospectivePick } from "../services/api";
-import type { DraftContext, Role, Team } from "../types/draft";
+import type { Role, Team } from "../types/draft";
 import type { PredictionMode, RetrospectivePickSuggestion } from "../types/predict";
 import {
   RETROSPECTIVE_PICK_METHODOLOGY,
   RETROSPECTIVE_PICK_METHODOLOGY_PRO,
 } from "../copy/methodology";
-import { getAvailableChampions } from "../utils/draftTeamBuilder";
 import { AnalysisSection } from "./AnalysisSection";
 import { ChampionIcon } from "./ChampionIcon";
 import { MethodologyNote } from "./MethodologyNote";
@@ -43,113 +41,69 @@ function groupSuggestionsByRole(suggestions: RetrospectivePickSuggestion[]) {
 }
 
 interface RetrospectivePickAdviceProps {
-  draft: DraftContext;
-  patch: string;
+  loading: boolean;
+  error: string | null;
+  loserSide: Team;
+  loserProbability: number;
+  suggestions: RetrospectivePickSuggestion[];
   predictionMode: PredictionMode;
-  champions: string[];
   ddragonVersion: string;
-  blueWinProbability: number;
-  redWinProbability: number;
 }
 
 export function RetrospectivePickAdvice({
-  draft,
-  patch,
+  loading,
+  error,
+  loserSide,
+  loserProbability,
+  suggestions,
   predictionMode,
-  champions,
   ddragonVersion,
-  blueWinProbability,
-  redWinProbability,
 }: RetrospectivePickAdviceProps) {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [loserSide, setLoserSide] = useState<Team | null>(null);
-  const [loserProbability, setLoserProbability] = useState<number | null>(null);
-  const [suggestions, setSuggestions] = useState<RetrospectivePickSuggestion[]>([]);
   const [expandedRoles, setExpandedRoles] = useState<Set<Role>>(new Set());
 
-  const loser = useMemo(() => {
-    const diff = Math.abs(blueWinProbability - redWinProbability);
-    if (diff < 0.02) {
-      return null;
-    }
-    return blueWinProbability < redWinProbability
-      ? { side: "blue" as Team, probability: blueWinProbability }
-      : { side: "red" as Team, probability: redWinProbability };
-  }, [blueWinProbability, redWinProbability]);
-
   useEffect(() => {
-    if (!draft.isDraftComplete || !loser) {
-      setLoading(false);
-      return;
+    if (suggestions.length > 0) {
+      setExpandedRoles(new Set(suggestions.map((item) => item.role)));
     }
-
-    let cancelled = false;
-    setLoading(true);
-    setError(null);
-
-    const available = getAvailableChampions(champions, draft.usedChampions);
-    const teamPicks = loser.side === "blue" ? draft.bluePicks : draft.redPicks;
-    const opponentPicks = loser.side === "blue" ? draft.redPicks : draft.bluePicks;
-
-    suggestRetrospectivePick(loser.side, teamPicks, opponentPicks, patch, available, predictionMode)
-      .then((result) => {
-        if (!cancelled) {
-          setLoserSide(loser.side);
-          setLoserProbability(loser.probability);
-          setSuggestions(result.suggestions);
-          const roles = new Set(result.suggestions.map((item) => item.role));
-          setExpandedRoles(roles);
-        }
-      })
-      .catch((fetchError: Error) => {
-        if (!cancelled) {
-          setError(fetchError.message);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [
-    draft.isDraftComplete,
-    draft.bluePicks,
-    draft.redPicks,
-    draft.usedChampions,
-    champions,
-    patch,
-    predictionMode,
-    loser,
-  ]);
+  }, [suggestions]);
 
   const suggestionsByRole = useMemo(
     () => groupSuggestionsByRole(suggestions),
     [suggestions],
   );
 
-  if (!loser) {
-    return null;
-  }
+  const methodology =
+    predictionMode === "pro" ? RETROSPECTIVE_PICK_METHODOLOGY_PRO : RETROSPECTIVE_PICK_METHODOLOGY;
 
   if (loading) {
     return (
       <AnalysisSection title="Picks manqués" className="retrospective-picks">
-        <p className="analysis-section__loading">Analyse des meilleures réponses possibles…</p>
+        <p className="analysis-section__loading">
+          Analyse des meilleures réponses possibles… (10–20 s)
+        </p>
       </AnalysisSection>
     );
   }
 
-  if (error || !loserSide || loserProbability === null || suggestions.length === 0) {
-    return null;
+  if (error) {
+    return (
+      <AnalysisSection title="Picks manqués" className="retrospective-picks">
+        <p className="analysis-section__error" role="alert">
+          {error}
+        </p>
+      </AnalysisSection>
+    );
   }
 
-  const methodology =
-    predictionMode === "pro" ? RETROSPECTIVE_PICK_METHODOLOGY_PRO : RETROSPECTIVE_PICK_METHODOLOGY;
+  if (suggestions.length === 0) {
+    return (
+      <AnalysisSection title="Picks manqués" className="retrospective-picks">
+        <p className="analysis-section__empty">
+          Aucune alternative trouvée pour {SIDE_LABELS[loserSide]} sur cette draft.
+        </p>
+      </AnalysisSection>
+    );
+  }
 
   return (
     <AnalysisSection

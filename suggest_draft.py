@@ -21,7 +21,13 @@ from predict_draft import (
     warmup_predict_caches,
     load_soloq_scores,
 )
-from pro_force import compute_pro_winrate_by_champion
+from pro_force import (
+    MIN_GAMES_PRO_FORCE,
+    compute_pro_winrate_by_champion,
+    is_pro_viable_on_role,
+    pro_meta_score,
+    rank_pro_champions_for_role,
+)
 from champion_profile_stats import DescriptiveContext, format_descriptive_stats_clause
 
 logger = logging.getLogger(__name__)
@@ -614,6 +620,8 @@ def build_opponent_team_with_fillers(
     catalog: dict[str, list[str]],
     available_champions: list[str],
     reserved: set[str],
+    patch: str = "",
+    mode: PredictionMode = "mixed",
 ) -> list[dict[str, str]] | None:
     team = slots_to_team(opponent_partial)
     picked = {normalize_role(slot["role"]): slot["champion"] for slot in team}
@@ -624,7 +632,9 @@ def build_opponent_team_with_fillers(
     for role in roles_to_fill:
         if role in picked:
             continue
-        filler = _pick_filler_for_role(role, catalog, available_champions, used)
+        filler = _pick_filler_for_role_smart(
+            role, catalog, available_champions, used, patch, mode
+        )
         if filler is None:
             return None
         picked[role] = filler
@@ -644,6 +654,8 @@ def build_opponent_team_with_pick(
     catalog: dict[str, list[str]],
     available_champions: list[str],
     reserved: set[str],
+    patch: str = "",
+    mode: PredictionMode = "mixed",
 ) -> list[dict[str, str]] | None:
     candidate_role = normalize_role(candidate_role)
     roles_to_fill = [normalize_role(role) for role in remaining_roles]
@@ -660,7 +672,9 @@ def build_opponent_team_with_pick(
     for role in roles_to_fill:
         if role in picked:
             continue
-        filler = _pick_filler_for_role(role, catalog, available_champions, used)
+        filler = _pick_filler_for_role_smart(
+            role, catalog, available_champions, used, patch, mode
+        )
         if filler is None:
             return None
         picked[role] = filler
@@ -670,6 +684,417 @@ def build_opponent_team_with_pick(
         return None
 
     return [{"champion": picked[role], "role": role} for role in picked]
+
+
+BOT_CANDIDATES_PER_ROLE = 12
+PRO_BOT_SYNERGY_WEIGHT = 0.38
+PRO_BOT_DUO_WEIGHT = 0.22
+PRO_BOT_META_WEIGHT = 0.18
+PRO_BOT_SYNERGY_PENALTY_SCALE = 90.0
+PRO_MIN_SYNERGY_AFTER_TWO_PICKS = 0.44
+
+
+def _pro_winrate_entry(champion: str, role: str) -> tuple[float, int] | None:
+    return _pro_winrate_for(champion, normalize_role(role))
+
+
+def _pro_meta_score_for(champion: str, role: str) -> tuple[float, int, float, float, str] | None:
+    champion_features, _, lookup_by_norm = get_meraki_context()
+    return pro_meta_score(champion, role, champion_features, lookup_by_norm)
+
+
+def _rank_pro_for_role(champions: list[str], role: str) -> list[tuple[float, int, float, float, str]]:
+    champion_features, _, lookup_by_norm = get_meraki_context()
+    return rank_pro_champions_for_role(
+        champions, role, champion_features, lookup_by_norm
+    )
+
+
+def _meta_strength_for(
+    champion: str,
+    role: str,
+    patch: str,
+    mode: PredictionMode,
+) -> float:
+    if mode == "pro":
+        scored = _pro_meta_score_for(champion, role)
+        if scored is None:
+            return -1.0
+        return scored[0]
+
+    winrate = _champion_winrate_for(champion, role, patch, mode)
+    return float(winrate) if winrate is not None else 0.48
+
+
+def pick_meta_filler_for_role(
+    role: str,
+    catalog: dict[str, list[str]],
+    available: list[str],
+    reserved: set[str],
+    patch: str,
+    mode: PredictionMode,
+) -> str | None:
+    """Champion de remplissage crédible (meta pro ou soloQ selon le mode)."""
+    role = normalize_role(role)
+    playable = champions_playable_on_role(available, role, catalog)
+    playable = [name for name in playable if name.casefold() not in reserved]
+
+    if mode == "pro":
+        ranked = _rank_pro_for_role(playable, role)
+        if ranked:
+            return ranked[0][4]
+        return _pick_filler_for_role(role, catalog, available, reserved)
+
+    ranked_mixed: list[tuple[float, int, float, str]] = []
+    for champion in playable:
+        ranked_mixed.append(
+            (_meta_strength_for(champion, role, patch, mode), 0, 0.0, champion)
+        )
+    ranked_mixed.sort(key=lambda item: (-item[0], item[3].casefold()))
+    if not ranked_mixed:
+        return _pick_filler_for_role(role, catalog, available, reserved)
+    return ranked_mixed[0][3]
+
+
+def _pick_filler_for_role_smart(
+    role: str,
+    catalog: dict[str, list[str]],
+    available: list[str],
+    reserved: set[str],
+    patch: str,
+    mode: PredictionMode,
+) -> str | None:
+    if mode == "pro":
+        return pick_meta_filler_for_role(role, catalog, available, reserved, patch, mode)
+    return _pick_filler_for_role(role, catalog, available, reserved)
+
+
+def build_team_with_meta_fillers(
+    partial_picks: list[dict[str, str]],
+    remaining_roles: list[str],
+    catalog: dict[str, list[str]],
+    available_champions: list[str],
+    reserved: set[str],
+    patch: str,
+    mode: PredictionMode,
+) -> list[dict[str, str]] | None:
+    """Complète une draft partielle avec des champions meta plutôt qu'alphabétiques."""
+    team = slots_to_team(partial_picks)
+    picked = {normalize_role(slot["role"]): slot["champion"] for slot in team}
+    roles_to_fill = [normalize_role(role) for role in remaining_roles]
+    used = set(reserved)
+    used.update(name.casefold() for name in picked.values())
+
+    for role in roles_to_fill:
+        if role in picked:
+            continue
+        filler = _pick_filler_for_role_smart(
+            role, catalog, available_champions, used, patch, mode
+        )
+        if filler is None:
+            return None
+        picked[role] = filler
+        used.add(filler.casefold())
+
+    if len(picked) != 5:
+        return None
+
+    return [{"champion": picked[role], "role": role} for role in picked]
+
+
+def build_simulated_team_with_pick(
+    partial_picks: list[dict[str, str]],
+    candidate: str,
+    candidate_role: str,
+    remaining_roles: list[str],
+    catalog: dict[str, list[str]],
+    available_champions: list[str],
+    reserved: set[str],
+    patch: str,
+    mode: PredictionMode,
+) -> list[dict[str, str]] | None:
+    """Simule une compo complète en posant un candidat puis des fillers meta."""
+    candidate_role = normalize_role(candidate_role)
+    roles_to_fill = [normalize_role(role) for role in remaining_roles]
+    if candidate_role not in roles_to_fill and candidate_role not in {
+        normalize_role(slot["role"]) for slot in partial_picks
+    }:
+        return None
+
+    team = slots_to_team(partial_picks)
+    picked = {normalize_role(slot["role"]): slot["champion"] for slot in team}
+    picked[candidate_role] = candidate
+    used = set(reserved)
+    used.add(candidate.casefold())
+    used.update(name.casefold() for name in picked.values())
+
+    for role in roles_to_fill:
+        if role in picked:
+            continue
+        filler = _pick_filler_for_role_smart(
+            role, catalog, available_champions, used, patch, mode
+        )
+        if filler is None:
+            return None
+        picked[role] = filler
+        used.add(filler.casefold())
+
+    if len(picked) != 5:
+        return None
+
+    return [{"champion": picked[role], "role": role} for role in picked]
+
+
+def _top_candidates_for_role(
+    pool: list[str],
+    role: str,
+    catalog: dict[str, list[str]],
+    patch: str,
+    mode: PredictionMode,
+    limit: int,
+) -> list[str]:
+    playable = champions_playable_on_role(pool, role, catalog)
+    if mode == "pro":
+        ranked = _rank_pro_for_role(playable, role)
+        return [name for _, _, _, _, name in ranked[: max(1, limit)]]
+
+    ranked_mixed = [
+        (_meta_strength_for(champion, role, patch, mode), champion)
+        for champion in playable
+    ]
+    ranked_mixed.sort(key=lambda item: (-item[0], item[1].casefold()))
+    return [name for _, name in ranked_mixed[: max(1, limit)]]
+
+
+def _locked_pro_duo_bonus(
+    bot_partial: list[dict[str, str]],
+    candidate: str,
+    candidate_role: str,
+) -> float:
+    """Bonus si le candidat forme un duo pro mesuré avec un pick déjà posé."""
+    role = normalize_role(candidate_role)
+    bonus = 0.0
+
+    support = _champion_for_role(bot_partial, "UTILITY")
+    adc = _champion_for_role(bot_partial, "BOTTOM")
+    jungle = _champion_for_role(bot_partial, "JUNGLE")
+
+    if role == "BOTTOM" and support:
+        duo = get_duo_score(candidate, support, "bot_lane", mode="pro")
+        if not duo.insufficient_data and duo.score is not None:
+            bonus += float(duo.score) * 12.0
+    elif role == "UTILITY":
+        if adc:
+            duo = get_duo_score(adc, candidate, "bot_lane", mode="pro")
+            if not duo.insufficient_data and duo.score is not None:
+                bonus += float(duo.score) * 12.0
+        if jungle:
+            duo = get_duo_score(jungle, candidate, "jungle_support", mode="pro")
+            if not duo.insufficient_data and duo.score is not None:
+                bonus += float(duo.score) * 8.0
+    elif role == "JUNGLE" and support:
+        duo = get_duo_score(candidate, support, "jungle_support", mode="pro")
+        if not duo.insufficient_data and duo.score is not None:
+            bonus += float(duo.score) * 8.0
+
+    return bonus
+
+
+def _average_measured_duo_score(result: dict[str, Any], team_side: TeamSide) -> float | None:
+    duos = result["duo_synergies"][team_side]
+    scores: list[float] = []
+    for key in ("duo_jungle_support", "duo_bot_lane"):
+        payload = duos[key]
+        if payload.get("insufficient_data") or payload.get("score") is None:
+            continue
+        scores.append(float(payload["score"]))
+    if not scores:
+        return None
+    return sum(scores) / len(scores)
+
+
+def _bot_pick_selection_score(
+    result: dict[str, Any],
+    team_side: TeamSide,
+    mode: PredictionMode,
+    locked_picks: int,
+    candidate_meta: float | None = None,
+    locked_duo_bonus: float = 0.0,
+) -> float:
+    """Score de sélection : winrate + synergie ML + duos pro + meta Oracle."""
+    win_prob = team_side_win_probability(result, team_side)
+    detail = _detail_for_side(result, team_side)
+    synergy = float(detail["score_synergie"])
+
+    score = win_prob * 100.0
+
+    if mode == "pro":
+        score += synergy * 100.0 * PRO_BOT_SYNERGY_WEIGHT
+        duo_avg = _average_measured_duo_score(result, team_side)
+        if duo_avg is not None:
+            score += duo_avg * 100.0 * PRO_BOT_DUO_WEIGHT
+        if candidate_meta is not None:
+            score += candidate_meta * 100.0 * PRO_BOT_META_WEIGHT
+        score += locked_duo_bonus
+
+        min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
+        if locked_picks >= 1 and synergy < min_synergy:
+            score -= (min_synergy - synergy) * PRO_BOT_SYNERGY_PENALTY_SCALE
+
+    return score
+
+
+def suggest_bot_pick(
+    bot_partial_picks: list[dict[str, str]],
+    opponent_partial_picks: list[dict[str, str]],
+    patch: str,
+    available_champions: list[str],
+    team_side: TeamSide = "blue",
+    mode: PredictionMode = "pro",
+    candidates_per_role: int = BOT_CANDIDATES_PER_ROLE,
+) -> dict[str, Any]:
+    """Choisit le prochain pick du bot en simulant une compo meta + synergie ML."""
+    patch = patch.strip()
+    warmup_predict_caches(patch)
+    catalog = get_champion_role_catalog()
+
+    bot_partial = slots_to_team(bot_partial_picks)
+    opponent_partial = slots_to_team(opponent_partial_picks)
+
+    reserved = {
+        slot["champion"].casefold()
+        for slot in bot_partial + opponent_partial
+    }
+    pool = [
+        champion.strip()
+        for champion in available_champions
+        if champion.strip() and champion.strip().casefold() not in reserved
+    ]
+    if not pool:
+        return {"champion": None, "role": None, "win_probability": None}
+
+    bot_remaining = [
+        role
+        for role in ROLES_ORDER
+        if role not in {normalize_role(slot["role"]) for slot in bot_partial}
+    ]
+    if not bot_remaining:
+        raise ValueError("La compo du bot est déjà complète")
+
+    opponent_remaining = [
+        role
+        for role in ROLES_ORDER
+        if role not in {normalize_role(slot["role"]) for slot in opponent_partial}
+    ] or ROLES_ORDER.copy()
+
+    locked_picks = len(bot_partial)
+    per_role = max(4, min(candidates_per_role, 20))
+    champion_features, _, lookup_by_norm = get_meraki_context()
+
+    best: dict[str, Any] | None = None
+    fallback: dict[str, Any] | None = None
+
+    for role in bot_remaining:
+        candidates = _top_candidates_for_role(
+            pool, role, catalog, patch, mode, per_role
+        )
+        if mode == "pro":
+            candidates = [
+                name
+                for name in candidates
+                if is_pro_viable_on_role(
+                    name, role, champion_features, lookup_by_norm
+                )
+            ] or candidates[:3]
+
+        for candidate in candidates:
+            meta_scored = _pro_meta_score_for(candidate, role) if mode == "pro" else None
+            candidate_meta = meta_scored[0] if meta_scored else None
+            locked_duo_bonus = (
+                _locked_pro_duo_bonus(bot_partial, candidate, role) if mode == "pro" else 0.0
+            )
+
+            trial_reserved = reserved | {candidate.casefold()}
+            bot_full = build_simulated_team_with_pick(
+                partial_picks=bot_partial,
+                candidate=candidate,
+                candidate_role=role,
+                remaining_roles=bot_remaining,
+                catalog=catalog,
+                available_champions=pool,
+                reserved=trial_reserved,
+                patch=patch,
+                mode=mode,
+            )
+            if bot_full is None:
+                continue
+
+            used_for_opp = trial_reserved | {
+                slot["champion"].casefold() for slot in bot_full
+            }
+            opponent_full = build_team_with_meta_fillers(
+                partial_picks=opponent_partial,
+                remaining_roles=opponent_remaining,
+                catalog=catalog,
+                available_champions=pool,
+                reserved=used_for_opp,
+                patch=patch,
+                mode=mode,
+            )
+            if opponent_full is None:
+                continue
+
+            mod_blue, mod_red = build_matchup_teams(bot_full, opponent_full, team_side)
+            result = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
+            win_prob = team_side_win_probability(result, team_side)
+            selection_score = _bot_pick_selection_score(
+                result,
+                team_side,
+                mode,
+                locked_picks,
+                candidate_meta=candidate_meta,
+                locked_duo_bonus=locked_duo_bonus,
+            )
+            synergy = float(_detail_for_side(result, team_side)["score_synergie"])
+
+            pro_entry = _pro_winrate_entry(candidate, role)
+            entry = {
+                "champion": candidate,
+                "role": role,
+                "win_probability": round(win_prob, 4),
+                "selection_score": selection_score,
+                "synergy": synergy,
+                "pro_games": pro_entry[1] if pro_entry else None,
+                "meta_score": round(candidate_meta, 4) if candidate_meta is not None else None,
+                "role_fitness": round(meta_scored[3], 4) if meta_scored else None,
+            }
+
+            if fallback is None or selection_score > fallback["selection_score"]:
+                fallback = entry
+
+            min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
+            if mode == "pro" and locked_picks >= 1 and synergy < min_synergy:
+                continue
+
+            if best is None or selection_score > best["selection_score"]:
+                best = entry
+
+    chosen = best or fallback
+    if chosen is None:
+        return {"champion": None, "role": None, "win_probability": None}
+
+    logger.info(
+        "Bot pick side=%s: %s (%s) score=%.2f win=%.2f%% synergy=%.2f pro_games=%s",
+        team_side,
+        chosen["champion"],
+        chosen["role"],
+        chosen["selection_score"],
+        chosen["win_probability"] * 100,
+        chosen["synergy"],
+        chosen.get("pro_games"),
+    )
+
+    return chosen
 
 
 def suggest_ban(
@@ -716,6 +1141,8 @@ def suggest_ban(
             catalog=catalog,
             available_champions=pool,
             reserved=used,
+            patch=patch,
+            mode=mode,
         )
         if baseline_opponent is None:
             baseline_opponent = opponent
@@ -744,6 +1171,8 @@ def suggest_ban(
                 catalog=catalog,
                 available_champions=pool,
                 reserved=reserved,
+                patch=patch,
+                mode=mode,
             )
             if opponent_full is None:
                 continue

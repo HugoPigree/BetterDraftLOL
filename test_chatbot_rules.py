@@ -77,6 +77,11 @@ class TestDetectIntent:
         assert detect_intent("Pourquoi Zac ?")["intent"] == "explain_suggestion"
         assert detect_intent("Pourquoi suggérer Camille")["intent"] == "explain_suggestion"
 
+    def test_explain_matchup_formulations(self) -> None:
+        assert detect_intent("Pourquoi Gnar gagne contre Gwen en top ?")["intent"] == "explain_matchup"
+        assert detect_intent("Gnar vs Gwen top")["intent"] == "explain_matchup"
+        assert detect_intent("Pourquoi mon pick bat l'adversaire en mid ?")["intent"] == "explain_matchup"
+
     def test_unknown(self) -> None:
         assert detect_intent("Salut comment ça va ?")["intent"] == "unknown"
 
@@ -168,3 +173,26 @@ class TestAnswerQuestion:
         )
         assert result["intent_detected"] == "simulate_change"
         assert "Simulation" in result["answer"] or "Avant" in result["answer"]
+
+    def test_explain_matchup_top_lane(self) -> None:
+        ctx = _build_context(focus_team_side="red")
+        result = answer_question(
+            "Pourquoi Gnar gagne contre Gwen en top ?",
+            ctx,
+            _available(),
+        )
+        assert result["intent_detected"] == "explain_matchup"
+        assert "Gnar" in result["answer"]
+        assert "Gwen" in result["answer"]
+        assert "top" in result["answer"].lower()
+
+    def test_explain_matchup_with_pronouns(self) -> None:
+        ctx = _build_context(focus_team_side="blue")
+        result = answer_question(
+            "Pourquoi mon pick gagne contre lui en top ?",
+            ctx,
+            _available(),
+        )
+        assert result["intent_detected"] == "explain_matchup"
+        assert "Gnar" in result["answer"]
+        assert "Gwen" in result["answer"]

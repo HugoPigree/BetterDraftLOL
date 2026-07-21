@@ -27,6 +27,9 @@ interface SortablePickColumnProps {
   side: Team;
   confirmed: boolean;
   onChange: (picks: DraftPick[]) => void;
+  editable?: boolean;
+  selectedSlotIndex?: number | null;
+  onSlotEdit?: (slotIndex: number) => void;
 }
 
 function sortableId(side: Team, champion: string): string {
@@ -38,13 +41,20 @@ function SortableRoleSlot({
   side,
   index,
   disabled,
+  editable,
+  selected,
+  onEdit,
 }: {
   pick: DraftPick;
   side: Team;
   index: number;
   disabled: boolean;
+  editable?: boolean;
+  selected?: boolean;
+  onEdit?: () => void;
 }) {
   const id = sortableId(side, pick.champion);
+  const useDragHandle = Boolean(editable && !disabled);
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
     disabled,
@@ -55,6 +65,9 @@ function SortableRoleSlot({
     transition,
   };
 
+  const dragHandleProps = useDragHandle ? { ...attributes, ...listeners } : {};
+  const slotDragProps = !useDragHandle && !disabled ? { ...attributes, ...listeners } : {};
+
   return (
     <div
       ref={setNodeRef}
@@ -63,16 +76,43 @@ function SortableRoleSlot({
         "role-slot-sortable",
         isDragging ? "role-slot-sortable--dragging" : "",
         disabled ? "role-slot-sortable--locked" : "",
+        useDragHandle ? "role-slot-sortable--with-handle" : "",
       ].join(" ")}
-      {...attributes}
-      {...listeners}
+      {...slotDragProps}
     >
-      <ChampionSplashSlot pick={pick} side={side} index={index} draggable showDragBadge={!disabled} />
+      <ChampionSplashSlot
+        pick={pick}
+        side={side}
+        index={index}
+        draggable={!useDragHandle && !disabled}
+        showDragBadge={!disabled && !useDragHandle}
+        editable={editable && !disabled}
+        selected={selected}
+        onEdit={onEdit}
+      />
+      {useDragHandle && (
+        <button
+          type="button"
+          className="role-slot-sortable__handle"
+          aria-label={`Glisser ${pick.champion} pour changer de rôle`}
+          {...dragHandleProps}
+        >
+          ⠿
+        </button>
+      )}
     </div>
   );
 }
 
-export function SortablePickColumn({ picks, side, confirmed, onChange }: SortablePickColumnProps) {
+export function SortablePickColumn({
+  picks,
+  side,
+  confirmed,
+  onChange,
+  editable = false,
+  selectedSlotIndex = null,
+  onSlotEdit,
+}: SortablePickColumnProps) {
   const [activeChampion, setActiveChampion] = useState<string | null>(null);
 
   const sensors = useSensors(
@@ -131,6 +171,9 @@ export function SortablePickColumn({ picks, side, confirmed, onChange }: Sortabl
               side={side}
               index={index}
               disabled={confirmed}
+              editable={editable}
+              selected={selectedSlotIndex === index}
+              onEdit={onSlotEdit ? () => onSlotEdit(index) : undefined}
             />
           ))}
         </SortableContext>

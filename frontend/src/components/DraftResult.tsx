@@ -17,6 +17,7 @@ import { MethodologyNote } from "./MethodologyNote";
 import { RetrospectiveBanAdvice } from "./RetrospectiveBanAdvice";
 import { RetrospectivePickAdvice } from "./RetrospectivePickAdvice";
 import { DraftChatbot } from "./DraftChatbot";
+import { useRetrospectiveAdvice } from "../hooks/useRetrospectiveAdvice";
 
 interface DraftResultProps {
   draft: DraftContext;
@@ -26,7 +27,10 @@ interface DraftResultProps {
   predictionMode: PredictionMode;
   ddragonVersion: string;
   champions: string[];
+  usedChampions: string[];
   onReset: () => void;
+  onStartEditing: () => void;
+  isEditing?: boolean;
 }
 
 function formatPercent(value: number): string {
@@ -41,7 +45,10 @@ export function DraftResult({
   predictionMode,
   ddragonVersion,
   champions,
+  usedChampions,
   onReset,
+  onStartEditing,
+  isEditing = false,
 }: DraftResultProps) {
   const [result, setResult] = useState<PredictResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -96,6 +103,18 @@ export function DraftResult({
       redPicks,
     }),
     [draft, bluePicks, redPicks],
+  );
+
+  const retrospectiveAdvice = useRetrospectiveAdvice(
+    Boolean(result),
+    bluePicks,
+    redPicks,
+    result?.blue_win_probability ?? 0.5,
+    result?.red_win_probability ?? 0.5,
+    patch,
+    predictionMode,
+    champions,
+    usedChampions,
   );
 
   return (
@@ -174,13 +193,13 @@ export function DraftResult({
             />
 
             <RetrospectivePickAdvice
-              draft={resultDraft}
-              patch={patch}
+              loading={retrospectiveAdvice.loading}
+              error={retrospectiveAdvice.error}
+              loserSide={retrospectiveAdvice.loserSide}
+              loserProbability={retrospectiveAdvice.loserProbability}
+              suggestions={retrospectiveAdvice.pickSuggestions}
               predictionMode={predictionMode}
-              champions={champions}
               ddragonVersion={ddragonVersion}
-              blueWinProbability={result.blue_win_probability}
-              redWinProbability={result.red_win_probability}
             />
 
             <DraftChatbot
@@ -190,9 +209,11 @@ export function DraftResult({
               patch={patch}
               predictionMode={predictionMode}
               champions={champions}
-              usedChampions={draft.usedChampions}
+              usedChampions={usedChampions}
               blueWinProbability={result.blue_win_probability}
               redWinProbability={result.red_win_probability}
+              retrospectivePicks={retrospectiveAdvice.pickSuggestions}
+              retrospectiveBans={retrospectiveAdvice.banSuggestions}
             />
           </div>
 
@@ -209,9 +230,16 @@ export function DraftResult({
         </>
       )}
 
-      <button type="button" className="draft-result__reset" onClick={onReset}>
-        Nouvelle draft
-      </button>
+      <div className="draft-result__footer-actions">
+        {!isEditing && (
+          <button type="button" className="draft-result__edit" onClick={onStartEditing}>
+            Modifier la compo
+          </button>
+        )}
+        <button type="button" className="draft-result__reset" onClick={onReset}>
+          Nouvelle draft
+        </button>
+      </div>
     </section>
   );
 }

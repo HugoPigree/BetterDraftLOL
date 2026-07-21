@@ -12,6 +12,12 @@ export interface AskChatbotRulesResponse {
   intent_detected: string;
 }
 
+export interface DraftBotMoveResponse {
+  action: "ban" | "pick";
+  champion: string;
+  role?: DraftPick["role"];
+}
+
 export const API_BASE_URL = import.meta.env.VITE_API_URL ?? "/api";
 
 export async function fetchChampionsFromApi(): Promise<ChampionsCatalog> {
@@ -21,7 +27,7 @@ export async function fetchChampionsFromApi(): Promise<ChampionsCatalog> {
     response = await fetch(`${API_BASE_URL}/champions`);
   } catch {
     throw new Error(
-      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8000",
+      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8001",
     );
   }
 
@@ -79,7 +85,7 @@ export async function predictDraft(
     });
   } catch {
     throw new Error(
-      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8000",
+      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8001",
     );
   }
 
@@ -105,7 +111,7 @@ async function postJson<T>(path: string, payload: unknown, errorPrefix: string):
     });
   } catch {
     throw new Error(
-      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8000",
+      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8001",
     );
   }
 
@@ -211,6 +217,30 @@ export async function suggestRetrospectivePick(
       picks_per_role: 3,
     },
     "Analyse des picks manqués impossible",
+  );
+}
+
+export async function draftBotMove(
+  actionType: "ban" | "pick",
+  botSide: "blue" | "red",
+  botPicks: DraftPick[],
+  opponentPicks: DraftPick[],
+  patch: string,
+  availableChampions: string[],
+  mode: PredictionMode = "mixed",
+): Promise<DraftBotMoveResponse> {
+  return postJson<DraftBotMoveResponse>(
+    "/draft-bot/move",
+    {
+      action_type: actionType,
+      bot_side: botSide,
+      bot_picks: botPicks,
+      opponent_picks: opponentPicks,
+      patch,
+      available_champions: availableChampions,
+      mode,
+    },
+    "Tour du bot impossible",
   );
 }
 

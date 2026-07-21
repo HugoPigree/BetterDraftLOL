@@ -29,7 +29,11 @@ from build_duo_dataset import (
     lookup_jungle_support_matchup,
 )
 from build_duo_dataset import SEUIL_MIN_GAMES as DUO_MIN_GAMES
-from pro_force import compute_pro_winrate_by_champion, reset_pro_force_state
+from pro_force import (
+    compute_pro_winrate_by_champion,
+    pro_meta_score,
+    reset_pro_force_state,
+)
 from build_training_dataset import (
     ATTRIBUTE_COLUMNS,
     DEFAULT_MERAKI_CACHE,
@@ -314,9 +318,9 @@ def compute_pro_force_score(
     champion_features: dict[str, dict[str, Any]],
     lookup_by_norm: dict[str, str],
 ) -> tuple[float | None, list[dict[str, Any]], list[str], int]:
-    """Force score from pro Oracle data only. Returns (score, details, warnings, valid_count)."""
+    """Force score from pro Oracle data: meta volume + shrunk WR, not raw winrates."""
     warnings: list[str] = []
-    winrates: list[float] = []
+    meta_scores: list[float] = []
     champions_detail: list[dict[str, Any]] = []
 
     for slot in team:
@@ -330,16 +334,16 @@ def compute_pro_force_score(
                     "role": role,
                     "winrate": None,
                     "games": None,
+                    "meta_score": None,
+                    "role_fitness": None,
                     "insufficient_data": True,
                     "data_source": "pro",
                 }
             )
             continue
 
-        pro_entry = compute_pro_winrate_by_champion(
-            champion, role, champion_features, lookup_by_norm
-        )
-        if pro_entry is None:
+        meta_entry = pro_meta_score(champion, role, champion_features, lookup_by_norm)
+        if meta_entry is None:
             warnings.append(
                 f"Pas assez de données pro pour {champion} à ce rôle ({role})"
             )
@@ -349,38 +353,53 @@ def compute_pro_force_score(
                     "role": role,
                     "winrate": None,
                     "games": None,
+                    "meta_score": None,
+                    "role_fitness": None,
                     "insufficient_data": True,
                     "data_source": "pro",
                 }
             )
             continue
 
-        winrate, games = pro_entry
-        winrates.append(winrate)
+        meta_score, games, shrunk_wr, fitness, resolved_name = meta_entry
+        raw_entry = compute_pro_winrate_by_champion(
+            champion, role, champion_features, lookup_by_norm
+        )
+        raw_wr = raw_entry[0] if raw_entry else shrunk_wr
+
+        meta_scores.append(meta_score)
         champions_detail.append(
             {
                 "champion": champion,
                 "role": role,
-                "winrate": round(winrate, 4),
+                "winrate": round(raw_wr, 4),
+                "shrunk_winrate": round(shrunk_wr, 4),
+                "meta_score": round(meta_score, 4),
+                "role_fitness": round(fitness, 4),
                 "games": games,
                 "insufficient_data": False,
                 "data_source": "pro",
             }
         )
+        if fitness < 0.5:
+            warnings.append(
+                f"{resolved_name} est surtout joué ailleurs en pro "
+                f"(adéquation rôle {role}: {fitness:.0%})"
+            )
 
-    if not winrates:
+    if not meta_scores:
         warnings.append(
             "Score de force indisponible : aucun pick avec assez de données pro sur les patchs disponibles"
         )
         return None, champions_detail, warnings, 0
 
-    valid_count = len(winrates)
+    valid_count = len(meta_scores)
     if valid_count < 5:
         warnings.append(
             f"Score de force partiel : {valid_count}/5 picks avec données pro suffisantes"
         )
 
-    force_score = float(np.mean(winrates))
+    force_score = float(np.mean(meta_scores))
     return force_score, champions_detail, warnings, valid_count
 
 

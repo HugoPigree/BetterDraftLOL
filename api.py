@@ -1,5 +1,5 @@
 # Lancer le serveur en local :
-# uvicorn api:app --reload --port 8000
+# uvicorn api:app --reload --port 8001
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 import build_training_dataset as btd
 from chatbot_rules import answer_question
+from draft_bot import choose_bot_action
 from champion_profile_stats import enrich_predict_response_descriptions
 from predict_draft import (
     initialize_blue_side_winrate,
@@ -308,6 +309,22 @@ class AskChatbotRulesResponse(BaseModel):
     intent_detected: str
 
 
+class DraftBotMoveRequest(BaseModel):
+    action_type: Literal["ban", "pick"]
+    bot_side: Literal["blue", "red"]
+    bot_picks: list[ChampionSlot] = Field(default_factory=list, max_length=5)
+    opponent_picks: list[ChampionSlot] = Field(default_factory=list, max_length=5)
+    patch: str = Field(min_length=1)
+    available_champions: list[str] = Field(min_length=1)
+    mode: Literal["mixed", "pro"] = "mixed"
+
+
+class DraftBotMoveResponse(BaseModel):
+    action: Literal["ban", "pick"]
+    champion: str
+    role: Role | None = None
+
+
 POSITION_MAP = {
     "SUPPORT": "UTILITY",
 }
@@ -346,8 +363,8 @@ def create_app() -> FastAPI:
         initialize_blue_side_winrate()
         logger.info(
             "API prête sur /health, /champions, /predict, /suggest-pick, "
-            "/suggest-ban, /suggest-retrospective-ban, /suggest-retrospective-pick "
-            "et /ask-chatbot-rules"
+            "/suggest-ban, /suggest-retrospective-ban, /suggest-retrospective-pick, "
+            "/draft-bot/move et /ask-chatbot-rules"
         )
         yield
 
@@ -514,6 +531,26 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         except Exception as exc:
             logger.exception("Erreur interne pendant suggest-retrospective-pick")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.post("/draft-bot/move", response_model=DraftBotMoveResponse)
+    async def draft_bot_move_endpoint(request: DraftBotMoveRequest) -> dict[str, Any]:
+        try:
+            return choose_bot_action(
+                action_type=request.action_type,
+                bot_side=request.bot_side,
+                bot_picks=[slot.model_dump() for slot in request.bot_picks],
+                opponent_picks=[slot.model_dump() for slot in request.opponent_picks],
+                patch=request.patch.strip(),
+                available_champions=request.available_champions,
+                mode=request.mode,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant draft-bot/move")
             raise HTTPException(status_code=500, detail=str(exc)) from exc
 
     @app.post("/ask-chatbot-rules", response_model=AskChatbotRulesResponse)

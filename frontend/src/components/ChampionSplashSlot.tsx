@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, KeyboardEvent, MouseEvent } from "react";
 import type { DraftPick } from "../types/draft";
 import { getChampionSplashUrl } from "../utils/ddragon";
 
@@ -8,6 +8,9 @@ interface ChampionSplashSlotProps {
   index: number;
   draggable?: boolean;
   showDragBadge?: boolean;
+  editable?: boolean;
+  selected?: boolean;
+  onEdit?: () => void;
 }
 
 const ROLE_LABELS: Record<DraftPick["role"], string> = {
@@ -24,8 +27,17 @@ export function ChampionSplashSlot({
   index,
   draggable = false,
   showDragBadge = false,
+  editable = false,
+  selected = false,
+  onEdit,
 }: ChampionSplashSlotProps) {
   const isEmpty = !pick;
+  const isClickable = Boolean(editable && onEdit && !isEmpty);
+
+  function handleActivate(event: MouseEvent | KeyboardEvent) {
+    event.stopPropagation();
+    onEdit?.();
+  }
 
   return (
     <div
@@ -34,12 +46,14 @@ export function ChampionSplashSlot({
         `splash-slot--${side}`,
         isEmpty ? "splash-slot--empty" : "splash-slot--filled",
         draggable ? "splash-slot--draggable" : "",
+        isClickable ? "splash-slot--editable" : "",
+        selected ? "splash-slot--selected" : "",
       ].join(" ")}
       style={{ "--slot-index": index } as CSSProperties}
     >
       {showDragBadge && !isEmpty && (
         <span className="splash-slot__drag-badge" aria-hidden="true">
-          DRAG ME
+          DRAG
         </span>
       )}
       {isEmpty ? (
@@ -53,7 +67,24 @@ export function ChampionSplashSlot({
           </svg>
         </div>
       ) : (
-        <div className="splash-slot__filled" key={pick.champion}>
+        <div
+          className="splash-slot__filled"
+          key={pick.champion}
+          role={isClickable ? "button" : undefined}
+          tabIndex={isClickable ? 0 : undefined}
+          aria-label={isClickable ? `Remplacer ${pick.champion}` : undefined}
+          onClick={isClickable ? handleActivate : undefined}
+          onKeyDown={
+            isClickable
+              ? (event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    handleActivate(event);
+                  }
+                }
+              : undefined
+          }
+        >
           <img
             className="splash-slot__art"
             src={getChampionSplashUrl(pick.champion)}
@@ -67,6 +98,9 @@ export function ChampionSplashSlot({
               {ROLE_LABELS[pick.role]}
             </span>
           </div>
+          {isClickable && (
+            <span className="splash-slot__edit-hint">Cliquer pour remplacer</span>
+          )}
         </div>
       )}
     </div>

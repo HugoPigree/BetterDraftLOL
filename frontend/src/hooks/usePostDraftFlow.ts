@@ -8,6 +8,11 @@ import {
 
 export type PostDraftPhase = "drafting" | "confirmRoles" | "result";
 
+export interface SelectedCompSlot {
+  side: Team;
+  slotIndex: number;
+}
+
 export function usePostDraftFlow(
   draft: DraftContext,
   championPositions: Record<string, import("../types/draft").Role[]>,
@@ -17,6 +22,8 @@ export function usePostDraftFlow(
   const [redPicks, setRedPicks] = useState<DraftPick[]>([]);
   const [blueConfirmed, setBlueConfirmed] = useState(false);
   const [redConfirmed, setRedConfirmed] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState<SelectedCompSlot | null>(null);
 
   useEffect(() => {
     if (!draft.isDraftComplete) {
@@ -55,6 +62,8 @@ export function usePostDraftFlow(
       setRedConfirmed(false);
       setBluePicks([]);
       setRedPicks([]);
+      setIsEditing(false);
+      setSelectedSlot(null);
     }
   }, [draft.isDraftComplete, phase]);
 
@@ -92,12 +101,70 @@ export function usePostDraftFlow(
     }
   }, [phase, blueConfirmed, redConfirmed]);
 
+  const startEditing = useCallback(() => {
+    setIsEditing(true);
+    setSelectedSlot(null);
+  }, []);
+
+  const stopEditing = useCallback(() => {
+    setIsEditing(false);
+    setSelectedSlot(null);
+  }, []);
+
+  const selectSlot = useCallback((side: Team, slotIndex: number) => {
+    setSelectedSlot({ side, slotIndex });
+  }, []);
+
+  const clearSelectedSlot = useCallback(() => {
+    setSelectedSlot(null);
+  }, []);
+
+  const replacePick = useCallback(
+    (side: Team, slotIndex: number, newChampion: string) => {
+      const picks = side === "blue" ? bluePicks : redPicks;
+      const otherPicks = side === "blue" ? redPicks : bluePicks;
+      const banned = new Set([...draft.blueBans, ...draft.redBans]);
+      const usedElsewhere = new Set([
+        ...otherPicks.map((pick) => pick.champion),
+        ...picks.filter((_, index) => index !== slotIndex).map((pick) => pick.champion),
+      ]);
+
+      if (banned.has(newChampion) || usedElsewhere.has(newChampion)) {
+        return;
+      }
+
+      const updated = picks.map((pick, index) =>
+        index === slotIndex ? { ...pick, champion: newChampion } : pick,
+      );
+
+      if (side === "blue") {
+        updateBluePicks(updated);
+      } else {
+        updateRedPicks(updated);
+      }
+    },
+    [bluePicks, redPicks, draft.blueBans, draft.redBans, updateBluePicks, updateRedPicks],
+  );
+
+  const replaceSelectedPick = useCallback(
+    (champion: string) => {
+      if (!selectedSlot) {
+        return;
+      }
+      replacePick(selectedSlot.side, selectedSlot.slotIndex, champion);
+      setSelectedSlot(null);
+    },
+    [selectedSlot, replacePick],
+  );
+
   const resetFlow = useCallback(() => {
     setPhase("drafting");
     setBlueConfirmed(false);
     setRedConfirmed(false);
     setBluePicks([]);
     setRedPicks([]);
+    setIsEditing(false);
+    setSelectedSlot(null);
   }, []);
 
   const confirmedDraft = useMemo(
@@ -109,6 +176,16 @@ export function usePostDraftFlow(
     [draft, bluePicks, redPicks],
   );
 
+  const usedChampionsForAnalysis = useMemo(
+    () => [
+      ...draft.blueBans,
+      ...draft.redBans,
+      ...bluePicks.map((pick) => pick.champion),
+      ...redPicks.map((pick) => pick.champion),
+    ],
+    [draft.blueBans, draft.redBans, bluePicks, redPicks],
+  );
+
   return {
     phase,
     bluePicks,
@@ -117,10 +194,19 @@ export function usePostDraftFlow(
     redConfirmed,
     blueValidation,
     redValidation,
+    isEditing,
+    selectedSlot,
     updateBluePicks,
     updateRedPicks,
     confirmTeam,
+    startEditing,
+    stopEditing,
+    selectSlot,
+    clearSelectedSlot,
+    replacePick,
+    replaceSelectedPick,
     resetFlow,
     confirmedDraft,
+    usedChampionsForAnalysis,
   };
 }
