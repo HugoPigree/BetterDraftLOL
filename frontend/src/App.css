@@ -13,7 +13,7 @@
   --lol-text: #ececec;
   --lol-text-dim: #8a8a8a;
   --lol-border: rgba(255, 255, 255, 0.08);
-  --header-height: 48px;
+  --header-height: 0px;
   --pick-col-width: clamp(340px, 26vw, 480px);
   --font-display: "Rajdhani", "Segoe UI", sans-serif;
   --font-body: "Segoe UI", system-ui, sans-serif;
@@ -99,30 +99,246 @@ body {
 .drafter {
   display: flex;
   flex-direction: column;
-  height: calc(100dvh - var(--header-height));
+  height: 100dvh;
   background: var(--lol-bg);
   overflow: hidden;
 }
 
 .drafter__nav {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
   border-bottom: 1px solid var(--lol-border);
   background: #111;
 }
 
-.drafter__team {
-  display: flex;
+.drafter__progress-wrap {
+  padding: 0.4rem 0 0;
+}
+
+.drafter__progress-track {
+  position: relative;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(58, 159, 217, 0.25) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(200, 75, 75, 0.25) 100%
+  );
+  overflow: hidden;
+}
+
+.drafter__progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--lol-blue), var(--lol-gold) 55%, var(--lol-red));
+  transition: width 0.45s ease;
+  box-shadow: 0 0 12px rgba(200, 170, 110, 0.35);
+}
+
+.drafter__progress-marker {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  transition: left 0.45s ease;
+}
+
+.drafter__nav-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+  padding: 0.65rem 1rem 0.75rem;
+}
+
+.drafter__nav-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  justify-self: start;
+}
+
+.drafter__nav-label {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.drafter__nav-brand {
   font-family: var(--font-display);
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.drafter__nav-right {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.drafter__side-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 4px;
+  background: #0a0a0a;
+}
+
+.drafter__side-picker-label {
+  padding: 0 0.35rem 0 0.45rem;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.drafter__side-btn {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--lol-text-dim);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
+}
+
+.drafter__side-btn--blue.drafter__side-btn--active {
+  color: var(--lol-blue-bright);
+  background: rgba(58, 159, 217, 0.15);
+  border-color: rgba(58, 159, 217, 0.4);
+}
+
+.drafter__side-btn--red.drafter__side-btn--active {
+  color: var(--lol-red-bright);
+  background: rgba(200, 75, 75, 0.15);
+  border-color: rgba(200, 75, 75, 0.4);
+}
+
+.drafter__side-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.drafter__mode-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.drafter__mode-picker-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+  margin-right: 0.15rem;
+}
+
+.drafter__mode-btn {
+  padding: 0.28rem 0.55rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 3px;
+  background: #0a0a0a;
+  color: var(--lol-text-dim);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.drafter__mode-btn:hover {
+  color: var(--lol-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.drafter__mode-btn--active {
+  color: var(--lol-text);
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.drafter__mode-btn--pro.drafter__mode-btn--active {
+  color: #e8c547;
+  border-color: rgba(232, 197, 71, 0.45);
+  background: rgba(232, 197, 71, 0.08);
+}
+
+.insufficient-data {
+  display: inline-block;
+  color: #7a7570;
+  font-size: 0.78rem;
+  font-style: italic;
+  line-height: 1.35;
+  opacity: 0.85;
+}
+
+.insufficient-data--compact {
+  font-size: 0.68rem;
+  max-width: 120px;
+  text-align: center;
+}
+
+.duo-card--insufficient,
+.duo-matchup--insufficient,
+.duo-advantage--insufficient {
+  opacity: 0.82;
+  border-style: dashed;
+}
+
+.draft-result__winrate--insufficient {
+  color: #7a7570;
+  font-style: italic;
+}
+
+.drafter__patch {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.drafter__patch-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.drafter__patch-input {
+  width: 56px;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 3px;
+  background: #0a0a0a;
+  color: var(--lol-text);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.drafter__team {
+  display: none;
 }
 
 .drafter__team--blue {
@@ -190,10 +406,37 @@ body {
   box-shadow: 0 0 20px var(--lol-red-glow);
 }
 
+.drafter__turn--pulse {
+  animation: turn-glow 1.8s ease-in-out infinite;
+}
+
+.drafter__phase-animate,
+.drafter__turn-animate {
+  animation: phase-fade-in 0.35s ease;
+}
+
 .drafter__progress {
   font-size: 0.75rem;
   color: var(--lol-text-dim);
   letter-spacing: 0.08em;
+}
+
+.drafter__progress strong {
+  color: var(--lol-text);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+}
+
+.drafter__center-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.drafter__center-animate {
+  animation: center-slide 0.3s ease;
 }
 
 .drafter__body {
@@ -270,6 +513,29 @@ body {
   box-shadow: inset -4px 0 20px rgba(200, 75, 75, 0.15);
 }
 
+.splash-slot__filled {
+  position: absolute;
+  inset: 0;
+  animation: slot-reveal 0.4s ease;
+}
+
+.splash-slot__filled .splash-slot__art {
+  animation: slot-reveal 0.4s ease;
+}
+
+.splash-slot__info {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.85rem 1rem;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.55) 55%, transparent 100%);
+  width: 100%;
+  padding-top: 2rem;
+}
+
 .splash-slot__art {
   position: absolute;
   inset: 0;
@@ -309,16 +575,6 @@ body {
     rgba(0, 0, 0, 0.45) 45%,
     rgba(0, 0, 0, 0.15) 100%
   );
-}
-
-.splash-slot__info {
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  padding: 0.85rem 1rem;
-  z-index: 1;
 }
 
 .splash-slot--blue .splash-slot__info {
@@ -368,6 +624,244 @@ body {
   color: rgba(255, 255, 255, 0.1);
 }
 
+.splash-slot--draggable {
+  cursor: grab;
+  touch-action: none;
+}
+
+.splash-slot--draggable:active {
+  cursor: grabbing;
+}
+
+.splash-slot__drag-badge {
+  position: absolute;
+  top: 0.55rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 0.18rem 0.55rem;
+  border-radius: 3px;
+  background: rgba(200, 170, 110, 0.92);
+  color: #111;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+.splash-slot--red .splash-slot__drag-badge {
+  left: auto;
+  right: 0.65rem;
+  transform: none;
+}
+
+.splash-slot--blue .splash-slot__drag-badge {
+  left: 0.65rem;
+  transform: none;
+}
+
+/* ========== ROLE CONFIRM DRAG ========== */
+
+.role-slot-sortable {
+  height: 100%;
+  min-height: 0;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.role-slot-sortable--dragging {
+  opacity: 0.35;
+}
+
+.role-slot-sortable--overlay {
+  opacity: 0.98;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  transform: scale(1.02);
+  cursor: grabbing;
+}
+
+.role-slot-sortable--locked {
+  cursor: default;
+}
+
+.drafter__picks--confirmed {
+  opacity: 0.88;
+}
+
+.drafter__picks--sortable {
+  display: flex;
+  flex-direction: column;
+}
+
+.drafter__picks-sortable {
+  display: grid;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.drafter__turn--confirm {
+  color: var(--lol-gold);
+  border-color: rgba(200, 170, 110, 0.45);
+  box-shadow: 0 0 20px rgba(200, 170, 110, 0.2);
+}
+
+.drafter__turn--done {
+  color: var(--lol-gold);
+  border-color: rgba(200, 170, 110, 0.35);
+}
+
+.drafter__action-btn--confirm {
+  color: var(--lol-gold);
+  border-color: rgba(200, 170, 110, 0.35);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+/* ========== CONFIRM ROLES CENTER ========== */
+
+.confirm-roles {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.25rem;
+}
+
+.confirm-roles__header h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.confirm-roles__header p {
+  margin: 0;
+  color: var(--lol-text-dim);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.confirm-roles__teams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.confirm-roles__team {
+  padding: 0.85rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.confirm-roles__team--blue {
+  border-color: rgba(58, 159, 217, 0.25);
+}
+
+.confirm-roles__team--red {
+  border-color: rgba(200, 75, 75, 0.25);
+}
+
+.confirm-roles__team-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.confirm-roles__team-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.confirm-roles__badge {
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.confirm-roles__badge--done {
+  background: rgba(80, 160, 90, 0.2);
+  color: #8fd99a;
+  border: 1px solid rgba(80, 160, 90, 0.35);
+}
+
+.confirm-roles__error {
+  margin: 0 0 0.65rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 4px;
+  background: rgba(200, 75, 75, 0.12);
+  border: 1px solid rgba(200, 75, 75, 0.35);
+  color: #f0a0a0;
+  font-size: 0.82rem;
+}
+
+.confirm-roles__warnings {
+  margin: 0 0 0.65rem;
+  padding-left: 1.1rem;
+  color: #d4b06a;
+  font-size: 0.78rem;
+}
+
+.confirm-roles__confirm-btn {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--lol-text);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.confirm-roles__confirm-btn--blue:not(:disabled):hover {
+  border-color: rgba(58, 159, 217, 0.5);
+  background: rgba(58, 159, 217, 0.12);
+  color: var(--lol-blue-bright);
+}
+
+.confirm-roles__confirm-btn--red:not(:disabled):hover {
+  border-color: rgba(200, 75, 75, 0.5);
+  background: rgba(200, 75, 75, 0.12);
+  color: var(--lol-red-bright);
+}
+
+.confirm-roles__confirm-btn--done {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.confirm-roles__confirm-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.confirm-roles__hint {
+  margin: 0;
+  color: var(--lol-text-dim);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
 /* ========== FOOTER / BANS ========== */
 
 .drafter__footer {
@@ -401,6 +895,11 @@ body {
 }
 
 .drafter__action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 220px;
   padding: 0.55rem 1.75rem;
   border-radius: 6px;
   font-family: var(--font-display);
@@ -411,23 +910,50 @@ body {
   color: var(--lol-text-dim);
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.25s ease;
+}
+
+.drafter__action-primary {
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.drafter__action-secondary {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  opacity: 0.75;
+}
+
+.drafter__action-btn--active {
+  transform: translateY(-1px);
 }
 
 .drafter__action-btn--blue {
   color: var(--lol-blue-bright);
-  border-color: rgba(58, 159, 217, 0.4);
-  background: rgba(58, 159, 217, 0.1);
+  border-color: rgba(58, 159, 217, 0.5);
+  background: rgba(58, 159, 217, 0.14);
+  box-shadow: 0 0 24px var(--lol-blue-glow);
 }
 
 .drafter__action-btn--red {
   color: var(--lol-red-bright);
-  border-color: rgba(200, 75, 75, 0.4);
-  background: rgba(200, 75, 75, 0.1);
+  border-color: rgba(200, 75, 75, 0.5);
+  background: rgba(200, 75, 75, 0.14);
+  box-shadow: 0 0 24px var(--lol-red-glow);
+}
+
+.drafter__action-btn--waiting {
+  animation: action-pulse 2s ease-in-out infinite;
+  opacity: 0.7;
 }
 
 .drafter__action-btn--done {
   color: var(--lol-gold);
   border-color: rgba(200, 170, 110, 0.35);
+  box-shadow: none;
 }
 
 .drafter__reset {
@@ -442,6 +968,86 @@ body {
 
 .drafter__reset:hover {
   color: var(--lol-text);
+}
+
+/* ========== BAN SLOTS ========== */
+
+.ban-slot {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #1a1a1a;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.ban-slot--blue.ban-slot--filled {
+  border-color: rgba(58, 159, 217, 0.35);
+}
+
+.ban-slot--red.ban-slot--filled {
+  border-color: rgba(200, 75, 75, 0.35);
+}
+
+.ban-slot--filled {
+  animation: slot-reveal 0.3s ease;
+}
+
+.ban-slot__icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.35) brightness(0.65);
+}
+
+.ban-slot__dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 0, 0, 0.55);
+}
+
+.ban-slot__slash {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.ban-slot__slash::after {
+  content: "";
+  width: 140%;
+  height: 2px;
+  background: rgba(255, 90, 90, 0.95);
+  transform: rotate(-45deg);
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
+}
+
+.ban-slot__deny {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.ban-slot__placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: #141414;
+}
+
+.ban-slot__silhouette {
+  width: 55%;
+  height: 55%;
+  color: rgba(255, 255, 255, 0.12);
 }
 
 /* ========== CHAMPION ICON ========== */
@@ -556,17 +1162,65 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.75rem;
   padding-bottom: 0.65rem;
   border-bottom: 1px solid var(--lol-border);
 }
 
-.champion-pool__search {
-  flex: 1;
-  min-width: 160px;
-  max-width: 280px;
+.champion-pool__toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   margin-left: auto;
+}
+
+.grid-size-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 4px;
+  background: #0a0a0a;
+}
+
+.grid-size-toggle__btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--lol-text);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+
+.grid-size-toggle__btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.grid-size-toggle__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.grid-size-toggle__label {
+  min-width: 48px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--lol-text-dim);
+  text-transform: uppercase;
+}
+
+.champion-pool__search {
+  width: 180px;
+  min-width: 140px;
   padding: 0.45rem 0.75rem;
   border: 1px solid var(--lol-border);
   border-radius: 4px;
@@ -587,30 +1241,41 @@ body {
 .role-picker {
   display: flex;
   gap: 0.35rem;
+  flex-wrap: wrap;
 }
 
 .role-picker__btn {
-  padding: 0.35rem 0.65rem;
-  border: 1px solid var(--lol-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid transparent;
   border-radius: 4px;
   background: transparent;
   color: var(--lol-text-dim);
   font-family: var(--font-display);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: lowercase;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   transition: all 0.15s ease;
+  border-bottom: 2px solid transparent;
 }
 
-.role-picker__btn--disabled {
-  opacity: 0.45;
+.role-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.role-picker__label {
+  line-height: 1;
 }
 
 .role-picker__btn--active {
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom-color: var(--lol-gold);
 }
 
 .role-picker__btn--top.role-picker__btn--active {
@@ -634,9 +1299,10 @@ body {
 }
 
 .champion-pool__grid {
+  --grid-cols: 8;
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   gap: 0.5rem;
   overflow: auto;
   padding: 0.25rem;
@@ -668,7 +1334,8 @@ body {
 
 .champion-pool__item:not(:disabled):hover {
   border-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.04);
+  transform: scale(1.05);
+  z-index: 1;
 }
 
 .champion-pool__item:disabled {
@@ -1091,6 +1758,83 @@ body {
   margin-bottom: 0;
 }
 
+.draft-result__headline-block {
+  margin-bottom: 0.75rem;
+}
+
+.draft-result__headline-note {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--lol-text-dim);
+  font-style: italic;
+}
+
+.draft-result__section-subtitle--compact {
+  margin-bottom: 0.45rem;
+  font-size: 0.75rem;
+}
+
+.methodology-note {
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(200, 170, 110, 0.18);
+  border-radius: 8px;
+  background: rgba(200, 170, 110, 0.05);
+}
+
+.methodology-note--compact {
+  margin-bottom: 0.85rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.methodology-note__title {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.methodology-note__body p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--lol-text-dim);
+}
+
+.methodology-note__disclaimer {
+  margin: 0.45rem 0 0;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--lol-text-dim);
+  font-style: italic;
+}
+
+.duo-card__explanation {
+  margin: 0.45rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--lol-text-dim);
+}
+
+.duo-advantage__explanation {
+  margin: 0.35rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--lol-text);
+}
+
+.duo-advantage__method {
+  margin: 0.25rem 0 0;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--lol-text-dim);
+  font-style: italic;
+}
+
 .draft-result__warnings {
   margin-top: 1rem;
   padding: 0.75rem;
@@ -1134,6 +1878,1066 @@ body {
   color: #ff6b6b;
 }
 
+.draft-result__headline {
+  margin: 0 0 1.25rem;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--lol-text);
+  font-weight: 600;
+}
+
+.draft-result__details-toggle {
+  margin-top: 0.35rem;
+}
+
+.draft-result__details-toggle summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+  list-style: none;
+}
+
+.draft-result__details-toggle summary::-webkit-details-marker {
+  display: none;
+}
+
+.draft-result__details-toggle[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+.draft-result__duos {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.duo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.duo-grid__team-title {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.duo-grid__team-title--blue {
+  color: var(--lol-blue-bright);
+}
+
+.duo-grid__team-title--red {
+  color: var(--lol-red-bright);
+}
+
+.team-synergy-section {
+  margin-bottom: 1.15rem;
+}
+
+.team-synergy-section__title {
+  display: block;
+  margin-bottom: 0.65rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.team-synergy-section__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.team-synergy-card {
+  padding: 0.85rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--lol-border);
+}
+
+.team-synergy-card--blue {
+  border-left: 3px solid var(--lol-blue);
+}
+
+.team-synergy-card--red {
+  border-left: 3px solid var(--lol-red);
+}
+
+.team-synergy-card__team-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.team-synergy-card__score-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.team-synergy-card__score {
+  font-size: 1.65rem;
+  line-height: 1;
+  color: var(--lol-gold-bright);
+}
+
+.team-synergy-card__score-caption {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.team-synergy-card__lineup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.team-synergy-card__missing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--lol-text-dim);
+  font-size: 0.85rem;
+}
+
+.team-synergy-card .draft-result__roles {
+  margin-bottom: 0.65rem;
+}
+
+.team-synergy-card .draft-result__roles h4 {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+  margin-bottom: 0.25rem;
+}
+
+.team-synergy-card__explanation {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--lol-text-muted);
+}
+
+.duo-card {
+  padding: 0.75rem;
+  margin-bottom: 0.65rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--lol-border);
+}
+
+.duo-card--blue {
+  border-left: 3px solid var(--lol-blue);
+}
+
+.duo-card--red {
+  border-left: 3px solid var(--lol-red);
+}
+
+.duo-card__label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.duo-card__subtitle {
+  display: block;
+  margin: -0.25rem 0 0.45rem;
+  font-size: 0.68rem;
+  color: var(--lol-text-dim);
+}
+
+.duo-matchup {
+  margin-bottom: 1rem;
+  padding: 0.85rem;
+  border-radius: 6px;
+  background: rgba(200, 170, 110, 0.06);
+  border: 1px solid rgba(200, 170, 110, 0.25);
+}
+
+.duo-matchups {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.duo-matchup__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.duo-matchup__title {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.duo-matchup__method {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.duo-matchup__versus {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.duo-matchup__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.duo-matchup__side strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.duo-matchup__side--blue strong {
+  color: var(--lol-blue-bright);
+}
+
+.duo-matchup__side--red strong {
+  color: var(--lol-red-bright);
+}
+
+.duo-matchup__vs {
+  font-family: var(--font-display);
+  color: var(--lol-gold);
+  font-size: 0.9rem;
+}
+
+.duo-matchup__hint {
+  margin: 0.65rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--lol-text-dim);
+}
+
+.duo-matchup__explanation {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--lol-border);
+}
+
+.duo-matchup__explanation-title {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.duo-matchup__explanation-body {
+  margin: 0 0 0.35rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--lol-text);
+}
+
+.duo-matchup__explanation-disclaimer {
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--lol-text-dim);
+  font-style: italic;
+}
+
+.duo-card__pair {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.duo-card__plus {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--lol-gold);
+}
+
+.duo-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.duo-card__games {
+  color: var(--lol-text-dim);
+  font-size: 0.75rem;
+}
+
+.duo-card__badge {
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(200, 170, 110, 0.15);
+  border: 1px solid rgba(200, 170, 110, 0.35);
+  color: var(--lol-gold);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.duo-advantages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--lol-border);
+}
+
+.duo-advantage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.duo-advantage__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.duo-advantage__title {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.duo-advantage__hint {
+  font-size: 0.65rem;
+  color: var(--lol-text-dim);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.duo-advantage__value {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+}
+
+.duo-advantage__value--blue {
+  color: var(--lol-blue-bright);
+}
+
+.duo-advantage__value--red {
+  color: var(--lol-red-bright);
+}
+
+.draft-suggestions {
+  margin: 0.75rem 0 1rem;
+  padding: 0.85rem;
+  border: 1px solid rgba(200, 170, 110, 0.25);
+  border-radius: 4px;
+  background: rgba(200, 155, 60, 0.06);
+}
+
+.draft-suggestions__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.draft-suggestions__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.draft-suggestions__trigger {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(200, 170, 110, 0.45);
+  border-radius: 4px;
+  background: rgba(200, 155, 60, 0.12);
+  color: var(--lol-gold);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.draft-suggestions__trigger:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.draft-suggestions__error {
+  margin: 0.65rem 0 0;
+  font-size: 0.82rem;
+}
+
+.draft-suggestions__baseline {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: var(--lol-text-dim);
+}
+
+.draft-suggestions__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.draft-suggestions__item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--lol-text);
+  text-align: left;
+}
+
+.draft-suggestions__item:hover {
+  border-color: rgba(200, 170, 110, 0.45);
+  background: rgba(200, 155, 60, 0.08);
+}
+
+.draft-suggestions__item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.draft-suggestions__item-body strong {
+  font-size: 0.9rem;
+}
+
+.draft-suggestions__item-body span,
+.draft-suggestions__item-body small {
+  font-size: 0.78rem;
+  color: var(--lol-text-dim);
+}
+
+/* ========== POST-DRAFT INSIGHTS ========== */
+
+.draft-result__insights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--lol-border);
+}
+
+.analysis-section {
+  border: 1px solid var(--lol-border);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  overflow: hidden;
+}
+
+.analysis-section__header {
+  padding: 1rem 1.15rem 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.analysis-section__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.analysis-section__subtitle {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--lol-text-dim);
+}
+
+.analysis-section__body {
+  padding: 0.85rem 1.15rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.analysis-section__loading {
+  margin: 0;
+  padding: 0.5rem 0;
+  font-size: 0.82rem;
+  color: var(--lol-text-dim);
+  font-style: italic;
+}
+
+/* --- Suggestion breakdown (shared) --- */
+
+.suggestion-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.suggestion-breakdown__headline-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.suggestion-breakdown__headline {
+  margin: 0;
+  flex: 1;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--lol-text);
+}
+
+.suggestion-breakdown__gain {
+  flex-shrink: 0;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--lol-text-dim);
+}
+
+.suggestion-breakdown__gain--positive {
+  background: rgba(91, 184, 240, 0.15);
+  color: var(--lol-blue-bright);
+}
+
+.suggestion-breakdown__gain--negative {
+  background: rgba(200, 75, 75, 0.15);
+  color: var(--lol-red-bright);
+}
+
+.suggestion-breakdown__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestion-breakdown__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  border: 1px solid transparent;
+}
+
+.suggestion-breakdown__chip--up {
+  background: rgba(46, 160, 67, 0.12);
+  border-color: rgba(46, 160, 67, 0.25);
+  color: #6ee7a0;
+}
+
+.suggestion-breakdown__chip--down {
+  background: rgba(200, 75, 75, 0.1);
+  border-color: rgba(200, 75, 75, 0.22);
+  color: var(--lol-red-bright);
+}
+
+.suggestion-breakdown__chip-label {
+  color: var(--lol-text-dim);
+}
+
+.suggestion-breakdown__chip-value {
+  font-weight: 600;
+}
+
+.suggestion-breakdown__detail {
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  border-left: 2px solid rgba(200, 170, 110, 0.35);
+  border-radius: 0 6px 6px 0;
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--lol-text-dim);
+}
+
+.suggestion-breakdown__warning {
+  margin: 0;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  background: rgba(200, 155, 60, 0.1);
+  border: 1px solid rgba(200, 155, 60, 0.22);
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: #e8c878;
+}
+
+.suggestion-breakdown__historical {
+  margin: 0;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: var(--lol-text-dim);
+  opacity: 0.85;
+}
+
+.suggestion-breakdown__disclaimer {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.suggestion-breakdown--compact .suggestion-breakdown__headline {
+  font-size: 0.8rem;
+}
+
+/* --- Retrospective bans --- */
+
+.retrospective-bans {
+  border-color: rgba(200, 155, 60, 0.22);
+}
+
+.retrospective-bans__side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.retrospective-bans__side + .retrospective-bans__side {
+  margin-top: 0.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.retrospective-bans__side-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.retrospective-bans__side--blue .retrospective-bans__side-title {
+  color: var(--lol-blue-bright);
+}
+
+.retrospective-bans__side--red .retrospective-bans__side-title {
+  color: var(--lol-red-bright);
+}
+
+.retrospective-bans__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.retrospective-bans__card {
+  padding: 0.85rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.retrospective-bans__card-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 4.5rem;
+}
+
+.retrospective-bans__card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.retrospective-bans__card-meta strong {
+  font-size: 0.88rem;
+}
+
+.retrospective-bans__replacement {
+  font-size: 0.72rem;
+  color: var(--lol-text-dim);
+  line-height: 1.35;
+}
+
+@media (min-width: 640px) {
+  .retrospective-bans__card {
+    grid-template-columns: minmax(5rem, auto) 1fr;
+  }
+
+  .retrospective-bans__card-hero {
+    flex-direction: row;
+    align-items: center;
+    min-width: unset;
+  }
+
+  .retrospective-bans__card-meta {
+    text-align: left;
+  }
+}
+
+/* --- Retrospective picks --- */
+
+.retrospective-picks {
+  border-color: rgba(90, 140, 220, 0.22);
+}
+
+.retrospective-picks--blue .analysis-section__title {
+  color: var(--lol-blue-bright);
+}
+
+.retrospective-picks--red .analysis-section__title {
+  color: var(--lol-red-bright);
+}
+
+.retrospective-picks__roles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.retrospective-picks__role-group {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.retrospective-picks__role-group[open] {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.retrospective-picks__role-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.retrospective-picks__role-summary::-webkit-details-marker {
+  display: none;
+}
+
+.retrospective-picks__role-summary::after {
+  content: "▾";
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--lol-text-dim);
+  transition: transform 0.15s ease;
+}
+
+.retrospective-picks__role-group:not([open]) .retrospective-picks__role-summary::after {
+  transform: rotate(-90deg);
+}
+
+.retrospective-picks__role-badge {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.retrospective-picks__role-swap {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.retrospective-picks__role-arrow {
+  font-size: 0.85rem;
+  color: var(--lol-text-dim);
+}
+
+.retrospective-picks__alt-count {
+  font-size: 0.72rem;
+  color: var(--lol-text-dim);
+}
+
+.retrospective-picks__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0 0.85rem 0.85rem;
+  list-style: none;
+}
+
+.retrospective-picks__card {
+  padding: 0.85rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.retrospective-picks__card-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 4.5rem;
+}
+
+.retrospective-picks__rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(200, 170, 110, 0.15);
+  color: var(--lol-gold);
+}
+
+.retrospective-picks__champion-name {
+  font-size: 0.82rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+@media (min-width: 640px) {
+  .retrospective-picks__card {
+    grid-template-columns: minmax(5rem, auto) 1fr;
+  }
+}
+
+/* --- Draft chatbot --- */
+
+.draft-chatbot {
+  padding: 0;
+}
+
+.draft-chatbot .analysis-section__subtitle {
+  padding: 0 1.15rem 0.85rem;
+  margin: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.draft-chatbot__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 1.15rem 0.35rem;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.draft-chatbot__toggle:hover {
+  color: #e0c992;
+}
+
+.draft-chatbot__chevron {
+  font-size: 0.85rem;
+  color: var(--lol-text-dim);
+}
+
+.draft-chatbot__panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 420px;
+}
+
+.draft-chatbot__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.85rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.draft-chatbot__message {
+  max-width: 88%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.draft-chatbot__message--user {
+  align-self: flex-end;
+  background: rgba(58, 159, 217, 0.18);
+  border: 1px solid rgba(91, 184, 240, 0.28);
+  border-bottom-right-radius: 3px;
+}
+
+.draft-chatbot__message--bot {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom-left-radius: 3px;
+}
+
+.draft-chatbot__message-text {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.draft-chatbot__intent {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+  opacity: 0.7;
+}
+
+.draft-chatbot__examples {
+  margin: 0.55rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.draft-chatbot__example-btn {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px dashed rgba(200, 170, 110, 0.35);
+  border-radius: 6px;
+  background: rgba(200, 170, 110, 0.05);
+  color: var(--lol-gold);
+  font-size: 0.74rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.draft-chatbot__example-btn:hover {
+  background: rgba(200, 170, 110, 0.12);
+}
+
+.draft-chatbot__typing {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--lol-text-dim);
+  font-style: italic;
+}
+
+.draft-chatbot__form {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1.15rem;
+  border-top: 1px solid var(--lol-border);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.draft-chatbot__input {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--lol-text);
+  font-size: 0.82rem;
+}
+
+.draft-chatbot__input:focus {
+  outline: none;
+  border-color: rgba(200, 170, 110, 0.45);
+}
+
+.draft-chatbot__send {
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(200, 170, 110, 0.45);
+  border-radius: 8px;
+  background: rgba(200, 170, 110, 0.12);
+  color: var(--lol-gold);
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 0.15s ease;
+}
+
+.draft-chatbot__send:hover:not(:disabled) {
+  background: rgba(200, 170, 110, 0.22);
+}
+
+.draft-chatbot__send:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 button {
   cursor: pointer;
 }
@@ -1144,6 +2948,59 @@ button {
   }
 }
 
+@keyframes phase-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes center-slide {
+  from {
+    opacity: 0.55;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slot-reveal {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes turn-glow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.15);
+  }
+}
+
+@keyframes action-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 1280px) {
   :root {
     --pick-col-width: clamp(300px, 28vw, 400px);
@@ -1151,10 +3008,6 @@ button {
 
   .drafter__body {
     grid-template-columns: var(--pick-col-width) minmax(420px, 1fr) var(--pick-col-width);
-  }
-
-  .champion-pool__grid {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
   }
 }
 
@@ -1198,17 +3051,21 @@ button {
     justify-content: center !important;
   }
 
-  .champion-pool__grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
   .draft-result__matchup {
     grid-template-columns: 1fr;
   }
 
   .draft-result__insights-grid,
   .draft-result__roles-row,
-  .draft-result__affinity-row {
+  .draft-result__affinity-row,
+  .team-synergy-section__grid,
+  .duo-matchups,
+  .duo-grid,
+  .duo-advantages {
+    grid-template-columns: 1fr;
+  }
+
+  .confirm-roles__teams {
     grid-template-columns: 1fr;
   }
 }

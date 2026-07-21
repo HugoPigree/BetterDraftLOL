@@ -4,8 +4,9 @@
 from __future__ import annotations
 
 import logging
+from contextlib import asynccontextmanager
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
@@ -13,12 +14,21 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from build_training_dataset import (
-    DEFAULT_MERAKI_CACHE,
-    MERAKI_URL,
-    load_meraki_champions,
+import build_training_dataset as btd
+from chatbot_rules import answer_question
+from champion_profile_stats import enrich_predict_response_descriptions
+from predict_draft import (
+    initialize_blue_side_winrate,
+    predict_draft as run_predict_draft,
+    reset_predict_state,
+    setup_logging,
 )
-from predict_draft import initialize_blue_side_winrate, setup_logging
+from suggest_draft import (
+    suggest_ban,
+    suggest_improvements,
+    suggest_retrospective_bans,
+    suggest_retrospective_picks,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +67,7 @@ class PredictRequest(BaseModel):
     blue_team: list[ChampionSlot] = Field(min_length=5, max_length=5)
     red_team: list[ChampionSlot] = Field(min_length=5, max_length=5)
     patch: str = Field(min_length=1)
+    mode: Literal["mixed", "pro"] = "mixed"
 
 
 class HealthResponse(BaseModel):
@@ -71,7 +82,10 @@ class ChampionsResponse(BaseModel):
 class ChampionForceDetail(BaseModel):
     champion: str
     role: Role
-    winrate: float
+    winrate: float | None = None
+    games: int | None = None
+    insufficient_data: bool = False
+    data_source: Literal["soloq", "pro"] | None = None
 
 
 class AttributeProfile(BaseModel):
@@ -87,23 +101,211 @@ class MerakiRoleCount(BaseModel):
     count: int
 
 
+class SynergyContribution(BaseModel):
+    champion: str
+    role: Role
+    marginal_points: float
+
+
+class TeamSynergyInsight(BaseModel):
+    contributions: list[SynergyContribution]
+    top_contributor: SynergyContribution
+    least_contributor: SynergyContribution
+    explanation: str = ""
+
+
+class DuoSynergyDetail(BaseModel):
+    champions: list[str]
+    score: float | None
+    games: int
+    is_fallback: bool
+    insufficient_data: bool = False
+
+
+class TeamDuoSynergies(BaseModel):
+    duo_jungle_support: DuoSynergyDetail
+    duo_bot_lane: DuoSynergyDetail
+
+
+class SideDuoSynergies(BaseModel):
+    blue: TeamDuoSynergies
+    red: TeamDuoSynergies
+
+
+class DuoAdvantage(BaseModel):
+    stronger_side: Literal["blue", "red", "even"]
+    difference: float
+    insufficient_data: bool = False
+    comparison_message: str | None = None
+    insufficient_sides: list[Literal["blue", "red"]] = Field(default_factory=list)
+
+
+class DuoDifferential(BaseModel):
+    jungle_support_advantage: DuoAdvantage
+    bot_lane_advantage: DuoAdvantage
+
+
+class BotLaneMatchupDetail(BaseModel):
+    blue_champions: list[str]
+    red_champions: list[str]
+    blue_win_probability: float | None
+    games: int
+    is_fallback: bool
+    method: Literal["measured", "blended", "soloq_composite"]
+    insufficient_data: bool = False
+
+
+DuoMatchupDetail = BotLaneMatchupDetail
+
+
 class TeamPredictionDetail(BaseModel):
-    score_force: float
+    score_force: float | None
     score_synergie_brut: float
     score_synergie: float
     score_final: float
     champions: list[ChampionForceDetail]
     attribute_profile: AttributeProfile
     meraki_roles: list[MerakiRoleCount]
+    force_partial: bool = False
+    synergy_insight: TeamSynergyInsight
 
 
 class PredictResponse(BaseModel):
+    mode: Literal["mixed", "pro"] = "mixed"
     blue_win_probability: float
     red_win_probability: float
     blue: TeamPredictionDetail
     red: TeamPredictionDetail
     differential: AttributeProfile
+    duo_synergies: SideDuoSynergies
+    bot_lane_matchup: BotLaneMatchupDetail
+    jungle_support_matchup: DuoMatchupDetail
+    duo_differential: DuoDifferential
     warnings: list[str]
+
+
+class SuggestPickRequest(BaseModel):
+    team_side: Literal["blue", "red"] = "blue"
+    team_picks: list[ChampionSlot] = Field(min_length=5, max_length=5)
+    opponent_picks: list[ChampionSlot] = Field(min_length=5, max_length=5)
+    role_to_improve: Role
+    patch: str = Field(min_length=1)
+    available_champions: list[str] = Field(min_length=1)
+    mode: Literal["mixed", "pro"] = "mixed"
+
+
+class PickSuggestion(BaseModel):
+    champion: str
+    win_probability: float
+    gain_percentage_points: float
+    delta_force: float
+    delta_synergie: float
+    delta_duo: float
+    delta_total: float
+    reason: str
+
+
+class SuggestPickResponse(BaseModel):
+    team_side: Literal["blue", "red"]
+    role: Role
+    current_win_probability: float | None
+    suggestions: list[PickSuggestion]
+
+
+class SuggestBanRequest(BaseModel):
+    team_side: Literal["blue", "red"] = "blue"
+    team_picks: list[ChampionSlot] = Field(min_length=5, max_length=5)
+    opponent_picks: list[ChampionSlot] = Field(min_length=1, max_length=4)
+    opponent_remaining_roles: list[Role] = Field(min_length=1)
+    patch: str = Field(min_length=1)
+    available_champions: list[str] = Field(min_length=1)
+    mode: Literal["mixed", "pro"] = "mixed"
+
+
+class BanSuggestion(BaseModel):
+    champion: str
+    best_opponent_role: Role
+    opponent_win_probability: float
+    threat_percentage_points: float
+    delta_force: float
+    delta_synergie: float
+    delta_duo: float
+    delta_total: float
+    reason: str
+
+
+class SuggestBanResponse(BaseModel):
+    team_side: Literal["blue", "red"]
+    baseline_opponent_win_probability: float | None
+    suggestions: list[BanSuggestion]
+
+
+class SuggestRetrospectiveBanRequest(BaseModel):
+    team_side: Literal["blue", "red"] = "blue"
+    team_picks: list[ChampionSlot] = Field(min_length=5, max_length=5)
+    opponent_picks: list[ChampionSlot] = Field(min_length=5, max_length=5)
+    patch: str = Field(min_length=1)
+    available_champions: list[str] = Field(min_length=1)
+    mode: Literal["mixed", "pro"] = "mixed"
+
+
+class RetrospectiveBanSuggestion(BaseModel):
+    champion: str
+    role: Role
+    replacement_champion: str
+    win_probability: float
+    gain_percentage_points: float
+    delta_force: float
+    delta_synergie: float
+    delta_duo: float
+    delta_total: float
+    reason: str
+
+
+class SuggestRetrospectiveBanResponse(BaseModel):
+    team_side: Literal["blue", "red"]
+    current_win_probability: float | None
+    suggestions: list[RetrospectiveBanSuggestion]
+
+
+class RetrospectivePickSuggestion(BaseModel):
+    role: Role
+    current_champion: str
+    champion: str
+    win_probability: float
+    gain_percentage_points: float
+    delta_force: float
+    delta_synergie: float
+    delta_duo: float
+    delta_total: float
+    reason: str
+
+
+class SuggestRetrospectivePickRequest(BaseModel):
+    team_side: Literal["blue", "red"] = "blue"
+    team_picks: list[ChampionSlot] = Field(min_length=5, max_length=5)
+    opponent_picks: list[ChampionSlot] = Field(min_length=5, max_length=5)
+    patch: str = Field(min_length=1)
+    available_champions: list[str] = Field(min_length=1)
+    mode: Literal["mixed", "pro"] = "mixed"
+    picks_per_role: int = Field(default=3, ge=1, le=3)
+
+
+class SuggestRetrospectivePickResponse(BaseModel):
+    team_side: Literal["blue", "red"]
+    current_win_probability: float | None
+    suggestions: list[RetrospectivePickSuggestion]
+
+
+class AskChatbotRulesRequest(BaseModel):
+    question: str = Field(min_length=1)
+    prediction_context: dict[str, Any]
+    available_champions: list[str] = Field(min_length=1)
+
+
+class AskChatbotRulesResponse(BaseModel):
+    answer: str
+    intent_detected: str
 
 
 POSITION_MAP = {
@@ -116,7 +318,7 @@ def fetch_champion_names() -> list[str]:
 
 
 def fetch_champion_catalog() -> dict[str, list[str]]:
-    champions = load_meraki_champions(MERAKI_URL, DEFAULT_MERAKI_CACHE)
+    champions = btd.load_meraki_champions(btd.MERAKI_URL, btd.DEFAULT_MERAKI_CACHE)
     catalog: dict[str, list[str]] = {}
 
     for key, payload in champions.items():
@@ -137,10 +339,23 @@ def fetch_champion_catalog() -> dict[str, list[str]]:
 
 
 def create_app() -> FastAPI:
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        setup_logging()
+        reset_predict_state()
+        initialize_blue_side_winrate()
+        logger.info(
+            "API prête sur /health, /champions, /predict, /suggest-pick, "
+            "/suggest-ban, /suggest-retrospective-ban, /suggest-retrospective-pick "
+            "et /ask-chatbot-rules"
+        )
+        yield
+
     app = FastAPI(
         title="DraftLoL Predict API",
         description="API locale pour prédire la probabilité de victoire d'une draft.",
         version="1.0.0",
+        lifespan=lifespan,
     )
 
     app.add_middleware(
@@ -168,12 +383,6 @@ def create_app() -> FastAPI:
             content={"detail": errors},
         )
 
-    @app.on_event("startup")
-    async def startup() -> None:
-        setup_logging()
-        initialize_blue_side_winrate()
-        logger.info("API prête sur /health, /champions et /predict")
-
     @app.get("/health", response_model=HealthResponse)
     async def health() -> HealthResponse:
         return HealthResponse(status="ok")
@@ -197,22 +406,25 @@ def create_app() -> FastAPI:
         patch = request.patch.strip()
 
         logger.info(
-            "Prédiction demandée patch=%s blue=%s red=%s",
+            "Prédiction demandée patch=%s mode=%s blue=%s red=%s",
             patch,
+            request.mode,
             [slot["champion"] for slot in blue_team],
             [slot["champion"] for slot in red_team],
         )
 
         try:
-            from predict_draft import predict_draft as run_predict_draft
-
-            result = run_predict_draft(blue_team, red_team, patch=patch)
+            result = run_predict_draft(blue_team, red_team, patch=patch, mode=request.mode)
+            result = enrich_predict_response_descriptions(result)
         except FileNotFoundError as exc:
             logger.error("Patch ou données introuvables: %s", exc)
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         except ValueError as exc:
             logger.error("Erreur de validation métier: %s", exc)
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant la prédiction")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
 
         logger.info(
             "Prédiction calculée: blue=%.2f%% red=%.2f%%",
@@ -220,6 +432,107 @@ def create_app() -> FastAPI:
             result["red_win_probability"] * 100,
         )
         return result
+
+    @app.post("/suggest-pick", response_model=SuggestPickResponse)
+    async def suggest_pick_endpoint(request: SuggestPickRequest) -> dict[str, Any]:
+        try:
+            return suggest_improvements(
+                team_picks=[slot.model_dump() for slot in request.team_picks],
+                opponent_picks=[slot.model_dump() for slot in request.opponent_picks],
+                role_to_improve=request.role_to_improve.value,
+                patch=request.patch.strip(),
+                available_champions=request.available_champions,
+                team_side=request.team_side,
+                mode=request.mode,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant suggest-pick")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.post("/suggest-ban", response_model=SuggestBanResponse)
+    async def suggest_ban_endpoint(request: SuggestBanRequest) -> dict[str, Any]:
+        try:
+            return suggest_ban(
+                available_champions=request.available_champions,
+                opponent_partial_picks=[slot.model_dump() for slot in request.opponent_picks],
+                opponent_remaining_roles=[role.value for role in request.opponent_remaining_roles],
+                patch=request.patch.strip(),
+                team_picks=[slot.model_dump() for slot in request.team_picks],
+                team_side=request.team_side,
+                mode=request.mode,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant suggest-ban")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.post("/suggest-retrospective-ban", response_model=SuggestRetrospectiveBanResponse)
+    async def suggest_retrospective_ban_endpoint(
+        request: SuggestRetrospectiveBanRequest,
+    ) -> dict[str, Any]:
+        try:
+            return suggest_retrospective_bans(
+                team_picks=[slot.model_dump() for slot in request.team_picks],
+                opponent_picks=[slot.model_dump() for slot in request.opponent_picks],
+                patch=request.patch.strip(),
+                available_champions=request.available_champions,
+                team_side=request.team_side,
+                mode=request.mode,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant suggest-retrospective-ban")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.post("/suggest-retrospective-pick", response_model=SuggestRetrospectivePickResponse)
+    async def suggest_retrospective_pick_endpoint(
+        request: SuggestRetrospectivePickRequest,
+    ) -> dict[str, Any]:
+        try:
+            return suggest_retrospective_picks(
+                team_picks=[slot.model_dump() for slot in request.team_picks],
+                opponent_picks=[slot.model_dump() for slot in request.opponent_picks],
+                patch=request.patch.strip(),
+                available_champions=request.available_champions,
+                team_side=request.team_side,
+                picks_per_role=request.picks_per_role,
+                mode=request.mode,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant suggest-retrospective-pick")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.post("/ask-chatbot-rules", response_model=AskChatbotRulesResponse)
+    async def ask_chatbot_rules_endpoint(
+        request: AskChatbotRulesRequest,
+    ) -> dict[str, str]:
+        try:
+            return answer_question(
+                question=request.question.strip(),
+                prediction_context=request.prediction_context,
+                available_champions=request.available_champions,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant ask-chatbot-rules")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
 
     return app
 

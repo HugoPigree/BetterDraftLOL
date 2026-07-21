@@ -1,9 +1,11 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { ROLES } from "../hooks/useDraftState";
 import type { DraftContext, Role } from "../types/draft";
 import { ChampionIcon } from "./ChampionIcon";
+import { RoleIcon } from "./RoleIcons";
 
 type RoleFilter = Role | "ALL";
+type GridSize = "compact" | "normal" | "large";
 
 interface ChampionGridProps {
   draft: DraftContext;
@@ -15,15 +17,21 @@ interface ChampionGridProps {
 }
 
 const ROLE_LABELS: Record<RoleFilter, string> = {
-  ALL: "all",
-  TOP: "top",
-  JUNGLE: "jungle",
-  MIDDLE: "mid",
-  BOTTOM: "adc",
-  UTILITY: "support",
+  ALL: "ALL",
+  TOP: "TOP",
+  JUNGLE: "JGL",
+  MIDDLE: "MID",
+  BOTTOM: "ADC",
+  UTILITY: "SUP",
 };
 
 const FILTER_OPTIONS: RoleFilter[] = ["ALL", ...ROLES];
+
+const GRID_COLUMNS: Record<GridSize, number> = {
+  compact: 6,
+  normal: 8,
+  large: 10,
+};
 
 function championMatchesRole(
   champion: string,
@@ -48,6 +56,7 @@ export function ChampionGrid({
   const [search, setSearch] = useState("");
   const [filterRole, setFilterRole] = useState<RoleFilter>("ALL");
   const [pickRole, setPickRole] = useState<Role>("TOP");
+  const [gridSize, setGridSize] = useState<GridSize>("normal");
 
   const bannedChampions = useMemo(
     () => new Set([...draft.blueBans, ...draft.redBans]),
@@ -79,12 +88,21 @@ export function ChampionGrid({
 
   const isPickTurn = draft.currentActionType === "pick";
   const isDisabled = draft.isDraftComplete || loading || Boolean(error);
+  const gridColumns = GRID_COLUMNS[gridSize];
 
   function handleRoleFilter(role: RoleFilter) {
     setFilterRole(role);
     if (role !== "ALL" && isPickTurn) {
       setPickRole(role);
     }
+  }
+
+  function shrinkGrid() {
+    setGridSize((current) => (current === "large" ? "normal" : current === "normal" ? "compact" : current));
+  }
+
+  function growGrid() {
+    setGridSize((current) => (current === "compact" ? "normal" : current === "normal" ? "large" : current));
   }
 
   return (
@@ -102,24 +120,50 @@ export function ChampionGrid({
               disabled={isDisabled}
               title={role === "ALL" ? "Tous les rôles" : role}
             >
-              {ROLE_LABELS[role]}
+              <RoleIcon role={role} />
+              <span className="role-picker__label">{ROLE_LABELS[role]}</span>
             </button>
           ))}
         </div>
 
-        <input
-          type="search"
-          className="champion-pool__search"
-          placeholder="search by name"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          disabled={isDisabled}
-        />
+        <div className="champion-pool__toolbar-right">
+          <div className="grid-size-toggle" aria-label="Taille de la grille">
+            <button
+              type="button"
+              className="grid-size-toggle__btn"
+              onClick={shrinkGrid}
+              disabled={isDisabled || gridSize === "compact"}
+              title="Réduire la grille"
+            >
+              −
+            </button>
+            <span className="grid-size-toggle__label">{gridColumns} col.</span>
+            <button
+              type="button"
+              className="grid-size-toggle__btn"
+              onClick={growGrid}
+              disabled={isDisabled || gridSize === "large"}
+              title="Agrandir la grille"
+            >
+              +
+            </button>
+          </div>
+
+          <input
+            type="search"
+            className="champion-pool__search"
+            placeholder="Search champion…"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            disabled={isDisabled}
+          />
+        </div>
       </header>
 
       {isPickTurn && filterRole === "ALL" && (
         <p className="champion-pool__hint">
-          Pick assigné au rôle <strong>{ROLE_LABELS[pickRole]}</strong> — choisis un filtre de lane pour le changer.
+          Pick assigné au rôle <strong>{ROLE_LABELS[pickRole]}</strong> — filtre un rôle pour le
+          changer.
         </p>
       )}
 
@@ -130,7 +174,10 @@ export function ChampionGrid({
         <p className="champion-pool__message">Aucun champion pour ce filtre.</p>
       )}
 
-      <div className="champion-pool__grid">
+      <div
+        className="champion-pool__grid"
+        style={{ "--grid-cols": gridColumns } as CSSProperties}
+      >
         {filteredChampions.map((champion) => {
           const isUsed = draft.usedChampions.includes(champion);
           const isBanned = bannedChampions.has(champion);

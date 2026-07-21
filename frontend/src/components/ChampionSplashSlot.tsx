@@ -6,6 +6,8 @@ interface ChampionSplashSlotProps {
   pick?: DraftPick;
   side: "blue" | "red";
   index: number;
+  draggable?: boolean;
+  showDragBadge?: boolean;
 }
 
 const ROLE_LABELS: Record<DraftPick["role"], string> = {
@@ -16,7 +18,13 @@ const ROLE_LABELS: Record<DraftPick["role"], string> = {
   UTILITY: "SUP",
 };
 
-export function ChampionSplashSlot({ pick, side, index }: ChampionSplashSlotProps) {
+export function ChampionSplashSlot({
+  pick,
+  side,
+  index,
+  draggable = false,
+  showDragBadge = false,
+}: ChampionSplashSlotProps) {
   const isEmpty = !pick;
 
   return (
@@ -25,9 +33,15 @@ export function ChampionSplashSlot({ pick, side, index }: ChampionSplashSlotProp
         "splash-slot",
         `splash-slot--${side}`,
         isEmpty ? "splash-slot--empty" : "splash-slot--filled",
+        draggable ? "splash-slot--draggable" : "",
       ].join(" ")}
       style={{ "--slot-index": index } as CSSProperties}
     >
+      {showDragBadge && !isEmpty && (
+        <span className="splash-slot__drag-badge" aria-hidden="true">
+          DRAG ME
+        </span>
+      )}
       {isEmpty ? (
         <div className="splash-slot__placeholder">
           <svg className="splash-slot__helmet" viewBox="0 0 64 64" aria-hidden="true">
@@ -39,7 +53,7 @@ export function ChampionSplashSlot({ pick, side, index }: ChampionSplashSlotProp
           </svg>
         </div>
       ) : (
-        <>
+        <div className="splash-slot__filled" key={pick.champion}>
           <img
             className="splash-slot__art"
             src={getChampionSplashUrl(pick.champion)}
@@ -53,7 +67,7 @@ export function ChampionSplashSlot({ pick, side, index }: ChampionSplashSlotProp
               {ROLE_LABELS[pick.role]}
             </span>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

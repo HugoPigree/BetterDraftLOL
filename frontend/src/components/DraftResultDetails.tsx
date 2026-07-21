@@ -11,6 +11,16 @@ import type { DraftAnalysisBundle } from "../utils/generateAnalysis";
 import { translateMerakiRoleLabel } from "../utils/generateAnalysis";
 import type { PredictResponse, TeamPredictionDetail } from "../types/predict";
 import { ATTRIBUTE_KEYS, ATTRIBUTE_LABELS } from "../types/predict";
+import {
+  AFFINITY_METHODOLOGY,
+  ARCHETYPE_METHODOLOGY,
+  LANE_MATCHUP_METHODOLOGY,
+  LANE_MATCHUP_METHODOLOGY_PRO,
+  PRO_TABLE_METHODOLOGY,
+  SOLOQ_TABLE_METHODOLOGY,
+  SYNTHESIS_METHODOLOGY,
+} from "../copy/methodology";
+import { INSUFFICIENT_DATA_LABEL } from "../types/predict";
 
 interface AttributeRadarChartProps {
   blue: TeamPredictionDetail;
@@ -76,7 +86,10 @@ export function AttributeRadarChart({ blue, red }: AttributeRadarChartProps) {
   );
 }
 
-function winrateClass(winrate: number): string {
+function winrateClass(winrate: number | null, insufficient = false): string {
+  if (insufficient || winrate === null) {
+    return "draft-result__winrate--insufficient";
+  }
   if (winrate > 0.52) {
     return "draft-result__winrate--strong";
   }
@@ -86,7 +99,10 @@ function winrateClass(winrate: number): string {
   return "";
 }
 
-function formatWinratePercent(winrate: number): string {
+function formatWinratePercent(winrate: number | null, insufficient = false): string {
+  if (insufficient || winrate === null) {
+    return "N/A";
+  }
   return `${(winrate * 100).toFixed(1)}%`;
 }
 
@@ -94,30 +110,47 @@ interface TeamChampionTableProps {
   team: TeamPredictionDetail;
   side: "blue" | "red";
   label: string;
+  isProMode?: boolean;
 }
 
-export function TeamChampionTable({ team, side, label }: TeamChampionTableProps) {
-  const champions = [...team.champions].sort((a, b) => b.winrate - a.winrate);
+export function TeamChampionTable({ team, side, label, isProMode = false }: TeamChampionTableProps) {
+  const champions = [...team.champions].sort(
+    (a, b) => (b.winrate ?? 0) - (a.winrate ?? 0),
+  );
+  const tableMethodology = isProMode ? PRO_TABLE_METHODOLOGY : SOLOQ_TABLE_METHODOLOGY;
+  const wrColumn = isProMode ? "WR Pro" : "WR SoloQ";
 
   return (
     <div className={`draft-result__table draft-result__table--${side}`}>
       <h3 className="draft-result__section-title">{label}</h3>
+      <p className="draft-result__section-subtitle">{tableMethodology}</p>
       <table>
         <thead>
           <tr>
             <th>Champion</th>
             <th>Rôle</th>
-            <th>WR SoloQ</th>
+            <th>{wrColumn}</th>
           </tr>
         </thead>
         <tbody>
-          {champions.map((entry) => (
-            <tr key={`${entry.champion}-${entry.role}`}>
-              <td>{entry.champion}</td>
-              <td>{entry.role}</td>
-              <td className={winrateClass(entry.winrate)}>{formatWinratePercent(entry.winrate)}</td>
-            </tr>
-          ))}
+          {champions.map((entry) => {
+            const insufficient = Boolean(entry.insufficient_data || entry.winrate === null);
+            return (
+              <tr key={`${entry.champion}-${entry.role}`}>
+                <td>{entry.champion}</td>
+                <td>{entry.role}</td>
+                <td
+                  className={
+                    insufficient
+                      ? "insufficient-data"
+                      : winrateClass(entry.winrate, insufficient)
+                  }
+                >
+                  {insufficient ? INSUFFICIENT_DATA_LABEL : formatWinratePercent(entry.winrate)}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
@@ -134,6 +167,9 @@ export function TeamRoleBadges({ roles, side, label }: TeamRoleBadgesProps) {
   return (
     <div className={`draft-result__roles draft-result__roles--${side}`}>
       <h4>{label}</h4>
+      <p className="draft-result__section-subtitle draft-result__section-subtitle--compact">
+        {ARCHETYPE_METHODOLOGY}
+      </p>
       <div className="draft-result__role-tags">
         {roles.length === 0 ? (
           <span className="draft-result__role-tag draft-result__role-tag--empty">Aucun rôle</span>
@@ -152,16 +188,24 @@ export function TeamRoleBadges({ roles, side, label }: TeamRoleBadgesProps) {
 interface DraftResultDetailsProps {
   result: PredictResponse;
   analysisBundle: DraftAnalysisBundle;
+  isProMode?: boolean;
 }
 
-export function DraftResultDetails({ result, analysisBundle }: DraftResultDetailsProps) {
+export function DraftResultDetails({
+  result,
+  analysisBundle,
+  isProMode = false,
+}: DraftResultDetailsProps) {
+  const tableLabel = isProMode ? "Winrates pro" : "Winrates soloQ";
+  const laneMethodology = isProMode ? LANE_MATCHUP_METHODOLOGY_PRO : LANE_MATCHUP_METHODOLOGY;
+
   return (
     <div className="draft-result__details">
       <div className="draft-result__insights-grid">
         <AttributeRadarChart blue={result.blue} red={result.red} />
         <div className="draft-result__tables">
-          <TeamChampionTable team={result.blue} side="blue" label="Blue — Winrates soloQ" />
-          <TeamChampionTable team={result.red} side="red" label="Red — Winrates soloQ" />
+          <TeamChampionTable team={result.blue} side="blue" label={`Blue — ${tableLabel}`} isProMode={isProMode} />
+          <TeamChampionTable team={result.red} side="red" label={`Red — ${tableLabel}`} isProMode={isProMode} />
         </div>
       </div>
 
@@ -173,12 +217,18 @@ export function DraftResultDetails({ result, analysisBundle }: DraftResultDetail
       <div className="draft-result__affinity-row">
         <div className="draft-result__affinity draft-result__affinity--blue">
           <h3 className="draft-result__section-title">{analysisBundle.blueAffinity.title}</h3>
+          <p className="draft-result__section-subtitle draft-result__section-subtitle--compact">
+            {AFFINITY_METHODOLOGY}
+          </p>
           {analysisBundle.blueAffinity.lines.map((line) => (
             <p key={line}>{line}</p>
           ))}
         </div>
         <div className="draft-result__affinity draft-result__affinity--red">
           <h3 className="draft-result__section-title">{analysisBundle.redAffinity.title}</h3>
+          <p className="draft-result__section-subtitle draft-result__section-subtitle--compact">
+            {AFFINITY_METHODOLOGY}
+          </p>
           {analysisBundle.redAffinity.lines.map((line) => (
             <p key={line}>{line}</p>
           ))}
@@ -186,10 +236,10 @@ export function DraftResultDetails({ result, analysisBundle }: DraftResultDetail
       </div>
 
       <div className="draft-result__matchups">
-        <h3 className="draft-result__section-title">Matchups par rôle (soloQ)</h3>
-        <p className="draft-result__section-subtitle">
-          Comparaison pick vs pick sur le même rôle. Proxy de avantage de lane, pas un vrai counter matchup.
-        </p>
+        <h3 className="draft-result__section-title">
+          Matchups par rôle ({isProMode ? "pro" : "soloQ"})
+        </h3>
+        <p className="draft-result__section-subtitle">{laneMethodology}</p>
         <div className="draft-result__matchup-list">
           {analysisBundle.laneMatchups.map((matchup) => (
             <article
@@ -211,6 +261,9 @@ export function DraftResultDetails({ result, analysisBundle }: DraftResultDetail
 
       <div className="draft-result__analysis">
         <h3 className="draft-result__section-title">Synthèse</h3>
+        <p className="draft-result__section-subtitle draft-result__section-subtitle--compact">
+          {SYNTHESIS_METHODOLOGY}
+        </p>
         {analysisBundle.summary.map((sentence) => (
           <p key={sentence}>{sentence}</p>
         ))}

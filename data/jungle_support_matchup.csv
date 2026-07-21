@@ -1,0 +1,5143 @@
+blue_jungle,blue_support,red_jungle,red_support,games,blue_winrate
+Xin Zhao,Bard,Vi,Nautilus,7,0.7143
+Jarvan IV,Nami,Xin Zhao,Lulu,6,0.3333
+Jarvan IV,Seraphine,Xin Zhao,Bard,6,0.5
+Xin Zhao,Nami,Jarvan IV,Lulu,6,0.6667
+Jarvan IV,Bard,Pantheon,Neeko,5,1.0
+Jarvan IV,Lulu,Xin Zhao,Nami,5,0.6
+Pantheon,Nami,Xin Zhao,Lulu,5,0.8
+Pantheon,Nautilus,Xin Zhao,Seraphine,5,0.4
+Vi,Neeko,Xin Zhao,Bard,5,0.4
+Wukong,Lulu,Xin Zhao,Seraphine,5,0.2
+Wukong,Seraphine,Xin Zhao,Milio,5,0.6
+Xin Zhao,Bard,Jarvan IV,Nautilus,5,0.6
+Jarvan IV,Bard,Xin Zhao,Seraphine,4,0.75
+Jarvan IV,Lulu,Pantheon,Neeko,4,0.5
+Jarvan IV,Lulu,Wukong,Rakan,4,0.75
+Jarvan IV,Rakan,Xin Zhao,Lulu,4,1.0
+Nocturne,Karma,Jarvan IV,Bard,4,0.5
+Nocturne,Lulu,Pantheon,Nami,4,1.0
+Pantheon,Bard,Jarvan IV,Seraphine,4,0.75
+Pantheon,Bard,Xin Zhao,Karma,4,0.5
+Pantheon,Bard,Xin Zhao,Seraphine,4,1.0
+Pantheon,Karma,Vi,Bard,4,0.25
+Pantheon,Karma,Xin Zhao,Bard,4,0.0
+Pantheon,Lulu,Xin Zhao,Nami,4,0.75
+Vi,Karma,Xin Zhao,Nami,4,0.25
+Vi,Rell,Xin Zhao,Nautilus,4,0.25
+Wukong,Karma,Xin Zhao,Seraphine,4,0.25
+Wukong,Lulu,Xin Zhao,Nami,4,0.25
+Wukong,Nautilus,Jarvan IV,Rell,4,0.5
+Wukong,Rakan,Xin Zhao,Karma,4,0.25
+Xin Zhao,Karma,Jarvan IV,Bard,4,0.25
+Xin Zhao,Karma,Jarvan IV,Seraphine,4,0.5
+Xin Zhao,Karma,Pantheon,Bard,4,0.5
+Xin Zhao,Lulu,Dr. Mundo,Nami,4,0.5
+Xin Zhao,Nami,Pantheon,Lulu,4,0.75
+Xin Zhao,Rell,Jarvan IV,Nautilus,4,0.75
+Xin Zhao,Rell,Jarvan IV,Rakan,4,0.5
+Xin Zhao,Seraphine,Dr. Mundo,Karma,4,0.75
+Xin Zhao,Seraphine,Jarvan IV,Nautilus,4,0.5
+Xin Zhao,Seraphine,Jarvan IV,Neeko,4,0.75
+Aatrox,Lulu,Xin Zhao,Seraphine,3,0.6667
+Jarvan IV,Alistar,Xin Zhao,Rakan,3,0.3333
+Jarvan IV,Bard,Lee Sin,Nautilus,3,0.3333
+Jarvan IV,Bard,Pantheon,Nautilus,3,0.6667
+Jarvan IV,Bard,Pantheon,Rakan,3,1.0
+Jarvan IV,Bard,Vi,Alistar,3,0.3333
+Jarvan IV,Bard,Wukong,Alistar,3,1.0
+Jarvan IV,Bard,Xin Zhao,Nami,3,0.6667
+Jarvan IV,Karma,Pantheon,Seraphine,3,0.3333
+Jarvan IV,Karma,Xin Zhao,Nami,3,0.3333
+Jarvan IV,Lulu,Xin Zhao,Seraphine,3,0.6667
+Jarvan IV,Milio,Lee Sin,Lulu,3,0.6667
+Jarvan IV,Milio,Xin Zhao,Lulu,3,0.6667
+Jarvan IV,Nami,Pantheon,Lulu,3,0.6667
+Jarvan IV,Nami,Xin Zhao,Bard,3,0.6667
+Jarvan IV,Nautilus,Lee Sin,Rell,3,0.3333
+Jarvan IV,Nautilus,Xin Zhao,Braum,3,0.6667
+Jarvan IV,Neeko,Pantheon,Bard,3,0.3333
+Jarvan IV,Rakan,Vi,Neeko,3,0.0
+Jarvan IV,Seraphine,Lee Sin,Milio,3,0.6667
+Jarvan IV,Seraphine,Naafiri,Milio,3,1.0
+Jarvan IV,Seraphine,Xin Zhao,Lulu,3,0.3333
+Lee Sin,Leona,Naafiri,Camille,3,0.6667
+Lee Sin,Rell,Jarvan IV,Nautilus,3,0.3333
+Naafiri,Bard,Jarvan IV,Karma,3,0.6667
+Naafiri,Karma,Vi,Nautilus,3,0.3333
+Nocturne,Bard,Pantheon,Neeko,3,0.6667
+Nocturne,Karma,Pantheon,Seraphine,3,0.6667
+Nocturne,Lulu,Xin Zhao,Seraphine,3,0.6667
+Nocturne,Neeko,Pantheon,Bard,3,0.0
+Nocturne,Neeko,Pantheon,Lulu,3,0.3333
+Nocturne,Neeko,Vi,Nautilus,3,1.0
+Nocturne,Neeko,Wukong,Rakan,3,0.6667
+Nocturne,Neeko,Xin Zhao,Alistar,3,0.3333
+Pantheon,Alistar,Xin Zhao,Nautilus,3,0.3333
+Pantheon,Bard,Nocturne,Neeko,3,0.3333
+Pantheon,Karma,Jarvan IV,Bard,3,0.0
+Pantheon,Karma,Xin Zhao,Nami,3,0.3333
+Pantheon,Lulu,Jarvan IV,Nami,3,0.0
+Pantheon,Lulu,Vi,Seraphine,3,0.6667
+Pantheon,Lulu,Xin Zhao,Karma,3,0.6667
+Pantheon,Nami,Jarvan IV,Neeko,3,0.3333
+Pantheon,Nami,Nocturne,Bard,3,0.6667
+Pantheon,Nami,Nocturne,Lulu,3,0.6667
+Pantheon,Nautilus,Jarvan IV,Braum,3,0.0
+Pantheon,Seraphine,Skarner,Bard,3,0.3333
+Skarner,Karma,Pantheon,Nautilus,3,1.0
+Vi,Alistar,Xin Zhao,Rakan,3,0.0
+Vi,Bard,Jarvan IV,Karma,3,0.6667
+Vi,Bard,Xin Zhao,Seraphine,3,0.3333
+Vi,Lulu,Jarvan IV,Nami,3,0.6667
+Vi,Nautilus,Jarvan IV,Rell,3,0.0
+Vi,Nautilus,Pantheon,Alistar,3,0.3333
+Vi,Nautilus,Xin Zhao,Leona,3,0.0
+Vi,Neeko,Xin Zhao,Nautilus,3,0.6667
+Vi,Rakan,Xin Zhao,Lulu,3,1.0
+Vi,Rell,Jarvan IV,Nautilus,3,1.0
+Vi,Rell,Pantheon,Nautilus,3,0.3333
+Wukong,Karma,Xin Zhao,Neeko,3,1.0
+Wukong,Lulu,Vi,Nami,3,0.6667
+Wukong,Lulu,Xin Zhao,Karma,3,0.0
+Wukong,Neeko,Nocturne,Bard,3,0.3333
+Wukong,Neeko,Pantheon,Bard,3,0.6667
+Xin Zhao,Alistar,Wukong,Rell,3,1.0
+Xin Zhao,Bard,Jarvan IV,Rell,3,0.6667
+Xin Zhao,Bard,Trundle,Karma,3,0.6667
+Xin Zhao,Bard,Vi,Karma,3,0.3333
+Xin Zhao,Bard,Vi,Leona,3,0.6667
+Xin Zhao,Bard,Wukong,Rakan,3,0.6667
+Xin Zhao,Karma,Dr. Mundo,Nami,3,0.6667
+Xin Zhao,Karma,Jarvan IV,Nautilus,3,0.3333
+Xin Zhao,Karma,Vi,Bard,3,0.6667
+Xin Zhao,Karma,Wukong,Nautilus,3,0.0
+Xin Zhao,Karma,Wukong,Seraphine,3,0.6667
+Xin Zhao,Lulu,Pantheon,Nami,3,0.6667
+Xin Zhao,Lulu,Wukong,Seraphine,3,0.6667
+Xin Zhao,Milio,Jarvan IV,Lulu,3,0.3333
+Xin Zhao,Milio,Pantheon,Lulu,3,0.3333
+Xin Zhao,Nami,Vi,Lulu,3,0.0
+Xin Zhao,Neeko,Jarvan IV,Bard,3,0.6667
+Xin Zhao,Neeko,Pantheon,Lulu,3,0.0
+Xin Zhao,Rell,Wukong,Nautilus,3,0.3333
+Xin Zhao,Seraphine,Aatrox,Karma,3,1.0
+Xin Zhao,Seraphine,Jarvan IV,Nami,3,1.0
+Xin Zhao,Seraphine,Naafiri,Nautilus,3,0.0
+Xin Zhao,Seraphine,Nocturne,Neeko,3,0.3333
+Xin Zhao,Seraphine,Trundle,Lulu,3,0.6667
+Xin Zhao,Seraphine,Wukong,Lulu,3,0.6667
+Xin Zhao,Seraphine,Wukong,Nami,3,0.6667
+Zaahen,Karma,Xin Zhao,Seraphine,3,1.0
+Aatrox,Bard,Jarvan IV,Neeko,2,0.0
+Aatrox,Bard,Jarvan IV,Rell,2,0.5
+Aatrox,Bard,Xin Zhao,Seraphine,2,0.5
+Aatrox,Karma,Xin Zhao,Alistar,2,1.0
+Aatrox,Lulu,Dr. Mundo,Karma,2,0.0
+Aatrox,Lulu,Dr. Mundo,Nami,2,0.5
+Aatrox,Nami,Wukong,Seraphine,2,0.0
+Aatrox,Nautilus,Wukong,Braum,2,1.0
+Aatrox,Neeko,Nocturne,Karma,2,0.5
+Aatrox,Rell,Wukong,Nautilus,2,1.0
+Ambessa,Braum,Xin Zhao,Nautilus,2,0.5
+Ambessa,Nami,Jarvan IV,Lulu,2,0.0
+Ambessa,Nami,Xin Zhao,Nautilus,2,1.0
+Ambessa,Nautilus,Jarvan IV,Alistar,2,0.0
+Ambessa,Nautilus,Pantheon,Alistar,2,0.0
+Ambessa,Nautilus,Xin Zhao,Karma,2,1.0
+Ambessa,Neeko,Wukong,Nami,2,0.0
+Ambessa,Neeko,Xin Zhao,Nautilus,2,0.5
+Ambessa,Neeko,Zaahen,Alistar,2,0.5
+Ambessa,Rell,Wukong,Nautilus,2,1.0
+Dr. Mundo,Karma,Vi,Lulu,2,1.0
+Dr. Mundo,Karma,Xin Zhao,Seraphine,2,1.0
+Dr. Mundo,Lulu,Xin Zhao,Karma,2,0.5
+Dr. Mundo,Nami,Wukong,Lulu,2,0.5
+Dr. Mundo,Nautilus,Malphite,Rell,2,0.5
+Dr. Mundo,Rakan,Malphite,Alistar,2,1.0
+Dr. Mundo,Rell,Nocturne,Nautilus,2,0.5
+Dr. Mundo,Yuumi,Wukong,Seraphine,2,0.0
+Jarvan IV,Alistar,Nocturne,Leona,2,1.0
+Jarvan IV,Alistar,Nocturne,Neeko,2,0.5
+Jarvan IV,Bard,Lee Sin,Nami,2,0.0
+Jarvan IV,Bard,Naafiri,Thresh,2,1.0
+Jarvan IV,Bard,Nocturne,Karma,2,1.0
+Jarvan IV,Bard,Pantheon,Pyke,2,1.0
+Jarvan IV,Bard,Vi,Karma,2,1.0
+Jarvan IV,Bard,Vi,Lulu,2,0.5
+Jarvan IV,Bard,Vi,Neeko,2,1.0
+Jarvan IV,Bard,Wukong,Karma,2,0.5
+Jarvan IV,Bard,Wukong,Nami,2,0.5
+Jarvan IV,Bard,Wukong,Rakan,2,0.5
+Jarvan IV,Bard,Xin Zhao,Nautilus,2,1.0
+Jarvan IV,Bard,Xin Zhao,Neeko,2,1.0
+Jarvan IV,Karma,Lee Sin,Lulu,2,0.5
+Jarvan IV,Karma,Lee Sin,Pyke,2,0.5
+Jarvan IV,Karma,Pantheon,Bard,2,0.5
+Jarvan IV,Karma,Wukong,Anivia,2,0.5
+Jarvan IV,Karma,Wukong,Nautilus,2,0.5
+Jarvan IV,Karma,Xin Zhao,Nautilus,2,0.5
+Jarvan IV,Karma,Xin Zhao,Neeko,2,0.5
+Jarvan IV,Karma,Xin Zhao,Seraphine,2,0.0
+Jarvan IV,Leona,Pantheon,Bard,2,1.0
+Jarvan IV,Leona,Xin Zhao,Alistar,2,0.5
+Jarvan IV,Lulu,Aatrox,Bard,2,0.5
+Jarvan IV,Lulu,Pantheon,Seraphine,2,0.0
+Jarvan IV,Lulu,Vi,Milio,2,0.0
+Jarvan IV,Lulu,Xin Zhao,Nautilus,2,0.0
+Jarvan IV,Lulu,Xin Zhao,Neeko,2,1.0
+Jarvan IV,Milio,Pantheon,Nami,2,0.0
+Jarvan IV,Milio,Xin Zhao,Seraphine,2,0.5
+Jarvan IV,Nami,Pantheon,Karma,2,1.0
+Jarvan IV,Nami,Vi,Bard,2,1.0
+Jarvan IV,Nami,Vi,Nautilus,2,0.5
+Jarvan IV,Nami,Wukong,Milio,2,1.0
+Jarvan IV,Nautilus,Pantheon,Karma,2,1.0
+Jarvan IV,Nautilus,Qiyana,Leona,2,0.0
+Jarvan IV,Nautilus,Vi,Rell,2,0.5
+Jarvan IV,Nautilus,Wukong,Bard,2,0.5
+Jarvan IV,Nautilus,Wukong,Neeko,2,1.0
+Jarvan IV,Nautilus,Xin Zhao,Bard,2,0.5
+Jarvan IV,Nautilus,Xin Zhao,Lulu,2,1.0
+Jarvan IV,Nautilus,Xin Zhao,Seraphine,2,1.0
+Jarvan IV,Neeko,Pantheon,Alistar,2,0.5
+Jarvan IV,Neeko,Wukong,Nautilus,2,0.5
+Jarvan IV,Neeko,Xin Zhao,Bard,2,1.0
+Jarvan IV,Neeko,Xin Zhao,Karma,2,0.0
+Jarvan IV,Neeko,Xin Zhao,Nami,2,0.5
+Jarvan IV,Poppy,Lee Sin,Alistar,2,1.0
+Jarvan IV,Rakan,Vi,Alistar,2,0.5
+Jarvan IV,Rakan,Vi,Bard,2,0.0
+Jarvan IV,Rakan,Vi,Lulu,2,1.0
+Jarvan IV,Rakan,Wukong,Leona,2,0.5
+Jarvan IV,Rakan,Xin Zhao,Karma,2,1.0
+Jarvan IV,Rakan,Xin Zhao,Nautilus,2,0.5
+Jarvan IV,Rakan,Zaahen,Leona,2,1.0
+Jarvan IV,Rell,Poppy,Neeko,2,0.5
+Jarvan IV,Rell,Xin Zhao,Nautilus,2,0.5
+Jarvan IV,Seraphine,Lee Sin,Nautilus,2,1.0
+Jarvan IV,Seraphine,Vi,Bard,2,1.0
+Jarvan IV,Seraphine,Wukong,Karma,2,0.5
+Jarvan IV,Seraphine,Xin Zhao,Karma,2,0.0
+Jarvan IV,Shen,Naafiri,Rell,2,0.5
+Jax,Nautilus,Xin Zhao,Rell,2,0.5
+Jayce,Alistar,Pantheon,Rakan,2,0.0
+Jayce,Alistar,Wukong,Nautilus,2,1.0
+Jayce,Bard,Xin Zhao,Karma,2,0.0
+Jayce,Nautilus,Jarvan IV,Leona,2,0.0
+Jayce,Nautilus,Jarvan IV,Rell,2,0.0
+Lee Sin,Bard,Jarvan IV,Karma,2,0.5
+Lee Sin,Camille,Naafiri,Bard,2,0.5
+Lee Sin,Camille,Skarner,Bard,2,1.0
+Lee Sin,Camille,Skarner,Seraphine,2,0.0
+Lee Sin,Karma,Jarvan IV,Seraphine,2,1.0
+Lee Sin,Lulu,Pantheon,Nami,2,0.0
+Lee Sin,Lulu,Xin Zhao,Seraphine,2,1.0
+Lee Sin,Milio,Jarvan IV,Nami,2,0.5
+Lee Sin,Nami,Jarvan IV,Lulu,2,1.0
+Lee Sin,Nautilus,Vi,Rell,2,0.5
+Lee Sin,Nautilus,Wukong,Rell,2,0.5
+Lee Sin,Neeko,Jarvan IV,Bard,2,0.5
+Lee Sin,Pyke,Jarvan IV,Seraphine,2,0.5
+Lee Sin,Rell,Wukong,Nautilus,2,1.0
+Lee Sin,Shen,Naafiri,Camille,2,0.5
+Maokai,Bard,Wukong,Karma,2,0.5
+Naafiri,Bard,Lee Sin,Nautilus,2,1.0
+Naafiri,Bard,Trundle,Seraphine,2,0.0
+Naafiri,Bard,Vi,Nautilus,2,0.0
+Naafiri,Karma,Jarvan IV,Bard,2,0.0
+Naafiri,Karma,Pantheon,Bard,2,0.5
+Naafiri,Karma,Wukong,Nami,2,0.5
+Naafiri,Lulu,Nocturne,Neeko,2,0.5
+Naafiri,Lulu,Trundle,Bard,2,0.0
+Naafiri,Pyke,Xin Zhao,Seraphine,2,0.0
+Naafiri,Rakan,Jarvan IV,Karma,2,1.0
+Naafiri,Seraphine,Jarvan IV,Nautilus,2,0.5
+Naafiri,Thresh,Dr. Mundo,Karma,2,0.5
+Nocturne,Alistar,Jarvan IV,Nautilus,2,0.5
+Nocturne,Bard,Jarvan IV,Nautilus,2,1.0
+Nocturne,Bard,Wukong,Rakan,2,1.0
+Nocturne,Karma,Pantheon,Nami,2,1.0
+Nocturne,Lulu,Pantheon,Neeko,2,0.5
+Nocturne,Lulu,Vi,Nami,2,1.0
+Nocturne,Nami,Pantheon,Neeko,2,0.5
+Nocturne,Nami,Skarner,Lulu,2,1.0
+Nocturne,Nami,Vi,Karma,2,1.0
+Nocturne,Nami,Vi,Lulu,2,1.0
+Nocturne,Nami,Xin Zhao,Lulu,2,0.5
+Nocturne,Nautilus,Jarvan IV,Leona,2,0.5
+Nocturne,Neeko,Jarvan IV,Bard,2,0.5
+Nocturne,Neeko,Lee Sin,Lulu,2,0.5
+Nocturne,Neeko,Pantheon,Alistar,2,0.0
+Nocturne,Neeko,Pantheon,Karma,2,0.5
+Nocturne,Neeko,Skarner,Seraphine,2,1.0
+Nocturne,Neeko,Vi,Alistar,2,1.0
+Nocturne,Neeko,Vi,Nami,2,0.0
+Nocturne,Neeko,Wukong,Seraphine,2,0.5
+Nocturne,Neeko,Xin Zhao,Bard,2,0.5
+Nocturne,Neeko,Xin Zhao,Lulu,2,0.5
+Nocturne,Neeko,Xin Zhao,Seraphine,2,0.0
+Nocturne,Pyke,Wukong,Bard,2,1.0
+Nocturne,Rakan,Jarvan IV,Nautilus,2,1.0
+Nocturne,Rakan,Wukong,Neeko,2,0.5
+Nocturne,Rakan,Zaahen,Alistar,2,0.0
+Nocturne,Rell,Jarvan IV,Nautilus,2,0.0
+Nocturne,Rell,Jarvan IV,Rakan,2,0.5
+Nocturne,Seraphine,Pantheon,Bard,2,0.5
+Nocturne,Seraphine,Xin Zhao,Karma,2,0.5
+Nocturne,Seraphine,Xin Zhao,Milio,2,0.0
+Nocturne,Yuumi,Pantheon,Seraphine,2,0.5
+Pantheon,Alistar,Jarvan IV,Nautilus,2,0.5
+Pantheon,Alistar,Nocturne,Rell,2,0.5
+Pantheon,Anivia,Aatrox,Lulu,2,1.0
+Pantheon,Bard,Jarvan IV,Nautilus,2,0.0
+Pantheon,Bard,Wukong,Rakan,2,0.5
+Pantheon,Bard,Xin Zhao,Nautilus,2,0.0
+Pantheon,Braum,Nocturne,Nautilus,2,0.5
+Pantheon,Karma,Dr. Mundo,Bard,2,0.5
+Pantheon,Karma,Jarvan IV,Nautilus,2,0.5
+Pantheon,Karma,Jarvan IV,Neeko,2,0.5
+Pantheon,Karma,Lee Sin,Nautilus,2,1.0
+Pantheon,Karma,Vi,Nautilus,2,0.5
+Pantheon,Karma,Wukong,Lulu,2,1.0
+Pantheon,Lulu,Jarvan IV,Milio,2,0.5
+Pantheon,Lulu,Jarvan IV,Neeko,2,0.5
+Pantheon,Lulu,Nocturne,Nami,2,0.5
+Pantheon,Lulu,Trundle,Milio,2,0.5
+Pantheon,Lulu,Xin Zhao,Bard,2,1.0
+Pantheon,Lulu,Xin Zhao,Leona,2,0.5
+Pantheon,Lulu,Xin Zhao,Seraphine,2,0.5
+Pantheon,Nami,Jarvan IV,Lulu,2,0.0
+Pantheon,Nami,Naafiri,Karma,2,0.0
+Pantheon,Nami,Nocturne,Neeko,2,0.0
+Pantheon,Nami,Wukong,Seraphine,2,0.5
+Pantheon,Nami,Xin Zhao,Bard,2,1.0
+Pantheon,Nami,Xin Zhao,Karma,2,0.5
+Pantheon,Nautilus,Jarvan IV,Leona,2,0.5
+Pantheon,Nautilus,Nocturne,Braum,2,0.5
+Pantheon,Nautilus,Skarner,Bard,2,0.0
+Pantheon,Nautilus,Skarner,Karma,2,0.5
+Pantheon,Nautilus,Skarner,Seraphine,2,0.5
+Pantheon,Nautilus,Wukong,Braum,2,1.0
+Pantheon,Nautilus,Xin Zhao,Alistar,2,0.5
+Pantheon,Neeko,Aatrox,Bard,2,1.0
+Pantheon,Neeko,Jarvan IV,Bard,2,0.5
+Pantheon,Neeko,Jarvan IV,Karma,2,0.0
+Pantheon,Neeko,Lee Sin,Bard,2,0.0
+Pantheon,Neeko,Nocturne,Nami,2,1.0
+Pantheon,Neeko,Nocturne,Rakan,2,1.0
+Pantheon,Neeko,Wukong,Karma,2,0.0
+Pantheon,Neeko,Wukong,Nami,2,0.5
+Pantheon,Rakan,Nocturne,Nami,2,1.0
+Pantheon,Rell,Aatrox,Nautilus,2,0.5
+Pantheon,Rell,Aatrox,Neeko,2,0.5
+Pantheon,Rell,Jarvan IV,Nautilus,2,0.5
+Pantheon,Seraphine,Xin Zhao,Nami,2,0.5
+Pantheon,Thresh,Jarvan IV,Bard,2,0.5
+Poppy,Bard,Vi,Nautilus,2,0.5
+Poppy,Neeko,Vi,Lux,2,0.5
+Poppy,Rell,Jarvan IV,Nautilus,2,1.0
+Qiyana,Alistar,Jarvan IV,Braum,2,0.5
+Qiyana,Leona,Wukong,Nautilus,2,1.0
+Qiyana,Nautilus,Jarvan IV,Bard,2,0.5
+Skarner,Alistar,Pantheon,Leona,2,0.5
+Skarner,Bard,Pantheon,Karma,2,0.0
+Skarner,Bard,Xin Zhao,Seraphine,2,1.0
+Skarner,Karma,Lee Sin,Nautilus,2,0.5
+Skarner,Karma,Wukong,Nautilus,2,0.5
+Skarner,Lulu,Pantheon,Nautilus,2,0.5
+Skarner,Lulu,Pantheon,Seraphine,2,0.5
+Skarner,Milio,Pantheon,Nami,2,1.0
+Skarner,Milio,Vi,Lulu,2,1.0
+Skarner,Milio,Vi,Seraphine,2,0.5
+Skarner,Milio,Xin Zhao,Bard,2,0.5
+Skarner,Nami,Nocturne,Neeko,2,0.5
+Skarner,Nami,Pantheon,Bard,2,1.0
+Skarner,Pyke,Pantheon,Bard,2,0.0
+Skarner,Rell,Wukong,Nautilus,2,0.5
+Trundle,Bard,Xin Zhao,Rell,2,0.5
+Trundle,Karma,Xin Zhao,Rell,2,0.0
+Trundle,Lulu,Kindred,Seraphine,2,0.5
+Vi,Alistar,Wukong,Rakan,2,0.5
+Vi,Bard,Dr. Mundo,Neeko,2,1.0
+Vi,Bard,Xin Zhao,Karma,2,0.0
+Vi,Bard,Xin Zhao,Lulu,2,1.0
+Vi,Karma,Aatrox,Alistar,2,1.0
+Vi,Karma,Jarvan IV,Seraphine,2,0.0
+Vi,Karma,Naafiri,Lulu,2,1.0
+Vi,Karma,Nocturne,Seraphine,2,0.5
+Vi,Leona,Wukong,Rakan,2,0.5
+Vi,Leona,Xin Zhao,Bard,2,0.0
+Vi,Lulu,Jarvan IV,Neeko,2,0.0
+Vi,Lulu,Wukong,Milio,2,1.0
+Vi,Lulu,Wukong,Neeko,2,1.0
+Vi,Lulu,Xin Zhao,Nami,2,0.5
+Vi,Milio,Jarvan IV,Nami,2,0.5
+Vi,Milio,Pantheon,Nami,2,1.0
+Vi,Milio,Wukong,Nami,2,0.5
+Vi,Nami,Jarvan IV,Bard,2,1.0
+Vi,Nami,Jarvan IV,Lulu,2,1.0
+Vi,Nami,Jarvan IV,Nautilus,2,1.0
+Vi,Nami,Jarvan IV,Rakan,2,0.0
+Vi,Nami,Wukong,Rakan,2,0.0
+Vi,Nami,Xin Zhao,Neeko,2,0.5
+Vi,Nautilus,Ambessa,Braum,2,0.5
+Vi,Nautilus,Dr. Mundo,Seraphine,2,0.0
+Vi,Nautilus,Nocturne,Seraphine,2,0.0
+Vi,Nautilus,Pantheon,Neeko,2,0.0
+Vi,Nautilus,Wukong,Bard,2,1.0
+Vi,Neeko,Jarvan IV,Karma,2,0.0
+Vi,Neeko,Pantheon,Lulu,2,0.0
+Vi,Neeko,Wukong,Nami,2,0.5
+Vi,Neeko,Xin Zhao,Rakan,2,0.5
+Vi,Rakan,Jarvan IV,Nautilus,2,0.5
+Vi,Rakan,Lee Sin,Bard,2,1.0
+Vi,Rakan,Pantheon,Leona,2,0.5
+Vi,Rakan,Viego,Nautilus,2,1.0
+Vi,Rakan,Wukong,Bard,2,0.0
+Vi,Rakan,Wukong,Milio,2,0.5
+Vi,Rakan,Zaahen,Leona,2,1.0
+Vi,Rell,Pantheon,Alistar,2,0.5
+Vi,Rell,Wukong,Nautilus,2,0.5
+Vi,Seraphine,Jarvan IV,Pyke,2,0.5
+Vi,Seraphine,Xin Zhao,Bard,2,1.0
+Vi,Seraphine,Xin Zhao,Lulu,2,1.0
+Vi,Seraphine,Xin Zhao,Nami,2,0.5
+Vi,Seraphine,Xin Zhao,Neeko,2,0.5
+Vi,Thresh,Skarner,Lulu,2,0.5
+Vi,Yuumi,Xin Zhao,Seraphine,2,0.0
+Wukong,Alistar,Jarvan IV,Rell,2,0.5
+Wukong,Alistar,Xin Zhao,Nautilus,2,1.0
+Wukong,Alistar,Xin Zhao,Rell,2,1.0
+Wukong,Bard,Jarvan IV,Rakan,2,0.5
+Wukong,Bard,Jarvan IV,Rell,2,0.5
+Wukong,Bard,Xin Zhao,Lulu,2,0.5
+Wukong,Braum,Lee Sin,Nautilus,2,0.0
+Wukong,Braum,Vi,Alistar,2,0.0
+Wukong,Braum,Vi,Nautilus,2,0.5
+Wukong,Karma,Lee Sin,Nautilus,2,0.0
+Wukong,Karma,Vi,Nami,2,1.0
+Wukong,Karma,Xin Zhao,Nami,2,0.5
+Wukong,Leona,Jarvan IV,Alistar,2,0.0
+Wukong,Leona,Lee Sin,Bard,2,0.0
+Wukong,Lulu,Lee Sin,Milio,2,0.0
+Wukong,Lulu,Pantheon,Neeko,2,1.0
+Wukong,Lulu,Pantheon,Seraphine,2,0.0
+Wukong,Lulu,Vi,Bard,2,0.5
+Wukong,Lulu,Xin Zhao,Bard,2,0.0
+Wukong,Lulu,Xin Zhao,Nautilus,2,0.0
+Wukong,Milio,Jarvan IV,Seraphine,2,0.0
+Wukong,Milio,Pantheon,Renata Glasc,2,1.0
+Wukong,Milio,Xin Zhao,Karma,2,0.5
+Wukong,Milio,Xin Zhao,Neeko,2,1.0
+Wukong,Nami,Jarvan IV,Lulu,2,0.5
+Wukong,Nami,Jarvan IV,Milio,2,0.0
+Wukong,Nami,Nocturne,Lulu,2,0.5
+Wukong,Nautilus,Nocturne,Rell,2,0.5
+Wukong,Nautilus,Pantheon,Renata Glasc,2,0.5
+Wukong,Nautilus,Vi,Leona,2,0.5
+Wukong,Nautilus,Vi,Rakan,2,1.0
+Wukong,Nautilus,Xin Zhao,Rell,2,1.0
+Wukong,Neeko,Jarvan IV,Bard,2,0.5
+Wukong,Neeko,Jarvan IV,Seraphine,2,0.5
+Wukong,Rakan,Jarvan IV,Bard,2,0.5
+Wukong,Rakan,Jarvan IV,Nautilus,2,1.0
+Wukong,Rakan,Pantheon,Alistar,2,0.5
+Wukong,Rakan,Vi,Alistar,2,0.0
+Wukong,Rakan,Zaahen,Leona,2,0.5
+Wukong,Rell,Jarvan IV,Alistar,2,1.0
+Wukong,Rell,Xin Zhao,Lulu,2,0.0
+Wukong,Seraphine,Xin Zhao,Karma,2,0.5
+Xin Zhao,Alistar,Jarvan IV,Nautilus,2,0.0
+Xin Zhao,Alistar,Nocturne,Lulu,2,0.5
+Xin Zhao,Alistar,Pantheon,Nami,2,0.0
+Xin Zhao,Alistar,Pantheon,Rakan,2,0.0
+Xin Zhao,Alistar,Vi,Rakan,2,0.5
+Xin Zhao,Alistar,Wukong,Neeko,2,0.5
+Xin Zhao,Bard,Jarvan IV,Seraphine,2,0.5
+Xin Zhao,Bard,Nocturne,Neeko,2,0.5
+Xin Zhao,Bard,Skarner,Milio,2,0.5
+Xin Zhao,Bard,Vi,Nami,2,0.5
+Xin Zhao,Bard,Vi,Pyke,2,0.5
+Xin Zhao,Bard,Wukong,Seraphine,2,0.5
+Xin Zhao,Braum,Pantheon,Nautilus,2,0.5
+Xin Zhao,Braum,Rek'Sai,Seraphine,2,0.0
+Xin Zhao,Karma,Jarvan IV,Nami,2,0.5
+Xin Zhao,Karma,Jarvan IV,Neeko,2,0.5
+Xin Zhao,Karma,Jarvan IV,Pyke,2,0.0
+Xin Zhao,Karma,Lee Sin,Bard,2,0.0
+Xin Zhao,Karma,Nocturne,Bard,2,0.0
+Xin Zhao,Karma,Nocturne,Nautilus,2,0.5
+Xin Zhao,Karma,Nocturne,Rakan,2,0.5
+Xin Zhao,Karma,Nocturne,Seraphine,2,0.5
+Xin Zhao,Karma,Pantheon,Nami,2,0.0
+Xin Zhao,Karma,Pantheon,Seraphine,2,0.0
+Xin Zhao,Karma,Skarner,Seraphine,2,1.0
+Xin Zhao,Karma,Trundle,Nautilus,2,0.0
+Xin Zhao,Karma,Vi,Nautilus,2,0.0
+Xin Zhao,Karma,Wukong,Bard,2,0.5
+Xin Zhao,Karma,Wukong,Lux,2,1.0
+Xin Zhao,Leona,Jarvan IV,Rell,2,0.5
+Xin Zhao,Leona,Wukong,Rakan,2,0.0
+Xin Zhao,Lulu,Jarvan IV,Bard,2,0.0
+Xin Zhao,Lulu,Jarvan IV,Seraphine,2,0.0
+Xin Zhao,Lulu,Trundle,Nautilus,2,0.5
+Xin Zhao,Lulu,Trundle,Seraphine,2,0.5
+Xin Zhao,Lulu,Vi,Milio,2,0.5
+Xin Zhao,Lulu,Wukong,Nami,2,0.5
+Xin Zhao,Milio,Jarvan IV,Bard,2,0.5
+Xin Zhao,Milio,Jarvan IV,Lux,2,0.5
+Xin Zhao,Milio,Jarvan IV,Seraphine,2,0.5
+Xin Zhao,Milio,Nocturne,Nautilus,2,0.5
+Xin Zhao,Milio,Vi,Lulu,2,1.0
+Xin Zhao,Milio,Wukong,Lulu,2,0.5
+Xin Zhao,Nami,Jarvan IV,Karma,2,0.0
+Xin Zhao,Nami,Nocturne,Lulu,2,1.0
+Xin Zhao,Nami,Nocturne,Neeko,2,0.5
+Xin Zhao,Nami,Pantheon,Karma,2,0.5
+Xin Zhao,Nami,Pantheon,Neeko,2,0.5
+Xin Zhao,Nami,Pantheon,Seraphine,2,0.0
+Xin Zhao,Nami,Wukong,Karma,2,0.5
+Xin Zhao,Nautilus,Dr. Mundo,Karma,2,0.5
+Xin Zhao,Nautilus,Jarvan IV,Braum,2,0.5
+Xin Zhao,Nautilus,Jarvan IV,Karma,2,0.5
+Xin Zhao,Nautilus,Jarvan IV,Leona,2,0.0
+Xin Zhao,Nautilus,Pantheon,Bard,2,0.5
+Xin Zhao,Nautilus,Pantheon,Leona,2,1.0
+Xin Zhao,Nautilus,Pantheon,Rell,2,0.0
+Xin Zhao,Nautilus,Trundle,Braum,2,0.5
+Xin Zhao,Nautilus,Wukong,Lulu,2,1.0
+Xin Zhao,Neeko,Pantheon,Nami,2,0.0
+Xin Zhao,Neeko,Pantheon,Rell,2,0.5
+Xin Zhao,Neeko,Vi,Bard,2,0.5
+Xin Zhao,Neeko,Vi,Karma,2,0.5
+Xin Zhao,Neeko,Wukong,Bard,2,0.0
+Xin Zhao,Poppy,Jarvan IV,Rell,2,0.5
+Xin Zhao,Pyke,Jarvan IV,Bard,2,1.0
+Xin Zhao,Rakan,Aatrox,Alistar,2,0.0
+Xin Zhao,Rakan,Jarvan IV,Braum,2,1.0
+Xin Zhao,Rakan,Nocturne,Lulu,2,0.0
+Xin Zhao,Rakan,Vi,Karma,2,0.5
+Xin Zhao,Rakan,Vi,Nautilus,2,0.0
+Xin Zhao,Rell,Sejuani,Rakan,2,0.5
+Xin Zhao,Seraphine,Dr. Mundo,Nautilus,2,0.5
+Xin Zhao,Seraphine,Jarvan IV,Karma,2,0.5
+Xin Zhao,Seraphine,Lee Sin,Nautilus,2,0.5
+Xin Zhao,Seraphine,Nocturne,Bard,2,0.5
+Xin Zhao,Seraphine,Nocturne,Nami,2,1.0
+Xin Zhao,Seraphine,Olaf,Karma,2,0.5
+Xin Zhao,Seraphine,Pantheon,Bard,2,0.0
+Xin Zhao,Seraphine,Pantheon,Milio,2,0.0
+Xin Zhao,Seraphine,Pantheon,Nami,2,1.0
+Xin Zhao,Seraphine,Vi,Nautilus,2,1.0
+Xin Zhao,Seraphine,Wukong,Bard,2,1.0
+Xin Zhao,Seraphine,Wukong,Nautilus,2,0.5
+Zaahen,Leona,Wukong,Nami,2,0.5
+Zaahen,Nami,Dr. Mundo,Lulu,2,0.5
+Zaahen,Nami,Vi,Neeko,2,1.0
+Zaahen,Rell,Pantheon,Leona,2,0.5
+Zaahen,Seraphine,Xin Zhao,Lulu,2,0.5
+Aatrox,Alistar,Jarvan IV,Leona,1,1.0
+Aatrox,Alistar,Jarvan IV,Nautilus,1,1.0
+Aatrox,Alistar,Jarvan IV,Neeko,1,1.0
+Aatrox,Alistar,Lee Sin,Rell,1,0.0
+Aatrox,Alistar,Nocturne,Leona,1,0.0
+Aatrox,Alistar,Pantheon,Neeko,1,1.0
+Aatrox,Alistar,Trundle,Rakan,1,1.0
+Aatrox,Alistar,Vi,Nami,1,0.0
+Aatrox,Alistar,Vi,Neeko,1,0.0
+Aatrox,Alistar,Xin Zhao,Nautilus,1,0.0
+Aatrox,Anivia,Lee Sin,Neeko,1,0.0
+Aatrox,Bard,Ambessa,Rell,1,1.0
+Aatrox,Bard,Jarvan IV,Milio,1,1.0
+Aatrox,Bard,Jarvan IV,Nami,1,1.0
+Aatrox,Bard,Jarvan IV,Rakan,1,0.0
+Aatrox,Bard,Naafiri,Neeko,1,1.0
+Aatrox,Bard,Skarner,Rell,1,1.0
+Aatrox,Bard,Vi,Anivia,1,1.0
+Aatrox,Bard,Vi,Nautilus,1,0.0
+Aatrox,Bard,Viego,Neeko,1,1.0
+Aatrox,Bard,Wukong,Neeko,1,1.0
+Aatrox,Bard,Wukong,Rakan,1,1.0
+Aatrox,Bard,Xin Zhao,Leona,1,1.0
+Aatrox,Bard,Xin Zhao,Milio,1,0.0
+Aatrox,Braum,Naafiri,Nautilus,1,1.0
+Aatrox,Braum,Pantheon,Nautilus,1,0.0
+Aatrox,Braum,Sejuani,Nautilus,1,0.0
+Aatrox,Karma,Dr. Mundo,Alistar,1,1.0
+Aatrox,Karma,Dr. Mundo,Rell,1,0.0
+Aatrox,Karma,Jarvan IV,Alistar,1,1.0
+Aatrox,Karma,Master Yi,Galio,1,1.0
+Aatrox,Karma,Nocturne,Alistar,1,1.0
+Aatrox,Karma,Nocturne,Anivia,1,1.0
+Aatrox,Karma,Nocturne,Leona,1,1.0
+Aatrox,Karma,Nocturne,Neeko,1,0.0
+Aatrox,Karma,Pantheon,Rakan,1,0.0
+Aatrox,Karma,Wukong,Nautilus,1,0.0
+Aatrox,Karma,Xin Zhao,Anivia,1,1.0
+Aatrox,Karma,Xin Zhao,Lulu,1,1.0
+Aatrox,Karma,Zaahen,Seraphine,1,1.0
+Aatrox,Leona,Dr. Mundo,Karma,1,1.0
+Aatrox,Leona,Jarvan IV,Alistar,1,0.0
+Aatrox,Leona,Jarvan IV,Braum,1,0.0
+Aatrox,Leona,Jarvan IV,Nautilus,1,1.0
+Aatrox,Leona,Kindred,Nami,1,1.0
+Aatrox,Leona,Lee Sin,Karma,1,1.0
+Aatrox,Leona,Poppy,Rell,1,0.0
+Aatrox,Leona,Wukong,Nami,1,1.0
+Aatrox,Leona,Zaahen,Braum,1,0.0
+Aatrox,Leona,Zaahen,Yuumi,1,1.0
+Aatrox,Lulu,Jarvan IV,Bard,1,1.0
+Aatrox,Lulu,Jarvan IV,Karma,1,1.0
+Aatrox,Lulu,Pantheon,Neeko,1,0.0
+Aatrox,Lulu,Wukong,Rakan,1,1.0
+Aatrox,Lulu,Xin Zhao,Neeko,1,0.0
+Aatrox,Lulu,Zaahen,Bard,1,1.0
+Aatrox,Maokai,Jarvan IV,Poppy,1,1.0
+Aatrox,Maokai,Xin Zhao,Leona,1,0.0
+Aatrox,Milio,Naafiri,Bard,1,1.0
+Aatrox,Milio,Naafiri,Lulu,1,1.0
+Aatrox,Milio,Nocturne,Neeko,1,0.0
+Aatrox,Milio,Pantheon,Seraphine,1,1.0
+Aatrox,Milio,Sejuani,Braum,1,0.0
+Aatrox,Milio,Wukong,Rakan,1,0.0
+Aatrox,Milio,Wukong,Seraphine,1,1.0
+Aatrox,Nami,Dr. Mundo,Lulu,1,1.0
+Aatrox,Nami,Jarvan IV,Lulu,1,0.0
+Aatrox,Nami,Jarvan IV,Renata Glasc,1,1.0
+Aatrox,Nami,Nocturne,Lulu,1,1.0
+Aatrox,Nami,Nocturne,Nautilus,1,1.0
+Aatrox,Nami,Pantheon,Bard,1,0.0
+Aatrox,Nami,Xin Zhao,Lulu,1,1.0
+Aatrox,Nami,Xin Zhao,Rell,1,0.0
+Aatrox,Nautilus,Ambessa,Neeko,1,1.0
+Aatrox,Nautilus,Dr. Mundo,Rell,1,1.0
+Aatrox,Nautilus,Hecarim,Braum,1,1.0
+Aatrox,Nautilus,Jarvan IV,Braum,1,1.0
+Aatrox,Nautilus,Lee Sin,Renata Glasc,1,0.0
+Aatrox,Nautilus,Naafiri,Leona,1,1.0
+Aatrox,Nautilus,Nocturne,Neeko,1,1.0
+Aatrox,Nautilus,Nocturne,Rell,1,1.0
+Aatrox,Nautilus,Pantheon,Leona,1,0.0
+Aatrox,Nautilus,Pantheon,Nami,1,1.0
+Aatrox,Nautilus,Skarner,Braum,1,1.0
+Aatrox,Nautilus,Skarner,Leona,1,1.0
+Aatrox,Nautilus,Wukong,Lulu,1,1.0
+Aatrox,Nautilus,Wukong,Nami,1,1.0
+Aatrox,Nautilus,Wukong,Rell,1,0.0
+Aatrox,Nautilus,Xin Zhao,Alistar,1,0.0
+Aatrox,Nautilus,Xin Zhao,Braum,1,1.0
+Aatrox,Nautilus,Zaahen,Renata Glasc,1,0.0
+Aatrox,Neeko,Diana,Nautilus,1,0.0
+Aatrox,Neeko,Dr. Mundo,Alistar,1,1.0
+Aatrox,Neeko,Dr. Mundo,Nami,1,0.0
+Aatrox,Neeko,Nocturne,Pyke,1,1.0
+Aatrox,Neeko,Nocturne,Rell,1,0.0
+Aatrox,Neeko,Sejuani,Nautilus,1,0.0
+Aatrox,Neeko,Skarner,Bard,1,0.0
+Aatrox,Neeko,Skarner,Lulu,1,1.0
+Aatrox,Neeko,Vi,Nami,1,0.0
+Aatrox,Neeko,Wukong,Alistar,1,1.0
+Aatrox,Poppy,Qiyana,Alistar,1,0.0
+Aatrox,Poppy,Wukong,Alistar,1,1.0
+Aatrox,Poppy,Wukong,Zilean,1,1.0
+Aatrox,Poppy,Xin Zhao,Elise,1,0.0
+Aatrox,Rakan,Dr. Mundo,Bard,1,1.0
+Aatrox,Rakan,Dr. Mundo,Neeko,1,0.0
+Aatrox,Rakan,Jarvan IV,Neeko,1,0.0
+Aatrox,Rakan,Pantheon,Karma,1,1.0
+Aatrox,Rakan,Pantheon,Rell,1,0.0
+Aatrox,Rakan,Viego,Rell,1,1.0
+Aatrox,Rakan,Xin Zhao,Nami,1,1.0
+Aatrox,Rakan,Xin Zhao,Neeko,1,1.0
+Aatrox,Rell,Lee Sin,Neeko,1,0.0
+Aatrox,Rell,Nocturne,Lulu,1,0.0
+Aatrox,Rell,Skarner,Camille,1,0.0
+Aatrox,Rell,Vi,Nami,1,1.0
+Aatrox,Renata Glasc,Naafiri,Rakan,1,0.0
+Aatrox,Renata Glasc,Nocturne,Zilean,1,0.0
+Aatrox,Renata Glasc,Wukong,Blitzcrank,1,0.0
+Aatrox,Senna,Jarvan IV,Karma,1,1.0
+Aatrox,Seraphine,Dr. Mundo,Blitzcrank,1,0.0
+Aatrox,Seraphine,Dr. Mundo,Nami,1,1.0
+Aatrox,Seraphine,Jarvan IV,Bard,1,0.0
+Aatrox,Seraphine,Naafiri,Bard,1,0.0
+Aatrox,Seraphine,Pantheon,Bard,1,0.0
+Aatrox,Seraphine,Pantheon,Blitzcrank,1,1.0
+Aatrox,Seraphine,Pantheon,Nami,1,1.0
+Aatrox,Seraphine,Sejuani,Rell,1,0.0
+Aatrox,Seraphine,Skarner,Pyke,1,0.0
+Aatrox,Seraphine,Talon,Lulu,1,1.0
+Aatrox,Seraphine,Vi,Bard,1,1.0
+Aatrox,Seraphine,Wukong,Lulu,1,0.0
+Aatrox,Seraphine,Xin Zhao,Bard,1,1.0
+Aatrox,Seraphine,Zaahen,Anivia,1,0.0
+Aatrox,Tahm Kench,Pantheon,Thresh,1,0.0
+Aatrox,Thresh,Trundle,Bard,1,0.0
+Aatrox,Yuumi,Xin Zhao,Karma,1,1.0
+Aatrox,Yuumi,Zaahen,Karma,1,0.0
+Ambessa,Alistar,Diana,Nami,1,1.0
+Ambessa,Alistar,Jarvan IV,Nautilus,1,0.0
+Ambessa,Alistar,Nocturne,Bard,1,0.0
+Ambessa,Alistar,Pantheon,Rakan,1,0.0
+Ambessa,Alistar,Sejuani,Braum,1,0.0
+Ambessa,Alistar,Wukong,Nautilus,1,1.0
+Ambessa,Alistar,Xin Zhao,Bard,1,1.0
+Ambessa,Alistar,Xin Zhao,Fiddlesticks,1,1.0
+Ambessa,Anivia,Naafiri,Bard,1,0.0
+Ambessa,Anivia,Pantheon,Neeko,1,1.0
+Ambessa,Bard,Jarvan IV,Nautilus,1,0.0
+Ambessa,Bard,Lee Sin,Karma,1,0.0
+Ambessa,Bard,Malphite,Karma,1,0.0
+Ambessa,Bard,Maokai,Neeko,1,0.0
+Ambessa,Bard,Nocturne,Pyke,1,1.0
+Ambessa,Bard,Nocturne,Rakan,1,1.0
+Ambessa,Bard,Pantheon,Karma,1,0.0
+Ambessa,Bard,Pantheon,Leona,1,1.0
+Ambessa,Bard,Pantheon,Lulu,1,0.0
+Ambessa,Bard,Qiyana,Leona,1,1.0
+Ambessa,Bard,Skarner,Nautilus,1,0.0
+Ambessa,Bard,Xin Zhao,Nautilus,1,0.0
+Ambessa,Braum,Nautilus,Neeko,1,1.0
+Ambessa,Camille,Viego,Bard,1,1.0
+Ambessa,Karma,Dr. Mundo,Leona,1,1.0
+Ambessa,Karma,Dr. Mundo,Neeko,1,0.0
+Ambessa,Karma,Lee Sin,Bard,1,0.0
+Ambessa,Karma,Pantheon,Bard,1,1.0
+Ambessa,Karma,Skarner,Yuumi,1,1.0
+Ambessa,Karma,Vi,Renata Glasc,1,1.0
+Ambessa,Karma,Viego,Neeko,1,0.0
+Ambessa,Karma,Wukong,Rakan,1,0.0
+Ambessa,Karma,Xin Zhao,Lulu,1,0.0
+Ambessa,Karma,Xin Zhao,Neeko,1,1.0
+Ambessa,Leona,Aatrox,Karma,1,1.0
+Ambessa,Leona,Gwen,Lulu,1,0.0
+Ambessa,Leona,Jayce,Braum,1,0.0
+Ambessa,Leona,Pantheon,Alistar,1,0.0
+Ambessa,Leona,Pantheon,Nami,1,1.0
+Ambessa,Leona,Vi,Rakan,1,0.0
+Ambessa,Leona,Wukong,Bard,1,1.0
+Ambessa,Leona,Wukong,Nautilus,1,1.0
+Ambessa,Leona,Wukong,Neeko,1,0.0
+Ambessa,Leona,Wukong,Rakan,1,0.0
+Ambessa,Leona,Xin Zhao,Rell,1,0.0
+Ambessa,Leona,Xin Zhao,Seraphine,1,1.0
+Ambessa,Lulu,Diana,Bard,1,1.0
+Ambessa,Lulu,Naafiri,Milio,1,0.0
+Ambessa,Lulu,Naafiri,Seraphine,1,0.0
+Ambessa,Lulu,Pantheon,Karma,1,1.0
+Ambessa,Lulu,Viego,Nami,1,1.0
+Ambessa,Lulu,Wukong,Blitzcrank,1,1.0
+Ambessa,Lulu,Wukong,Milio,1,1.0
+Ambessa,Lulu,Wukong,Nami,1,1.0
+Ambessa,Milio,Kha'Zix,Nautilus,1,1.0
+Ambessa,Milio,Qiyana,Nami,1,1.0
+Ambessa,Nami,Aatrox,Lulu,1,1.0
+Ambessa,Nami,Maokai,Lulu,1,1.0
+Ambessa,Nami,Nocturne,Anivia,1,1.0
+Ambessa,Nami,Pantheon,Seraphine,1,1.0
+Ambessa,Nami,Taliyah,Rell,1,1.0
+Ambessa,Nami,Vi,Lulu,1,0.0
+Ambessa,Nautilus,Aatrox,Braum,1,1.0
+Ambessa,Nautilus,Dr. Mundo,Bard,1,0.0
+Ambessa,Nautilus,Dr. Mundo,Braum,1,1.0
+Ambessa,Nautilus,Jarvan IV,Lulu,1,0.0
+Ambessa,Nautilus,Lee Sin,Karma,1,0.0
+Ambessa,Nautilus,Lee Sin,Nami,1,1.0
+Ambessa,Nautilus,Nocturne,Rakan,1,0.0
+Ambessa,Nautilus,Shyvana,Lulu,1,0.0
+Ambessa,Nautilus,Vi,Alistar,1,0.0
+Ambessa,Nautilus,Viego,Poppy,1,1.0
+Ambessa,Nautilus,Zaahen,Karma,1,1.0
+Ambessa,Neeko,Aatrox,Janna,1,1.0
+Ambessa,Neeko,Nocturne,Milio,1,1.0
+Ambessa,Neeko,Poppy,Milio,1,1.0
+Ambessa,Neeko,Vi,Bard,1,0.0
+Ambessa,Neeko,Vi,Nami,1,1.0
+Ambessa,Neeko,Wukong,Leona,1,1.0
+Ambessa,Neeko,Wukong,Rell,1,0.0
+Ambessa,Neeko,Zyra,Thresh,1,1.0
+Ambessa,Poppy,Qiyana,Alistar,1,0.0
+Ambessa,Pyke,Jarvan IV,Rell,1,1.0
+Ambessa,Rakan,Aatrox,Alistar,1,1.0
+Ambessa,Rakan,Graves,Karma,1,0.0
+Ambessa,Rakan,Jarvan IV,Alistar,1,0.0
+Ambessa,Rakan,Qiyana,Leona,1,1.0
+Ambessa,Rakan,Rek'Sai,Alistar,1,0.0
+Ambessa,Rakan,Rengar,Nautilus,1,1.0
+Ambessa,Rakan,Sejuani,Poppy,1,1.0
+Ambessa,Rakan,Vi,Alistar,1,1.0
+Ambessa,Rakan,Viego,Poppy,1,1.0
+Ambessa,Rakan,Volibear,Braum,1,1.0
+Ambessa,Rakan,Wukong,Alistar,1,1.0
+Ambessa,Rakan,Wukong,Lulu,1,1.0
+Ambessa,Rakan,Wukong,Poppy,1,0.0
+Ambessa,Rakan,Zaahen,Leona,1,0.0
+Ambessa,Rell,Aatrox,Leona,1,1.0
+Ambessa,Rell,Diana,Nautilus,1,1.0
+Ambessa,Rell,Jarvan IV,Rakan,1,1.0
+Ambessa,Rell,Malphite,Rakan,1,0.0
+Ambessa,Rell,Poppy,Nautilus,1,1.0
+Ambessa,Rell,Vi,Nautilus,1,0.0
+Ambessa,Seraphine,Aatrox,Rakan,1,0.0
+Ambessa,Seraphine,Naafiri,Bard,1,0.0
+Ambessa,Seraphine,Nidalee,Blitzcrank,1,0.0
+Ambessa,Seraphine,Nocturne,Bard,1,0.0
+Ambessa,Seraphine,Nocturne,Neeko,1,0.0
+Ambessa,Seraphine,Nocturne,Renata Glasc,1,1.0
+Ambessa,Seraphine,Pantheon,Bard,1,1.0
+Ambessa,Seraphine,Rengar,Neeko,1,0.0
+Ambessa,Seraphine,Skarner,Nautilus,1,1.0
+Ambessa,Seraphine,Vi,Milio,1,0.0
+Ambessa,Seraphine,Vi,Yuumi,1,1.0
+Ambessa,Seraphine,Wukong,Rell,1,1.0
+Ambessa,Seraphine,Xin Zhao,Braum,1,1.0
+Ambessa,Seraphine,Xin Zhao,Karma,1,1.0
+Ambessa,Soraka,Maokai,Seraphine,1,0.0
+Ambessa,Thresh,Pantheon,Blitzcrank,1,1.0
+Ambessa,Thresh,Xin Zhao,Rakan,1,1.0
+Ambessa,Yuumi,Wukong,Rell,1,0.0
+Amumu,Alistar,Ambessa,Rell,1,0.0
+Amumu,Karma,Xin Zhao,Seraphine,1,0.0
+Amumu,Nami,Wukong,Rakan,1,1.0
+Amumu,Neeko,Wukong,Milio,1,0.0
+Bel'Veth,Camille,Naafiri,Karma,1,1.0
+Bel'Veth,Karma,Vi,Alistar,1,1.0
+Bel'Veth,Seraphine,Viego,Karma,1,0.0
+Bel'Veth,Seraphine,Wukong,Rell,1,0.0
+Brand,Lulu,Skarner,Bard,1,1.0
+Camille,Neeko,Nidalee,Elise,1,0.0
+Cho'Gath,Leona,Pantheon,Rell,1,0.0
+Cho'Gath,Lulu,Jayce,Leona,1,0.0
+Cho'Gath,Neeko,Skarner,Milio,1,1.0
+Cho'Gath,Neeko,Zaahen,Karma,1,1.0
+Darius,Bard,Jarvan IV,Karma,1,0.0
+Darius,Bard,Naafiri,Nautilus,1,1.0
+Darius,Bard,Qiyana,Lulu,1,1.0
+Darius,Seraphine,Bel'Veth,Skarner,1,1.0
+Darius,Seraphine,Wukong,Rell,1,1.0
+Diana,Alistar,Wukong,Rakan,1,0.0
+Diana,Karma,Aatrox,Nami,1,0.0
+Diana,Karma,Wukong,Rakan,1,1.0
+Diana,Leona,Vi,Rell,1,0.0
+Diana,Neeko,Pantheon,Nautilus,1,1.0
+Diana,Nidalee,Naafiri,Karma,1,1.0
+Diana,Rakan,Naafiri,Braum,1,1.0
+Diana,Rell,Malphite,Leona,1,0.0
+Diana,Rell,Malphite,Seraphine,1,1.0
+Diana,Rell,Taliyah,Alistar,1,0.0
+Dr. Mundo,Alistar,Aatrox,Bard,1,0.0
+Dr. Mundo,Alistar,Hecarim,Braum,1,1.0
+Dr. Mundo,Alistar,Malphite,Nautilus,1,1.0
+Dr. Mundo,Alistar,Nocturne,Milio,1,1.0
+Dr. Mundo,Alistar,Sejuani,Nautilus,1,0.0
+Dr. Mundo,Alistar,Taliyah,Poppy,1,1.0
+Dr. Mundo,Alistar,Viego,Rell,1,1.0
+Dr. Mundo,Alistar,Wukong,Braum,1,1.0
+Dr. Mundo,Alistar,Wukong,Neeko,1,1.0
+Dr. Mundo,Alistar,Wukong,Rell,1,1.0
+Dr. Mundo,Alistar,Xin Zhao,Braum,1,0.0
+Dr. Mundo,Anivia,Wukong,Neeko,1,1.0
+Dr. Mundo,Bard,Jarvan IV,Nami,1,1.0
+Dr. Mundo,Bard,Lillia,Rell,1,1.0
+Dr. Mundo,Bard,Naafiri,Neeko,1,0.0
+Dr. Mundo,Bard,Pantheon,Alistar,1,1.0
+Dr. Mundo,Bard,Pantheon,Pyke,1,1.0
+Dr. Mundo,Bard,Pantheon,Shen,1,0.0
+Dr. Mundo,Bard,Rek'Sai,Nami,1,1.0
+Dr. Mundo,Bard,Trundle,Seraphine,1,1.0
+Dr. Mundo,Bard,Wukong,Leona,1,1.0
+Dr. Mundo,Bard,Wukong,Lulu,1,0.0
+Dr. Mundo,Bard,Wukong,Seraphine,1,1.0
+Dr. Mundo,Blitzcrank,Xin Zhao,Seraphine,1,0.0
+Dr. Mundo,Braum,Jarvan IV,Nautilus,1,0.0
+Dr. Mundo,Braum,Jayce,Thresh,1,1.0
+Dr. Mundo,Braum,Lee Sin,Nautilus,1,1.0
+Dr. Mundo,Braum,Trundle,Leona,1,0.0
+Dr. Mundo,Braum,Viego,Rell,1,1.0
+Dr. Mundo,Braum,Wukong,Bard,1,1.0
+Dr. Mundo,Braum,Wukong,Nautilus,1,0.0
+Dr. Mundo,Elise,Qiyana,Pyke,1,1.0
+Dr. Mundo,Karma,Aatrox,Lulu,1,0.0
+Dr. Mundo,Karma,Aatrox,Nami,1,0.0
+Dr. Mundo,Karma,Aatrox,Nautilus,1,0.0
+Dr. Mundo,Karma,Ambessa,Nautilus,1,1.0
+Dr. Mundo,Karma,Ambessa,Neeko,1,0.0
+Dr. Mundo,Karma,Jarvan IV,Neeko,1,1.0
+Dr. Mundo,Karma,Jarvan IV,Rell,1,0.0
+Dr. Mundo,Karma,Jayce,Nautilus,1,0.0
+Dr. Mundo,Karma,Kindred,Nautilus,1,0.0
+Dr. Mundo,Karma,Naafiri,Rell,1,0.0
+Dr. Mundo,Karma,Nocturne,Elise,1,0.0
+Dr. Mundo,Karma,Nocturne,Nautilus,1,0.0
+Dr. Mundo,Karma,Nocturne,Rakan,1,0.0
+Dr. Mundo,Karma,Nunu & Willump,Nautilus,1,0.0
+Dr. Mundo,Karma,Pantheon,Neeko,1,1.0
+Dr. Mundo,Karma,Rek'Sai,Leona,1,0.0
+Dr. Mundo,Karma,Sylas,Lulu,1,0.0
+Dr. Mundo,Karma,Vi,Bard,1,0.0
+Dr. Mundo,Karma,Vi,Nami,1,0.0
+Dr. Mundo,Karma,Vi,Neeko,1,1.0
+Dr. Mundo,Karma,Wukong,Leona,1,0.0
+Dr. Mundo,Karma,Wukong,Nami,1,1.0
+Dr. Mundo,Karma,Wukong,Nautilus,1,0.0
+Dr. Mundo,Karma,Wukong,Rakan,1,1.0
+Dr. Mundo,Karma,Xin Zhao,Lulu,1,1.0
+Dr. Mundo,Karma,Zaahen,Alistar,1,1.0
+Dr. Mundo,Karma,Zaahen,Nami,1,1.0
+Dr. Mundo,Leona,Darius,Nautilus,1,0.0
+Dr. Mundo,Leona,Jarvan IV,Bard,1,0.0
+Dr. Mundo,Leona,Nocturne,Nautilus,1,0.0
+Dr. Mundo,Leona,Sejuani,Karma,1,1.0
+Dr. Mundo,Lulu,Aatrox,Nautilus,1,0.0
+Dr. Mundo,Lulu,Jarvan IV,Leona,1,1.0
+Dr. Mundo,Lulu,Jarvan IV,Thresh,1,1.0
+Dr. Mundo,Lulu,Lee Sin,Nautilus,1,0.0
+Dr. Mundo,Lulu,Maokai,Leona,1,1.0
+Dr. Mundo,Lulu,Maokai,Nautilus,1,0.0
+Dr. Mundo,Lulu,Nocturne,Milio,1,1.0
+Dr. Mundo,Lulu,Nocturne,Soraka,1,0.0
+Dr. Mundo,Lulu,Olaf,Nautilus,1,1.0
+Dr. Mundo,Lulu,Pantheon,Neeko,1,1.0
+Dr. Mundo,Lulu,Sejuani,Neeko,1,1.0
+Dr. Mundo,Lulu,Trundle,Karma,1,1.0
+Dr. Mundo,Lulu,Vi,Nautilus,1,0.0
+Dr. Mundo,Lulu,Wukong,Senna,1,0.0
+Dr. Mundo,Lulu,Xin Zhao,Neeko,1,1.0
+Dr. Mundo,Lulu,Zaahen,Nami,1,0.0
+Dr. Mundo,Lux,Vi,Bard,1,1.0
+Dr. Mundo,Milio,Darius,Alistar,1,0.0
+Dr. Mundo,Milio,Maokai,Seraphine,1,1.0
+Dr. Mundo,Morgana,Trundle,Seraphine,1,0.0
+Dr. Mundo,Nami,Jarvan IV,Bard,1,1.0
+Dr. Mundo,Nami,Jarvan IV,Karma,1,1.0
+Dr. Mundo,Nami,Jarvan IV,Neeko,1,0.0
+Dr. Mundo,Nami,Jarvan IV,Seraphine,1,0.0
+Dr. Mundo,Nami,Malphite,Alistar,1,0.0
+Dr. Mundo,Nami,Maokai,Milio,1,1.0
+Dr. Mundo,Nami,Naafiri,Karma,1,1.0
+Dr. Mundo,Nami,Nocturne,Karma,1,1.0
+Dr. Mundo,Nami,Nocturne,Neeko,1,0.0
+Dr. Mundo,Nami,Nunu & Willump,Bard,1,0.0
+Dr. Mundo,Nami,Pantheon,Leona,1,0.0
+Dr. Mundo,Nami,Pantheon,Lulu,1,0.0
+Dr. Mundo,Nami,Qiyana,Alistar,1,1.0
+Dr. Mundo,Nami,Skarner,Yuumi,1,0.0
+Dr. Mundo,Nami,Trundle,Lulu,1,1.0
+Dr. Mundo,Nami,Vi,Bard,1,1.0
+Dr. Mundo,Nami,Vi,Nautilus,1,0.0
+Dr. Mundo,Nami,Wukong,Karma,1,1.0
+Dr. Mundo,Nami,Xin Zhao,Karma,1,1.0
+Dr. Mundo,Nami,Xin Zhao,Seraphine,1,1.0
+Dr. Mundo,Nautilus,Ambessa,Rell,1,1.0
+Dr. Mundo,Nautilus,Jarvan IV,Leona,1,0.0
+Dr. Mundo,Nautilus,Jarvan IV,Neeko,1,1.0
+Dr. Mundo,Nautilus,Maokai,Karma,1,1.0
+Dr. Mundo,Nautilus,Nasus,Rakan,1,0.0
+Dr. Mundo,Nautilus,Nunu & Willump,Karma,1,0.0
+Dr. Mundo,Nautilus,Pantheon,Rell,1,0.0
+Dr. Mundo,Nautilus,Qiyana,Braum,1,1.0
+Dr. Mundo,Nautilus,Sejuani,Braum,1,1.0
+Dr. Mundo,Nautilus,Vi,Karma,1,1.0
+Dr. Mundo,Nautilus,Vi,Rell,1,1.0
+Dr. Mundo,Nautilus,Wukong,Rakan,1,1.0
+Dr. Mundo,Nautilus,Zaahen,Braum,1,0.0
+Dr. Mundo,Nautilus,Zaahen,Karma,1,1.0
+Dr. Mundo,Nautilus,Zaahen,Leona,1,1.0
+Dr. Mundo,Nautilus,Zed,Karma,1,1.0
+Dr. Mundo,Neeko,Nocturne,Alistar,1,1.0
+Dr. Mundo,Neeko,Nocturne,LeBlanc,1,1.0
+Dr. Mundo,Neeko,Pantheon,Nami,1,0.0
+Dr. Mundo,Neeko,Skarner,Bard,1,0.0
+Dr. Mundo,Neeko,Skarner,Camille,1,0.0
+Dr. Mundo,Neeko,Sylas,Pantheon,1,1.0
+Dr. Mundo,Neeko,Trundle,Nami,1,0.0
+Dr. Mundo,Neeko,Vi,Alistar,1,0.0
+Dr. Mundo,Neeko,Vi,Milio,1,1.0
+Dr. Mundo,Neeko,Vi,Nautilus,1,1.0
+Dr. Mundo,Neeko,Vi,Rakan,1,1.0
+Dr. Mundo,Neeko,Viego,Pyke,1,1.0
+Dr. Mundo,Neeko,Wukong,Alistar,1,1.0
+Dr. Mundo,Neeko,Zaahen,Elise,1,1.0
+Dr. Mundo,Pantheon,Nasus,Nautilus,1,1.0
+Dr. Mundo,Poppy,Jarvan IV,Alistar,1,0.0
+Dr. Mundo,Poppy,Vi,Rakan,1,1.0
+Dr. Mundo,Poppy,Wukong,Leona,1,1.0
+Dr. Mundo,Pyke,Nocturne,Rell,1,1.0
+Dr. Mundo,Pyke,Vi,Bard,1,0.0
+Dr. Mundo,Pyke,Vi,Karma,1,0.0
+Dr. Mundo,Rakan,Darius,Alistar,1,1.0
+Dr. Mundo,Rakan,Diana,Neeko,1,1.0
+Dr. Mundo,Rakan,Nocturne,Alistar,1,0.0
+Dr. Mundo,Rakan,Nocturne,Lulu,1,1.0
+Dr. Mundo,Rakan,Sejuani,Neeko,1,0.0
+Dr. Mundo,Rakan,Vi,Bard,1,0.0
+Dr. Mundo,Rakan,Viego,Bard,1,1.0
+Dr. Mundo,Rakan,Wukong,Leona,1,1.0
+Dr. Mundo,Rakan,Wukong,Nautilus,1,1.0
+Dr. Mundo,Rakan,Xin Zhao,Lulu,1,0.0
+Dr. Mundo,Rell,Diana,Zac,1,1.0
+Dr. Mundo,Rell,Jarvan IV,Nami,1,0.0
+Dr. Mundo,Rell,Naafiri,Poppy,1,0.0
+Dr. Mundo,Rell,Trundle,Nautilus,1,1.0
+Dr. Mundo,Rell,Trundle,Rakan,1,1.0
+Dr. Mundo,Rell,Vi,Rakan,1,0.0
+Dr. Mundo,Rell,Wukong,Rakan,1,0.0
+Dr. Mundo,Rell,Xin Zhao,Nautilus,1,1.0
+Dr. Mundo,Rell,Xin Zhao,Poppy,1,1.0
+Dr. Mundo,Rell,Zaahen,Neeko,1,0.0
+Dr. Mundo,Renata Glasc,Sejuani,Alistar,1,0.0
+Dr. Mundo,Seraphine,Aatrox,Bard,1,0.0
+Dr. Mundo,Seraphine,Aatrox,Karma,1,0.0
+Dr. Mundo,Seraphine,Aatrox,Renata Glasc,1,0.0
+Dr. Mundo,Seraphine,Lee Sin,Nautilus,1,1.0
+Dr. Mundo,Seraphine,Lee Sin,Rell,1,1.0
+Dr. Mundo,Seraphine,Naafiri,Bard,1,1.0
+Dr. Mundo,Seraphine,Naafiri,Karma,1,1.0
+Dr. Mundo,Seraphine,Nocturne,Karma,1,1.0
+Dr. Mundo,Seraphine,Pantheon,Lulu,1,1.0
+Dr. Mundo,Seraphine,Pantheon,Renata Glasc,1,0.0
+Dr. Mundo,Seraphine,Trundle,Nami,1,1.0
+Dr. Mundo,Seraphine,Vi,Nami,1,0.0
+Dr. Mundo,Seraphine,Xin Zhao,Milio,1,0.0
+Dr. Mundo,Seraphine,Zaahen,Karma,1,1.0
+Dr. Mundo,Seraphine,Zac,Karma,1,1.0
+Dr. Mundo,Shen,Wukong,Rakan,1,0.0
+Dr. Mundo,Soraka,Sylas,Braum,1,0.0
+Dr. Mundo,Thresh,Aatrox,Seraphine,1,1.0
+Dr. Mundo,Thresh,Rengar,Neeko,1,0.0
+Dr. Mundo,Thresh,Volibear,Lulu,1,1.0
+Dr. Mundo,Thresh,Wukong,Renata Glasc,1,1.0
+Dr. Mundo,Thresh,Zaahen,Bard,1,1.0
+Dr. Mundo,Yuumi,Jarvan IV,Seraphine,1,0.0
+Dr. Mundo,Yuumi,Pantheon,Nami,1,0.0
+Ekko,Neeko,Zed,Bard,1,1.0
+Fiddlesticks,Lulu,Dr. Mundo,Seraphine,1,0.0
+Fiddlesticks,Nautilus,Wukong,Braum,1,0.0
+Gnar,Lulu,Jarvan IV,Neeko,1,0.0
+Gnar,Seraphine,Xin Zhao,Karma,1,0.0
+Graves,Alistar,Wukong,Rakan,1,0.0
+Graves,Braum,Xin Zhao,Alistar,1,0.0
+Graves,Leona,Trundle,Alistar,1,0.0
+Graves,Lulu,Xin Zhao,Leona,1,1.0
+Graves,Milio,Kindred,Rakan,1,1.0
+Graves,Nautilus,Jayce,Leona,1,1.0
+Graves,Rell,Jarvan IV,Seraphine,1,0.0
+Graves,Rell,Karthus,Nautilus,1,0.0
+Graves,Seraphine,Vi,Bard,1,0.0
+Gwen,Alistar,Vi,Rakan,1,1.0
+Gwen,Braum,Lee Sin,Rakan,1,1.0
+Gwen,Leona,Skarner,Karma,1,0.0
+Gwen,Milio,Kha'Zix,Renata Glasc,1,0.0
+Gwen,Nautilus,Sejuani,Morgana,1,0.0
+Gwen,Nautilus,Xin Zhao,Alistar,1,1.0
+Gwen,Nautilus,Xin Zhao,Leona,1,0.0
+Gwen,Neeko,Viego,Bard,1,1.0
+Gwen,Poppy,Jarvan IV,Leona,1,0.0
+Gwen,Rakan,Jarvan IV,Rell,1,1.0
+Gwen,Rell,Malphite,Alistar,1,0.0
+Hecarim,Alistar,Nocturne,Sylas,1,1.0
+Hecarim,Bard,Skarner,Seraphine,1,0.0
+Hecarim,Milio,Lee Sin,Bard,1,1.0
+Hecarim,Rakan,Vi,Karma,1,0.0
+Hecarim,Rakan,Xin Zhao,Poppy,1,0.0
+Hecarim,Rell,Nasus,Alistar,1,0.0
+Hecarim,Rell,Trundle,Nautilus,1,0.0
+Hecarim,Senna,Jarvan IV,Bard,1,0.0
+Hecarim,Shen,Kha'Zix,Camille,1,0.0
+Hecarim,Thresh,Lee Sin,Lux,1,1.0
+Ivern,Camille,Vi,Leona,1,0.0
+Ivern,Leona,Dr. Mundo,Thresh,1,1.0
+Ivern,Leona,Nasus,Rakan,1,1.0
+Ivern,Leona,Trundle,Nami,1,0.0
+Ivern,Leona,Wukong,Nautilus,1,1.0
+Ivern,Nautilus,Jarvan IV,Braum,1,0.0
+Ivern,Nautilus,Jayce,Braum,1,1.0
+Ivern,Nautilus,Nocturne,Rell,1,0.0
+Ivern,Nautilus,Nunu & Willump,Braum,1,0.0
+Ivern,Nautilus,Trundle,Milio,1,0.0
+Ivern,Neeko,Xin Zhao,Milio,1,1.0
+Ivern,Rakan,Vi,Rell,1,0.0
+Ivern,Rell,Pantheon,Alistar,1,1.0
+Jarvan IV,Alistar,Ambessa,Leona,1,1.0
+Jarvan IV,Alistar,Jayce,Karma,1,0.0
+Jarvan IV,Alistar,Jayce,Nautilus,1,1.0
+Jarvan IV,Alistar,Lee Sin,Braum,1,0.0
+Jarvan IV,Alistar,Naafiri,Karma,1,1.0
+Jarvan IV,Alistar,Nocturne,Bard,1,0.0
+Jarvan IV,Alistar,Nocturne,Janna,1,1.0
+Jarvan IV,Alistar,Nocturne,Karma,1,1.0
+Jarvan IV,Alistar,Nocturne,Nami,1,0.0
+Jarvan IV,Alistar,Nocturne,Nautilus,1,1.0
+Jarvan IV,Alistar,Nocturne,Rakan,1,0.0
+Jarvan IV,Alistar,Pantheon,Bard,1,0.0
+Jarvan IV,Alistar,Pantheon,Leona,1,1.0
+Jarvan IV,Alistar,Pantheon,Rakan,1,1.0
+Jarvan IV,Alistar,Pantheon,Rell,1,1.0
+Jarvan IV,Alistar,Poppy,Elise,1,1.0
+Jarvan IV,Alistar,Qiyana,Bard,1,1.0
+Jarvan IV,Alistar,Sylas,Skarner,1,0.0
+Jarvan IV,Alistar,Vi,Braum,1,1.0
+Jarvan IV,Alistar,Vi,Leona,1,1.0
+Jarvan IV,Alistar,Vi,Rakan,1,1.0
+Jarvan IV,Alistar,Viego,Leona,1,1.0
+Jarvan IV,Alistar,Viego,Nautilus,1,1.0
+Jarvan IV,Alistar,Wukong,Nautilus,1,0.0
+Jarvan IV,Alistar,Wukong,Neeko,1,1.0
+Jarvan IV,Alistar,Wukong,Rakan,1,1.0
+Jarvan IV,Alistar,Wukong,Rell,1,0.0
+Jarvan IV,Alistar,Xin Zhao,Bard,1,1.0
+Jarvan IV,Alistar,Xin Zhao,Nami,1,1.0
+Jarvan IV,Alistar,Xin Zhao,Nautilus,1,0.0
+Jarvan IV,Alistar,Zaahen,Neeko,1,1.0
+Jarvan IV,Alistar,Zyra,Leona,1,1.0
+Jarvan IV,Amumu,Nidalee,Bard,1,1.0
+Jarvan IV,Amumu,Sylas,Rell,1,0.0
+Jarvan IV,Anivia,Aatrox,Neeko,1,1.0
+Jarvan IV,Anivia,Ambessa,Bard,1,1.0
+Jarvan IV,Anivia,Lee Sin,Neeko,1,0.0
+Jarvan IV,Anivia,Pantheon,Neeko,1,0.0
+Jarvan IV,Anivia,Wukong,Braum,1,1.0
+Jarvan IV,Anivia,Xin Zhao,Bard,1,0.0
+Jarvan IV,Bard,Aatrox,Lulu,1,1.0
+Jarvan IV,Bard,Aatrox,Nautilus,1,0.0
+Jarvan IV,Bard,Aatrox,Rell,1,1.0
+Jarvan IV,Bard,Dr. Mundo,Nami,1,1.0
+Jarvan IV,Bard,Dr. Mundo,Neeko,1,1.0
+Jarvan IV,Bard,Dr. Mundo,Rell,1,1.0
+Jarvan IV,Bard,Graves,Rakan,1,1.0
+Jarvan IV,Bard,Jayce,Neeko,1,0.0
+Jarvan IV,Bard,Lee Sin,Elise,1,0.0
+Jarvan IV,Bard,Lee Sin,Leona,1,0.0
+Jarvan IV,Bard,Lee Sin,Milio,1,0.0
+Jarvan IV,Bard,Lee Sin,Pyke,1,1.0
+Jarvan IV,Bard,Maokai,Seraphine,1,0.0
+Jarvan IV,Bard,Naafiri,Karma,1,1.0
+Jarvan IV,Bard,Naafiri,Lulu,1,1.0
+Jarvan IV,Bard,Naafiri,Nami,1,0.0
+Jarvan IV,Bard,Naafiri,Nautilus,1,1.0
+Jarvan IV,Bard,Naafiri,Skarner,1,1.0
+Jarvan IV,Bard,Nidalee,Neeko,1,0.0
+Jarvan IV,Bard,Nocturne,Janna,1,1.0
+Jarvan IV,Bard,Nocturne,Leona,1,0.0
+Jarvan IV,Bard,Nocturne,Pyke,1,0.0
+Jarvan IV,Bard,Pantheon,Lulu,1,1.0
+Jarvan IV,Bard,Pantheon,Nami,1,1.0
+Jarvan IV,Bard,Sejuani,Seraphine,1,1.0
+Jarvan IV,Bard,Shen,Nautilus,1,0.0
+Jarvan IV,Bard,Vi,Nami,1,0.0
+Jarvan IV,Bard,Vi,Nautilus,1,1.0
+Jarvan IV,Bard,Wukong,Nautilus,1,1.0
+Jarvan IV,Bard,Wukong,Rell,1,0.0
+Jarvan IV,Bard,Xin Zhao,Alistar,1,1.0
+Jarvan IV,Bard,Xin Zhao,Braum,1,1.0
+Jarvan IV,Bard,Xin Zhao,Karma,1,0.0
+Jarvan IV,Bard,Xin Zhao,Lulu,1,0.0
+Jarvan IV,Bard,Xin Zhao,Senna,1,1.0
+Jarvan IV,Blitzcrank,Ambessa,Milio,1,1.0
+Jarvan IV,Blitzcrank,Camille,Seraphine,1,1.0
+Jarvan IV,Blitzcrank,Wukong,Milio,1,1.0
+Jarvan IV,Blitzcrank,Wukong,Thresh,1,1.0
+Jarvan IV,Blitzcrank,Xin Zhao,Nami,1,1.0
+Jarvan IV,Blitzcrank,Xin Zhao,Pyke,1,0.0
+Jarvan IV,Braum,Aatrox,Alistar,1,0.0
+Jarvan IV,Braum,Kha'Zix,Nami,1,0.0
+Jarvan IV,Braum,Lee Sin,Nautilus,1,0.0
+Jarvan IV,Braum,Lee Sin,Rell,1,1.0
+Jarvan IV,Braum,Lee Sin,Seraphine,1,1.0
+Jarvan IV,Braum,Naafiri,Lulu,1,1.0
+Jarvan IV,Braum,Naafiri,Thresh,1,0.0
+Jarvan IV,Braum,Nocturne,Nautilus,1,1.0
+Jarvan IV,Braum,Pantheon,Nautilus,1,0.0
+Jarvan IV,Braum,Pantheon,Neeko,1,1.0
+Jarvan IV,Braum,Sejuani,Lulu,1,0.0
+Jarvan IV,Braum,Vi,Lulu,1,0.0
+Jarvan IV,Braum,Viego,Nami,1,0.0
+Jarvan IV,Braum,Wukong,Milio,1,0.0
+Jarvan IV,Braum,Wukong,Nautilus,1,1.0
+Jarvan IV,Braum,Xin Zhao,Nautilus,1,0.0
+Jarvan IV,Camille,Lee Sin,Shen,1,1.0
+Jarvan IV,Camille,Nocturne,Pyke,1,1.0
+Jarvan IV,Camille,Xin Zhao,Bard,1,1.0
+Jarvan IV,Camille,Xin Zhao,Nautilus,1,1.0
+Jarvan IV,Elise,Naafiri,Bard,1,0.0
+Jarvan IV,Elise,Nidalee,Bard,1,1.0
+Jarvan IV,Elise,Xin Zhao,Nami,1,1.0
+Jarvan IV,Galio,Nocturne,Rakan,1,1.0
+Jarvan IV,Janna,Naafiri,Lulu,1,1.0
+Jarvan IV,Karma,Aatrox,Bard,1,1.0
+Jarvan IV,Karma,Ambessa,Rell,1,1.0
+Jarvan IV,Karma,Dr. Mundo,Alistar,1,0.0
+Jarvan IV,Karma,Dr. Mundo,Nami,1,1.0
+Jarvan IV,Karma,Dr. Mundo,Neeko,1,1.0
+Jarvan IV,Karma,Dr. Mundo,Rakan,1,0.0
+Jarvan IV,Karma,Dr. Mundo,Seraphine,1,1.0
+Jarvan IV,Karma,Lee Sin,Bard,1,0.0
+Jarvan IV,Karma,Lee Sin,Nautilus,1,1.0
+Jarvan IV,Karma,Naafiri,Milio,1,1.0
+Jarvan IV,Karma,Naafiri,Pyke,1,1.0
+Jarvan IV,Karma,Neeko,Bard,1,0.0
+Jarvan IV,Karma,Nocturne,Bard,1,1.0
+Jarvan IV,Karma,Nocturne,Yuumi,1,0.0
+Jarvan IV,Karma,Pantheon,Alistar,1,1.0
+Jarvan IV,Karma,Pantheon,Milio,1,1.0
+Jarvan IV,Karma,Pantheon,Nautilus,1,1.0
+Jarvan IV,Karma,Pantheon,Rell,1,0.0
+Jarvan IV,Karma,Poppy,Rell,1,0.0
+Jarvan IV,Karma,Rek'Sai,Seraphine,1,1.0
+Jarvan IV,Karma,Sejuani,Nautilus,1,0.0
+Jarvan IV,Karma,Vi,Bard,1,1.0
+Jarvan IV,Karma,Vi,Neeko,1,0.0
+Jarvan IV,Karma,Vi,Pyke,1,1.0
+Jarvan IV,Karma,Vi,Seraphine,1,0.0
+Jarvan IV,Karma,Wukong,Alistar,1,1.0
+Jarvan IV,Karma,Wukong,Bard,1,0.0
+Jarvan IV,Karma,Wukong,Nami,1,0.0
+Jarvan IV,Karma,Wukong,Neeko,1,1.0
+Jarvan IV,Karma,Wukong,Rakan,1,0.0
+Jarvan IV,Karma,Xin Zhao,Anivia,1,1.0
+Jarvan IV,Karma,Xin Zhao,Bard,1,0.0
+Jarvan IV,Karma,Xin Zhao,Milio,1,0.0
+Jarvan IV,Karma,Xin Zhao,Skarner,1,0.0
+Jarvan IV,Karma,Zaahen,Nautilus,1,1.0
+Jarvan IV,Karma,Zaahen,Seraphine,1,1.0
+Jarvan IV,Leona,Ambessa,Rakan,1,1.0
+Jarvan IV,Leona,Jayce,Karma,1,1.0
+Jarvan IV,Leona,Lee Sin,Camille,1,1.0
+Jarvan IV,Leona,Lee Sin,Thresh,1,1.0
+Jarvan IV,Leona,Master Yi,Seraphine,1,0.0
+Jarvan IV,Leona,Nocturne,Camille,1,1.0
+Jarvan IV,Leona,Nocturne,Pyke,1,1.0
+Jarvan IV,Leona,Nocturne,Rell,1,1.0
+Jarvan IV,Leona,Pantheon,Alistar,1,0.0
+Jarvan IV,Leona,Pantheon,Nautilus,1,0.0
+Jarvan IV,Leona,Poppy,Nautilus,1,1.0
+Jarvan IV,Leona,Vi,Nautilus,1,1.0
+Jarvan IV,Leona,Volibear,Nami,1,0.0
+Jarvan IV,Leona,Wukong,Braum,1,0.0
+Jarvan IV,Leona,Wukong,Nautilus,1,1.0
+Jarvan IV,Leona,Wukong,Rakan,1,0.0
+Jarvan IV,Leona,Xin Zhao,Nautilus,1,1.0
+Jarvan IV,Leona,Zaahen,Seraphine,1,0.0
+Jarvan IV,Leona,Zaahen,Thresh,1,0.0
+Jarvan IV,Lulu,Aatrox,Pyke,1,0.0
+Jarvan IV,Lulu,Ambessa,Bard,1,1.0
+Jarvan IV,Lulu,Ambessa,Neeko,1,1.0
+Jarvan IV,Lulu,Gwen,Milio,1,1.0
+Jarvan IV,Lulu,Kayn,Nami,1,1.0
+Jarvan IV,Lulu,Lee Sin,Anivia,1,0.0
+Jarvan IV,Lulu,Lee Sin,Bard,1,1.0
+Jarvan IV,Lulu,Lee Sin,Leona,1,1.0
+Jarvan IV,Lulu,Lee Sin,Nautilus,1,0.0
+Jarvan IV,Lulu,Maokai,Nami,1,1.0
+Jarvan IV,Lulu,Naafiri,Nautilus,1,0.0
+Jarvan IV,Lulu,Naafiri,Neeko,1,0.0
+Jarvan IV,Lulu,Naafiri,Rakan,1,0.0
+Jarvan IV,Lulu,Naafiri,Thresh,1,1.0
+Jarvan IV,Lulu,Nocturne,Nami,1,0.0
+Jarvan IV,Lulu,Nocturne,Neeko,1,0.0
+Jarvan IV,Lulu,Nocturne,Rakan,1,0.0
+Jarvan IV,Lulu,Nocturne,Tahm Kench,1,1.0
+Jarvan IV,Lulu,Poppy,Milio,1,1.0
+Jarvan IV,Lulu,Poppy,Nautilus,1,1.0
+Jarvan IV,Lulu,Sejuani,Nami,1,0.0
+Jarvan IV,Lulu,Sejuani,Renata Glasc,1,1.0
+Jarvan IV,Lulu,Skarner,Seraphine,1,1.0
+Jarvan IV,Lulu,Vi,Alistar,1,0.0
+Jarvan IV,Lulu,Vi,Nami,1,0.0
+Jarvan IV,Lulu,Vi,Neeko,1,0.0
+Jarvan IV,Lulu,Vi,Seraphine,1,0.0
+Jarvan IV,Lulu,Wukong,Alistar,1,1.0
+Jarvan IV,Lulu,Wukong,Bard,1,1.0
+Jarvan IV,Lulu,Wukong,Blitzcrank,1,1.0
+Jarvan IV,Lulu,Wukong,Karma,1,1.0
+Jarvan IV,Lulu,Wukong,Milio,1,1.0
+Jarvan IV,Lulu,Wukong,Nami,1,0.0
+Jarvan IV,Lulu,Wukong,Nautilus,1,1.0
+Jarvan IV,Lulu,Wukong,Rell,1,1.0
+Jarvan IV,Lulu,Wukong,Seraphine,1,0.0
+Jarvan IV,Lulu,Xin Zhao,Anivia,1,1.0
+Jarvan IV,Lulu,Xin Zhao,Bard,1,0.0
+Jarvan IV,Lulu,Xin Zhao,Karma,1,1.0
+Jarvan IV,Lulu,Xin Zhao,Rakan,1,1.0
+Jarvan IV,Lulu,Zaahen,Blitzcrank,1,1.0
+Jarvan IV,Lulu,Zaahen,Pyke,1,1.0
+Jarvan IV,Lux,Aatrox,Bard,1,1.0
+Jarvan IV,Lux,Naafiri,Bard,1,1.0
+Jarvan IV,Lux,Poppy,Leona,1,0.0
+Jarvan IV,Lux,Xin Zhao,Milio,1,1.0
+Jarvan IV,Maokai,Naafiri,Poppy,1,1.0
+Jarvan IV,Milio,Lee Sin,Bard,1,0.0
+Jarvan IV,Milio,Lee Sin,Nami,1,1.0
+Jarvan IV,Milio,Lee Sin,Seraphine,1,1.0
+Jarvan IV,Milio,Lee Sin,Yuumi,1,0.0
+Jarvan IV,Milio,Naafiri,Bard,1,1.0
+Jarvan IV,Milio,Naafiri,Nautilus,1,0.0
+Jarvan IV,Milio,Naafiri,Neeko,1,1.0
+Jarvan IV,Milio,Naafiri,Rakan,1,1.0
+Jarvan IV,Milio,Naafiri,Seraphine,1,0.0
+Jarvan IV,Milio,Nocturne,Rakan,1,1.0
+Jarvan IV,Milio,Skarner,Braum,1,1.0
+Jarvan IV,Milio,Vi,Lulu,1,0.0
+Jarvan IV,Milio,Vi,Nautilus,1,1.0
+Jarvan IV,Milio,Wukong,Neeko,1,0.0
+Jarvan IV,Milio,Xin Zhao,Bard,1,1.0
+Jarvan IV,Milio,Xin Zhao,Nautilus,1,1.0
+Jarvan IV,Morgana,Vi,Leona,1,1.0
+Jarvan IV,Nami,Aatrox,Lulu,1,0.0
+Jarvan IV,Nami,Ambessa,Seraphine,1,1.0
+Jarvan IV,Nami,Dr. Mundo,Lulu,1,0.0
+Jarvan IV,Nami,Dr. Mundo,Nautilus,1,1.0
+Jarvan IV,Nami,Dr. Mundo,Neeko,1,1.0
+Jarvan IV,Nami,Lee Sin,Lulu,1,0.0
+Jarvan IV,Nami,Lee Sin,Milio,1,1.0
+Jarvan IV,Nami,Lee Sin,Nautilus,1,1.0
+Jarvan IV,Nami,Lee Sin,Seraphine,1,1.0
+Jarvan IV,Nami,Lillia,Lulu,1,0.0
+Jarvan IV,Nami,Naafiri,Neeko,1,1.0
+Jarvan IV,Nami,Nocturne,Janna,1,1.0
+Jarvan IV,Nami,Nocturne,Lulu,1,0.0
+Jarvan IV,Nami,Nocturne,Neeko,1,1.0
+Jarvan IV,Nami,Nocturne,Rakan,1,1.0
+Jarvan IV,Nami,Pantheon,Bard,1,1.0
+Jarvan IV,Nami,Poppy,Lulu,1,1.0
+Jarvan IV,Nami,Poppy,Neeko,1,1.0
+Jarvan IV,Nami,Rek'Sai,Karma,1,0.0
+Jarvan IV,Nami,Sejuani,Karma,1,0.0
+Jarvan IV,Nami,Sejuani,Lulu,1,0.0
+Jarvan IV,Nami,Sejuani,Milio,1,0.0
+Jarvan IV,Nami,Sejuani,Neeko,1,0.0
+Jarvan IV,Nami,Skarner,Karma,1,0.0
+Jarvan IV,Nami,Vi,Lulu,1,0.0
+Jarvan IV,Nami,Vi,Milio,1,1.0
+Jarvan IV,Nami,Vi,Seraphine,1,1.0
+Jarvan IV,Nami,Wukong,Alistar,1,0.0
+Jarvan IV,Nami,Wukong,Karma,1,1.0
+Jarvan IV,Nami,Wukong,Lulu,1,0.0
+Jarvan IV,Nami,Wukong,Neeko,1,0.0
+Jarvan IV,Nami,Wukong,Thresh,1,1.0
+Jarvan IV,Nami,Xin Zhao,Leona,1,0.0
+Jarvan IV,Nami,Xin Zhao,Milio,1,0.0
+Jarvan IV,Nami,Xin Zhao,Neeko,1,1.0
+Jarvan IV,Nami,Xin Zhao,Rakan,1,1.0
+Jarvan IV,Nami,Xin Zhao,Seraphine,1,0.0
+Jarvan IV,Nami,Xin Zhao,Thresh,1,0.0
+Jarvan IV,Nami,Zaahen,Karma,1,0.0
+Jarvan IV,Nautilus,Aatrox,Alistar,1,1.0
+Jarvan IV,Nautilus,Aatrox,Karma,1,1.0
+Jarvan IV,Nautilus,Aatrox,Leona,1,1.0
+Jarvan IV,Nautilus,Aatrox,Rell,1,0.0
+Jarvan IV,Nautilus,Aatrox,Seraphine,1,0.0
+Jarvan IV,Nautilus,Ambessa,Karma,1,1.0
+Jarvan IV,Nautilus,Ambessa,Leona,1,1.0
+Jarvan IV,Nautilus,Dr. Mundo,Leona,1,1.0
+Jarvan IV,Nautilus,Lee Sin,Alistar,1,0.0
+Jarvan IV,Nautilus,Lee Sin,Lulu,1,0.0
+Jarvan IV,Nautilus,Lee Sin,Neeko,1,1.0
+Jarvan IV,Nautilus,Malphite,Alistar,1,0.0
+Jarvan IV,Nautilus,Malphite,Leona,1,0.0
+Jarvan IV,Nautilus,Maokai,Rell,1,0.0
+Jarvan IV,Nautilus,Naafiri,Alistar,1,0.0
+Jarvan IV,Nautilus,Naafiri,Neeko,1,0.0
+Jarvan IV,Nautilus,Nidalee,Braum,1,0.0
+Jarvan IV,Nautilus,Nocturne,Alistar,1,0.0
+Jarvan IV,Nautilus,Nocturne,Lulu,1,1.0
+Jarvan IV,Nautilus,Nocturne,Pyke,1,0.0
+Jarvan IV,Nautilus,Nocturne,Rell,1,1.0
+Jarvan IV,Nautilus,Nocturne,Seraphine,1,0.0
+Jarvan IV,Nautilus,Pantheon,Alistar,1,1.0
+Jarvan IV,Nautilus,Pantheon,Bard,1,1.0
+Jarvan IV,Nautilus,Pantheon,Leona,1,1.0
+Jarvan IV,Nautilus,Pantheon,Neeko,1,1.0
+Jarvan IV,Nautilus,Pantheon,Tahm Kench,1,1.0
+Jarvan IV,Nautilus,Qiyana,Braum,1,0.0
+Jarvan IV,Nautilus,Qiyana,Rell,1,0.0
+Jarvan IV,Nautilus,Sejuani,Nami,1,0.0
+Jarvan IV,Nautilus,Skarner,Bard,1,1.0
+Jarvan IV,Nautilus,Skarner,Lulu,1,0.0
+Jarvan IV,Nautilus,Skarner,Milio,1,1.0
+Jarvan IV,Nautilus,Trundle,Milio,1,0.0
+Jarvan IV,Nautilus,Trundle,Rell,1,0.0
+Jarvan IV,Nautilus,Vi,Karma,1,0.0
+Jarvan IV,Nautilus,Vi,Nami,1,0.0
+Jarvan IV,Nautilus,Vi,Neeko,1,0.0
+Jarvan IV,Nautilus,Vi,Rakan,1,0.0
+Jarvan IV,Nautilus,Viego,Rakan,1,0.0
+Jarvan IV,Nautilus,Wukong,Alistar,1,1.0
+Jarvan IV,Nautilus,Wukong,Braum,1,0.0
+Jarvan IV,Nautilus,Wukong,Karma,1,1.0
+Jarvan IV,Nautilus,Wukong,Milio,1,0.0
+Jarvan IV,Nautilus,Xin Zhao,Karma,1,1.0
+Jarvan IV,Nautilus,Xin Zhao,Milio,1,1.0
+Jarvan IV,Nautilus,Xin Zhao,Poppy,1,1.0
+Jarvan IV,Nautilus,Xin Zhao,Rakan,1,0.0
+Jarvan IV,Nautilus,Xin Zhao,Rell,1,1.0
+Jarvan IV,Nautilus,Zaahen,Karma,1,1.0
+Jarvan IV,Neeko,Aatrox,Anivia,1,0.0
+Jarvan IV,Neeko,Aatrox,Bard,1,0.0
+Jarvan IV,Neeko,Aatrox,Lulu,1,1.0
+Jarvan IV,Neeko,Ambessa,Nami,1,1.0
+Jarvan IV,Neeko,Graves,Nautilus,1,1.0
+Jarvan IV,Neeko,Jayce,Karma,1,1.0
+Jarvan IV,Neeko,Lee Sin,Lulu,1,1.0
+Jarvan IV,Neeko,Lee Sin,Nautilus,1,0.0
+Jarvan IV,Neeko,Malphite,Karma,1,1.0
+Jarvan IV,Neeko,Naafiri,Bard,1,1.0
+Jarvan IV,Neeko,Naafiri,Nautilus,1,0.0
+Jarvan IV,Neeko,Nidalee,Karma,1,1.0
+Jarvan IV,Neeko,Nocturne,Lux,1,0.0
+Jarvan IV,Neeko,Nocturne,Nami,1,0.0
+Jarvan IV,Neeko,Nocturne,Rakan,1,1.0
+Jarvan IV,Neeko,Pantheon,Anivia,1,1.0
+Jarvan IV,Neeko,Pantheon,Karma,1,1.0
+Jarvan IV,Neeko,Pantheon,Lulu,1,1.0
+Jarvan IV,Neeko,Pantheon,Nautilus,1,0.0
+Jarvan IV,Neeko,Pantheon,Pyke,1,0.0
+Jarvan IV,Neeko,Pantheon,Rakan,1,0.0
+Jarvan IV,Neeko,Pantheon,Thresh,1,1.0
+Jarvan IV,Neeko,Poppy,Seraphine,1,0.0
+Jarvan IV,Neeko,Qiyana,Bard,1,1.0
+Jarvan IV,Neeko,Sejuani,Thresh,1,1.0
+Jarvan IV,Neeko,Shen,Nami,1,1.0
+Jarvan IV,Neeko,Taliyah,Nautilus,1,0.0
+Jarvan IV,Neeko,Vi,Alistar,1,1.0
+Jarvan IV,Neeko,Vi,Anivia,1,0.0
+Jarvan IV,Neeko,Vi,Bard,1,1.0
+Jarvan IV,Neeko,Vi,Nami,1,1.0
+Jarvan IV,Neeko,Vi,Rakan,1,1.0
+Jarvan IV,Neeko,Xin Zhao,Anivia,1,0.0
+Jarvan IV,Neeko,Xin Zhao,Camille,1,1.0
+Jarvan IV,Neeko,Xin Zhao,Lulu,1,1.0
+Jarvan IV,Neeko,Xin Zhao,Rell,1,1.0
+Jarvan IV,Neeko,Xin Zhao,Seraphine,1,0.0
+Jarvan IV,Neeko,Xin Zhao,Soraka,1,1.0
+Jarvan IV,Poppy,Aatrox,Lulu,1,0.0
+Jarvan IV,Poppy,Aatrox,Rakan,1,1.0
+Jarvan IV,Poppy,Ambessa,Alistar,1,0.0
+Jarvan IV,Poppy,Ambessa,Yuumi,1,1.0
+Jarvan IV,Poppy,Lee Sin,Leona,1,0.0
+Jarvan IV,Poppy,Lee Sin,Rell,1,1.0
+Jarvan IV,Poppy,Nocturne,Rell,1,0.0
+Jarvan IV,Poppy,Rumble,Leona,1,1.0
+Jarvan IV,Poppy,Wukong,Bard,1,1.0
+Jarvan IV,Poppy,Xin Zhao,Alistar,1,0.0
+Jarvan IV,Pyke,Aatrox,Seraphine,1,0.0
+Jarvan IV,Pyke,Lee Sin,Bard,1,1.0
+Jarvan IV,Pyke,Lee Sin,Neeko,1,1.0
+Jarvan IV,Pyke,Lee Sin,Poppy,1,0.0
+Jarvan IV,Pyke,Naafiri,Neeko,1,0.0
+Jarvan IV,Pyke,Wukong,Lulu,1,1.0
+Jarvan IV,Rakan,Ambessa,Neeko,1,0.0
+Jarvan IV,Rakan,Elise,Braum,1,1.0
+Jarvan IV,Rakan,Fizz,Lulu,1,1.0
+Jarvan IV,Rakan,Graves,Bard,1,0.0
+Jarvan IV,Rakan,Lee Sin,Milio,1,1.0
+Jarvan IV,Rakan,Malphite,Bard,1,0.0
+Jarvan IV,Rakan,Naafiri,Camille,1,0.0
+Jarvan IV,Rakan,Naafiri,Nautilus,1,0.0
+Jarvan IV,Rakan,Naafiri,Rell,1,0.0
+Jarvan IV,Rakan,Nidalee,Camille,1,1.0
+Jarvan IV,Rakan,Nocturne,Pantheon,1,1.0
+Jarvan IV,Rakan,Pantheon,Alistar,1,1.0
+Jarvan IV,Rakan,Poppy,Neeko,1,1.0
+Jarvan IV,Rakan,Vi,Elise,1,0.0
+Jarvan IV,Rakan,Vi,Nami,1,1.0
+Jarvan IV,Rakan,Vi,Tahm Kench,1,1.0
+Jarvan IV,Rakan,Viego,Nautilus,1,0.0
+Jarvan IV,Rakan,Wukong,Braum,1,1.0
+Jarvan IV,Rakan,Wukong,Pyke,1,0.0
+Jarvan IV,Rakan,Wukong,Rell,1,0.0
+Jarvan IV,Rakan,Xin Zhao,Alistar,1,0.0
+Jarvan IV,Rakan,Xin Zhao,Nami,1,0.0
+Jarvan IV,Rakan,Xin Zhao,Poppy,1,1.0
+Jarvan IV,Rakan,Zaahen,Neeko,1,1.0
+Jarvan IV,Rell,Aatrox,Bard,1,1.0
+Jarvan IV,Rell,Dr. Mundo,Karma,1,0.0
+Jarvan IV,Rell,Jayce,Neeko,1,1.0
+Jarvan IV,Rell,Lee Sin,Lulu,1,0.0
+Jarvan IV,Rell,Naafiri,Lulu,1,1.0
+Jarvan IV,Rell,Naafiri,Nautilus,1,1.0
+Jarvan IV,Rell,Nocturne,Nami,1,1.0
+Jarvan IV,Rell,Nocturne,Nautilus,1,0.0
+Jarvan IV,Rell,Nocturne,Rakan,1,0.0
+Jarvan IV,Rell,Nocturne,Seraphine,1,1.0
+Jarvan IV,Rell,Pantheon,Nami,1,0.0
+Jarvan IV,Rell,Pantheon,Rakan,1,1.0
+Jarvan IV,Rell,Pantheon,Seraphine,1,0.0
+Jarvan IV,Rell,Poppy,Karma,1,0.0
+Jarvan IV,Rell,Qiyana,Nautilus,1,1.0
+Jarvan IV,Rell,Rek'Sai,Seraphine,1,0.0
+Jarvan IV,Rell,Sejuani,Nautilus,1,1.0
+Jarvan IV,Rell,Sylas,Alistar,1,1.0
+Jarvan IV,Rell,Vi,Alistar,1,1.0
+Jarvan IV,Rell,Vi,Nautilus,1,1.0
+Jarvan IV,Rell,Vi,Poppy,1,0.0
+Jarvan IV,Rell,Viego,Alistar,1,1.0
+Jarvan IV,Rell,Volibear,Lulu,1,0.0
+Jarvan IV,Rell,Wukong,Braum,1,0.0
+Jarvan IV,Rell,Wukong,Camille,1,1.0
+Jarvan IV,Rell,Wukong,Neeko,1,0.0
+Jarvan IV,Rell,Wukong,Renata Glasc,1,1.0
+Jarvan IV,Rell,Wukong,Shen,1,1.0
+Jarvan IV,Rell,Xin Zhao,Alistar,1,1.0
+Jarvan IV,Rell,Xin Zhao,Lulu,1,0.0
+Jarvan IV,Rell,Xin Zhao,Neeko,1,1.0
+Jarvan IV,Rell,Xin Zhao,Pyke,1,0.0
+Jarvan IV,Rell,Xin Zhao,Rakan,1,0.0
+Jarvan IV,Rell,Xin Zhao,Seraphine,1,0.0
+Jarvan IV,Renata Glasc,Pantheon,Milio,1,0.0
+Jarvan IV,Renata Glasc,Pantheon,Nami,1,0.0
+Jarvan IV,Renata Glasc,Skarner,Milio,1,1.0
+Jarvan IV,Renata Glasc,Vi,Nautilus,1,1.0
+Jarvan IV,Renata Glasc,Xin Zhao,Alistar,1,1.0
+Jarvan IV,Senna,Aatrox,Bard,1,0.0
+Jarvan IV,Senna,Vi,Neeko,1,1.0
+Jarvan IV,Seraphine,Aatrox,Karma,1,0.0
+Jarvan IV,Seraphine,Aatrox,Lulu,1,1.0
+Jarvan IV,Seraphine,Lee Sin,Nami,1,0.0
+Jarvan IV,Seraphine,Lee Sin,Neeko,1,1.0
+Jarvan IV,Seraphine,Lee Sin,Pantheon,1,0.0
+Jarvan IV,Seraphine,Lee Sin,Rell,1,0.0
+Jarvan IV,Seraphine,Naafiri,Nami,1,0.0
+Jarvan IV,Seraphine,Naafiri,Neeko,1,1.0
+Jarvan IV,Seraphine,Nocturne,Alistar,1,1.0
+Jarvan IV,Seraphine,Nocturne,Nami,1,0.0
+Jarvan IV,Seraphine,Nocturne,Neeko,1,0.0
+Jarvan IV,Seraphine,Pantheon,Bard,1,1.0
+Jarvan IV,Seraphine,Pantheon,Blitzcrank,1,1.0
+Jarvan IV,Seraphine,Pantheon,Karma,1,0.0
+Jarvan IV,Seraphine,Pantheon,Milio,1,1.0
+Jarvan IV,Seraphine,Pantheon,Nami,1,0.0
+Jarvan IV,Seraphine,Pantheon,Nautilus,1,0.0
+Jarvan IV,Seraphine,Pantheon,Neeko,1,1.0
+Jarvan IV,Seraphine,Pantheon,Shen,1,0.0
+Jarvan IV,Seraphine,Qiyana,Lulu,1,0.0
+Jarvan IV,Seraphine,Vi,Nami,1,0.0
+Jarvan IV,Seraphine,Vi,Neeko,1,1.0
+Jarvan IV,Seraphine,Vi,Pyke,1,0.0
+Jarvan IV,Seraphine,Wukong,Lulu,1,1.0
+Jarvan IV,Seraphine,Wukong,Milio,1,1.0
+Jarvan IV,Seraphine,Xin Zhao,Blitzcrank,1,0.0
+Jarvan IV,Seraphine,Xin Zhao,Milio,1,0.0
+Jarvan IV,Seraphine,Xin Zhao,Nautilus,1,1.0
+Jarvan IV,Seraphine,Xin Zhao,Yuumi,1,0.0
+Jarvan IV,Sett,Lee Sin,Nautilus,1,0.0
+Jarvan IV,Shaco,Vi,Lulu,1,1.0
+Jarvan IV,Shen,Pantheon,Karma,1,1.0
+Jarvan IV,Shen,Poppy,Camille,1,0.0
+Jarvan IV,Shen,Trundle,Camille,1,1.0
+Jarvan IV,Soraka,Ambessa,Neeko,1,1.0
+Jarvan IV,Soraka,Pantheon,Bard,1,0.0
+Jarvan IV,Sylas,Xin Zhao,Neeko,1,0.0
+Jarvan IV,Thresh,Lee Sin,Lulu,1,1.0
+Jarvan IV,Thresh,Naafiri,Lulu,1,1.0
+Jarvan IV,Thresh,Naafiri,Rakan,1,0.0
+Jarvan IV,Thresh,Nocturne,Rell,1,1.0
+Jarvan IV,Thresh,Pantheon,Alistar,1,0.0
+Jarvan IV,Thresh,Pantheon,Lulu,1,1.0
+Jarvan IV,Thresh,Sejuani,Lulu,1,1.0
+Jarvan IV,Thresh,Vi,Lulu,1,0.0
+Jarvan IV,Thresh,Vi,Seraphine,1,0.0
+Jarvan IV,Thresh,Wukong,Leona,1,1.0
+Jarvan IV,Thresh,Wukong,Rakan,1,0.0
+Jarvan IV,Yuumi,Lee Sin,Seraphine,1,1.0
+Jarvan IV,Yuumi,Nocturne,Milio,1,1.0
+Jarvan IV,Yuumi,Skarner,Seraphine,1,0.0
+Jarvan IV,Yuumi,Vi,Rakan,1,0.0
+Jax,Alistar,Jarvan IV,Nami,1,0.0
+Jax,Alistar,Xin Zhao,Rakan,1,0.0
+Jax,Bard,Nocturne,Camille,1,1.0
+Jax,Bard,Xin Zhao,Neeko,1,1.0
+Jax,Bard,Xin Zhao,Rakan,1,0.0
+Jax,Braum,Jarvan IV,Tahm Kench,1,1.0
+Jax,Braum,Vi,Lulu,1,0.0
+Jax,Karma,Xin Zhao,Nami,1,0.0
+Jax,Leona,Xin Zhao,Nami,1,1.0
+Jax,Leona,Xin Zhao,Rell,1,1.0
+Jax,Lulu,Xin Zhao,Milio,1,0.0
+Jax,Milio,Volibear,Neeko,1,1.0
+Jax,Nami,Hecarim,Karma,1,0.0
+Jax,Nami,Wukong,Milio,1,1.0
+Jax,Nautilus,Briar,Alistar,1,1.0
+Jax,Nautilus,Viego,Leona,1,1.0
+Jax,Nautilus,Xin Zhao,Leona,1,1.0
+Jax,Nautilus,Xin Zhao,Renata Glasc,1,0.0
+Jax,Neeko,Zaahen,Nami,1,1.0
+Jax,Poppy,Xin Zhao,Rell,1,1.0
+Jax,Pyke,Xin Zhao,Karma,1,1.0
+Jax,Pyke,Xin Zhao,Lulu,1,0.0
+Jax,Rakan,Jarvan IV,Bard,1,0.0
+Jax,Rell,Jarvan IV,Lulu,1,0.0
+Jax,Rell,Skarner,Nami,1,1.0
+Jax,Rell,Xin Zhao,Alistar,1,0.0
+Jax,Seraphine,Jarvan IV,Braum,1,1.0
+Jax,Seraphine,Kha'Zix,Bard,1,0.0
+Jax,Seraphine,Trundle,Lulu,1,1.0
+Jax,Seraphine,Wukong,Nautilus,1,0.0
+Jax,Seraphine,Xin Zhao,Braum,1,1.0
+Jax,Seraphine,Xin Zhao,Yuumi,1,1.0
+Jayce,Alistar,Gwen,Leona,1,0.0
+Jayce,Alistar,Jarvan IV,Neeko,1,0.0
+Jayce,Alistar,Jarvan IV,Rakan,1,1.0
+Jayce,Alistar,Kindred,Bard,1,0.0
+Jayce,Alistar,Malphite,Rakan,1,0.0
+Jayce,Alistar,Nocturne,Poppy,1,1.0
+Jayce,Alistar,Nocturne,Rakan,1,1.0
+Jayce,Alistar,Nocturne,Rell,1,0.0
+Jayce,Alistar,Qiyana,Bard,1,0.0
+Jayce,Alistar,Sejuani,Braum,1,1.0
+Jayce,Alistar,Taliyah,Leona,1,0.0
+Jayce,Alistar,Wukong,Karma,1,1.0
+Jayce,Bard,Ambessa,Alistar,1,1.0
+Jayce,Bard,Ambessa,Nautilus,1,1.0
+Jayce,Bard,Nocturne,Rakan,1,1.0
+Jayce,Bard,Pantheon,Neeko,1,0.0
+Jayce,Bard,Skarner,Alistar,1,0.0
+Jayce,Bard,Taliyah,Leona,1,1.0
+Jayce,Bard,Trundle,Elise,1,1.0
+Jayce,Bard,Vi,Pyke,1,1.0
+Jayce,Bard,Wukong,Leona,1,1.0
+Jayce,Bard,Xin Zhao,Milio,1,1.0
+Jayce,Bard,Xin Zhao,Neeko,1,1.0
+Jayce,Blitzcrank,Wukong,Nami,1,1.0
+Jayce,Braum,Bel'Veth,Leona,1,1.0
+Jayce,Braum,Dr. Mundo,Alistar,1,0.0
+Jayce,Braum,Lee Sin,Nautilus,1,0.0
+Jayce,Braum,Taliyah,Rell,1,0.0
+Jayce,Braum,Vi,Alistar,1,1.0
+Jayce,Braum,Xin Zhao,Neeko,1,0.0
+Jayce,Galio,Malphite,Neeko,1,0.0
+Jayce,Karma,Pantheon,Alistar,1,1.0
+Jayce,Karma,Wukong,Neeko,1,1.0
+Jayce,Leona,Jarvan IV,Nautilus,1,1.0
+Jayce,Leona,Jarvan IV,Neeko,1,1.0
+Jayce,Leona,Lee Sin,Nautilus,1,1.0
+Jayce,Leona,Nocturne,Rakan,1,0.0
+Jayce,Leona,Wukong,Nautilus,1,1.0
+Jayce,Leona,Xin Zhao,Poppy,1,1.0
+Jayce,Lulu,Malphite,Nami,1,0.0
+Jayce,Lulu,Xin Zhao,Nami,1,0.0
+Jayce,Milio,Nocturne,Lulu,1,0.0
+Jayce,Milio,Trundle,Seraphine,1,0.0
+Jayce,Nami,Malphite,Karma,1,0.0
+Jayce,Nami,Xin Zhao,Leona,1,0.0
+Jayce,Nautilus,Ambessa,Leona,1,1.0
+Jayce,Nautilus,Dr. Mundo,Alistar,1,0.0
+Jayce,Nautilus,Dr. Mundo,Braum,1,0.0
+Jayce,Nautilus,Dr. Mundo,Leona,1,0.0
+Jayce,Nautilus,Gwen,Rakan,1,1.0
+Jayce,Nautilus,Jarvan IV,Bard,1,0.0
+Jayce,Nautilus,Malphite,Leona,1,1.0
+Jayce,Nautilus,Malphite,Rell,1,0.0
+Jayce,Nautilus,Naafiri,Rell,1,1.0
+Jayce,Nautilus,Vi,Bard,1,1.0
+Jayce,Nautilus,Vi,Braum,1,0.0
+Jayce,Nautilus,Zyra,Leona,1,1.0
+Jayce,Neeko,Lee Sin,Nami,1,0.0
+Jayce,Neeko,Lee Sin,Rakan,1,0.0
+Jayce,Neeko,Malphite,Seraphine,1,0.0
+Jayce,Neeko,Rengar,Nami,1,0.0
+Jayce,Neeko,Wukong,Nautilus,1,0.0
+Jayce,Neeko,Xin Zhao,Blitzcrank,1,0.0
+Jayce,Neeko,Zyra,Nami,1,0.0
+Jayce,Poppy,Ambessa,Rakan,1,1.0
+Jayce,Poppy,Pantheon,Rell,1,1.0
+Jayce,Pyke,Wukong,Karma,1,1.0
+Jayce,Rakan,Dr. Mundo,Neeko,1,1.0
+Jayce,Rakan,Jarvan IV,Neeko,1,0.0
+Jayce,Rakan,Malphite,Karma,1,0.0
+Jayce,Rakan,Nocturne,Rell,1,1.0
+Jayce,Rakan,Qiyana,Bard,1,0.0
+Jayce,Rakan,Vi,Neeko,1,1.0
+Jayce,Rakan,Wukong,Lulu,1,1.0
+Jayce,Rell,Dr. Mundo,Leona,1,1.0
+Jayce,Rell,Vi,Bard,1,1.0
+Jayce,Rell,Vi,Braum,1,0.0
+Jayce,Rell,Vi,Nautilus,1,0.0
+Jayce,Rell,Vi,Neeko,1,1.0
+Jayce,Rell,Wukong,Bard,1,1.0
+Jayce,Rell,Xin Zhao,Rakan,1,1.0
+Jayce,Renata Glasc,Jarvan IV,Nami,1,1.0
+Jayce,Seraphine,Ivern,Nautilus,1,0.0
+Jayce,Seraphine,Wukong,Neeko,1,1.0
+Jayce,Skarner,Wukong,Karma,1,0.0
+Jayce,Tahm Kench,Xin Zhao,Karma,1,0.0
+Jayce,Thresh,Dr. Mundo,Blitzcrank,1,0.0
+Jayce,Thresh,Vi,Mel,1,0.0
+Jayce,Zyra,Jarvan IV,Seraphine,1,0.0
+Karthus,Bard,Naafiri,Milio,1,0.0
+Karthus,Nautilus,Wukong,Braum,1,0.0
+Kayn,Camille,Xin Zhao,Rell,1,1.0
+Kha'Zix,Alistar,Sylas,Braum,1,1.0
+Kha'Zix,Alistar,Viego,Rell,1,0.0
+Kha'Zix,Anivia,Skarner,Karma,1,0.0
+Kha'Zix,Bard,Lee Sin,Nautilus,1,0.0
+Kha'Zix,Bard,Pantheon,Neeko,1,1.0
+Kha'Zix,Bard,Trundle,Seraphine,1,1.0
+Kha'Zix,Bard,Vi,Karma,1,0.0
+Kha'Zix,Bard,Wukong,Milio,1,0.0
+Kha'Zix,Bard,Zed,Camille,1,1.0
+Kha'Zix,Karma,Ivern,Rell,1,1.0
+Kha'Zix,Karma,Xin Zhao,Neeko,1,0.0
+Kha'Zix,Lulu,Ambessa,Nami,1,0.0
+Kha'Zix,Lulu,Jayce,Bard,1,1.0
+Kha'Zix,Lulu,Poppy,Nautilus,1,1.0
+Kha'Zix,Lux,Xin Zhao,Zyra,1,1.0
+Kha'Zix,Milio,Vi,Bard,1,1.0
+Kha'Zix,Milio,Xin Zhao,Neeko,1,1.0
+Kha'Zix,Nami,Nocturne,Lulu,1,1.0
+Kha'Zix,Nami,Nocturne,Milio,1,1.0
+Kha'Zix,Nami,Xin Zhao,Milio,1,0.0
+Kha'Zix,Nautilus,Nocturne,Lulu,1,0.0
+Kha'Zix,Nautilus,Xin Zhao,Leona,1,1.0
+Kha'Zix,Nautilus,Zaahen,Neeko,1,0.0
+Kha'Zix,Neeko,Ambessa,Karma,1,1.0
+Kha'Zix,Neeko,Nocturne,Karma,1,1.0
+Kha'Zix,Neeko,Xin Zhao,Soraka,1,0.0
+Kha'Zix,Neeko,Zaahen,Lulu,1,0.0
+Kha'Zix,Pantheon,Nidalee,Leona,1,1.0
+Kha'Zix,Rell,Xin Zhao,Nautilus,1,1.0
+Kha'Zix,Renata Glasc,Xin Zhao,Nautilus,1,1.0
+Kha'Zix,Seraphine,Lee Sin,Neeko,1,1.0
+Kha'Zix,Thresh,Xin Zhao,Lulu,1,1.0
+Kindred,Alistar,Nocturne,Braum,1,0.0
+Kindred,Blitzcrank,Dr. Mundo,Nami,1,1.0
+Kindred,Blitzcrank,Lee Sin,Alistar,1,0.0
+Kindred,Braum,Jarvan IV,Rell,1,0.0
+Kindred,Karma,Ambessa,Lulu,1,0.0
+Kindred,Karma,Jarvan IV,Nautilus,1,0.0
+Kindred,Lulu,Wukong,Thresh,1,0.0
+Kindred,Nami,Xin Zhao,Milio,1,0.0
+Kindred,Nautilus,Wukong,Lulu,1,0.0
+Kindred,Pantheon,Xin Zhao,Rell,1,1.0
+Kindred,Rakan,Vi,Alistar,1,0.0
+Kindred,Rakan,Xin Zhao,Rell,1,1.0
+Kindred,Rell,Lillia,Alistar,1,0.0
+Kindred,Seraphine,Vi,Nautilus,1,0.0
+Kindred,Skarner,Trundle,Seraphine,1,0.0
+Lee Sin,Alistar,Jarvan IV,Rakan,1,1.0
+Lee Sin,Alistar,Jarvan IV,Rell,1,0.0
+Lee Sin,Alistar,Naafiri,Taric,1,1.0
+Lee Sin,Alistar,Qiyana,Leona,1,1.0
+Lee Sin,Alistar,Skarner,Karma,1,0.0
+Lee Sin,Alistar,Vi,Leona,1,0.0
+Lee Sin,Anivia,Jarvan IV,Rakan,1,1.0
+Lee Sin,Anivia,Nocturne,Nautilus,1,1.0
+Lee Sin,Bard,Dr. Mundo,Nautilus,1,1.0
+Lee Sin,Bard,Jarvan IV,Rakan,1,0.0
+Lee Sin,Bard,Jarvan IV,Skarner,1,1.0
+Lee Sin,Bard,Jayce,Rell,1,0.0
+Lee Sin,Bard,Nocturne,Karma,1,0.0
+Lee Sin,Bard,Pantheon,Camille,1,1.0
+Lee Sin,Bard,Pantheon,Neeko,1,1.0
+Lee Sin,Bard,Viego,Neeko,1,0.0
+Lee Sin,Bard,Wukong,Rakan,1,0.0
+Lee Sin,Bard,Xin Zhao,Leona,1,1.0
+Lee Sin,Bard,Xin Zhao,Seraphine,1,0.0
+Lee Sin,Blitzcrank,Pantheon,Karma,1,0.0
+Lee Sin,Blitzcrank,Wukong,Karma,1,1.0
+Lee Sin,Blitzcrank,Wukong,Milio,1,1.0
+Lee Sin,Braum,Jarvan IV,Rell,1,0.0
+Lee Sin,Braum,Trundle,Rell,1,1.0
+Lee Sin,Braum,Vi,Karma,1,1.0
+Lee Sin,Braum,Xin Zhao,Leona,1,0.0
+Lee Sin,Camille,Naafiri,Leona,1,0.0
+Lee Sin,Camille,Pantheon,Bard,1,1.0
+Lee Sin,Camille,Skarner,Shen,1,0.0
+Lee Sin,Camille,Vi,Leona,1,0.0
+Lee Sin,Camille,Wukong,Shen,1,0.0
+Lee Sin,Elise,Jarvan IV,Bard,1,1.0
+Lee Sin,K'Sante,Xin Zhao,Nautilus,1,1.0
+Lee Sin,Karma,Aatrox,Bard,1,0.0
+Lee Sin,Karma,Dr. Mundo,Neeko,1,1.0
+Lee Sin,Karma,Gwen,Lux,1,1.0
+Lee Sin,Karma,Jarvan IV,Nami,1,0.0
+Lee Sin,Karma,Jarvan IV,Nautilus,1,1.0
+Lee Sin,Karma,Jarvan IV,Neeko,1,1.0
+Lee Sin,Karma,Jarvan IV,Rakan,1,1.0
+Lee Sin,Karma,Naafiri,Thresh,1,1.0
+Lee Sin,Karma,Pantheon,Nautilus,1,0.0
+Lee Sin,Karma,Skarner,Rakan,1,1.0
+Lee Sin,Karma,Vi,Alistar,1,1.0
+Lee Sin,Karma,Wukong,Neeko,1,0.0
+Lee Sin,Karma,Wukong,Seraphine,1,0.0
+Lee Sin,Karma,Xin Zhao,Bard,1,1.0
+Lee Sin,Leona,Jax,Bard,1,0.0
+Lee Sin,Leona,Jax,Karma,1,1.0
+Lee Sin,Leona,Maokai,Alistar,1,0.0
+Lee Sin,Leona,Naafiri,Poppy,1,1.0
+Lee Sin,Leona,Nocturne,Bard,1,1.0
+Lee Sin,Leona,Nocturne,Yuumi,1,1.0
+Lee Sin,Leona,Pantheon,Alistar,1,0.0
+Lee Sin,Leona,Pantheon,Braum,1,1.0
+Lee Sin,Leona,Pantheon,Nautilus,1,1.0
+Lee Sin,Leona,Rek'Sai,Neeko,1,0.0
+Lee Sin,Leona,Skarner,Camille,1,0.0
+Lee Sin,Leona,Vi,Alistar,1,0.0
+Lee Sin,Leona,Vi,Camille,1,0.0
+Lee Sin,Leona,Wukong,Bard,1,1.0
+Lee Sin,Leona,Wukong,Poppy,1,1.0
+Lee Sin,Leona,Xin Zhao,Bard,1,1.0
+Lee Sin,Lulu,Aatrox,Seraphine,1,1.0
+Lee Sin,Lulu,Jarvan IV,Soraka,1,0.0
+Lee Sin,Lulu,Naafiri,Nami,1,1.0
+Lee Sin,Lulu,Poppy,Tahm Kench,1,0.0
+Lee Sin,Lulu,Rek'Sai,Braum,1,1.0
+Lee Sin,Lulu,Skarner,Bard,1,1.0
+Lee Sin,Lulu,Skarner,Karma,1,1.0
+Lee Sin,Lulu,Skarner,Nautilus,1,0.0
+Lee Sin,Lulu,Vi,Milio,1,1.0
+Lee Sin,Lulu,Xin Zhao,Milio,1,1.0
+Lee Sin,Lulu,Zaahen,Milio,1,1.0
+Lee Sin,Lux,Ambessa,Neeko,1,0.0
+Lee Sin,Lux,Jarvan IV,Rell,1,1.0
+Lee Sin,Lux,Naafiri,Milio,1,1.0
+Lee Sin,Lux,Wukong,Karma,1,1.0
+Lee Sin,Milio,Aatrox,Nautilus,1,1.0
+Lee Sin,Milio,Ambessa,Lulu,1,1.0
+Lee Sin,Milio,Dr. Mundo,Nami,1,1.0
+Lee Sin,Milio,Jarvan IV,Seraphine,1,0.0
+Lee Sin,Milio,Pantheon,Bard,1,1.0
+Lee Sin,Milio,Pantheon,Seraphine,1,0.0
+Lee Sin,Milio,Sejuani,Rell,1,1.0
+Lee Sin,Milio,Shyvana,Pantheon,1,1.0
+Lee Sin,Milio,Vi,Nautilus,1,0.0
+Lee Sin,Milio,Vi,Rakan,1,1.0
+Lee Sin,Milio,Vi,Sona,1,1.0
+Lee Sin,Milio,Xin Zhao,Renata Glasc,1,1.0
+Lee Sin,Nami,Ambessa,Bard,1,1.0
+Lee Sin,Nami,Jarvan IV,Bard,1,1.0
+Lee Sin,Nami,Jarvan IV,Karma,1,0.0
+Lee Sin,Nami,Jarvan IV,Seraphine,1,0.0
+Lee Sin,Nami,Naafiri,Milio,1,1.0
+Lee Sin,Nami,Sejuani,Milio,1,1.0
+Lee Sin,Nami,Vi,Seraphine,1,0.0
+Lee Sin,Nami,Wukong,Lulu,1,1.0
+Lee Sin,Nami,Xin Zhao,Bard,1,0.0
+Lee Sin,Nami,Xin Zhao,Lulu,1,1.0
+Lee Sin,Nautilus,Ambessa,Lulu,1,1.0
+Lee Sin,Nautilus,Jarvan IV,Alistar,1,0.0
+Lee Sin,Nautilus,Jarvan IV,Bard,1,0.0
+Lee Sin,Nautilus,Jarvan IV,Camille,1,1.0
+Lee Sin,Nautilus,Jarvan IV,Rell,1,1.0
+Lee Sin,Nautilus,Naafiri,Bard,1,0.0
+Lee Sin,Nautilus,Naafiri,Neeko,1,1.0
+Lee Sin,Nautilus,Nocturne,Milio,1,0.0
+Lee Sin,Nautilus,Nocturne,Neeko,1,1.0
+Lee Sin,Nautilus,Nocturne,Seraphine,1,1.0
+Lee Sin,Nautilus,Pantheon,Leona,1,0.0
+Lee Sin,Nautilus,Rek'Sai,Rell,1,0.0
+Lee Sin,Nautilus,Shyvana,Taric,1,1.0
+Lee Sin,Nautilus,Skarner,Lux,1,1.0
+Lee Sin,Nautilus,Skarner,Milio,1,0.0
+Lee Sin,Nautilus,Trundle,Neeko,1,1.0
+Lee Sin,Nautilus,Vi,Bard,1,1.0
+Lee Sin,Nautilus,Vi,Leona,1,0.0
+Lee Sin,Nautilus,Wukong,Karma,1,1.0
+Lee Sin,Nautilus,Wukong,Leona,1,0.0
+Lee Sin,Nautilus,Wukong,Lulu,1,1.0
+Lee Sin,Nautilus,Wukong,Nami,1,0.0
+Lee Sin,Nautilus,Wukong,Renata Glasc,1,0.0
+Lee Sin,Nautilus,Wukong,Seraphine,1,0.0
+Lee Sin,Nautilus,Xin Zhao,Leona,1,0.0
+Lee Sin,Nautilus,Xin Zhao,Lulu,1,1.0
+Lee Sin,Nautilus,Xin Zhao,Nami,1,0.0
+Lee Sin,Nautilus,Xin Zhao,Seraphine,1,1.0
+Lee Sin,Nautilus,Zaahen,Rakan,1,0.0
+Lee Sin,Nautilus,Zed,Rell,1,0.0
+Lee Sin,Neeko,Dr. Mundo,Seraphine,1,1.0
+Lee Sin,Neeko,Jarvan IV,Alistar,1,1.0
+Lee Sin,Neeko,Jarvan IV,Rell,1,1.0
+Lee Sin,Neeko,Jarvan IV,Seraphine,1,0.0
+Lee Sin,Neeko,Jarvan IV,Yuumi,1,0.0
+Lee Sin,Neeko,Maokai,Renata Glasc,1,1.0
+Lee Sin,Neeko,Naafiri,Alistar,1,0.0
+Lee Sin,Neeko,Nocturne,Alistar,1,1.0
+Lee Sin,Neeko,Nocturne,Bard,1,0.0
+Lee Sin,Neeko,Sejuani,Nami,1,1.0
+Lee Sin,Neeko,Skarner,Bard,1,1.0
+Lee Sin,Neeko,Skarner,Rakan,1,0.0
+Lee Sin,Neeko,Sylas,Nami,1,1.0
+Lee Sin,Neeko,Trundle,Nami,1,1.0
+Lee Sin,Neeko,Vi,Alistar,1,0.0
+Lee Sin,Neeko,Vi,Anivia,1,1.0
+Lee Sin,Neeko,Vi,Lulu,1,1.0
+Lee Sin,Neeko,Wukong,Alistar,1,1.0
+Lee Sin,Neeko,Xin Zhao,Senna,1,1.0
+Lee Sin,Poppy,Ambessa,Nautilus,1,0.0
+Lee Sin,Poppy,Jarvan IV,Rakan,1,0.0
+Lee Sin,Poppy,Wukong,Seraphine,1,1.0
+Lee Sin,Pyke,Jarvan IV,Rell,1,1.0
+Lee Sin,Pyke,Qiyana,Bard,1,1.0
+Lee Sin,Pyke,Vi,Nautilus,1,0.0
+Lee Sin,Pyke,Volibear,Lux,1,1.0
+Lee Sin,Pyke,Wukong,Neeko,1,0.0
+Lee Sin,Rakan,Dr. Mundo,Yuumi,1,1.0
+Lee Sin,Rakan,Jayce,Alistar,1,0.0
+Lee Sin,Rakan,Jayce,Milio,1,1.0
+Lee Sin,Rakan,Naafiri,Maokai,1,1.0
+Lee Sin,Rakan,Nocturne,Seraphine,1,1.0
+Lee Sin,Rakan,Pantheon,Nautilus,1,1.0
+Lee Sin,Rakan,Pantheon,Neeko,1,0.0
+Lee Sin,Rakan,Shen,Neeko,1,0.0
+Lee Sin,Rakan,Skarner,Milio,1,1.0
+Lee Sin,Rakan,Vi,Alistar,1,1.0
+Lee Sin,Rakan,Vi,Karma,1,0.0
+Lee Sin,Rell,Aatrox,Rakan,1,1.0
+Lee Sin,Rell,Jayce,Bard,1,1.0
+Lee Sin,Rell,Nocturne,Alistar,1,0.0
+Lee Sin,Rell,Olaf,Nautilus,1,1.0
+Lee Sin,Rell,Pantheon,Neeko,1,1.0
+Lee Sin,Rell,Qiyana,Poppy,1,1.0
+Lee Sin,Rell,Skarner,Bard,1,1.0
+Lee Sin,Rell,Trundle,Neeko,1,1.0
+Lee Sin,Rell,Wukong,Karma,1,1.0
+Lee Sin,Rell,Wukong,Rakan,1,0.0
+Lee Sin,Rell,Xin Zhao,Alistar,1,1.0
+Lee Sin,Rell,Xin Zhao,Neeko,1,1.0
+Lee Sin,Renata Glasc,Jarvan IV,Bard,1,0.0
+Lee Sin,Renata Glasc,Nidalee,Leona,1,0.0
+Lee Sin,Renata Glasc,Wukong,Rakan,1,0.0
+Lee Sin,Seraphine,Jarvan IV,Nami,1,1.0
+Lee Sin,Seraphine,Jayce,Pyke,1,1.0
+Lee Sin,Seraphine,Olaf,Karma,1,1.0
+Lee Sin,Seraphine,Rek'Sai,Elise,1,1.0
+Lee Sin,Seraphine,Skarner,Bard,1,0.0
+Lee Sin,Seraphine,Skarner,Karma,1,1.0
+Lee Sin,Seraphine,Skarner,Lulu,1,1.0
+Lee Sin,Seraphine,Vi,Bard,1,0.0
+Lee Sin,Seraphine,Vi,Pyke,1,0.0
+Lee Sin,Seraphine,Wukong,Milio,1,0.0
+Lee Sin,Seraphine,Wukong,Nami,1,1.0
+Lee Sin,Seraphine,Xin Zhao,Lux,1,1.0
+Lee Sin,Seraphine,Xin Zhao,Nautilus,1,0.0
+Lee Sin,Seraphine,Xin Zhao,Pyke,1,0.0
+Lee Sin,Seraphine,Xin Zhao,Rell,1,0.0
+Lee Sin,Seraphine,Zaahen,Milio,1,1.0
+Lee Sin,Shen,Pantheon,Camille,1,0.0
+Lee Sin,Shen,Vi,Camille,1,0.0
+Lee Sin,Tahm Kench,Vi,Alistar,1,0.0
+Lee Sin,Thresh,Aatrox,Nautilus,1,1.0
+Lee Sin,Thresh,Sejuani,Lulu,1,1.0
+Lee Sin,Thresh,Wukong,Braum,1,1.0
+Lee Sin,Thresh,Xin Zhao,Nautilus,1,1.0
+Lee Sin,Thresh,Xin Zhao,Neeko,1,1.0
+Lee Sin,Yuumi,Naafiri,Seraphine,1,1.0
+Lee Sin,Yuumi,Nocturne,Neeko,1,1.0
+Lillia,Alistar,Wukong,Karma,1,1.0
+Lillia,Alistar,Wukong,Milio,1,0.0
+Lillia,Braum,Dr. Mundo,Pyke,1,0.0
+Lillia,Leona,Kindred,Nautilus,1,1.0
+Lillia,Nautilus,Nunu & Willump,Lulu,1,0.0
+Lillia,Poppy,Jarvan IV,Rell,1,1.0
+Lillia,Rell,Maokai,Camille,1,1.0
+Malphite,Alistar,Dr. Mundo,Leona,1,0.0
+Malphite,Alistar,Dr. Mundo,Lulu,1,0.0
+Malphite,Alistar,Jarvan IV,Neeko,1,1.0
+Malphite,Alistar,Wukong,Karma,1,0.0
+Malphite,Alistar,Xin Zhao,Rakan,1,1.0
+Malphite,Bard,Karthus,Rell,1,1.0
+Malphite,Bard,Sylas,Neeko,1,0.0
+Malphite,Bard,Xin Zhao,Karma,1,1.0
+Malphite,Bard,Xin Zhao,Nautilus,1,0.0
+Malphite,Braum,Pantheon,Nautilus,1,0.0
+Malphite,Karma,Dr. Mundo,Nautilus,1,0.0
+Malphite,Karma,Nautilus,Lulu,1,0.0
+Malphite,Karma,Pantheon,Nautilus,1,1.0
+Malphite,Karma,Vi,Neeko,1,0.0
+Malphite,Leona,Dr. Mundo,Bard,1,0.0
+Malphite,Lulu,Dr. Mundo,Blitzcrank,1,0.0
+Malphite,Lulu,Lee Sin,Nami,1,0.0
+Malphite,Lulu,Vi,Taric,1,1.0
+Malphite,Lulu,Wukong,Senna,1,0.0
+Malphite,Lulu,Zaahen,Neeko,1,0.0
+Malphite,Nami,Pantheon,Neeko,1,0.0
+Malphite,Nami,Trundle,Karma,1,1.0
+Malphite,Nami,Vi,Lulu,1,1.0
+Malphite,Nautilus,Jayce,Braum,1,0.0
+Malphite,Nautilus,Jayce,Leona,1,0.0
+Malphite,Nautilus,Pantheon,Leona,1,0.0
+Malphite,Neeko,Nocturne,Rakan,1,1.0
+Malphite,Neeko,Pantheon,Lulu,1,0.0
+Malphite,Neeko,Vi,Karma,1,0.0
+Malphite,Neeko,Wukong,Seraphine,1,1.0
+Malphite,Neeko,Xin Zhao,Karma,1,1.0
+Malphite,Nidalee,Dr. Mundo,Bard,1,1.0
+Malphite,Orianna,Neeko,Leona,1,0.0
+Malphite,Pantheon,Jayce,Leona,1,1.0
+Malphite,Poppy,Vi,Alistar,1,1.0
+Malphite,Rakan,Aatrox,Bard,1,0.0
+Malphite,Rakan,Dr. Mundo,Rell,1,1.0
+Malphite,Rakan,Jarvan IV,Alistar,1,0.0
+Malphite,Rakan,Wukong,Lulu,1,1.0
+Malphite,Rell,Jarvan IV,Seraphine,1,0.0
+Malphite,Rell,Trundle,Braum,1,0.0
+Malphite,Rell,Wukong,Nautilus,1,0.0
+Malphite,Seraphine,Jayce,Nami,1,0.0
+Malphite,Seraphine,Viego,Rell,1,1.0
+Malphite,Seraphine,Xin Zhao,Bard,1,1.0
+Malphite,Shen,Sejuani,Leona,1,1.0
+Malphite,Sona,Nocturne,Braum,1,0.0
+Malphite,Tahm Kench,Nocturne,Nautilus,1,0.0
+Malphite,Thresh,Dr. Mundo,Leona,1,1.0
+Malphite,Thresh,Qiyana,Braum,1,0.0
+Malphite,Zaahen,Sylas,Thresh,1,0.0
+Malphite,Zyra,Aatrox,Rakan,1,0.0
+Maokai,Alistar,Naafiri,Milio,1,1.0
+Maokai,Alistar,Naafiri,Neeko,1,0.0
+Maokai,Alistar,Skarner,Rell,1,0.0
+Maokai,Annie,Lee Sin,Neeko,1,1.0
+Maokai,Bard,Nocturne,Nami,1,1.0
+Maokai,Bard,Nocturne,Neeko,1,0.0
+Maokai,Bard,Pantheon,Rell,1,0.0
+Maokai,Blitzcrank,Poppy,Thresh,1,1.0
+Maokai,Blitzcrank,Qiyana,Amumu,1,1.0
+Maokai,Braum,Lee Sin,Rell,1,1.0
+Maokai,Braum,Wukong,Elise,1,1.0
+Maokai,Camille,Skarner,Bard,1,0.0
+Maokai,Janna,Naafiri,Leona,1,1.0
+Maokai,Karma,Lee Sin,Bard,1,1.0
+Maokai,Karma,Pantheon,Rakan,1,1.0
+Maokai,Karma,Vi,Bard,1,0.0
+Maokai,Karma,Wukong,Bard,1,0.0
+Maokai,Karma,Xin Zhao,Nautilus,1,0.0
+Maokai,Leona,Pantheon,Bard,1,0.0
+Maokai,Lulu,Jarvan IV,Soraka,1,0.0
+Maokai,Lulu,Trundle,Nami,1,0.0
+Maokai,Lulu,Wukong,Milio,1,1.0
+Maokai,Milio,Trundle,Nami,1,1.0
+Maokai,Milio,Wukong,Nami,1,1.0
+Maokai,Nami,Trundle,Milio,1,1.0
+Maokai,Nami,Wukong,Lulu,1,1.0
+Maokai,Nautilus,Nasus,Lulu,1,0.0
+Maokai,Nautilus,Sejuani,Renata Glasc,1,0.0
+Maokai,Nautilus,Vi,Leona,1,0.0
+Maokai,Nautilus,Wukong,Karma,1,1.0
+Maokai,Neeko,Aatrox,Renata Glasc,1,1.0
+Maokai,Poppy,Nocturne,Leona,1,0.0
+Maokai,Rakan,Vi,Alistar,1,0.0
+Maokai,Rell,Dr. Mundo,Poppy,1,1.0
+Maokai,Rell,Viego,Poppy,1,1.0
+Maokai,Renata Glasc,Naafiri,Leona,1,0.0
+Maokai,Renata Glasc,Nocturne,Karma,1,1.0
+Maokai,Renata Glasc,Sylas,Milio,1,1.0
+Maokai,Seraphine,Dr. Mundo,Lulu,1,1.0
+Maokai,Seraphine,Xin Zhao,Nautilus,1,1.0
+Maokai,Soraka,Wukong,Alistar,1,1.0
+Maokai,Thresh,Jarvan IV,Nami,1,1.0
+Maokai,Thresh,Skarner,Lulu,1,1.0
+Maokai,Yuumi,Skarner,Seraphine,1,1.0
+Master Yi,Nautilus,Vi,Leona,1,0.0
+Morgana,Leona,Sejuani,Rakan,1,1.0
+Morgana,Nami,Vi,Leona,1,0.0
+Naafiri,Alistar,Aatrox,Rakan,1,1.0
+Naafiri,Alistar,Ambessa,Bard,1,0.0
+Naafiri,Alistar,Ambessa,Leona,1,1.0
+Naafiri,Alistar,Dr. Mundo,Bard,1,0.0
+Naafiri,Alistar,Jarvan IV,Nami,1,1.0
+Naafiri,Alistar,Lee Sin,Bard,1,0.0
+Naafiri,Alistar,Lee Sin,Camille,1,0.0
+Naafiri,Alistar,Lee Sin,Rakan,1,1.0
+Naafiri,Alistar,Nocturne,Nautilus,1,0.0
+Naafiri,Alistar,Pantheon,Poppy,1,1.0
+Naafiri,Alistar,Pantheon,Zilean,1,1.0
+Naafiri,Alistar,Skarner,Karma,1,0.0
+Naafiri,Alistar,Vi,Nautilus,1,1.0
+Naafiri,Alistar,Vi,Rell,1,1.0
+Naafiri,Alistar,Wukong,Rell,1,0.0
+Naafiri,Alistar,Xin Zhao,Poppy,1,1.0
+Naafiri,Amumu,Jarvan IV,Karma,1,1.0
+Naafiri,Anivia,Aatrox,Neeko,1,1.0
+Naafiri,Bard,Aatrox,Pyke,1,1.0
+Naafiri,Bard,Ambessa,Nami,1,0.0
+Naafiri,Bard,Hecarim,Rakan,1,0.0
+Naafiri,Bard,Jarvan IV,Pyke,1,0.0
+Naafiri,Bard,Jarvan IV,Rakan,1,1.0
+Naafiri,Bard,Lee Sin,Blitzcrank,1,1.0
+Naafiri,Bard,Lee Sin,Camille,1,1.0
+Naafiri,Bard,Lee Sin,Karma,1,0.0
+Naafiri,Bard,Lee Sin,Rakan,1,1.0
+Naafiri,Bard,Lee Sin,Seraphine,1,1.0
+Naafiri,Bard,Nocturne,Milio,1,1.0
+Naafiri,Bard,Pantheon,Seraphine,1,0.0
+Naafiri,Bard,Skarner,Karma,1,1.0
+Naafiri,Bard,Vi,Karma,1,0.0
+Naafiri,Bard,Vi,Leona,1,1.0
+Naafiri,Bard,Vi,Lulu,1,0.0
+Naafiri,Bard,Vi,Neeko,1,0.0
+Naafiri,Bard,Vi,Seraphine,1,0.0
+Naafiri,Bard,Viego,Seraphine,1,1.0
+Naafiri,Bard,Wukong,Karma,1,1.0
+Naafiri,Bard,Wukong,Nami,1,1.0
+Naafiri,Bard,Xin Zhao,Lulu,1,1.0
+Naafiri,Bard,Xin Zhao,Seraphine,1,1.0
+Naafiri,Blitzcrank,Lillia,Braum,1,1.0
+Naafiri,Camille,Jarvan IV,Rell,1,1.0
+Naafiri,Camille,Kindred,Seraphine,1,1.0
+Naafiri,Camille,Lee Sin,Lulu,1,1.0
+Naafiri,Camille,Lee Sin,Poppy,1,1.0
+Naafiri,Camille,Poppy,Rell,1,0.0
+Naafiri,Camille,Rek'Sai,Pantheon,1,1.0
+Naafiri,Camille,Viego,Pyke,1,0.0
+Naafiri,Camille,Wukong,Nautilus,1,1.0
+Naafiri,Camille,Xin Zhao,Seraphine,1,0.0
+Naafiri,Galio,Vi,Nautilus,1,0.0
+Naafiri,Karma,Diana,Heimerdinger,1,1.0
+Naafiri,Karma,Jarvan IV,Nami,1,1.0
+Naafiri,Karma,Jarvan IV,Neeko,1,0.0
+Naafiri,Karma,Nocturne,Alistar,1,0.0
+Naafiri,Karma,Nocturne,Nami,1,0.0
+Naafiri,Karma,Nocturne,Nautilus,1,0.0
+Naafiri,Karma,Nocturne,Soraka,1,1.0
+Naafiri,Karma,Olaf,Seraphine,1,1.0
+Naafiri,Karma,Pantheon,Milio,1,0.0
+Naafiri,Karma,Pantheon,Rell,1,1.0
+Naafiri,Karma,Trundle,Nautilus,1,1.0
+Naafiri,Karma,Vi,Rakan,1,1.0
+Naafiri,Karma,Vi,Rell,1,0.0
+Naafiri,Leona,Aatrox,Nami,1,0.0
+Naafiri,Leona,Jarvan IV,Alistar,1,1.0
+Naafiri,Leona,Jarvan IV,Neeko,1,1.0
+Naafiri,Leona,Jarvan IV,Seraphine,1,0.0
+Naafiri,Leona,Lee Sin,Seraphine,1,1.0
+Naafiri,Leona,Nidalee,Alistar,1,0.0
+Naafiri,Leona,Qiyana,Rell,1,1.0
+Naafiri,Leona,Skarner,Camille,1,1.0
+Naafiri,Leona,Vi,Alistar,1,0.0
+Naafiri,Leona,Vi,Bard,1,1.0
+Naafiri,Leona,Vi,Camille,1,0.0
+Naafiri,Leona,Wukong,Alistar,1,0.0
+Naafiri,Leona,Xin Zhao,Poppy,1,0.0
+Naafiri,Leona,Xin Zhao,Rell,1,0.0
+Naafiri,Leona,Zaahen,Neeko,1,1.0
+Naafiri,Lulu,Brand,Nautilus,1,0.0
+Naafiri,Lulu,Skarner,Karma,1,1.0
+Naafiri,Lulu,Skarner,Lux,1,1.0
+Naafiri,Lulu,Vi,Lux,1,0.0
+Naafiri,Lulu,Vi,Rell,1,1.0
+Naafiri,Lulu,Xin Zhao,Milio,1,1.0
+Naafiri,Lulu,Xin Zhao,Seraphine,1,1.0
+Naafiri,Lux,Lee Sin,Pyke,1,1.0
+Naafiri,Lux,Vi,Lulu,1,1.0
+Naafiri,Maokai,Nocturne,Alistar,1,0.0
+Naafiri,Milio,Jarvan IV,Bard,1,1.0
+Naafiri,Milio,Jarvan IV,Blitzcrank,1,0.0
+Naafiri,Milio,Jarvan IV,Karma,1,0.0
+Naafiri,Milio,Jarvan IV,Nami,1,1.0
+Naafiri,Milio,Jarvan IV,Seraphine,1,1.0
+Naafiri,Milio,Lee Sin,Lulu,1,0.0
+Naafiri,Milio,Nocturne,Lulu,1,1.0
+Naafiri,Milio,Nocturne,Seraphine,1,1.0
+Naafiri,Milio,Olaf,Seraphine,1,1.0
+Naafiri,Milio,Sejuani,Karma,1,1.0
+Naafiri,Milio,Vi,Bard,1,1.0
+Naafiri,Milio,Vi,Neeko,1,0.0
+Naafiri,Milio,Vi,Rakan,1,0.0
+Naafiri,Milio,Vi,Renata Glasc,1,0.0
+Naafiri,Milio,Vi,Seraphine,1,0.0
+Naafiri,Milio,Vi,Soraka,1,0.0
+Naafiri,Milio,Wukong,Camille,1,0.0
+Naafiri,Milio,Xin Zhao,Bard,1,0.0
+Naafiri,Milio,Xin Zhao,Lulu,1,1.0
+Naafiri,Milio,Zyra,Rakan,1,1.0
+Naafiri,Nami,Dr. Mundo,Karma,1,1.0
+Naafiri,Nami,Jarvan IV,Leona,1,0.0
+Naafiri,Nami,Jarvan IV,Neeko,1,1.0
+Naafiri,Nami,Lee Sin,Seraphine,1,0.0
+Naafiri,Nami,Maokai,Yuumi,1,1.0
+Naafiri,Nami,Nocturne,Karma,1,1.0
+Naafiri,Nami,Nocturne,Seraphine,1,0.0
+Naafiri,Nami,Sejuani,Milio,1,0.0
+Naafiri,Nami,Vi,Nautilus,1,0.0
+Naafiri,Nami,Vi,Rakan,1,1.0
+Naafiri,Nami,Vi,Rell,1,1.0
+Naafiri,Nami,Vi,Seraphine,1,1.0
+Naafiri,Nami,Zaahen,Karma,1,1.0
+Naafiri,Nautilus,Ambessa,Leona,1,0.0
+Naafiri,Nautilus,Dr. Mundo,Seraphine,1,1.0
+Naafiri,Nautilus,Jarvan IV,Braum,1,1.0
+Naafiri,Nautilus,Jarvan IV,Leona,1,1.0
+Naafiri,Nautilus,Jarvan IV,Rakan,1,0.0
+Naafiri,Nautilus,Jarvan IV,Seraphine,1,1.0
+Naafiri,Nautilus,Lee Sin,Karma,1,1.0
+Naafiri,Nautilus,Nocturne,Renata Glasc,1,0.0
+Naafiri,Nautilus,Nocturne,Seraphine,1,1.0
+Naafiri,Nautilus,Olaf,Braum,1,1.0
+Naafiri,Nautilus,Pantheon,Bard,1,1.0
+Naafiri,Nautilus,Skarner,Rakan,1,1.0
+Naafiri,Nautilus,Taliyah,Elise,1,0.0
+Naafiri,Nautilus,Trundle,Karma,1,0.0
+Naafiri,Nautilus,Trundle,Nami,1,0.0
+Naafiri,Nautilus,Trundle,Seraphine,1,1.0
+Naafiri,Nautilus,Wukong,Milio,1,0.0
+Naafiri,Nautilus,Xin Zhao,Braum,1,1.0
+Naafiri,Nautilus,Xin Zhao,Leona,1,1.0
+Naafiri,Nautilus,Xin Zhao,Nami,1,0.0
+Naafiri,Nautilus,Xin Zhao,Rakan,1,0.0
+Naafiri,Nautilus,Zed,Elise,1,1.0
+Naafiri,Neeko,Aatrox,Karma,1,1.0
+Naafiri,Neeko,Aatrox,Seraphine,1,0.0
+Naafiri,Neeko,Hecarim,Tahm Kench,1,0.0
+Naafiri,Neeko,Jarvan IV,Rakan,1,1.0
+Naafiri,Neeko,Nocturne,Alistar,1,1.0
+Naafiri,Neeko,Nocturne,Nami,1,0.0
+Naafiri,Neeko,Pantheon,Alistar,1,1.0
+Naafiri,Neeko,Pantheon,Anivia,1,0.0
+Naafiri,Neeko,Pantheon,Karma,1,0.0
+Naafiri,Neeko,Rengar,Rakan,1,0.0
+Naafiri,Neeko,Sejuani,Lulu,1,1.0
+Naafiri,Neeko,Skarner,Anivia,1,0.0
+Naafiri,Neeko,Trundle,Nautilus,1,0.0
+Naafiri,Neeko,Trundle,Rell,1,1.0
+Naafiri,Neeko,Vi,Alistar,1,0.0
+Naafiri,Neeko,Vi,Camille,1,0.0
+Naafiri,Neeko,Vi,Karma,1,1.0
+Naafiri,Neeko,Vi,Nami,1,0.0
+Naafiri,Neeko,Vi,Rakan,1,1.0
+Naafiri,Neeko,Wukong,Karma,1,0.0
+Naafiri,Neeko,Wukong,Nautilus,1,0.0
+Naafiri,Neeko,Xin Zhao,Karma,1,0.0
+Naafiri,Poppy,Vi,Rakan,1,1.0
+Naafiri,Pyke,Vi,Shen,1,0.0
+Naafiri,Rakan,Fiddlesticks,Seraphine,1,1.0
+Naafiri,Rakan,Jarvan IV,Lulu,1,1.0
+Naafiri,Rakan,Jarvan IV,Neeko,1,0.0
+Naafiri,Rakan,Lee Sin,Alistar,1,0.0
+Naafiri,Rakan,Lee Sin,Elise,1,0.0
+Naafiri,Rakan,Lee Sin,Rell,1,0.0
+Naafiri,Rakan,Maokai,Rell,1,1.0
+Naafiri,Rakan,Nocturne,Rell,1,0.0
+Naafiri,Rakan,Rek'Sai,Milio,1,1.0
+Naafiri,Rakan,Rengar,Neeko,1,0.0
+Naafiri,Rakan,Vi,Lulu,1,0.0
+Naafiri,Rakan,Wukong,Nami,1,0.0
+Naafiri,Rakan,Xin Zhao,Lulu,1,0.0
+Naafiri,Rell,Jarvan IV,Leona,1,1.0
+Naafiri,Rell,Jarvan IV,Nautilus,1,1.0
+Naafiri,Rell,Jarvan IV,Rakan,1,0.0
+Naafiri,Rell,Poppy,Karma,1,1.0
+Naafiri,Rell,Sejuani,Karma,1,1.0
+Naafiri,Rell,Vi,Karma,1,0.0
+Naafiri,Rell,Vi,Leona,1,0.0
+Naafiri,Rell,Wukong,Alistar,1,1.0
+Naafiri,Rell,Wukong,Seraphine,1,0.0
+Naafiri,Renata Glasc,Lillia,Camille,1,1.0
+Naafiri,Renata Glasc,Nocturne,Leona,1,0.0
+Naafiri,Renata Glasc,Xin Zhao,Alistar,1,0.0
+Naafiri,Renata Glasc,Xin Zhao,Karma,1,0.0
+Naafiri,Senna,Wukong,Rakan,1,1.0
+Naafiri,Seraphine,Jarvan IV,Bard,1,1.0
+Naafiri,Seraphine,Lee Sin,Neeko,1,1.0
+Naafiri,Seraphine,Pantheon,Karma,1,1.0
+Naafiri,Seraphine,Qiyana,Nautilus,1,0.0
+Naafiri,Seraphine,Skarner,Pyke,1,1.0
+Naafiri,Seraphine,Sylas,Nautilus,1,0.0
+Naafiri,Seraphine,Vi,Leona,1,0.0
+Naafiri,Seraphine,Vi,Shen,1,0.0
+Naafiri,Seraphine,Xin Zhao,Karma,1,1.0
+Naafiri,Shen,Jarvan IV,Camille,1,0.0
+Naafiri,Shen,Maokai,Pyke,1,1.0
+Naafiri,Shen,Pantheon,Alistar,1,0.0
+Naafiri,Shen,Skarner,Nautilus,1,0.0
+Naafiri,Shen,Vi,Bard,1,1.0
+Naafiri,Skarner,Ambessa,Seraphine,1,1.0
+Naafiri,Skarner,Jarvan IV,Karma,1,0.0
+Naafiri,Skarner,Xin Zhao,Bard,1,0.0
+Naafiri,Tahm Kench,Pantheon,Nautilus,1,1.0
+Naafiri,Tahm Kench,Pantheon,Rakan,1,1.0
+Naafiri,Thresh,Vi,Rakan,1,0.0
+Naafiri,Yuumi,Vi,Alistar,1,0.0
+Naafiri,Yuumi,Vi,Nami,1,1.0
+Naafiri,Yuumi,Wukong,Karma,1,0.0
+Nasus,Alistar,Aatrox,Poppy,1,1.0
+Nasus,Bard,Wukong,Nautilus,1,0.0
+Nasus,Karma,Xin Zhao,Neeko,1,1.0
+Nasus,Milio,Aatrox,Karma,1,1.0
+Nasus,Milio,Malphite,Seraphine,1,0.0
+Nasus,Nautilus,Vi,Alistar,1,1.0
+Nasus,Nautilus,Wukong,Karma,1,1.0
+Nasus,Rakan,Zyra,Renata Glasc,1,1.0
+Nasus,Rell,Xin Zhao,Alistar,1,1.0
+Nasus,Renata Glasc,Xin Zhao,Nautilus,1,1.0
+Nautilus,Milio,Ambessa,Leona,1,1.0
+Neeko,Fiddlesticks,Xin Zhao,Bard,1,1.0
+Neeko,Rell,Nocturne,Nautilus,1,0.0
+Nidalee,Alistar,Zyra,Leona,1,1.0
+Nidalee,Bard,Skarner,Rell,1,1.0
+Nidalee,Blitzcrank,Xin Zhao,Renata Glasc,1,1.0
+Nidalee,Braum,Zaahen,Blitzcrank,1,0.0
+Nidalee,Karma,Jarvan IV,Nautilus,1,0.0
+Nidalee,Karma,Vi,Rell,1,1.0
+Nidalee,Lulu,Trundle,Karma,1,0.0
+Nidalee,Nautilus,Ambessa,Alistar,1,1.0
+Nidalee,Nautilus,Jarvan IV,Thresh,1,1.0
+Nidalee,Nautilus,Vi,Neeko,1,0.0
+Nidalee,Nautilus,Xin Zhao,Neeko,1,1.0
+Nidalee,Nautilus,Zyra,Rakan,1,1.0
+Nidalee,Neeko,Trundle,Nami,1,1.0
+Nidalee,Neeko,Vi,Rakan,1,1.0
+Nidalee,Neeko,Viego,Bard,1,1.0
+Nidalee,Neeko,Wukong,Nautilus,1,1.0
+Nidalee,Neeko,Wukong,Rakan,1,1.0
+Nidalee,Pyke,Aatrox,Rell,1,0.0
+Nidalee,Rell,Naafiri,Neeko,1,0.0
+Nidalee,Rell,Viego,Rakan,1,0.0
+Nocturne,Alistar,Jarvan IV,Rell,1,0.0
+Nocturne,Alistar,Kindred,Neeko,1,1.0
+Nocturne,Alistar,Lee Sin,Milio,1,0.0
+Nocturne,Alistar,Lee Sin,Nami,1,1.0
+Nocturne,Alistar,Maokai,Nami,1,1.0
+Nocturne,Alistar,Naafiri,Leona,1,0.0
+Nocturne,Alistar,Olaf,Poppy,1,0.0
+Nocturne,Alistar,Olaf,Rell,1,1.0
+Nocturne,Alistar,Pantheon,Lulu,1,1.0
+Nocturne,Alistar,Pantheon,Neeko,1,1.0
+Nocturne,Alistar,Pantheon,Rell,1,1.0
+Nocturne,Alistar,Skarner,Nautilus,1,0.0
+Nocturne,Alistar,Vi,Camille,1,0.0
+Nocturne,Alistar,Vi,Thresh,1,1.0
+Nocturne,Alistar,Wukong,Anivia,1,1.0
+Nocturne,Alistar,Wukong,Nautilus,1,0.0
+Nocturne,Alistar,Wukong,Neeko,1,0.0
+Nocturne,Alistar,Wukong,Rell,1,1.0
+Nocturne,Alistar,Xin Zhao,Rakan,1,1.0
+Nocturne,Alistar,Zaahen,Lulu,1,0.0
+Nocturne,Alistar,Zaahen,Nautilus,1,0.0
+Nocturne,Amumu,Jarvan IV,Nami,1,0.0
+Nocturne,Amumu,Qiyana,Bard,1,1.0
+Nocturne,Anivia,Kha'Zix,Neeko,1,0.0
+Nocturne,Anivia,Xin Zhao,Nautilus,1,1.0
+Nocturne,Bard,Aatrox,Neeko,1,1.0
+Nocturne,Bard,Darius,Seraphine,1,1.0
+Nocturne,Bard,Dr. Mundo,Neeko,1,1.0
+Nocturne,Bard,Dr. Mundo,Seraphine,1,0.0
+Nocturne,Bard,Jarvan IV,Karma,1,1.0
+Nocturne,Bard,Jarvan IV,Seraphine,1,0.0
+Nocturne,Bard,Kha'Zix,Karma,1,0.0
+Nocturne,Bard,Kha'Zix,Neeko,1,1.0
+Nocturne,Bard,Lee Sin,Milio,1,1.0
+Nocturne,Bard,Lee Sin,Neeko,1,0.0
+Nocturne,Bard,Naafiri,Karma,1,1.0
+Nocturne,Bard,Naafiri,Seraphine,1,1.0
+Nocturne,Bard,Pantheon,Alistar,1,0.0
+Nocturne,Bard,Pantheon,Nami,1,1.0
+Nocturne,Bard,Pantheon,Seraphine,1,1.0
+Nocturne,Bard,Qiyana,Neeko,1,1.0
+Nocturne,Bard,Skarner,Neeko,1,1.0
+Nocturne,Bard,Trundle,Rakan,1,0.0
+Nocturne,Bard,Vi,Lulu,1,1.0
+Nocturne,Bard,Vi,Rakan,1,1.0
+Nocturne,Bard,Wukong,Alistar,1,1.0
+Nocturne,Bard,Wukong,Karma,1,0.0
+Nocturne,Bard,Wukong,Leona,1,1.0
+Nocturne,Bard,Xin Zhao,Lulu,1,0.0
+Nocturne,Bard,Xin Zhao,Nautilus,1,1.0
+Nocturne,Bard,Xin Zhao,Pyke,1,0.0
+Nocturne,Blitzcrank,Sejuani,Lulu,1,0.0
+Nocturne,Blitzcrank,Wukong,Thresh,1,0.0
+Nocturne,Braum,Ivern,Alistar,1,1.0
+Nocturne,Braum,Jarvan IV,Alistar,1,0.0
+Nocturne,Braum,Naafiri,Nautilus,1,0.0
+Nocturne,Braum,Pantheon,Leona,1,0.0
+Nocturne,Camille,Jarvan IV,Leona,1,1.0
+Nocturne,Camille,Lee Sin,Leona,1,0.0
+Nocturne,Camille,Vi,Leona,1,1.0
+Nocturne,Elise,Skarner,Nami,1,0.0
+Nocturne,Karma,Aatrox,Milio,1,0.0
+Nocturne,Karma,Darius,Bard,1,0.0
+Nocturne,Karma,Jarvan IV,Nami,1,0.0
+Nocturne,Karma,Jarvan IV,Nautilus,1,0.0
+Nocturne,Karma,Pantheon,Lulu,1,1.0
+Nocturne,Karma,Pantheon,Rakan,1,0.0
+Nocturne,Karma,Rek'Sai,Seraphine,1,1.0
+Nocturne,Karma,Skarner,Bard,1,1.0
+Nocturne,Karma,Trundle,Blitzcrank,1,1.0
+Nocturne,Karma,Vi,Bard,1,0.0
+Nocturne,Karma,Vi,Nami,1,1.0
+Nocturne,Karma,Vi,Neeko,1,0.0
+Nocturne,Karma,Wukong,Nautilus,1,0.0
+Nocturne,Leona,Jarvan IV,Lulu,1,1.0
+Nocturne,Leona,Jarvan IV,Nautilus,1,1.0
+Nocturne,Leona,Jarvan IV,Seraphine,1,0.0
+Nocturne,Leona,Pantheon,Bard,1,0.0
+Nocturne,Leona,Pantheon,Karma,1,0.0
+Nocturne,Leona,Sejuani,Alistar,1,0.0
+Nocturne,Leona,Viego,Rell,1,1.0
+Nocturne,Leona,Wukong,Alistar,1,1.0
+Nocturne,Leona,Wukong,Bard,1,1.0
+Nocturne,Leona,Xin Zhao,Nami,1,0.0
+Nocturne,Leona,Xin Zhao,Neeko,1,1.0
+Nocturne,Leona,Xin Zhao,Renata Glasc,1,1.0
+Nocturne,Lulu,Aatrox,Seraphine,1,1.0
+Nocturne,Lulu,Dr. Mundo,Neeko,1,1.0
+Nocturne,Lulu,Jarvan IV,Blitzcrank,1,0.0
+Nocturne,Lulu,Jarvan IV,Milio,1,1.0
+Nocturne,Lulu,Jarvan IV,Nami,1,1.0
+Nocturne,Lulu,Jarvan IV,Neeko,1,0.0
+Nocturne,Lulu,Jarvan IV,Seraphine,1,1.0
+Nocturne,Lulu,Naafiri,Anivia,1,1.0
+Nocturne,Lulu,Pantheon,Bard,1,1.0
+Nocturne,Lulu,Pantheon,Renata Glasc,1,1.0
+Nocturne,Lulu,Sejuani,Neeko,1,1.0
+Nocturne,Lulu,Shyvana,Rakan,1,1.0
+Nocturne,Lulu,Vi,Bard,1,1.0
+Nocturne,Lulu,Vi,Thresh,1,1.0
+Nocturne,Lulu,Viego,Leona,1,1.0
+Nocturne,Lulu,Wukong,Milio,1,0.0
+Nocturne,Lulu,Wukong,Nami,1,0.0
+Nocturne,Lulu,Wukong,Neeko,1,0.0
+Nocturne,Lulu,Wukong,Yuumi,1,1.0
+Nocturne,Lulu,Xin Zhao,Karma,1,0.0
+Nocturne,Lulu,Xin Zhao,Nami,1,0.0
+Nocturne,Lulu,Zaahen,Alistar,1,0.0
+Nocturne,Lux,Pantheon,Rakan,1,0.0
+Nocturne,Lux,Rek'Sai,Neeko,1,1.0
+Nocturne,Lux,Wukong,Neeko,1,1.0
+Nocturne,Milio,Ambessa,Nautilus,1,0.0
+Nocturne,Milio,Dr. Mundo,Soraka,1,1.0
+Nocturne,Milio,Jarvan IV,Lulu,1,0.0
+Nocturne,Milio,Jarvan IV,Nami,1,0.0
+Nocturne,Milio,Jarvan IV,Neeko,1,0.0
+Nocturne,Milio,Naafiri,Nautilus,1,1.0
+Nocturne,Milio,Naafiri,Rakan,1,0.0
+Nocturne,Milio,Pantheon,Bard,1,0.0
+Nocturne,Milio,Pantheon,Nami,1,1.0
+Nocturne,Milio,Qiyana,Neeko,1,1.0
+Nocturne,Milio,Rek'Sai,Rell,1,1.0
+Nocturne,Milio,Vi,Bard,1,0.0
+Nocturne,Milio,Vi,Nautilus,1,0.0
+Nocturne,Milio,Vi,Neeko,1,0.0
+Nocturne,Milio,Vi,Yuumi,1,1.0
+Nocturne,Milio,Xin Zhao,Bard,1,1.0
+Nocturne,Milio,Xin Zhao,Rell,1,1.0
+Nocturne,Morgana,Vi,Seraphine,1,1.0
+Nocturne,Nami,Aatrox,Lulu,1,1.0
+Nocturne,Nami,Jarvan IV,Alistar,1,0.0
+Nocturne,Nami,Jarvan IV,Lulu,1,0.0
+Nocturne,Nami,Jarvan IV,Neeko,1,0.0
+Nocturne,Nami,Pantheon,Bard,1,1.0
+Nocturne,Nami,Pantheon,Lulu,1,1.0
+Nocturne,Nami,Pantheon,Milio,1,0.0
+Nocturne,Nami,Pantheon,Nautilus,1,1.0
+Nocturne,Nami,Vi,Milio,1,0.0
+Nocturne,Nami,Vi,Nautilus,1,0.0
+Nocturne,Nami,Wukong,Lulu,1,1.0
+Nocturne,Nami,Xin Zhao,Karma,1,0.0
+Nocturne,Nami,Xin Zhao,Nautilus,1,0.0
+Nocturne,Nami,Xin Zhao,Seraphine,1,1.0
+Nocturne,Nautilus,Aatrox,Karma,1,1.0
+Nocturne,Nautilus,Aatrox,Lulu,1,0.0
+Nocturne,Nautilus,Aatrox,Seraphine,1,1.0
+Nocturne,Nautilus,Ambessa,Alistar,1,0.0
+Nocturne,Nautilus,Jarvan IV,Bard,1,0.0
+Nocturne,Nautilus,Jarvan IV,Neeko,1,0.0
+Nocturne,Nautilus,Jarvan IV,Rakan,1,0.0
+Nocturne,Nautilus,Lee Sin,Anivia,1,0.0
+Nocturne,Nautilus,Naafiri,Rell,1,0.0
+Nocturne,Nautilus,Pantheon,Karma,1,0.0
+Nocturne,Nautilus,Pantheon,Nami,1,0.0
+Nocturne,Nautilus,Pantheon,Rakan,1,1.0
+Nocturne,Nautilus,Sejuani,Pantheon,1,0.0
+Nocturne,Nautilus,Skarner,Braum,1,1.0
+Nocturne,Nautilus,Skarner,Karma,1,1.0
+Nocturne,Nautilus,Skarner,Lulu,1,1.0
+Nocturne,Nautilus,Trundle,Bard,1,1.0
+Nocturne,Nautilus,Trundle,Nami,1,0.0
+Nocturne,Nautilus,Trundle,Neeko,1,0.0
+Nocturne,Nautilus,Trundle,Seraphine,1,0.0
+Nocturne,Nautilus,Vi,Alistar,1,1.0
+Nocturne,Nautilus,Vi,Lulu,1,0.0
+Nocturne,Nautilus,Xin Zhao,Rell,1,1.0
+Nocturne,Neeko,Ambessa,Bard,1,1.0
+Nocturne,Neeko,Ambessa,Nautilus,1,1.0
+Nocturne,Neeko,Dr. Mundo,Bard,1,0.0
+Nocturne,Neeko,Dr. Mundo,Karma,1,0.0
+Nocturne,Neeko,Gwen,Seraphine,1,1.0
+Nocturne,Neeko,Ivern,Leona,1,1.0
+Nocturne,Neeko,Jarvan IV,Alistar,1,0.0
+Nocturne,Neeko,Jarvan IV,Karma,1,0.0
+Nocturne,Neeko,Jarvan IV,Lulu,1,1.0
+Nocturne,Neeko,Jarvan IV,Nami,1,1.0
+Nocturne,Neeko,Jarvan IV,Rakan,1,0.0
+Nocturne,Neeko,Kayn,Karma,1,1.0
+Nocturne,Neeko,Lee Sin,Alistar,1,0.0
+Nocturne,Neeko,Lee Sin,Milio,1,0.0
+Nocturne,Neeko,Lee Sin,Seraphine,1,1.0
+Nocturne,Neeko,Naafiri,Leona,1,1.0
+Nocturne,Neeko,Pantheon,Elise,1,1.0
+Nocturne,Neeko,Pantheon,Yuumi,1,1.0
+Nocturne,Neeko,Shyvana,Nautilus,1,0.0
+Nocturne,Neeko,Skarner,Lulu,1,0.0
+Nocturne,Neeko,Trundle,Braum,1,1.0
+Nocturne,Neeko,Vi,Lulu,1,0.0
+Nocturne,Neeko,Vi,Milio,1,1.0
+Nocturne,Neeko,Vi,Rakan,1,0.0
+Nocturne,Neeko,Wukong,Karma,1,1.0
+Nocturne,Neeko,Wukong,Lulu,1,1.0
+Nocturne,Neeko,Wukong,Nami,1,1.0
+Nocturne,Neeko,Wukong,Nautilus,1,1.0
+Nocturne,Neeko,Wukong,Rell,1,1.0
+Nocturne,Neeko,Xin Zhao,Karma,1,1.0
+Nocturne,Neeko,Xin Zhao,Nami,1,0.0
+Nocturne,Neeko,Zaahen,Nami,1,0.0
+Nocturne,Neeko,Zaahen,Rell,1,1.0
+Nocturne,Nidalee,Shen,Nami,1,1.0
+Nocturne,Pantheon,Jayce,Nami,1,1.0
+Nocturne,Poppy,Vi,Rell,1,0.0
+Nocturne,Poppy,Wukong,Leona,1,0.0
+Nocturne,Poppy,Zaahen,Rakan,1,0.0
+Nocturne,Pyke,Jarvan IV,Renata Glasc,1,0.0
+Nocturne,Pyke,Jarvan IV,Seraphine,1,1.0
+Nocturne,Pyke,Kha'Zix,Seraphine,1,1.0
+Nocturne,Pyke,Naafiri,Seraphine,1,1.0
+Nocturne,Pyke,Pantheon,Bard,1,1.0
+Nocturne,Pyke,Skarner,Neeko,1,1.0
+Nocturne,Pyke,Vi,Neeko,1,1.0
+Nocturne,Rakan,Aatrox,Nami,1,0.0
+Nocturne,Rakan,Ambessa,Zyra,1,1.0
+Nocturne,Rakan,Jarvan IV,Alistar,1,0.0
+Nocturne,Rakan,Jarvan IV,Bard,1,1.0
+Nocturne,Rakan,Jarvan IV,Leona,1,1.0
+Nocturne,Rakan,Jarvan IV,Nami,1,1.0
+Nocturne,Rakan,Jax,Renata Glasc,1,1.0
+Nocturne,Rakan,Lee Sin,Alistar,1,0.0
+Nocturne,Rakan,Lee Sin,Rell,1,0.0
+Nocturne,Rakan,Malphite,Neeko,1,0.0
+Nocturne,Rakan,Maokai,Nami,1,1.0
+Nocturne,Rakan,Nidalee,Janna,1,0.0
+Nocturne,Rakan,Pantheon,Bard,1,1.0
+Nocturne,Rakan,Pantheon,Leona,1,1.0
+Nocturne,Rakan,Pantheon,Lulu,1,1.0
+Nocturne,Rakan,Trundle,Shen,1,0.0
+Nocturne,Rakan,Vi,Alistar,1,1.0
+Nocturne,Rakan,Vi,Bard,1,1.0
+Nocturne,Rakan,Vi,Nami,1,1.0
+Nocturne,Rakan,Vi,Renata Glasc,1,1.0
+Nocturne,Rakan,Wukong,Alistar,1,1.0
+Nocturne,Rakan,Xin Zhao,Alistar,1,1.0
+Nocturne,Rakan,Xin Zhao,Lulu,1,1.0
+Nocturne,Rell,Aatrox,Thresh,1,1.0
+Nocturne,Rell,Amumu,Braum,1,1.0
+Nocturne,Rell,Brand,Nautilus,1,1.0
+Nocturne,Rell,Lee Sin,Nautilus,1,1.0
+Nocturne,Rell,Naafiri,Bard,1,1.0
+Nocturne,Rell,Naafiri,Elise,1,1.0
+Nocturne,Rell,Naafiri,Lulu,1,0.0
+Nocturne,Rell,Naafiri,Rakan,1,0.0
+Nocturne,Rell,Pantheon,Bard,1,1.0
+Nocturne,Rell,Pantheon,Nami,1,1.0
+Nocturne,Rell,Pantheon,Pyke,1,1.0
+Nocturne,Rell,Qiyana,Nautilus,1,1.0
+Nocturne,Rell,Shyvana,Camille,1,0.0
+Nocturne,Rell,Skarner,Braum,1,1.0
+Nocturne,Rell,Skarner,Nautilus,1,1.0
+Nocturne,Rell,Vi,Renata Glasc,1,0.0
+Nocturne,Rell,Wukong,Alistar,1,0.0
+Nocturne,Rell,Wukong,Camille,1,1.0
+Nocturne,Rell,Wukong,Rakan,1,0.0
+Nocturne,Rell,Wukong,Senna,1,0.0
+Nocturne,Rell,Xin Zhao,Alistar,1,1.0
+Nocturne,Rell,Xin Zhao,Camille,1,0.0
+Nocturne,Rell,Xin Zhao,Neeko,1,1.0
+Nocturne,Rell,Xin Zhao,Seraphine,1,1.0
+Nocturne,Rell,Zaahen,Nautilus,1,0.0
+Nocturne,Renata Glasc,Pantheon,Nautilus,1,0.0
+Nocturne,Renata Glasc,Pantheon,Neeko,1,0.0
+Nocturne,Renata Glasc,Vi,Alistar,1,0.0
+Nocturne,Renata Glasc,Vi,Nautilus,1,0.0
+Nocturne,Senna,Xin Zhao,Nautilus,1,0.0
+Nocturne,Seraphine,Dr. Mundo,Alistar,1,0.0
+Nocturne,Seraphine,Dr. Mundo,Karma,1,1.0
+Nocturne,Seraphine,Jarvan IV,Nautilus,1,1.0
+Nocturne,Seraphine,Jarvan IV,Rakan,1,1.0
+Nocturne,Seraphine,Malphite,Nami,1,0.0
+Nocturne,Seraphine,Naafiri,Karma,1,1.0
+Nocturne,Seraphine,Olaf,Yuumi,1,1.0
+Nocturne,Seraphine,Pantheon,Rell,1,0.0
+Nocturne,Seraphine,Skarner,Milio,1,0.0
+Nocturne,Seraphine,Sylas,Bard,1,0.0
+Nocturne,Seraphine,Vi,Rell,1,1.0
+Nocturne,Seraphine,Wukong,Bard,1,0.0
+Nocturne,Seraphine,Wukong,Karma,1,1.0
+Nocturne,Seraphine,Wukong,Rakan,1,0.0
+Nocturne,Seraphine,Wukong,Yuumi,1,1.0
+Nocturne,Seraphine,Xin Zhao,Anivia,1,1.0
+Nocturne,Seraphine,Xin Zhao,Lulu,1,1.0
+Nocturne,Seraphine,Xin Zhao,Nami,1,0.0
+Nocturne,Seraphine,Xin Zhao,Vel'Koz,1,1.0
+Nocturne,Shen,Pantheon,Rakan,1,1.0
+Nocturne,Soraka,Xin Zhao,Neeko,1,0.0
+Nocturne,Thresh,Aatrox,Karma,1,0.0
+Nocturne,Thresh,Jarvan IV,Leona,1,1.0
+Nocturne,Thresh,Xin Zhao,Bard,1,1.0
+Nocturne,Yuumi,Olaf,Rakan,1,1.0
+Nocturne,Yuumi,Pantheon,Milio,1,1.0
+Nocturne,Yuumi,Skarner,Lulu,1,1.0
+Nocturne,Yuumi,Vi,Milio,1,1.0
+Nocturne,Yuumi,Wukong,Milio,1,0.0
+Nunu & Willump,Karma,Xin Zhao,Seraphine,1,0.0
+Nunu & Willump,Lulu,Pantheon,Neeko,1,0.0
+Nunu & Willump,Nami,Naafiri,Lulu,1,1.0
+Nunu & Willump,Neeko,Dr. Mundo,Karma,1,0.0
+Olaf,Alistar,Ornn,Taric,1,1.0
+Olaf,Alistar,Sejuani,Taric,1,1.0
+Olaf,Bard,Lee Sin,Alistar,1,1.0
+Olaf,Bard,Xin Zhao,Seraphine,1,1.0
+Olaf,Camille,Wukong,Rell,1,1.0
+Olaf,Elise,Pantheon,Bard,1,1.0
+Olaf,Karma,Kha'Zix,Alistar,1,1.0
+Olaf,Karma,Lee Sin,Seraphine,1,1.0
+Olaf,Karma,Lee Sin,Soraka,1,0.0
+Olaf,Karma,Xin Zhao,Neeko,1,1.0
+Olaf,Karma,Xin Zhao,Seraphine,1,1.0
+Olaf,Lulu,Xin Zhao,Seraphine,1,1.0
+Olaf,Milio,Dr. Mundo,Nami,1,0.0
+Olaf,Milio,Naafiri,Neeko,1,0.0
+Olaf,Milio,Vi,Seraphine,1,1.0
+Olaf,Milio,Wukong,Lulu,1,0.0
+Olaf,Nautilus,Jayce,Rell,1,1.0
+Olaf,Nautilus,Nocturne,Rakan,1,0.0
+Olaf,Nautilus,Qiyana,Alistar,1,1.0
+Olaf,Nautilus,Wukong,Braum,1,1.0
+Olaf,Nautilus,Xin Zhao,Leona,1,0.0
+Olaf,Nautilus,Xin Zhao,Rell,1,1.0
+Olaf,Nautilus,Xin Zhao,Seraphine,1,0.0
+Olaf,Nautilus,Zaahen,Thresh,1,1.0
+Olaf,Neeko,Lee Sin,Nautilus,1,1.0
+Olaf,Neeko,Zaahen,Leona,1,1.0
+Olaf,Pyke,Xin Zhao,Seraphine,1,1.0
+Olaf,Rakan,Skarner,Leona,1,1.0
+Olaf,Rell,Ambessa,Karma,1,0.0
+Olaf,Rell,Xin Zhao,Karma,1,0.0
+Olaf,Seraphine,Nocturne,Lulu,1,0.0
+Olaf,Seraphine,Skarner,Rakan,1,1.0
+Olaf,Seraphine,Trundle,Bard,1,0.0
+Olaf,Seraphine,Vi,Nautilus,1,0.0
+Olaf,Seraphine,Vi,Vel'Koz,1,0.0
+Ornn,Karma,Dr. Mundo,Nami,1,1.0
+Ornn,Nami,Naafiri,Rakan,1,0.0
+Pantheon,Alistar,Aatrox,Bard,1,0.0
+Pantheon,Alistar,Aatrox,Nautilus,1,1.0
+Pantheon,Alistar,Aatrox,Neeko,1,0.0
+Pantheon,Alistar,Dr. Mundo,Karma,1,0.0
+Pantheon,Alistar,Dr. Mundo,Neeko,1,1.0
+Pantheon,Alistar,Jarvan IV,Rakan,1,1.0
+Pantheon,Alistar,Lee Sin,Milio,1,1.0
+Pantheon,Alistar,Lee Sin,Neeko,1,0.0
+Pantheon,Alistar,Lee Sin,Poppy,1,0.0
+Pantheon,Alistar,Malphite,Lulu,1,0.0
+Pantheon,Alistar,Maokai,Neeko,1,1.0
+Pantheon,Alistar,Maokai,Poppy,1,1.0
+Pantheon,Alistar,Naafiri,Karma,1,1.0
+Pantheon,Alistar,Naafiri,Nautilus,1,1.0
+Pantheon,Alistar,Nocturne,Leona,1,1.0
+Pantheon,Alistar,Nocturne,Nautilus,1,1.0
+Pantheon,Alistar,Olaf,Rakan,1,0.0
+Pantheon,Alistar,Sejuani,Rell,1,1.0
+Pantheon,Alistar,Skarner,Neeko,1,1.0
+Pantheon,Alistar,Vi,Nautilus,1,0.0
+Pantheon,Alistar,Viego,Poppy,1,0.0
+Pantheon,Alistar,Wukong,Braum,1,1.0
+Pantheon,Alistar,Wukong,Galio,1,1.0
+Pantheon,Alistar,Wukong,Nautilus,1,1.0
+Pantheon,Alistar,Xin Zhao,Rakan,1,0.0
+Pantheon,Amumu,Lee Sin,Nami,1,0.0
+Pantheon,Amumu,Nocturne,Neeko,1,1.0
+Pantheon,Anivia,Skarner,Bard,1,0.0
+Pantheon,Anivia,Wukong,Rakan,1,1.0
+Pantheon,Bard,Aatrox,Neeko,1,1.0
+Pantheon,Bard,Ambessa,Anivia,1,1.0
+Pantheon,Bard,Dr. Mundo,Nami,1,1.0
+Pantheon,Bard,Hecarim,Rell,1,0.0
+Pantheon,Bard,Ivern,Alistar,1,0.0
+Pantheon,Bard,Jarvan IV,Anivia,1,0.0
+Pantheon,Bard,Jarvan IV,Elise,1,0.0
+Pantheon,Bard,Jarvan IV,Galio,1,1.0
+Pantheon,Bard,Jarvan IV,Karma,1,0.0
+Pantheon,Bard,Jarvan IV,Leona,1,1.0
+Pantheon,Bard,Jarvan IV,Neeko,1,0.0
+Pantheon,Bard,Jarvan IV,Rakan,1,1.0
+Pantheon,Bard,Jarvan IV,Rell,1,1.0
+Pantheon,Bard,Jax,Rell,1,1.0
+Pantheon,Bard,Kha'Zix,Karma,1,1.0
+Pantheon,Bard,Lillia,Nautilus,1,0.0
+Pantheon,Bard,Naafiri,Anivia,1,1.0
+Pantheon,Bard,Naafiri,Karma,1,1.0
+Pantheon,Bard,Naafiri,Neeko,1,0.0
+Pantheon,Bard,Naafiri,Pyke,1,1.0
+Pantheon,Bard,Nocturne,Elise,1,1.0
+Pantheon,Bard,Nocturne,Lulu,1,1.0
+Pantheon,Bard,Nocturne,Seraphine,1,1.0
+Pantheon,Bard,Skarner,Karma,1,1.0
+Pantheon,Bard,Skarner,Lulu,1,1.0
+Pantheon,Bard,Skarner,Nami,1,1.0
+Pantheon,Bard,Skarner,Nautilus,1,1.0
+Pantheon,Bard,Skarner,Seraphine,1,0.0
+Pantheon,Bard,Trundle,Alistar,1,0.0
+Pantheon,Bard,Trundle,Rakan,1,0.0
+Pantheon,Bard,Vi,Camille,1,1.0
+Pantheon,Bard,Vi,Rakan,1,1.0
+Pantheon,Bard,Vi,Seraphine,1,1.0
+Pantheon,Bard,Wukong,Neeko,1,1.0
+Pantheon,Bard,Wukong,Rell,1,1.0
+Pantheon,Bard,Wukong,Shen,1,1.0
+Pantheon,Bard,Xin Zhao,Leona,1,0.0
+Pantheon,Bard,Xin Zhao,Lulu,1,1.0
+Pantheon,Bard,Xin Zhao,Milio,1,0.0
+Pantheon,Bard,Xin Zhao,Nami,1,1.0
+Pantheon,Bard,Xin Zhao,Neeko,1,1.0
+Pantheon,Bard,Xin Zhao,Taric,1,0.0
+Pantheon,Blitzcrank,Jarvan IV,Bard,1,0.0
+Pantheon,Braum,Aatrox,Nami,1,0.0
+Pantheon,Braum,Ambessa,Nautilus,1,1.0
+Pantheon,Braum,Amumu,Rakan,1,1.0
+Pantheon,Braum,Hecarim,Shen,1,1.0
+Pantheon,Braum,Ivern,Leona,1,0.0
+Pantheon,Braum,Lee Sin,Nautilus,1,0.0
+Pantheon,Braum,Lee Sin,Neeko,1,0.0
+Pantheon,Braum,Malphite,Rell,1,0.0
+Pantheon,Braum,Naafiri,Renata Glasc,1,0.0
+Pantheon,Braum,Vi,Renata Glasc,1,1.0
+Pantheon,Braum,Wukong,Alistar,1,0.0
+Pantheon,Braum,Xin Zhao,Nautilus,1,1.0
+Pantheon,Braum,Zaahen,Alistar,1,0.0
+Pantheon,Camille,Jarvan IV,Nautilus,1,1.0
+Pantheon,Camille,Olaf,Seraphine,1,1.0
+Pantheon,Camille,Shaco,Seraphine,1,1.0
+Pantheon,Camille,Trundle,Bard,1,1.0
+Pantheon,Camille,Xin Zhao,Bard,1,0.0
+Pantheon,Elise,Dr. Mundo,Nami,1,0.0
+Pantheon,Elise,Jarvan IV,Bard,1,1.0
+Pantheon,Elise,Jarvan IV,Leona,1,0.0
+Pantheon,Elise,Vi,Lulu,1,0.0
+Pantheon,Karma,Aatrox,Leona,1,1.0
+Pantheon,Karma,Aatrox,Nami,1,1.0
+Pantheon,Karma,Aatrox,Nautilus,1,0.0
+Pantheon,Karma,Aatrox,Seraphine,1,0.0
+Pantheon,Karma,Dr. Mundo,Rakan,1,1.0
+Pantheon,Karma,Dr. Mundo,Seraphine,1,0.0
+Pantheon,Karma,Jarvan IV,Anivia,1,1.0
+Pantheon,Karma,Jarvan IV,Leona,1,1.0
+Pantheon,Karma,Jarvan IV,Lulu,1,0.0
+Pantheon,Karma,Jarvan IV,Milio,1,1.0
+Pantheon,Karma,Jarvan IV,Rakan,1,0.0
+Pantheon,Karma,Jarvan IV,Seraphine,1,1.0
+Pantheon,Karma,Jayce,Nautilus,1,0.0
+Pantheon,Karma,Lee Sin,Leona,1,1.0
+Pantheon,Karma,Lee Sin,Nami,1,1.0
+Pantheon,Karma,Lee Sin,Rell,1,1.0
+Pantheon,Karma,Lee Sin,Seraphine,1,0.0
+Pantheon,Karma,Master Yi,Leona,1,1.0
+Pantheon,Karma,Nidalee,Nautilus,1,1.0
+Pantheon,Karma,Nocturne,Yuumi,1,1.0
+Pantheon,Karma,Sejuani,Nami,1,1.0
+Pantheon,Karma,Sejuani,Neeko,1,1.0
+Pantheon,Karma,Shen,Bard,1,1.0
+Pantheon,Karma,Skarner,Bard,1,1.0
+Pantheon,Karma,Skarner,Seraphine,1,0.0
+Pantheon,Karma,Trundle,Bard,1,1.0
+Pantheon,Karma,Trundle,Rell,1,1.0
+Pantheon,Karma,Vi,Lulu,1,0.0
+Pantheon,Karma,Vi,Shen,1,0.0
+Pantheon,Karma,Wukong,Nami,1,0.0
+Pantheon,Karma,Wukong,Neeko,1,1.0
+Pantheon,Karma,Wukong,Rell,1,1.0
+Pantheon,Karma,Wukong,Seraphine,1,1.0
+Pantheon,Karma,Xin Zhao,Lulu,1,1.0
+Pantheon,Karma,Xin Zhao,Milio,1,1.0
+Pantheon,Karma,Xin Zhao,Nautilus,1,0.0
+Pantheon,Karma,Xin Zhao,Seraphine,1,1.0
+Pantheon,Karma,Xin Zhao,Yuumi,1,0.0
+Pantheon,Karma,Zaahen,Milio,1,1.0
+Pantheon,Leona,Ambessa,Nautilus,1,0.0
+Pantheon,Leona,Jarvan IV,Rakan,1,0.0
+Pantheon,Leona,Lee Sin,Bard,1,0.0
+Pantheon,Leona,Lee Sin,Neeko,1,0.0
+Pantheon,Leona,Malphite,Alistar,1,0.0
+Pantheon,Leona,Malphite,Karma,1,0.0
+Pantheon,Leona,Maokai,Braum,1,0.0
+Pantheon,Leona,Nocturne,Neeko,1,0.0
+Pantheon,Leona,Trundle,Nautilus,1,0.0
+Pantheon,Leona,Wukong,Neeko,1,0.0
+Pantheon,Leona,Wukong,Rell,1,0.0
+Pantheon,Leona,Xin Zhao,Alistar,1,0.0
+Pantheon,Leona,Xin Zhao,Braum,1,0.0
+Pantheon,Lulu,Aatrox,Nautilus,1,0.0
+Pantheon,Lulu,Aatrox,Rell,1,1.0
+Pantheon,Lulu,Dr. Mundo,Bard,1,1.0
+Pantheon,Lulu,Dr. Mundo,Nami,1,1.0
+Pantheon,Lulu,Ivern,Leona,1,0.0
+Pantheon,Lulu,Jarvan IV,Pyke,1,0.0
+Pantheon,Lulu,Lee Sin,Bard,1,0.0
+Pantheon,Lulu,Lee Sin,Milio,1,1.0
+Pantheon,Lulu,Lee Sin,Nami,1,0.0
+Pantheon,Lulu,Nocturne,Blitzcrank,1,0.0
+Pantheon,Lulu,Nocturne,Neeko,1,0.0
+Pantheon,Lulu,Nocturne,Poppy,1,1.0
+Pantheon,Lulu,Sejuani,Rakan,1,0.0
+Pantheon,Lulu,Skarner,Nami,1,1.0
+Pantheon,Lulu,Skarner,Nautilus,1,0.0
+Pantheon,Lulu,Vi,Karma,1,1.0
+Pantheon,Lulu,Vi,Nautilus,1,1.0
+Pantheon,Lulu,Wukong,Anivia,1,1.0
+Pantheon,Lulu,Wukong,Karma,1,0.0
+Pantheon,Lulu,Wukong,Nami,1,0.0
+Pantheon,Lulu,Wukong,Nautilus,1,0.0
+Pantheon,Lulu,Wukong,Pyke,1,1.0
+Pantheon,Lulu,Wukong,Rakan,1,1.0
+Pantheon,Lulu,Wukong,Soraka,1,0.0
+Pantheon,Lulu,Xin Zhao,Neeko,1,0.0
+Pantheon,Lulu,Xin Zhao,Soraka,1,0.0
+Pantheon,Lulu,Xin Zhao,Thresh,1,1.0
+Pantheon,Lulu,Zaahen,Karma,1,1.0
+Pantheon,Maokai,Lee Sin,Leona,1,0.0
+Pantheon,Milio,Jarvan IV,Bard,1,0.0
+Pantheon,Milio,Jarvan IV,Seraphine,1,1.0
+Pantheon,Milio,Jarvan IV,Thresh,1,1.0
+Pantheon,Milio,Jayce,Nami,1,1.0
+Pantheon,Milio,Naafiri,Rakan,1,1.0
+Pantheon,Milio,Naafiri,Seraphine,1,1.0
+Pantheon,Milio,Nocturne,Bard,1,0.0
+Pantheon,Milio,Nocturne,Lulu,1,1.0
+Pantheon,Milio,Nocturne,Nami,1,1.0
+Pantheon,Milio,Nocturne,Rell,1,1.0
+Pantheon,Milio,Skarner,Seraphine,1,0.0
+Pantheon,Milio,Trundle,Bard,1,1.0
+Pantheon,Milio,Vi,Alistar,1,0.0
+Pantheon,Milio,Vi,Nami,1,1.0
+Pantheon,Milio,Vi,Nautilus,1,1.0
+Pantheon,Milio,Vi,Seraphine,1,1.0
+Pantheon,Milio,Wukong,Nami,1,1.0
+Pantheon,Milio,Wukong,Rakan,1,0.0
+Pantheon,Milio,Wukong,Rell,1,1.0
+Pantheon,Milio,Xin Zhao,Renata Glasc,1,0.0
+Pantheon,Nami,Aatrox,Blitzcrank,1,0.0
+Pantheon,Nami,Aatrox,Pyke,1,0.0
+Pantheon,Nami,Ambessa,Bard,1,1.0
+Pantheon,Nami,Ambessa,Seraphine,1,0.0
+Pantheon,Nami,Dr. Mundo,Seraphine,1,1.0
+Pantheon,Nami,Jarvan IV,Bard,1,1.0
+Pantheon,Nami,Jarvan IV,Seraphine,1,1.0
+Pantheon,Nami,Jarvan IV,Shen,1,1.0
+Pantheon,Nami,Lee Sin,Bard,1,0.0
+Pantheon,Nami,Lee Sin,Neeko,1,0.0
+Pantheon,Nami,Lee Sin,Rakan,1,1.0
+Pantheon,Nami,Malphite,Bard,1,1.0
+Pantheon,Nami,Naafiri,Lulu,1,0.0
+Pantheon,Nami,Naafiri,Seraphine,1,0.0
+Pantheon,Nami,Qiyana,Neeko,1,0.0
+Pantheon,Nami,Sejuani,Seraphine,1,0.0
+Pantheon,Nami,Skarner,Bard,1,0.0
+Pantheon,Nami,Skarner,Karma,1,0.0
+Pantheon,Nami,Skarner,Lulu,1,0.0
+Pantheon,Nami,Skarner,Nautilus,1,1.0
+Pantheon,Nami,Skarner,Rell,1,1.0
+Pantheon,Nami,Trundle,Bard,1,1.0
+Pantheon,Nami,Vi,Anivia,1,0.0
+Pantheon,Nami,Vi,Bard,1,1.0
+Pantheon,Nami,Vi,Neeko,1,0.0
+Pantheon,Nami,Vi,Rell,1,1.0
+Pantheon,Nami,Viego,Sona,1,1.0
+Pantheon,Nami,Wukong,Bard,1,1.0
+Pantheon,Nami,Wukong,Karma,1,0.0
+Pantheon,Nami,Wukong,Milio,1,0.0
+Pantheon,Nami,Xin Zhao,Seraphine,1,1.0
+Pantheon,Nami,Zaahen,Karma,1,1.0
+Pantheon,Nautilus,Aatrox,Nami,1,0.0
+Pantheon,Nautilus,Dr. Mundo,Braum,1,1.0
+Pantheon,Nautilus,Dr. Mundo,Lulu,1,0.0
+Pantheon,Nautilus,Jarvan IV,Bard,1,0.0
+Pantheon,Nautilus,Jarvan IV,Lulu,1,1.0
+Pantheon,Nautilus,Jarvan IV,Nami,1,1.0
+Pantheon,Nautilus,Jarvan IV,Rell,1,0.0
+Pantheon,Nautilus,Jarvan IV,Seraphine,1,0.0
+Pantheon,Nautilus,Jax,Karma,1,1.0
+Pantheon,Nautilus,Jayce,Alistar,1,0.0
+Pantheon,Nautilus,Jayce,Leona,1,0.0
+Pantheon,Nautilus,Lee Sin,Lulu,1,1.0
+Pantheon,Nautilus,Naafiri,Alistar,1,1.0
+Pantheon,Nautilus,Nocturne,Leona,1,1.0
+Pantheon,Nautilus,Nocturne,Neeko,1,0.0
+Pantheon,Nautilus,Nocturne,Rell,1,0.0
+Pantheon,Nautilus,Poppy,Alistar,1,0.0
+Pantheon,Nautilus,Qiyana,Nami,1,1.0
+Pantheon,Nautilus,Qiyana,Thresh,1,1.0
+Pantheon,Nautilus,Skarner,Leona,1,0.0
+Pantheon,Nautilus,Skarner,Lulu,1,1.0
+Pantheon,Nautilus,Skarner,Milio,1,0.0
+Pantheon,Nautilus,Skarner,Nami,1,1.0
+Pantheon,Nautilus,Vi,Braum,1,1.0
+Pantheon,Nautilus,Vi,Camille,1,1.0
+Pantheon,Nautilus,Vi,Karma,1,1.0
+Pantheon,Nautilus,Vi,Milio,1,1.0
+Pantheon,Nautilus,Vi,Nami,1,1.0
+Pantheon,Nautilus,Vi,Pyke,1,0.0
+Pantheon,Nautilus,Vi,Seraphine,1,0.0
+Pantheon,Nautilus,Viego,Braum,1,0.0
+Pantheon,Nautilus,Volibear,Braum,1,1.0
+Pantheon,Nautilus,Wukong,Bard,1,0.0
+Pantheon,Nautilus,Wukong,Karma,1,0.0
+Pantheon,Nautilus,Wukong,Poppy,1,0.0
+Pantheon,Nautilus,Wukong,Rell,1,0.0
+Pantheon,Nautilus,Wukong,Seraphine,1,1.0
+Pantheon,Nautilus,Xin Zhao,Bard,1,0.0
+Pantheon,Nautilus,Xin Zhao,Karma,1,1.0
+Pantheon,Nautilus,Xin Zhao,Leona,1,1.0
+Pantheon,Nautilus,Xin Zhao,Lulu,1,1.0
+Pantheon,Nautilus,Xin Zhao,Neeko,1,0.0
+Pantheon,Nautilus,Xin Zhao,Pyke,1,1.0
+Pantheon,Nautilus,Zaahen,Rell,1,0.0
+Pantheon,Nautilus,Zaahen,Seraphine,1,0.0
+Pantheon,Neeko,Aatrox,Nautilus,1,1.0
+Pantheon,Neeko,Aatrox,Rell,1,1.0
+Pantheon,Neeko,Ambessa,Bard,1,0.0
+Pantheon,Neeko,Ambessa,Karma,1,1.0
+Pantheon,Neeko,Dr. Mundo,Bard,1,0.0
+Pantheon,Neeko,Dr. Mundo,Thresh,1,0.0
+Pantheon,Neeko,Gwen,Karma,1,1.0
+Pantheon,Neeko,Jarvan IV,Alistar,1,1.0
+Pantheon,Neeko,Jarvan IV,Nautilus,1,1.0
+Pantheon,Neeko,Jarvan IV,Seraphine,1,0.0
+Pantheon,Neeko,Naafiri,Morgana,1,0.0
+Pantheon,Neeko,Naafiri,Nautilus,1,1.0
+Pantheon,Neeko,Naafiri,Seraphine,1,1.0
+Pantheon,Neeko,Nocturne,Bard,1,0.0
+Pantheon,Neeko,Nocturne,Lulu,1,0.0
+Pantheon,Neeko,Qiyana,Alistar,1,0.0
+Pantheon,Neeko,Qiyana,Blitzcrank,1,1.0
+Pantheon,Neeko,Skarner,Bard,1,1.0
+Pantheon,Neeko,Vi,Alistar,1,0.0
+Pantheon,Neeko,Vi,Bard,1,1.0
+Pantheon,Neeko,Vi,Lulu,1,1.0
+Pantheon,Neeko,Vi,Nautilus,1,0.0
+Pantheon,Neeko,Wukong,Alistar,1,1.0
+Pantheon,Neeko,Wukong,Bard,1,1.0
+Pantheon,Neeko,Wukong,Nautilus,1,0.0
+Pantheon,Neeko,Wukong,Rakan,1,0.0
+Pantheon,Neeko,Wukong,Rell,1,1.0
+Pantheon,Neeko,Xin Zhao,Bard,1,0.0
+Pantheon,Neeko,Xin Zhao,Karma,1,0.0
+Pantheon,Neeko,Xin Zhao,Lulu,1,1.0
+Pantheon,Neeko,Xin Zhao,Nautilus,1,0.0
+Pantheon,Poppy,Jarvan IV,Alistar,1,1.0
+Pantheon,Poppy,Jarvan IV,Lulu,1,1.0
+Pantheon,Poppy,Jarvan IV,Renata Glasc,1,0.0
+Pantheon,Poppy,Nocturne,Nautilus,1,0.0
+Pantheon,Poppy,Vi,Leona,1,1.0
+Pantheon,Poppy,Vi,Rakan,1,0.0
+Pantheon,Poppy,Vi,Rell,1,1.0
+Pantheon,Pyke,Jarvan IV,Nami,1,0.0
+Pantheon,Pyke,Jarvan IV,Rakan,1,1.0
+Pantheon,Pyke,Naafiri,Karma,1,0.0
+Pantheon,Pyke,Nocturne,Seraphine,1,1.0
+Pantheon,Pyke,Olaf,Seraphine,1,1.0
+Pantheon,Pyke,Sejuani,Renata Glasc,1,0.0
+Pantheon,Pyke,Skarner,Milio,1,1.0
+Pantheon,Pyke,Wukong,Lulu,1,0.0
+Pantheon,Pyke,Xin Zhao,Karma,1,1.0
+Pantheon,Pyke,Xin Zhao,Seraphine,1,0.0
+Pantheon,Rakan,Dr. Mundo,Neeko,1,1.0
+Pantheon,Rakan,Jarvan IV,Alistar,1,0.0
+Pantheon,Rakan,Jarvan IV,Nautilus,1,1.0
+Pantheon,Rakan,Jarvan IV,Seraphine,1,0.0
+Pantheon,Rakan,Maokai,Shen,1,1.0
+Pantheon,Rakan,Naafiri,Neeko,1,1.0
+Pantheon,Rakan,Nocturne,Lulu,1,0.0
+Pantheon,Rakan,Nocturne,Milio,1,1.0
+Pantheon,Rakan,Nocturne,Thresh,1,0.0
+Pantheon,Rakan,Sejuani,Karma,1,0.0
+Pantheon,Rakan,Skarner,Karma,1,0.0
+Pantheon,Rakan,Skarner,Rell,1,0.0
+Pantheon,Rakan,Sylas,Nami,1,1.0
+Pantheon,Rakan,Vi,Leona,1,1.0
+Pantheon,Rakan,Vi,Rell,1,1.0
+Pantheon,Rakan,Volibear,Nami,1,1.0
+Pantheon,Rakan,Wukong,Alistar,1,0.0
+Pantheon,Rakan,Wukong,Nami,1,0.0
+Pantheon,Rakan,Xin Zhao,Bard,1,1.0
+Pantheon,Rakan,Xin Zhao,Braum,1,1.0
+Pantheon,Rakan,Xin Zhao,Lulu,1,0.0
+Pantheon,Rakan,Xin Zhao,Rell,1,1.0
+Pantheon,Rell,Aatrox,Seraphine,1,0.0
+Pantheon,Rell,Jarvan IV,Bard,1,0.0
+Pantheon,Rell,Jarvan IV,Braum,1,0.0
+Pantheon,Rell,Jarvan IV,Karma,1,1.0
+Pantheon,Rell,Lee Sin,Karma,1,1.0
+Pantheon,Rell,Naafiri,Nautilus,1,0.0
+Pantheon,Rell,Nocturne,Bard,1,0.0
+Pantheon,Rell,Olaf,Nautilus,1,1.0
+Pantheon,Rell,Sejuani,Yuumi,1,0.0
+Pantheon,Rell,Skarner,Alistar,1,0.0
+Pantheon,Rell,Trundle,Alistar,1,0.0
+Pantheon,Rell,Vi,Alistar,1,0.0
+Pantheon,Rell,Wukong,Nami,1,0.0
+Pantheon,Rell,Wukong,Nautilus,1,0.0
+Pantheon,Rell,Wukong,Poppy,1,1.0
+Pantheon,Rell,Wukong,Rakan,1,0.0
+Pantheon,Rell,Xin Zhao,Alistar,1,1.0
+Pantheon,Rell,Xin Zhao,Karma,1,0.0
+Pantheon,Rell,Xin Zhao,Nautilus,1,0.0
+Pantheon,Rell,Xin Zhao,Seraphine,1,0.0
+Pantheon,Rell,Zaahen,Lulu,1,0.0
+Pantheon,Renata Glasc,Aatrox,Alistar,1,0.0
+Pantheon,Renata Glasc,Jarvan IV,Braum,1,0.0
+Pantheon,Renata Glasc,Nocturne,Neeko,1,1.0
+Pantheon,Renata Glasc,Vi,Lulu,1,0.0
+Pantheon,Seraphine,Aatrox,Lulu,1,0.0
+Pantheon,Seraphine,Ambessa,Nautilus,1,1.0
+Pantheon,Seraphine,Ambessa,Pyke,1,0.0
+Pantheon,Seraphine,Dr. Mundo,Karma,1,0.0
+Pantheon,Seraphine,Dr. Mundo,Nami,1,0.0
+Pantheon,Seraphine,Dr. Mundo,Nautilus,1,0.0
+Pantheon,Seraphine,Jarvan IV,Anivia,1,1.0
+Pantheon,Seraphine,Jarvan IV,Bard,1,0.0
+Pantheon,Seraphine,Jarvan IV,Milio,1,1.0
+Pantheon,Seraphine,Jarvan IV,Neeko,1,1.0
+Pantheon,Seraphine,Jarvan IV,Rell,1,1.0
+Pantheon,Seraphine,Jarvan IV,Rumble,1,1.0
+Pantheon,Seraphine,Naafiri,Pyke,1,0.0
+Pantheon,Seraphine,Naafiri,Rakan,1,0.0
+Pantheon,Seraphine,Nocturne,Bard,1,1.0
+Pantheon,Seraphine,Qiyana,Milio,1,0.0
+Pantheon,Seraphine,Sejuani,Pyke,1,1.0
+Pantheon,Seraphine,Skarner,Camille,1,0.0
+Pantheon,Seraphine,Skarner,Nautilus,1,1.0
+Pantheon,Seraphine,Skarner,Pyke,1,0.0
+Pantheon,Seraphine,Trundle,Milio,1,1.0
+Pantheon,Seraphine,Trundle,Yuumi,1,1.0
+Pantheon,Seraphine,Vi,Karma,1,0.0
+Pantheon,Seraphine,Vi,Lulu,1,1.0
+Pantheon,Seraphine,Vi,Pyke,1,0.0
+Pantheon,Seraphine,Vi,Rell,1,0.0
+Pantheon,Seraphine,Vi,Zyra,1,0.0
+Pantheon,Seraphine,Wukong,Nautilus,1,1.0
+Pantheon,Seraphine,Xin Zhao,Anivia,1,0.0
+Pantheon,Seraphine,Xin Zhao,Karma,1,0.0
+Pantheon,Seraphine,Xin Zhao,Leona,1,1.0
+Pantheon,Seraphine,Xin Zhao,Rakan,1,0.0
+Pantheon,Seraphine,Zyra,Anivia,1,1.0
+Pantheon,Shen,Jarvan IV,Alistar,1,1.0
+Pantheon,Sona,Wukong,Seraphine,1,0.0
+Pantheon,Soraka,Dr. Mundo,Karma,1,1.0
+Pantheon,Soraka,Vi,Renata Glasc,1,1.0
+Pantheon,Soraka,Wukong,Lulu,1,1.0
+Pantheon,Soraka,Zaahen,Alistar,1,1.0
+Pantheon,Soraka,Zaahen,Braum,1,0.0
+Pantheon,Swain,Xin Zhao,Alistar,1,0.0
+Pantheon,Tahm Kench,Nocturne,Camille,1,1.0
+Pantheon,Taric,Brand,Neeko,1,0.0
+Pantheon,Thresh,Dr. Mundo,Blitzcrank,1,0.0
+Pantheon,Thresh,Jarvan IV,Alistar,1,1.0
+Pantheon,Thresh,Jarvan IV,Lulu,1,1.0
+Pantheon,Thresh,Jayce,Nautilus,1,0.0
+Pantheon,Thresh,Nautilus,Karma,1,1.0
+Pantheon,Thresh,Nocturne,Milio,1,0.0
+Pantheon,Thresh,Skarner,Bard,1,0.0
+Pantheon,Thresh,Skarner,Lulu,1,1.0
+Pantheon,Thresh,Trundle,Alistar,1,1.0
+Pantheon,Yuumi,Vi,Bard,1,1.0
+Pantheon,Yuumi,Xin Zhao,Karma,1,1.0
+Pantheon,Zilean,Dr. Mundo,Rell,1,0.0
+Pantheon,Zyra,Xin Zhao,Renata Glasc,1,0.0
+Poppy,Alistar,Pantheon,Nautilus,1,1.0
+Poppy,Alistar,Sylas,Rakan,1,1.0
+Poppy,Alistar,Vi,Neeko,1,1.0
+Poppy,Alistar,Vi,Rakan,1,1.0
+Poppy,Anivia,Xin Zhao,Bard,1,0.0
+Poppy,Bard,Jarvan IV,Neeko,1,0.0
+Poppy,Bard,Lee Sin,Karma,1,1.0
+Poppy,Bard,Wukong,Seraphine,1,1.0
+Poppy,Blitzcrank,Maokai,Rakan,1,1.0
+Poppy,Braum,Naafiri,Thresh,1,1.0
+Poppy,Braum,Wukong,Alistar,1,0.0
+Poppy,Braum,Wukong,Lulu,1,0.0
+Poppy,Camille,Lee Sin,Rakan,1,1.0
+Poppy,Karma,Jarvan IV,Rell,1,1.0
+Poppy,Karma,Naafiri,Seraphine,1,0.0
+Poppy,Karma,Vi,Leona,1,0.0
+Poppy,Lulu,Pantheon,Alistar,1,1.0
+Poppy,Lux,Naafiri,Neeko,1,0.0
+Poppy,Milio,Vi,Bard,1,0.0
+Poppy,Nami,Ambessa,Alistar,1,1.0
+Poppy,Nami,Jarvan IV,Leona,1,0.0
+Poppy,Nami,Rengar,Rakan,1,1.0
+Poppy,Nami,Vi,Lulu,1,0.0
+Poppy,Nami,Viego,Renata Glasc,1,1.0
+Poppy,Nautilus,Jarvan IV,Braum,1,0.0
+Poppy,Nautilus,Jarvan IV,Milio,1,0.0
+Poppy,Nautilus,Pantheon,Nami,1,1.0
+Poppy,Nautilus,Pantheon,Rell,1,0.0
+Poppy,Neeko,Jarvan IV,Karma,1,0.0
+Poppy,Neeko,Lee Sin,Karma,1,1.0
+Poppy,Neeko,Wukong,Nautilus,1,1.0
+Poppy,Pyke,Jarvan IV,Bard,1,1.0
+Poppy,Rell,Jarvan IV,Braum,1,1.0
+Poppy,Rell,Jayce,Alistar,1,0.0
+Poppy,Rell,Lee Sin,Nautilus,1,1.0
+Poppy,Rell,Maokai,Pantheon,1,1.0
+Poppy,Rell,Naafiri,Nautilus,1,0.0
+Poppy,Renata Glasc,Wukong,Nami,1,0.0
+Poppy,Renata Glasc,Zaahen,Rell,1,1.0
+Poppy,Seraphine,Jarvan IV,Neeko,1,0.0
+Poppy,Thresh,Sejuani,Nautilus,1,1.0
+Qiyana,Alistar,Jarvan IV,Leona,1,0.0
+Qiyana,Alistar,Lee Sin,Rell,1,1.0
+Qiyana,Alistar,Naafiri,Rakan,1,1.0
+Qiyana,Alistar,Nocturne,Neeko,1,0.0
+Qiyana,Alistar,Poppy,Nautilus,1,1.0
+Qiyana,Alistar,Xin Zhao,Nautilus,1,1.0
+Qiyana,Anivia,Aatrox,Seraphine,1,1.0
+Qiyana,Anivia,Wukong,Seraphine,1,0.0
+Qiyana,Bard,Aatrox,Milio,1,1.0
+Qiyana,Bard,Jarvan IV,Neeko,1,1.0
+Qiyana,Bard,Jarvan IV,Rell,1,1.0
+Qiyana,Bard,Jarvan IV,Seraphine,1,0.0
+Qiyana,Bard,Pantheon,Neeko,1,1.0
+Qiyana,Bard,Xin Zhao,Karma,1,0.0
+Qiyana,Camille,Jarvan IV,Elise,1,1.0
+Qiyana,Camille,Jarvan IV,Shen,1,0.0
+Qiyana,Camille,Xin Zhao,Neeko,1,0.0
+Qiyana,Karma,Jarvan IV,Alistar,1,0.0
+Qiyana,Karma,Jarvan IV,Bard,1,0.0
+Qiyana,Karma,Jarvan IV,Neeko,1,1.0
+Qiyana,Karma,Naafiri,Nami,1,1.0
+Qiyana,Karma,Pantheon,Neeko,1,1.0
+Qiyana,Karma,Vi,Bard,1,0.0
+Qiyana,Karma,Xin Zhao,Bard,1,1.0
+Qiyana,Leona,Aatrox,Braum,1,0.0
+Qiyana,Leona,Jarvan IV,Rakan,1,1.0
+Qiyana,Leona,Jarvan IV,Rell,1,1.0
+Qiyana,Leona,Naafiri,Camille,1,1.0
+Qiyana,Leona,Pantheon,Thresh,1,1.0
+Qiyana,Leona,Wukong,Neeko,1,0.0
+Qiyana,Lulu,Aatrox,Bard,1,1.0
+Qiyana,Lulu,Jarvan IV,Nami,1,0.0
+Qiyana,Lulu,Malphite,Nami,1,1.0
+Qiyana,Lulu,Xin Zhao,Milio,1,0.0
+Qiyana,Lulu,Zaahen,Seraphine,1,1.0
+Qiyana,Milio,Aatrox,Seraphine,1,1.0
+Qiyana,Milio,Trundle,Nami,1,0.0
+Qiyana,Nami,Aatrox,Neeko,1,1.0
+Qiyana,Nami,Sejuani,Leona,1,1.0
+Qiyana,Nami,Trundle,Neeko,1,1.0
+Qiyana,Nami,Wukong,Rakan,1,1.0
+Qiyana,Nami,Xin Zhao,Lulu,1,0.0
+Qiyana,Nami,Xin Zhao,Milio,1,0.0
+Qiyana,Nami,Xin Zhao,Nautilus,1,0.0
+Qiyana,Nautilus,Ambessa,Rell,1,1.0
+Qiyana,Nautilus,Dr. Mundo,Braum,1,0.0
+Qiyana,Nautilus,Jarvan IV,Braum,1,1.0
+Qiyana,Nautilus,Jarvan IV,Leona,1,1.0
+Qiyana,Nautilus,Naafiri,Bard,1,0.0
+Qiyana,Nautilus,Nocturne,Leona,1,0.0
+Qiyana,Nautilus,Sejuani,Rell,1,1.0
+Qiyana,Neeko,Aatrox,Sona,1,0.0
+Qiyana,Neeko,Jarvan IV,Bard,1,1.0
+Qiyana,Neeko,Karthus,Nautilus,1,1.0
+Qiyana,Neeko,Pantheon,Alistar,1,1.0
+Qiyana,Neeko,Skarner,Karma,1,1.0
+Qiyana,Neeko,Wukong,Leona,1,1.0
+Qiyana,Poppy,Jarvan IV,Camille,1,0.0
+Qiyana,Poppy,Trundle,Alistar,1,1.0
+Qiyana,Pyke,Wukong,Lulu,1,0.0
+Qiyana,Rakan,Nocturne,Neeko,1,0.0
+Qiyana,Rakan,Trundle,Lulu,1,1.0
+Qiyana,Rakan,Vi,Rell,1,0.0
+Qiyana,Rakan,Wukong,Braum,1,1.0
+Qiyana,Rell,Dr. Mundo,Nautilus,1,1.0
+Qiyana,Rell,Dr. Mundo,Seraphine,1,1.0
+Qiyana,Rell,Jarvan IV,Nautilus,1,1.0
+Qiyana,Rell,Lee Sin,Lulu,1,1.0
+Qiyana,Rell,Lee Sin,Pantheon,1,1.0
+Qiyana,Rell,Pantheon,Bard,1,0.0
+Qiyana,Rell,Sylas,Neeko,1,1.0
+Qiyana,Seraphine,Jarvan IV,Lux,1,0.0
+Qiyana,Seraphine,Wukong,Senna,1,0.0
+Qiyana,Seraphine,Xin Zhao,Lulu,1,1.0
+Qiyana,Thresh,Jarvan IV,Alistar,1,1.0
+Qiyana,Thresh,Jarvan IV,Neeko,1,1.0
+Rammus,Lulu,Udyr,Neeko,1,1.0
+Rammus,Rell,Zac,Thresh,1,0.0
+Rek'Sai,Anivia,Jarvan IV,Karma,1,1.0
+Rek'Sai,Bard,Jarvan IV,Lulu,1,1.0
+Rek'Sai,Bard,Jarvan IV,Pyke,1,0.0
+Rek'Sai,Bard,Pantheon,Seraphine,1,1.0
+Rek'Sai,Bard,Vi,Karma,1,1.0
+Rek'Sai,Blitzcrank,Karthus,Milio,1,0.0
+Rek'Sai,Karma,Nocturne,Bard,1,0.0
+Rek'Sai,Karma,Wukong,Blitzcrank,1,0.0
+Rek'Sai,Karma,Wukong,Neeko,1,1.0
+Rek'Sai,Leona,Jarvan IV,Rell,1,1.0
+Rek'Sai,Lulu,Qiyana,Nami,1,1.0
+Rek'Sai,Milio,Lee Sin,Karma,1,1.0
+Rek'Sai,Milio,Lee Sin,Lux,1,1.0
+Rek'Sai,Nami,Xin Zhao,Bard,1,0.0
+Rek'Sai,Nautilus,Lee Sin,Bard,1,0.0
+Rek'Sai,Neeko,Jarvan IV,Karma,1,1.0
+Rek'Sai,Neeko,Jarvan IV,Leona,1,0.0
+Rek'Sai,Neeko,Nocturne,Karma,1,1.0
+Rek'Sai,Neeko,Vi,Bard,1,1.0
+Rek'Sai,Rakan,Taliyah,Elise,1,0.0
+Rek'Sai,Rakan,Vi,Alistar,1,1.0
+Rek'Sai,Rakan,Xin Zhao,Karma,1,1.0
+Rek'Sai,Rell,Nocturne,Nautilus,1,1.0
+Rek'Sai,Rell,Wukong,Alistar,1,1.0
+Rek'Sai,Seraphine,Lee Sin,Milio,1,1.0
+Rek'Sai,Seraphine,Nocturne,Nami,1,0.0
+Rek'Sai,Seraphine,Qiyana,Karma,1,1.0
+Rek'Sai,Seraphine,Vi,Karma,1,1.0
+Rek'Sai,Seraphine,Xin Zhao,Neeko,1,0.0
+Rek'Sai,Sona,Trundle,Bard,1,0.0
+Rek'Sai,Taric,Jarvan IV,Neeko,1,0.0
+Rek'Sai,Thresh,Aatrox,Rakan,1,0.0
+Rengar,Blitzcrank,Viego,Seraphine,1,1.0
+Rengar,Elise,Jarvan IV,Neeko,1,0.0
+Rengar,Leona,Viego,Alistar,1,1.0
+Rengar,Nami,Xin Zhao,Nautilus,1,1.0
+Rengar,Nautilus,Dr. Mundo,Seraphine,1,0.0
+Rengar,Neeko,Zaahen,Nami,1,0.0
+Rengar,Poppy,Vi,Alistar,1,1.0
+Rengar,Rakan,Xin Zhao,Nami,1,0.0
+Rumble,Karma,Wukong,Bard,1,0.0
+Rumble,Nautilus,Jayce,Neeko,1,1.0
+Sejuani,Alistar,Nocturne,Renata Glasc,1,1.0
+Sejuani,Alistar,Vi,Nautilus,1,0.0
+Sejuani,Alistar,Zaahen,Senna,1,0.0
+Sejuani,Bard,Nidalee,Rell,1,1.0
+Sejuani,Bard,Pantheon,Nami,1,1.0
+Sejuani,Bard,Wukong,Milio,1,1.0
+Sejuani,Blitzcrank,Pantheon,Lulu,1,0.0
+Sejuani,Braum,Dr. Mundo,Alistar,1,0.0
+Sejuani,Braum,Maokai,Shen,1,1.0
+Sejuani,Braum,Vi,Alistar,1,0.0
+Sejuani,Braum,Viego,Rakan,1,0.0
+Sejuani,Karma,Jarvan IV,Nautilus,1,1.0
+Sejuani,Karma,Jarvan IV,Neeko,1,1.0
+Sejuani,Karma,Lee Sin,Bard,1,0.0
+Sejuani,Karma,Naafiri,Nami,1,1.0
+Sejuani,Karma,Wukong,Nautilus,1,0.0
+Sejuani,Leona,Vi,Shen,1,1.0
+Sejuani,Lulu,Jarvan IV,Pyke,1,1.0
+Sejuani,Lulu,Nocturne,Nautilus,1,0.0
+Sejuani,Lulu,Wukong,Nautilus,1,0.0
+Sejuani,Lulu,Wukong,Seraphine,1,1.0
+Sejuani,Lulu,Xin Zhao,Neeko,1,1.0
+Sejuani,Milio,Kha'Zix,Alistar,1,1.0
+Sejuani,Milio,Naafiri,Lulu,1,0.0
+Sejuani,Milio,Nidalee,Nautilus,1,0.0
+Sejuani,Milio,Vi,Nautilus,1,1.0
+Sejuani,Milio,Vi,Senna,1,1.0
+Sejuani,Milio,Xin Zhao,Seraphine,1,1.0
+Sejuani,Nami,Diana,Lulu,1,0.0
+Sejuani,Nami,Dr. Mundo,Bard,1,1.0
+Sejuani,Nami,Lee Sin,Rakan,1,0.0
+Sejuani,Nami,Skarner,Anivia,1,0.0
+Sejuani,Nami,Skarner,Milio,1,0.0
+Sejuani,Nami,Vi,Neeko,1,0.0
+Sejuani,Nami,Wukong,Rakan,1,1.0
+Sejuani,Nautilus,Diana,Leona,1,1.0
+Sejuani,Nautilus,Jarvan IV,Braum,1,0.0
+Sejuani,Nautilus,Lee Sin,Bard,1,0.0
+Sejuani,Nautilus,Pantheon,Neeko,1,1.0
+Sejuani,Nautilus,Qiyana,Braum,1,0.0
+Sejuani,Nautilus,Trundle,Karma,1,0.0
+Sejuani,Nautilus,Wukong,Bard,1,1.0
+Sejuani,Nautilus,Wukong,Pyke,1,1.0
+Sejuani,Neeko,Jarvan IV,Yuumi,1,0.0
+Sejuani,Neeko,Maokai,Nami,1,1.0
+Sejuani,Neeko,Vi,Leona,1,1.0
+Sejuani,Neeko,Wukong,Poppy,1,0.0
+Sejuani,Neeko,Xin Zhao,Bard,1,1.0
+Sejuani,Neeko,Xin Zhao,Milio,1,1.0
+Sejuani,Neeko,Zaahen,Lulu,1,1.0
+Sejuani,Pantheon,Lillia,Leona,1,0.0
+Sejuani,Pyke,Maokai,Karma,1,0.0
+Sejuani,Pyke,Trundle,Leona,1,0.0
+Sejuani,Rakan,Nocturne,Nami,1,0.0
+Sejuani,Rakan,Trundle,Alistar,1,0.0
+Sejuani,Rakan,Trundle,Nami,1,0.0
+Sejuani,Rakan,Wukong,Braum,1,1.0
+Sejuani,Rell,Aatrox,Neeko,1,0.0
+Sejuani,Rell,Jarvan IV,Braum,1,1.0
+Sejuani,Rell,Jayce,Nautilus,1,0.0
+Sejuani,Renata Glasc,Malphite,Rakan,1,0.0
+Sejuani,Renata Glasc,Naafiri,Bard,1,1.0
+Sejuani,Renata Glasc,Xin Zhao,Nautilus,1,0.0
+Sejuani,Seraphine,Ambessa,Karma,1,0.0
+Sejuani,Seraphine,Kha'Zix,Lulu,1,1.0
+Sejuani,Seraphine,Trundle,Lulu,1,1.0
+Sejuani,Thresh,Maokai,Neeko,1,0.0
+Sejuani,Yuumi,Wukong,Karma,1,1.0
+Shaco,Rakan,Vi,Rell,1,1.0
+Shen,Bard,Pantheon,Neeko,1,0.0
+Shen,Bard,Xin Zhao,Alistar,1,1.0
+Shen,Bard,Xin Zhao,Nautilus,1,0.0
+Shen,Lulu,Wukong,Rell,1,0.0
+Shen,Lulu,Xin Zhao,Bard,1,0.0
+Shen,Milio,Naafiri,Seraphine,1,1.0
+Shen,Milio,Vi,Karma,1,1.0
+Shen,Nami,Pantheon,Seraphine,1,1.0
+Shen,Nami,Vi,Milio,1,1.0
+Shen,Neeko,Vi,Alistar,1,0.0
+Shen,Neeko,Vi,Milio,1,0.0
+Shen,Rakan,Dr. Mundo,Galio,1,1.0
+Shen,Rakan,Nocturne,Poppy,1,0.0
+Shen,Rell,Pantheon,Renata Glasc,1,1.0
+Shen,Seraphine,Lee Sin,Milio,1,1.0
+Shyvana,Blitzcrank,Nasus,Milio,1,0.0
+Shyvana,Lulu,Jarvan IV,Bard,1,1.0
+Shyvana,Nautilus,Naafiri,Leona,1,1.0
+Shyvana,Nautilus,Nocturne,Rell,1,0.0
+Shyvana,Nautilus,Pantheon,Braum,1,1.0
+Shyvana,Pyke,Qiyana,Neeko,1,1.0
+Shyvana,Rell,Nasus,Karma,1,0.0
+Shyvana,Renata Glasc,Wukong,Camille,1,1.0
+Shyvana,Seraphine,Wukong,Blitzcrank,1,0.0
+Sion,Braum,Wukong,Leona,1,0.0
+Sion,Leona,Zaahen,Bard,1,0.0
+Sion,Milio,Wukong,Neeko,1,1.0
+Skarner,Alistar,Dr. Mundo,Rell,1,1.0
+Skarner,Alistar,Lee Sin,Nautilus,1,1.0
+Skarner,Alistar,Pantheon,Bard,1,1.0
+Skarner,Alistar,Sejuani,Lulu,1,0.0
+Skarner,Alistar,Sejuani,Nautilus,1,1.0
+Skarner,Amumu,Nocturne,Bard,1,1.0
+Skarner,Anivia,Lillia,Karma,1,1.0
+Skarner,Bard,Jarvan IV,Leona,1,0.0
+Skarner,Bard,Lee Sin,Pyke,1,1.0
+Skarner,Bard,Lee Sin,Rell,1,0.0
+Skarner,Bard,Lee Sin,Seraphine,1,1.0
+Skarner,Bard,Naafiri,Seraphine,1,1.0
+Skarner,Bard,Nocturne,Nautilus,1,1.0
+Skarner,Bard,Pantheon,Anivia,1,0.0
+Skarner,Bard,Pantheon,Lulu,1,0.0
+Skarner,Bard,Pantheon,Neeko,1,1.0
+Skarner,Bard,Pantheon,Seraphine,1,0.0
+Skarner,Bard,Trundle,Karma,1,1.0
+Skarner,Bard,Trundle,Rell,1,1.0
+Skarner,Bard,Wukong,Nautilus,1,0.0
+Skarner,Bard,Wukong,Neeko,1,0.0
+Skarner,Bard,Xin Zhao,Alistar,1,1.0
+Skarner,Bard,Xin Zhao,Karma,1,0.0
+Skarner,Blitzcrank,Trundle,Poppy,1,0.0
+Skarner,Braum,Ambessa,Rakan,1,0.0
+Skarner,Braum,Jayce,Nautilus,1,1.0
+Skarner,Braum,Naafiri,Nautilus,1,0.0
+Skarner,Braum,Pantheon,Rakan,1,0.0
+Skarner,Camille,Lee Sin,Nautilus,1,1.0
+Skarner,Camille,Wukong,Neeko,1,0.0
+Skarner,Elise,Jarvan IV,Pyke,1,0.0
+Skarner,Gragas,Zyra,Alistar,1,0.0
+Skarner,Karma,Dr. Mundo,Pyke,1,0.0
+Skarner,Karma,Dr. Mundo,Thresh,1,0.0
+Skarner,Karma,Jayce,Alistar,1,0.0
+Skarner,Karma,Pantheon,Anivia,1,1.0
+Skarner,Karma,Pantheon,Lulu,1,1.0
+Skarner,Karma,Sejuani,Nami,1,0.0
+Skarner,Karma,Vi,Nami,1,1.0
+Skarner,Karma,Wukong,Neeko,1,1.0
+Skarner,Karma,Xin Zhao,Rakan,1,1.0
+Skarner,Karma,Xin Zhao,Seraphine,1,1.0
+Skarner,Leona,Kindred,Shen,1,1.0
+Skarner,Leona,Lee Sin,Camille,1,0.0
+Skarner,Leona,Vi,Poppy,1,1.0
+Skarner,Lulu,Dr. Mundo,Neeko,1,1.0
+Skarner,Lulu,Jarvan IV,Karma,1,1.0
+Skarner,Lulu,Jarvan IV,Rell,1,0.0
+Skarner,Lulu,Maokai,Nami,1,1.0
+Skarner,Lulu,Naafiri,Karma,1,0.0
+Skarner,Lulu,Nocturne,Neeko,1,0.0
+Skarner,Lulu,Pantheon,Pyke,1,0.0
+Skarner,Lulu,Pantheon,Soraka,1,1.0
+Skarner,Lulu,Trundle,Leona,1,1.0
+Skarner,Lulu,Vi,Nami,1,0.0
+Skarner,Lulu,Vi,Nautilus,1,0.0
+Skarner,Lulu,Wukong,Alistar,1,1.0
+Skarner,Lulu,Wukong,Milio,1,1.0
+Skarner,Lulu,Wukong,Rakan,1,0.0
+Skarner,Lulu,Wukong,Seraphine,1,0.0
+Skarner,Lulu,Xin Zhao,Karma,1,1.0
+Skarner,Lulu,Xin Zhao,Nami,1,1.0
+Skarner,Lulu,Xin Zhao,Nautilus,1,0.0
+Skarner,Lulu,Xin Zhao,Seraphine,1,1.0
+Skarner,Lulu,Zyra,Rakan,1,0.0
+Skarner,Lux,Sejuani,Neeko,1,1.0
+Skarner,Milio,Aatrox,Nami,1,0.0
+Skarner,Milio,Jarvan IV,Nautilus,1,1.0
+Skarner,Milio,Lee Sin,Karma,1,1.0
+Skarner,Milio,Naafiri,Karma,1,1.0
+Skarner,Milio,Nocturne,Lulu,1,0.0
+Skarner,Milio,Pantheon,Lulu,1,1.0
+Skarner,Milio,Pantheon,Nautilus,1,1.0
+Skarner,Milio,Pantheon,Seraphine,1,0.0
+Skarner,Milio,Sejuani,Seraphine,1,0.0
+Skarner,Milio,Vi,Rakan,1,1.0
+Skarner,Milio,Wukong,Nautilus,1,0.0
+Skarner,Milio,Xin Zhao,Rell,1,1.0
+Skarner,Nami,Jarvan IV,Senna,1,1.0
+Skarner,Nami,Lee Sin,Karma,1,1.0
+Skarner,Nami,Lee Sin,Lulu,1,1.0
+Skarner,Nami,Maokai,Karma,1,1.0
+Skarner,Nami,Maokai,Milio,1,1.0
+Skarner,Nami,Nocturne,Milio,1,1.0
+Skarner,Nami,Pantheon,Karma,1,1.0
+Skarner,Nami,Pantheon,Lulu,1,0.0
+Skarner,Nami,Pantheon,Nautilus,1,1.0
+Skarner,Nami,Qiyana,Bard,1,0.0
+Skarner,Nami,Trundle,Leona,1,0.0
+Skarner,Nami,Trundle,Neeko,1,1.0
+Skarner,Nami,Vi,Milio,1,1.0
+Skarner,Nautilus,Aatrox,Seraphine,1,0.0
+Skarner,Nautilus,Jarvan IV,Lulu,1,0.0
+Skarner,Nautilus,Maokai,Bard,1,1.0
+Skarner,Nautilus,Pantheon,Lulu,1,1.0
+Skarner,Nautilus,Pantheon,Rell,1,0.0
+Skarner,Nautilus,Shyvana,Lulu,1,0.0
+Skarner,Nautilus,Vi,Rell,1,1.0
+Skarner,Nautilus,Wukong,Braum,1,0.0
+Skarner,Nautilus,Wukong,Lulu,1,1.0
+Skarner,Nautilus,Wukong,Senna,1,1.0
+Skarner,Nautilus,Xin Zhao,Leona,1,0.0
+Skarner,Nautilus,Zaahen,Alistar,1,0.0
+Skarner,Neeko,Jarvan IV,Lulu,1,1.0
+Skarner,Neeko,Lee Sin,Bard,1,0.0
+Skarner,Neeko,Maokai,Alistar,1,1.0
+Skarner,Neeko,Naafiri,Bard,1,0.0
+Skarner,Neeko,Nocturne,Bard,1,1.0
+Skarner,Neeko,Pantheon,Karma,1,1.0
+Skarner,Neeko,Rek'Sai,Seraphine,1,0.0
+Skarner,Neeko,Wukong,Bard,1,0.0
+Skarner,Neeko,Xin Zhao,Alistar,1,1.0
+Skarner,Neeko,Xin Zhao,Karma,1,1.0
+Skarner,Poppy,Lee Sin,Milio,1,1.0
+Skarner,Poppy,Pantheon,Alistar,1,1.0
+Skarner,Pyke,Vi,Milio,1,1.0
+Skarner,Pyke,Xin Zhao,Nautilus,1,1.0
+Skarner,Rakan,Sejuani,Lulu,1,1.0
+Skarner,Rakan,Vi,Bard,1,0.0
+Skarner,Rell,Dr. Mundo,Seraphine,1,1.0
+Skarner,Rell,Olaf,Rakan,1,0.0
+Skarner,Rell,Pantheon,Camille,1,1.0
+Skarner,Rell,Pantheon,Nami,1,0.0
+Skarner,Rell,Pantheon,Nautilus,1,1.0
+Skarner,Rell,Trundle,Bard,1,1.0
+Skarner,Rell,Trundle,Lulu,1,0.0
+Skarner,Rell,Xin Zhao,Bard,1,1.0
+Skarner,Rell,Xin Zhao,Nautilus,1,1.0
+Skarner,Renata Glasc,Lee Sin,Rakan,1,0.0
+Skarner,Seraphine,Jarvan IV,Bard,1,0.0
+Skarner,Seraphine,Jarvan IV,Milio,1,0.0
+Skarner,Seraphine,Lee Sin,Nautilus,1,1.0
+Skarner,Seraphine,Nocturne,Neeko,1,0.0
+Skarner,Seraphine,Pantheon,Anivia,1,1.0
+Skarner,Seraphine,Pantheon,Bard,1,0.0
+Skarner,Seraphine,Pantheon,Rell,1,0.0
+Skarner,Seraphine,Trundle,Elise,1,1.0
+Skarner,Seraphine,Vi,Blitzcrank,1,1.0
+Skarner,Seraphine,Vi,Rakan,1,0.0
+Skarner,Seraphine,Wukong,Nami,1,1.0
+Skarner,Seraphine,Xin Zhao,Karma,1,0.0
+Skarner,Seraphine,Xin Zhao,Lulu,1,1.0
+Skarner,Seraphine,Xin Zhao,Mel,1,0.0
+Skarner,Seraphine,Xin Zhao,Nami,1,0.0
+Skarner,Shen,Lee Sin,Camille,1,1.0
+Skarner,Shen,Lee Sin,Rell,1,1.0
+Skarner,Shen,Sylas,Seraphine,1,0.0
+Skarner,Tahm Kench,Lee Sin,Karma,1,0.0
+Skarner,Thresh,Nocturne,Bard,1,0.0
+Skarner,Yuumi,Xin Zhao,Seraphine,1,0.0
+Skarner,Yuumi,Zyra,Rell,1,0.0
+Sylas,Alistar,Nocturne,Neeko,1,0.0
+Sylas,Alistar,Trundle,Leona,1,0.0
+Sylas,Bard,Jayce,Alistar,1,1.0
+Sylas,Bard,Pantheon,Alistar,1,0.0
+Sylas,Braum,Zyra,Nautilus,1,0.0
+Sylas,Karma,Nocturne,Alistar,1,0.0
+Sylas,Karma,Xin Zhao,Nautilus,1,0.0
+Sylas,Lulu,Xin Zhao,Seraphine,1,0.0
+Sylas,Nami,Xin Zhao,Lulu,1,1.0
+Sylas,Nautilus,Xin Zhao,Karma,1,1.0
+Sylas,Neeko,Ambessa,Alistar,1,0.0
+Sylas,Neeko,Jarvan IV,Lulu,1,0.0
+Sylas,Rakan,Jarvan IV,Bard,1,0.0
+Sylas,Rakan,Nocturne,Neeko,1,1.0
+Syndra,Nocturne,Rell,Tryndamere,1,1.0
+Taliyah,Alistar,Ambessa,Leona,1,1.0
+Taliyah,Alistar,Kha'Zix,Karma,1,1.0
+Taliyah,Alistar,Wukong,Karma,1,1.0
+Taliyah,Bard,Aatrox,Nautilus,1,1.0
+Taliyah,Elise,Jarvan IV,Braum,1,1.0
+Taliyah,Elise,Vi,Braum,1,1.0
+Taliyah,Elise,Vi,Seraphine,1,1.0
+Taliyah,Nautilus,Jayce,Leona,1,0.0
+Taliyah,Nautilus,Lee Sin,Rell,1,0.0
+Taliyah,Nautilus,Wukong,Braum,1,1.0
+Taliyah,Neeko,Zac,Rell,1,1.0
+Taliyah,Pyke,Pantheon,Lulu,1,0.0
+Taliyah,Rell,Malphite,Braum,1,1.0
+Talon,Blitzcrank,Viego,Leona,1,1.0
+Talon,Karma,Dr. Mundo,Rakan,1,1.0
+Talon,Lulu,Nocturne,Neeko,1,1.0
+Talon,Nautilus,Kindred,Pyke,1,1.0
+Talon,Seraphine,Naafiri,Rell,1,0.0
+Tristana,Lee Sin,Thresh,Mordekaiser,1,1.0
+Trundle,Alistar,Dr. Mundo,Karma,1,1.0
+Trundle,Alistar,Lee Sin,Nautilus,1,1.0
+Trundle,Alistar,Nocturne,Nautilus,1,1.0
+Trundle,Alistar,Skarner,Rakan,1,1.0
+Trundle,Alistar,Wukong,Leona,1,1.0
+Trundle,Alistar,Xin Zhao,Rakan,1,0.0
+Trundle,Alistar,Xin Zhao,Yuumi,1,1.0
+Trundle,Amumu,Pantheon,Lux,1,1.0
+Trundle,Anivia,Aatrox,Bard,1,1.0
+Trundle,Anivia,Xin Zhao,Bard,1,1.0
+Trundle,Anivia,Zaahen,Karma,1,1.0
+Trundle,Bard,Ambessa,Lulu,1,1.0
+Trundle,Bard,Jarvan IV,Nautilus,1,1.0
+Trundle,Bard,Pantheon,Milio,1,0.0
+Trundle,Bard,Pantheon,Nautilus,1,0.0
+Trundle,Bard,Skarner,Karma,1,1.0
+Trundle,Bard,Skarner,Rakan,1,1.0
+Trundle,Bard,Vi,Lulu,1,1.0
+Trundle,Bard,Vi,Nautilus,1,0.0
+Trundle,Bard,Wukong,Milio,1,1.0
+Trundle,Bard,Xin Zhao,Karma,1,1.0
+Trundle,Bard,Xin Zhao,Lulu,1,1.0
+Trundle,Bard,Xin Zhao,Neeko,1,0.0
+Trundle,Bard,Zaahen,Lulu,1,1.0
+Trundle,Blitzcrank,Nocturne,Rakan,1,0.0
+Trundle,Blitzcrank,Skarner,Rakan,1,1.0
+Trundle,Braum,Dr. Mundo,Alistar,1,0.0
+Trundle,Braum,Lee Sin,Nautilus,1,0.0
+Trundle,Braum,Wukong,Nautilus,1,0.0
+Trundle,Braum,Wukong,Thresh,1,1.0
+Trundle,Camille,Jarvan IV,Karma,1,1.0
+Trundle,Camille,Lee Sin,Rell,1,1.0
+Trundle,Camille,Pantheon,Neeko,1,1.0
+Trundle,Camille,Vi,Rakan,1,0.0
+Trundle,Karma,Kha'Zix,Lulu,1,0.0
+Trundle,Karma,Kindred,Nautilus,1,0.0
+Trundle,Karma,Lee Sin,Bard,1,1.0
+Trundle,Karma,Naafiri,Bard,1,0.0
+Trundle,Karma,Pantheon,Milio,1,1.0
+Trundle,Karma,Rek'Sai,Milio,1,0.0
+Trundle,Karma,Skarner,Rakan,1,0.0
+Trundle,Karma,Vi,Rell,1,0.0
+Trundle,Karma,Wukong,Leona,1,1.0
+Trundle,Karma,Xin Zhao,Bard,1,1.0
+Trundle,Karma,Xin Zhao,Nami,1,1.0
+Trundle,Karma,Xin Zhao,Seraphine,1,1.0
+Trundle,Karma,Zyra,Nautilus,1,0.0
+Trundle,LeBlanc,Kindred,Neeko,1,1.0
+Trundle,Leona,Malphite,Alistar,1,0.0
+Trundle,Leona,Naafiri,Camille,1,0.0
+Trundle,Leona,Pantheon,Bard,1,1.0
+Trundle,Lulu,Ambessa,Thresh,1,1.0
+Trundle,Lulu,Dr. Mundo,Thresh,1,1.0
+Trundle,Lulu,Malphite,Karma,1,0.0
+Trundle,Lulu,Pantheon,Milio,1,0.0
+Trundle,Lulu,Pantheon,Nami,1,1.0
+Trundle,Lulu,Skarner,Nami,1,1.0
+Trundle,Lulu,Vi,Elise,1,0.0
+Trundle,Lulu,Viego,Leona,1,0.0
+Trundle,Lulu,Wukong,Blitzcrank,1,1.0
+Trundle,Lulu,Wukong,Milio,1,1.0
+Trundle,Lulu,Xin Zhao,Bard,1,0.0
+Trundle,Lulu,Xin Zhao,Nautilus,1,0.0
+Trundle,Lulu,Xin Zhao,Seraphine,1,1.0
+Trundle,Lux,Xin Zhao,Milio,1,1.0
+Trundle,Maokai,Dr. Mundo,Braum,1,1.0
+Trundle,Milio,Aatrox,Bard,1,0.0
+Trundle,Milio,Jarvan IV,Lulu,1,0.0
+Trundle,Milio,Lee Sin,Rakan,1,0.0
+Trundle,Milio,Malphite,Nautilus,1,1.0
+Trundle,Milio,Nocturne,Lulu,1,1.0
+Trundle,Milio,Olaf,Lulu,1,1.0
+Trundle,Milio,Pantheon,Nautilus,1,1.0
+Trundle,Milio,Poppy,Nami,1,0.0
+Trundle,Milio,Qiyana,Bard,1,1.0
+Trundle,Milio,Skarner,Rakan,1,1.0
+Trundle,Milio,Vi,Seraphine,1,1.0
+Trundle,Milio,Wukong,Lulu,1,0.0
+Trundle,Milio,Xin Zhao,Lulu,1,1.0
+Trundle,Nami,Dr. Mundo,Rell,1,1.0
+Trundle,Nami,Lee Sin,Seraphine,1,1.0
+Trundle,Nami,Naafiri,Bard,1,0.0
+Trundle,Nami,Skarner,Lulu,1,1.0
+Trundle,Nami,Taliyah,Lulu,1,0.0
+Trundle,Nami,Xin Zhao,Leona,1,0.0
+Trundle,Nautilus,Aatrox,Neeko,1,1.0
+Trundle,Nautilus,Dr. Mundo,Lulu,1,1.0
+Trundle,Nautilus,Lee Sin,Leona,1,0.0
+Trundle,Nautilus,Maokai,Milio,1,1.0
+Trundle,Nautilus,Naafiri,Milio,1,1.0
+Trundle,Nautilus,Naafiri,Rell,1,0.0
+Trundle,Nautilus,Nocturne,Seraphine,1,0.0
+Trundle,Nautilus,Pantheon,Lulu,1,1.0
+Trundle,Nautilus,Skarner,Lulu,1,1.0
+Trundle,Nautilus,Vi,Milio,1,1.0
+Trundle,Nautilus,Wukong,Camille,1,0.0
+Trundle,Nautilus,Xin Zhao,Braum,1,0.0
+Trundle,Nautilus,Xin Zhao,Karma,1,1.0
+Trundle,Nautilus,Xin Zhao,Leona,1,1.0
+Trundle,Neeko,Aatrox,Nautilus,1,1.0
+Trundle,Neeko,Kindred,Alistar,1,1.0
+Trundle,Neeko,Pantheon,Nautilus,1,1.0
+Trundle,Neeko,Poppy,Rell,1,0.0
+Trundle,Neeko,Qiyana,Rakan,1,1.0
+Trundle,Neeko,Sylas,Rell,1,0.0
+Trundle,Neeko,Vi,Alistar,1,1.0
+Trundle,Neeko,Wukong,Nami,1,1.0
+Trundle,Neeko,Xin Zhao,Alistar,1,0.0
+Trundle,Neeko,Xin Zhao,Lulu,1,1.0
+Trundle,Neeko,Xin Zhao,Seraphine,1,0.0
+Trundle,Poppy,Nidalee,Nautilus,1,1.0
+Trundle,Poppy,Olaf,Camille,1,0.0
+Trundle,Poppy,Sejuani,Nautilus,1,0.0
+Trundle,Poppy,Xin Zhao,Rakan,1,0.0
+Trundle,Pyke,Dr. Mundo,Bard,1,0.0
+Trundle,Rakan,Lillia,Karma,1,1.0
+Trundle,Rakan,Naafiri,Alistar,1,1.0
+Trundle,Rakan,Olaf,Amumu,1,0.0
+Trundle,Rakan,Viego,Leona,1,0.0
+Trundle,Rakan,Xin Zhao,Karma,1,0.0
+Trundle,Rell,Dr. Mundo,Karma,1,0.0
+Trundle,Rell,Dr. Mundo,Lulu,1,0.0
+Trundle,Rell,Dr. Mundo,Rakan,1,1.0
+Trundle,Rell,Naafiri,Camille,1,0.0
+Trundle,Rell,Naafiri,Nautilus,1,0.0
+Trundle,Rell,Nocturne,Leona,1,1.0
+Trundle,Rell,Pantheon,Bard,1,0.0
+Trundle,Rell,Sejuani,Bard,1,1.0
+Trundle,Rell,Xin Zhao,Alistar,1,1.0
+Trundle,Rell,Xin Zhao,Nautilus,1,1.0
+Trundle,Rell,Zyra,Nautilus,1,1.0
+Trundle,Renata Glasc,Maokai,Lulu,1,0.0
+Trundle,Seraphine,Jarvan IV,Nami,1,1.0
+Trundle,Seraphine,Naafiri,Milio,1,0.0
+Trundle,Seraphine,Nocturne,Yuumi,1,0.0
+Trundle,Seraphine,Pantheon,Milio,1,1.0
+Trundle,Seraphine,Qiyana,Nautilus,1,1.0
+Trundle,Seraphine,Vi,Nami,1,1.0
+Trundle,Seraphine,Wukong,Nautilus,1,1.0
+Trundle,Seraphine,Wukong,Rell,1,1.0
+Trundle,Seraphine,Xin Zhao,Lulu,1,0.0
+Trundle,Seraphine,Xin Zhao,Milio,1,1.0
+Trundle,Seraphine,Xin Zhao,Nautilus,1,0.0
+Trundle,Shen,Lee Sin,Camille,1,0.0
+Trundle,Sona,Xin Zhao,Lulu,1,1.0
+Trundle,Thresh,Vi,Nautilus,1,0.0
+Trundle,Thresh,Wukong,Alistar,1,1.0
+Trundle,Yuumi,Zac,Alistar,1,1.0
+Trundle,Zilean,Qiyana,Alistar,1,0.0
+Tryndamere,Karma,Xin Zhao,Nautilus,1,0.0
+Tryndamere,Rell,Xin Zhao,Alistar,1,1.0
+Udyr,Bard,Wukong,Rell,1,1.0
+Udyr,Maokai,Hecarim,Milio,1,1.0
+Udyr,Milio,Aatrox,Nautilus,1,0.0
+Udyr,Nami,Volibear,Nautilus,1,1.0
+Udyr,Zilean,Jax,Milio,1,0.0
+Urgot,Karma,Xin Zhao,Bard,1,1.0
+Urgot,Leona,Nocturne,Maokai,1,0.0
+Urgot,Zilean,Vi,Shen,1,0.0
+Vi,Alistar,Ambessa,Nami,1,1.0
+Vi,Alistar,Jarvan IV,Bard,1,0.0
+Vi,Alistar,Jarvan IV,Braum,1,1.0
+Vi,Alistar,Jarvan IV,Lulu,1,0.0
+Vi,Alistar,Jarvan IV,Nautilus,1,1.0
+Vi,Alistar,Jarvan IV,Poppy,1,0.0
+Vi,Alistar,Jarvan IV,Rakan,1,1.0
+Vi,Alistar,Jarvan IV,Rell,1,0.0
+Vi,Alistar,Jarvan IV,Shen,1,0.0
+Vi,Alistar,Jayce,Nautilus,1,1.0
+Vi,Alistar,Jayce,Rell,1,1.0
+Vi,Alistar,Lee Sin,Nautilus,1,1.0
+Vi,Alistar,Neeko,Rell,1,0.0
+Vi,Alistar,Nocturne,Karma,1,0.0
+Vi,Alistar,Nocturne,Lulu,1,1.0
+Vi,Alistar,Nocturne,Rakan,1,1.0
+Vi,Alistar,Nocturne,Tahm Kench,1,1.0
+Vi,Alistar,Pantheon,Braum,1,1.0
+Vi,Alistar,Pantheon,Lulu,1,1.0
+Vi,Alistar,Pantheon,Nautilus,1,0.0
+Vi,Alistar,Pantheon,Renata Glasc,1,1.0
+Vi,Alistar,Qiyana,Braum,1,1.0
+Vi,Alistar,Qiyana,Rell,1,0.0
+Vi,Alistar,Sejuani,Braum,1,1.0
+Vi,Alistar,Trundle,Leona,1,0.0
+Vi,Alistar,Viego,Nautilus,1,1.0
+Vi,Alistar,Viego,Poppy,1,1.0
+Vi,Alistar,Viego,Rell,1,0.0
+Vi,Alistar,Wukong,Karma,1,1.0
+Vi,Alistar,Wukong,Nautilus,1,1.0
+Vi,Alistar,Wukong,Neeko,1,1.0
+Vi,Alistar,Xin Zhao,Leona,1,1.0
+Vi,Alistar,Xin Zhao,Rell,1,1.0
+Vi,Alistar,Zaahen,Braum,1,0.0
+Vi,Anivia,Pantheon,Rell,1,1.0
+Vi,Anivia,Xin Zhao,Alistar,1,1.0
+Vi,Anivia,Xin Zhao,Nami,1,1.0
+Vi,Bard,Aatrox,Seraphine,1,0.0
+Vi,Bard,Ambessa,Karma,1,1.0
+Vi,Bard,Jarvan IV,Milio,1,0.0
+Vi,Bard,Jarvan IV,Nami,1,0.0
+Vi,Bard,Jarvan IV,Neeko,1,0.0
+Vi,Bard,Jarvan IV,Rakan,1,0.0
+Vi,Bard,Jarvan IV,Seraphine,1,0.0
+Vi,Bard,Jarvan IV,Shen,1,1.0
+Vi,Bard,Lee Sin,Elise,1,0.0
+Vi,Bard,Lee Sin,Leona,1,0.0
+Vi,Bard,Lee Sin,Nautilus,1,1.0
+Vi,Bard,Naafiri,Neeko,1,1.0
+Vi,Bard,Nasus,Thresh,1,1.0
+Vi,Bard,Nocturne,Alistar,1,1.0
+Vi,Bard,Nocturne,Nautilus,1,1.0
+Vi,Bard,Nocturne,Rakan,1,1.0
+Vi,Bard,Pantheon,Karma,1,1.0
+Vi,Bard,Pantheon,Rell,1,1.0
+Vi,Bard,Pantheon,Seraphine,1,0.0
+Vi,Bard,Poppy,Lulu,1,1.0
+Vi,Bard,Qiyana,Alistar,1,1.0
+Vi,Bard,Sejuani,Lulu,1,1.0
+Vi,Bard,Skarner,Karma,1,0.0
+Vi,Bard,Skarner,Seraphine,1,1.0
+Vi,Bard,Trundle,Karma,1,1.0
+Vi,Bard,Trundle,Nautilus,1,0.0
+Vi,Bard,Wukong,Alistar,1,0.0
+Vi,Bard,Wukong,Karma,1,0.0
+Vi,Bard,Wukong,Lulu,1,1.0
+Vi,Bard,Wukong,Nautilus,1,1.0
+Vi,Bard,Wukong,Pyke,1,1.0
+Vi,Bard,Xin Zhao,Nami,1,0.0
+Vi,Bard,Xin Zhao,Nautilus,1,1.0
+Vi,Bard,Zaahen,Nautilus,1,1.0
+Vi,Blitzcrank,Lee Sin,Bard,1,0.0
+Vi,Braum,Gwen,Rell,1,1.0
+Vi,Braum,Jarvan IV,Bard,1,0.0
+Vi,Braum,Jarvan IV,Nautilus,1,0.0
+Vi,Braum,Jarvan IV,Renata Glasc,1,0.0
+Vi,Braum,Malphite,Nautilus,1,1.0
+Vi,Braum,Nocturne,Leona,1,1.0
+Vi,Braum,Pantheon,Alistar,1,0.0
+Vi,Braum,Pantheon,Nautilus,1,0.0
+Vi,Braum,Taliyah,Elise,1,1.0
+Vi,Braum,Viego,Alistar,1,1.0
+Vi,Braum,Xin Zhao,Lulu,1,0.0
+Vi,Camille,Jayce,Alistar,1,0.0
+Vi,Camille,Naafiri,Leona,1,0.0
+Vi,Camille,Naafiri,Nautilus,1,0.0
+Vi,Camille,Naafiri,Poppy,1,0.0
+Vi,Camille,Naafiri,Shen,1,1.0
+Vi,Camille,Nasus,Leona,1,1.0
+Vi,Camille,Pantheon,Neeko,1,1.0
+Vi,Camille,Sejuani,Seraphine,1,0.0
+Vi,Camille,Xin Zhao,Nautilus,1,1.0
+Vi,Jax,Wukong,Camille,1,0.0
+Vi,Karma,Dr. Mundo,Lulu,1,1.0
+Vi,Karma,Jarvan IV,Bard,1,1.0
+Vi,Karma,Jarvan IV,Neeko,1,0.0
+Vi,Karma,Jarvan IV,Rakan,1,1.0
+Vi,Karma,Lee Sin,Neeko,1,0.0
+Vi,Karma,Naafiri,Neeko,1,1.0
+Vi,Karma,Naafiri,Seraphine,1,1.0
+Vi,Karma,Nocturne,Nautilus,1,1.0
+Vi,Karma,Nocturne,Neeko,1,1.0
+Vi,Karma,Pantheon,Alistar,1,0.0
+Vi,Karma,Pantheon,Elise,1,0.0
+Vi,Karma,Qiyana,Nami,1,1.0
+Vi,Karma,Shyvana,Nautilus,1,1.0
+Vi,Karma,Wukong,Braum,1,1.0
+Vi,Karma,Wukong,Nami,1,1.0
+Vi,Karma,Wukong,Rakan,1,1.0
+Vi,Karma,Xin Zhao,Lulu,1,0.0
+Vi,Karma,Xin Zhao,Seraphine,1,0.0
+Vi,Karma,Zaahen,Alistar,1,1.0
+Vi,Karma,Zaahen,Nami,1,0.0
+Vi,Karma,Zaahen,Seraphine,1,1.0
+Vi,Leona,Dr. Mundo,Nami,1,1.0
+Vi,Leona,Jarvan IV,Bard,1,0.0
+Vi,Leona,Jarvan IV,Camille,1,1.0
+Vi,Leona,Jarvan IV,Rakan,1,1.0
+Vi,Leona,Neeko,Braum,1,1.0
+Vi,Leona,Sejuani,Rell,1,0.0
+Vi,Leona,Skarner,Shen,1,1.0
+Vi,Leona,Wukong,Soraka,1,0.0
+Vi,Leona,Wukong,Tahm Kench,1,1.0
+Vi,Leona,Xin Zhao,Hwei,1,1.0
+Vi,Leona,Xin Zhao,Karma,1,0.0
+Vi,Leona,Xin Zhao,Rakan,1,1.0
+Vi,Lissandra,Lee Sin,Rakan,1,0.0
+Vi,Lissandra,Wukong,Rakan,1,1.0
+Vi,Lulu,Aatrox,Alistar,1,0.0
+Vi,Lulu,Aatrox,Rakan,1,0.0
+Vi,Lulu,Aatrox,Seraphine,1,0.0
+Vi,Lulu,Dr. Mundo,Neeko,1,0.0
+Vi,Lulu,Jarvan IV,Bard,1,1.0
+Vi,Lulu,Jarvan IV,Nautilus,1,1.0
+Vi,Lulu,Jarvan IV,Rakan,1,0.0
+Vi,Lulu,Jayce,Blitzcrank,1,1.0
+Vi,Lulu,Lee Sin,Anivia,1,0.0
+Vi,Lulu,Lee Sin,Neeko,1,1.0
+Vi,Lulu,Lee Sin,Renata Glasc,1,0.0
+Vi,Lulu,Malphite,Neeko,1,0.0
+Vi,Lulu,Naafiri,Nautilus,1,0.0
+Vi,Lulu,Nasus,Milio,1,0.0
+Vi,Lulu,Nasus,Shen,1,1.0
+Vi,Lulu,Nocturne,Leona,1,0.0
+Vi,Lulu,Nocturne,Lux,1,0.0
+Vi,Lulu,Nocturne,Nami,1,0.0
+Vi,Lulu,Olaf,Seraphine,1,1.0
+Vi,Lulu,Pantheon,Milio,1,1.0
+Vi,Lulu,Pantheon,Nami,1,1.0
+Vi,Lulu,Pantheon,Neeko,1,0.0
+Vi,Lulu,Pantheon,Rakan,1,0.0
+Vi,Lulu,Pantheon,Seraphine,1,1.0
+Vi,Lulu,Poppy,Milio,1,0.0
+Vi,Lulu,Poppy,Nami,1,0.0
+Vi,Lulu,Sejuani,Rakan,1,0.0
+Vi,Lulu,Sejuani,Tahm Kench,1,0.0
+Vi,Lulu,Shen,Leona,1,1.0
+Vi,Lulu,Skarner,Milio,1,1.0
+Vi,Lulu,Sylas,Camille,1,1.0
+Vi,Lulu,Trundle,Alistar,1,0.0
+Vi,Lulu,Wukong,Bard,1,0.0
+Vi,Lulu,Wukong,Nami,1,1.0
+Vi,Lulu,Wukong,Rakan,1,0.0
+Vi,Lulu,Xin Zhao,Lux,1,0.0
+Vi,Lulu,Xin Zhao,Nautilus,1,1.0
+Vi,Lulu,Xin Zhao,Neeko,1,1.0
+Vi,Lulu,Xin Zhao,Renata Glasc,1,1.0
+Vi,Lulu,Xin Zhao,Soraka,1,1.0
+Vi,Lulu,Zaahen,Elise,1,0.0
+Vi,Lulu,Zaahen,Nami,1,0.0
+Vi,Lulu,Zyra,Blitzcrank,1,1.0
+Vi,Lulu,Zyra,Braum,1,0.0
+Vi,Lux,Pantheon,Lulu,1,1.0
+Vi,Lux,Xin Zhao,Seraphine,1,1.0
+Vi,Milio,Ivern,Blitzcrank,1,1.0
+Vi,Milio,Jarvan IV,Lulu,1,0.0
+Vi,Milio,Naafiri,Karma,1,0.0
+Vi,Milio,Naafiri,Yuumi,1,1.0
+Vi,Milio,Nocturne,Karma,1,1.0
+Vi,Milio,Nocturne,Lulu,1,1.0
+Vi,Milio,Nocturne,Neeko,1,1.0
+Vi,Milio,Olaf,Karma,1,1.0
+Vi,Milio,Rek'Sai,Rakan,1,1.0
+Vi,Milio,Sejuani,Nautilus,1,0.0
+Vi,Milio,Skarner,Neeko,1,0.0
+Vi,Milio,Trundle,Alistar,1,1.0
+Vi,Milio,Trundle,Seraphine,1,1.0
+Vi,Milio,Wukong,Bard,1,0.0
+Vi,Milio,Wukong,Lulu,1,0.0
+Vi,Milio,Wukong,Neeko,1,1.0
+Vi,Milio,Xin Zhao,Lulu,1,1.0
+Vi,Milio,Xin Zhao,Nami,1,1.0
+Vi,Milio,Xin Zhao,Neeko,1,1.0
+Vi,Milio,Xin Zhao,Seraphine,1,1.0
+Vi,Nami,Ambessa,Seraphine,1,0.0
+Vi,Nami,Dr. Mundo,Bard,1,1.0
+Vi,Nami,Dr. Mundo,Seraphine,1,0.0
+Vi,Nami,Jarvan IV,Alistar,1,1.0
+Vi,Nami,Jarvan IV,Karma,1,1.0
+Vi,Nami,Jarvan IV,Lux,1,0.0
+Vi,Nami,Jarvan IV,Rell,1,1.0
+Vi,Nami,Jayce,Rakan,1,0.0
+Vi,Nami,Jayce,Renata Glasc,1,1.0
+Vi,Nami,Nocturne,Milio,1,0.0
+Vi,Nami,Nocturne,Nautilus,1,0.0
+Vi,Nami,Nocturne,Neeko,1,1.0
+Vi,Nami,Pantheon,Neeko,1,1.0
+Vi,Nami,Pantheon,Seraphine,1,0.0
+Vi,Nami,Shen,Milio,1,0.0
+Vi,Nami,Shen,Seraphine,1,1.0
+Vi,Nami,Skarner,Bard,1,0.0
+Vi,Nami,Trundle,Lulu,1,1.0
+Vi,Nami,Wukong,Lulu,1,1.0
+Vi,Nami,Wukong,Milio,1,1.0
+Vi,Nami,Wukong,Nautilus,1,1.0
+Vi,Nami,Xin Zhao,Bard,1,1.0
+Vi,Nami,Xin Zhao,Karma,1,1.0
+Vi,Nami,Xin Zhao,Seraphine,1,0.0
+Vi,Nami,Zaahen,Neeko,1,1.0
+Vi,Nami,Zyra,Leona,1,0.0
+Vi,Nautilus,Dr. Mundo,Nami,1,0.0
+Vi,Nautilus,Gwen,Karma,1,1.0
+Vi,Nautilus,Jarvan IV,Alistar,1,1.0
+Vi,Nautilus,Jarvan IV,Braum,1,0.0
+Vi,Nautilus,Jarvan IV,Karma,1,0.0
+Vi,Nautilus,Jarvan IV,Leona,1,0.0
+Vi,Nautilus,Jarvan IV,Lulu,1,1.0
+Vi,Nautilus,Jayce,Bard,1,0.0
+Vi,Nautilus,Kindred,Milio,1,1.0
+Vi,Nautilus,Lee Sin,Neeko,1,1.0
+Vi,Nautilus,Lee Sin,Rakan,1,1.0
+Vi,Nautilus,Lillia,Braum,1,1.0
+Vi,Nautilus,Maokai,Braum,1,0.0
+Vi,Nautilus,Morgana,Leona,1,0.0
+Vi,Nautilus,Naafiri,Lulu,1,0.0
+Vi,Nautilus,Naafiri,Pyke,1,0.0
+Vi,Nautilus,Naafiri,Sona,1,0.0
+Vi,Nautilus,Nasus,Pyke,1,1.0
+Vi,Nautilus,Nocturne,Bard,1,1.0
+Vi,Nautilus,Nocturne,Karma,1,1.0
+Vi,Nautilus,Nocturne,Lulu,1,1.0
+Vi,Nautilus,Olaf,Milio,1,0.0
+Vi,Nautilus,Pantheon,Bard,1,1.0
+Vi,Nautilus,Pantheon,Rell,1,0.0
+Vi,Nautilus,Pantheon,Shen,1,1.0
+Vi,Nautilus,Poppy,Shen,1,1.0
+Vi,Nautilus,Skarner,Leona,1,1.0
+Vi,Nautilus,Skarner,Seraphine,1,0.0
+Vi,Nautilus,Wukong,Alistar,1,1.0
+Vi,Nautilus,Wukong,Leona,1,0.0
+Vi,Nautilus,Wukong,Milio,1,1.0
+Vi,Nautilus,Wukong,Thresh,1,1.0
+Vi,Nautilus,Xin Zhao,Bard,1,0.0
+Vi,Nautilus,Xin Zhao,Karma,1,1.0
+Vi,Nautilus,Xin Zhao,Milio,1,0.0
+Vi,Nautilus,Xin Zhao,Nami,1,0.0
+Vi,Nautilus,Xin Zhao,Poppy,1,0.0
+Vi,Nautilus,Xin Zhao,Rell,1,1.0
+Vi,Nautilus,Xin Zhao,Seraphine,1,1.0
+Vi,Nautilus,Xin Zhao,Shen,1,0.0
+Vi,Nautilus,Zaahen,Lulu,1,1.0
+Vi,Nautilus,Zaahen,Rell,1,1.0
+Vi,Nautilus,Zaahen,Seraphine,1,1.0
+Vi,Neeko,Aatrox,Poppy,1,1.0
+Vi,Neeko,Aatrox,Rakan,1,0.0
+Vi,Neeko,Ambessa,Nautilus,1,1.0
+Vi,Neeko,Dr. Mundo,Seraphine,1,0.0
+Vi,Neeko,Jarvan IV,Alistar,1,0.0
+Vi,Neeko,Jarvan IV,Anivia,1,1.0
+Vi,Neeko,Jarvan IV,Bard,1,0.0
+Vi,Neeko,Jarvan IV,Lulu,1,1.0
+Vi,Neeko,Jarvan IV,Milio,1,1.0
+Vi,Neeko,Jarvan IV,Nami,1,1.0
+Vi,Neeko,Jarvan IV,Rakan,1,1.0
+Vi,Neeko,Jarvan IV,Seraphine,1,0.0
+Vi,Neeko,Jayce,Alistar,1,1.0
+Vi,Neeko,Jayce,Karma,1,1.0
+Vi,Neeko,Jayce,Poppy,1,0.0
+Vi,Neeko,Lee Sin,Rakan,1,1.0
+Vi,Neeko,Naafiri,Karma,1,1.0
+Vi,Neeko,Nocturne,Lulu,1,1.0
+Vi,Neeko,Nocturne,Rakan,1,0.0
+Vi,Neeko,Pantheon,Leona,1,0.0
+Vi,Neeko,Pantheon,Nami,1,0.0
+Vi,Neeko,Pantheon,Nautilus,1,1.0
+Vi,Neeko,Qiyana,Rell,1,1.0
+Vi,Neeko,Skarner,Nami,1,0.0
+Vi,Neeko,Trundle,Lulu,1,1.0
+Vi,Neeko,Trundle,Milio,1,1.0
+Vi,Neeko,Wukong,Alistar,1,1.0
+Vi,Neeko,Wukong,Leona,1,1.0
+Vi,Neeko,Wukong,Lulu,1,0.0
+Vi,Neeko,Wukong,Pantheon,1,1.0
+Vi,Neeko,Xin Zhao,Karma,1,1.0
+Vi,Neeko,Xin Zhao,Leona,1,1.0
+Vi,Neeko,Xin Zhao,Lulu,1,1.0
+Vi,Neeko,Xin Zhao,Nami,1,0.0
+Vi,Neeko,Xin Zhao,Seraphine,1,0.0
+Vi,Neeko,Xin Zhao,Thresh,1,1.0
+Vi,Neeko,Zaahen,Bard,1,1.0
+Vi,Neeko,Zaahen,Seraphine,1,0.0
+Vi,Poppy,Jarvan IV,Bard,1,0.0
+Vi,Poppy,Jarvan IV,Lulu,1,0.0
+Vi,Poppy,Jarvan IV,Rakan,1,0.0
+Vi,Poppy,Nocturne,Rakan,1,0.0
+Vi,Poppy,Nocturne,Rell,1,1.0
+Vi,Poppy,Wukong,Rakan,1,1.0
+Vi,Poppy,Wukong,Rell,1,1.0
+Vi,Poppy,Wukong,Renata Glasc,1,1.0
+Vi,Pyke,Rek'Sai,Tahm Kench,1,0.0
+Vi,Pyke,Sejuani,Bard,1,1.0
+Vi,Pyke,Xin Zhao,Nami,1,1.0
+Vi,Pyke,Zaahen,Nautilus,1,0.0
+Vi,Rakan,Aatrox,Alistar,1,0.0
+Vi,Rakan,Dr. Mundo,Braum,1,0.0
+Vi,Rakan,Jarvan IV,Bard,1,0.0
+Vi,Rakan,Jarvan IV,Lulu,1,1.0
+Vi,Rakan,Jarvan IV,Neeko,1,1.0
+Vi,Rakan,Jarvan IV,Poppy,1,1.0
+Vi,Rakan,Jarvan IV,Pyke,1,1.0
+Vi,Rakan,Jarvan IV,Thresh,1,1.0
+Vi,Rakan,Kha'Zix,Nautilus,1,0.0
+Vi,Rakan,Naafiri,Alistar,1,0.0
+Vi,Rakan,Naafiri,Bard,1,1.0
+Vi,Rakan,Naafiri,Nautilus,1,0.0
+Vi,Rakan,Naafiri,Renata Glasc,1,1.0
+Vi,Rakan,Naafiri,Seraphine,1,0.0
+Vi,Rakan,Nasus,Lulu,1,0.0
+Vi,Rakan,Nocturne,Bard,1,1.0
+Vi,Rakan,Nocturne,Leona,1,1.0
+Vi,Rakan,Nocturne,Lulu,1,0.0
+Vi,Rakan,Nocturne,Nautilus,1,0.0
+Vi,Rakan,Pantheon,Bard,1,1.0
+Vi,Rakan,Pantheon,Poppy,1,1.0
+Vi,Rakan,Qiyana,Bard,1,1.0
+Vi,Rakan,Sejuani,Alistar,1,0.0
+Vi,Rakan,Skarner,Alistar,1,0.0
+Vi,Rakan,Skarner,Karma,1,1.0
+Vi,Rakan,Trundle,Leona,1,1.0
+Vi,Rakan,Volibear,Braum,1,0.0
+Vi,Rakan,Wukong,Alistar,1,1.0
+Vi,Rakan,Wukong,Karma,1,1.0
+Vi,Rakan,Wukong,Nautilus,1,0.0
+Vi,Rakan,Wukong,Neeko,1,1.0
+Vi,Rakan,Xin Zhao,Bard,1,0.0
+Vi,Rakan,Xin Zhao,Karma,1,0.0
+Vi,Rakan,Xin Zhao,Leona,1,0.0
+Vi,Rakan,Xin Zhao,Milio,1,1.0
+Vi,Rakan,Xin Zhao,Nami,1,1.0
+Vi,Rakan,Xin Zhao,Renata Glasc,1,0.0
+Vi,Rell,Lee Sin,Karma,1,1.0
+Vi,Rell,Lee Sin,Leona,1,1.0
+Vi,Rell,Lee Sin,Nautilus,1,1.0
+Vi,Rell,Pantheon,Braum,1,0.0
+Vi,Rell,Pantheon,Karma,1,1.0
+Vi,Rell,Pantheon,Neeko,1,0.0
+Vi,Rell,Qiyana,Lulu,1,0.0
+Vi,Rell,Shyvana,Nautilus,1,0.0
+Vi,Rell,Wukong,Alistar,1,0.0
+Vi,Rell,Wukong,Braum,1,0.0
+Vi,Rell,Wukong,Lulu,1,0.0
+Vi,Rell,Xin Zhao,Braum,1,0.0
+Vi,Rell,Xin Zhao,Lulu,1,0.0
+Vi,Rell,Xin Zhao,Rakan,1,1.0
+Vi,Rell,Xin Zhao,Renata Glasc,1,1.0
+Vi,Renata Glasc,Jarvan IV,Rakan,1,1.0
+Vi,Renata Glasc,Lee Sin,Poppy,1,0.0
+Vi,Renata Glasc,Maokai,Rakan,1,1.0
+Vi,Renata Glasc,Nasus,Seraphine,1,1.0
+Vi,Renata Glasc,Nocturne,Nautilus,1,0.0
+Vi,Renata Glasc,Poppy,Nautilus,1,1.0
+Vi,Renata Glasc,Xin Zhao,Bard,1,1.0
+Vi,Renata Glasc,Xin Zhao,Karma,1,1.0
+Vi,Seraphine,Hecarim,Rakan,1,1.0
+Vi,Seraphine,Jarvan IV,Milio,1,0.0
+Vi,Seraphine,Jarvan IV,Nami,1,1.0
+Vi,Seraphine,Jarvan IV,Rakan,1,1.0
+Vi,Seraphine,Jarvan IV,Shen,1,1.0
+Vi,Seraphine,Naafiri,Karma,1,1.0
+Vi,Seraphine,Naafiri,Neeko,1,0.0
+Vi,Seraphine,Nasus,Karma,1,0.0
+Vi,Seraphine,Nocturne,Neeko,1,1.0
+Vi,Seraphine,Olaf,Bard,1,0.0
+Vi,Seraphine,Pantheon,Lulu,1,1.0
+Vi,Seraphine,Rek'Sai,Milio,1,0.0
+Vi,Seraphine,Sejuani,Zilean,1,1.0
+Vi,Seraphine,Xin Zhao,Milio,1,1.0
+Vi,Shen,Ambessa,Seraphine,1,1.0
+Vi,Shen,Jarvan IV,Nami,1,1.0
+Vi,Shen,Jarvan IV,Rakan,1,0.0
+Vi,Skarner,Olaf,Bard,1,0.0
+Vi,Skarner,Trundle,Bard,1,1.0
+Vi,Skarner,Zyra,Pantheon,1,1.0
+Vi,Taric,Jarvan IV,Rakan,1,0.0
+Vi,Taric,Wukong,Alistar,1,0.0
+Vi,Thresh,Aatrox,Bard,1,0.0
+Vi,Thresh,Jarvan IV,Neeko,1,0.0
+Vi,Thresh,Naafiri,Lulu,1,0.0
+Vi,Thresh,Naafiri,Rakan,1,0.0
+Vi,Thresh,Qiyana,Alistar,1,0.0
+Vi,Thresh,Wukong,Nautilus,1,1.0
+Vi,Thresh,Xin Zhao,Lulu,1,1.0
+Vi,Yuumi,Jarvan IV,Rell,1,1.0
+Vi,Yuumi,Olaf,Seraphine,1,1.0
+Vi,Yuumi,Wukong,Seraphine,1,0.0
+Vi,Yuumi,Xin Zhao,Poppy,1,0.0
+Viego,Alistar,Dr. Mundo,Neeko,1,1.0
+Viego,Alistar,Jarvan IV,Braum,1,1.0
+Viego,Alistar,Naafiri,Lulu,1,0.0
+Viego,Alistar,Qiyana,Leona,1,0.0
+Viego,Alistar,Skarner,Braum,1,0.0
+Viego,Bard,Jayce,Neeko,1,0.0
+Viego,Braum,Naafiri,Renata Glasc,1,0.0
+Viego,Braum,Vi,Milio,1,0.0
+Viego,Karma,Ambessa,Bard,1,1.0
+Viego,Leona,Lee Sin,Maokai,1,1.0
+Viego,Leona,Xin Zhao,Braum,1,0.0
+Viego,Leona,Xin Zhao,Lulu,1,1.0
+Viego,Lulu,Pantheon,Seraphine,1,1.0
+Viego,Milio,Graves,Bard,1,0.0
+Viego,Milio,Wukong,Nami,1,1.0
+Viego,Nami,Vi,Nautilus,1,0.0
+Viego,Nautilus,Aatrox,Nami,1,0.0
+Viego,Nautilus,Ivern,Alistar,1,0.0
+Viego,Nautilus,Jarvan IV,Braum,1,1.0
+Viego,Nautilus,Jarvan IV,Rell,1,0.0
+Viego,Nautilus,Sejuani,Lulu,1,0.0
+Viego,Nautilus,Vi,Lulu,1,0.0
+Viego,Nautilus,Xin Zhao,Bard,1,1.0
+Viego,Neeko,Dr. Mundo,Nautilus,1,1.0
+Viego,Neeko,Lee Sin,Lulu,1,0.0
+Viego,Pyke,Dr. Mundo,Lulu,1,1.0
+Viego,Pyke,Dr. Mundo,Seraphine,1,0.0
+Viego,Pyke,Jayce,Alistar,1,1.0
+Viego,Rakan,Jarvan IV,Alistar,1,0.0
+Viego,Rakan,Lee Sin,Poppy,1,0.0
+Viego,Rakan,Wukong,Braum,1,0.0
+Viego,Rakan,Wukong,Rell,1,0.0
+Viego,Rell,Kindred,Alistar,1,1.0
+Viego,Rell,Vi,Thresh,1,1.0
+Viego,Rell,Wukong,Bard,1,1.0
+Viego,Renata Glasc,Karthus,Rell,1,0.0
+Viego,Seraphine,Jarvan IV,Nami,1,1.0
+Viego,Seraphine,Nocturne,Bard,1,0.0
+Viego,Seraphine,Vi,Nautilus,1,1.0
+Viego,Thresh,Amumu,Lulu,1,0.0
+Volibear,Alistar,Ambessa,Nautilus,1,1.0
+Volibear,Alistar,Wukong,Lulu,1,0.0
+Volibear,Anivia,Xin Zhao,Seraphine,1,1.0
+Volibear,Karma,Dr. Mundo,Nami,1,1.0
+Volibear,Karma,Vi,Milio,1,0.0
+Volibear,Leona,Gwen,Thresh,1,0.0
+Volibear,Leona,Jayce,Nami,1,0.0
+Volibear,Lulu,Wukong,Soraka,1,0.0
+Volibear,Milio,Pantheon,Neeko,1,1.0
+Volibear,Nami,Viego,Sylas,1,0.0
+Volibear,Nautilus,Jarvan IV,Rakan,1,1.0
+Volibear,Nautilus,Vi,Lulu,1,1.0
+Volibear,Rell,Jarvan IV,Bard,1,0.0
+Volibear,Renata Glasc,Wukong,Lulu,1,0.0
+Volibear,Thresh,Xin Zhao,Neeko,1,1.0
+Wukong,Alistar,Ambessa,Bard,1,0.0
+Wukong,Alistar,Dr. Mundo,Poppy,1,0.0
+Wukong,Alistar,Dr. Mundo,Rakan,1,1.0
+Wukong,Alistar,Jarvan IV,Braum,1,1.0
+Wukong,Alistar,Jarvan IV,Karma,1,0.0
+Wukong,Alistar,Jarvan IV,Lulu,1,1.0
+Wukong,Alistar,Jarvan IV,Nami,1,1.0
+Wukong,Alistar,Jayce,Lulu,1,0.0
+Wukong,Alistar,Jayce,Poppy,1,1.0
+Wukong,Alistar,Lee Sin,Gragas,1,1.0
+Wukong,Alistar,Lee Sin,Karma,1,0.0
+Wukong,Alistar,Lee Sin,Nautilus,1,0.0
+Wukong,Alistar,Lee Sin,Neeko,1,0.0
+Wukong,Alistar,Lee Sin,Rakan,1,0.0
+Wukong,Alistar,Malphite,Nami,1,0.0
+Wukong,Alistar,Maokai,Neeko,1,0.0
+Wukong,Alistar,Naafiri,Leona,1,1.0
+Wukong,Alistar,Naafiri,Nautilus,1,1.0
+Wukong,Alistar,Naafiri,Poppy,1,1.0
+Wukong,Alistar,Nasus,Nautilus,1,1.0
+Wukong,Alistar,Nocturne,Neeko,1,0.0
+Wukong,Alistar,Nocturne,Poppy,1,0.0
+Wukong,Alistar,Nocturne,Rakan,1,0.0
+Wukong,Alistar,Pantheon,Bard,1,1.0
+Wukong,Alistar,Pantheon,Braum,1,0.0
+Wukong,Alistar,Pantheon,Nami,1,1.0
+Wukong,Alistar,Pantheon,Nautilus,1,0.0
+Wukong,Alistar,Pantheon,Rakan,1,1.0
+Wukong,Alistar,Vi,Nautilus,1,0.0
+Wukong,Alistar,Vi,Seraphine,1,1.0
+Wukong,Alistar,Xin Zhao,Braum,1,1.0
+Wukong,Alistar,Xin Zhao,Rakan,1,0.0
+Wukong,Alistar,Zaahen,Rakan,1,1.0
+Wukong,Anivia,Pantheon,Nami,1,0.0
+Wukong,Ashe,Xin Zhao,Nautilus,1,0.0
+Wukong,Bard,Aatrox,Pyke,1,1.0
+Wukong,Bard,Ambessa,Alistar,1,0.0
+Wukong,Bard,Dr. Mundo,Seraphine,1,1.0
+Wukong,Bard,Jarvan IV,Alistar,1,0.0
+Wukong,Bard,Jarvan IV,Karma,1,0.0
+Wukong,Bard,Jarvan IV,Leona,1,1.0
+Wukong,Bard,Jarvan IV,Lulu,1,1.0
+Wukong,Bard,Jarvan IV,Nami,1,1.0
+Wukong,Bard,Jarvan IV,Neeko,1,1.0
+Wukong,Bard,Jarvan IV,Seraphine,1,0.0
+Wukong,Bard,Jarvan IV,Thresh,1,0.0
+Wukong,Bard,Kindred,Camille,1,0.0
+Wukong,Bard,Lee Sin,Nautilus,1,0.0
+Wukong,Bard,Naafiri,Lulu,1,1.0
+Wukong,Bard,Naafiri,Rell,1,1.0
+Wukong,Bard,Nocturne,Alistar,1,1.0
+Wukong,Bard,Nocturne,Nami,1,0.0
+Wukong,Bard,Nocturne,Nautilus,1,1.0
+Wukong,Bard,Nocturne,Neeko,1,0.0
+Wukong,Bard,Nocturne,Renata Glasc,1,1.0
+Wukong,Bard,Nocturne,Seraphine,1,0.0
+Wukong,Bard,Pantheon,Nami,1,0.0
+Wukong,Bard,Pantheon,Neeko,1,1.0
+Wukong,Bard,Pantheon,Rell,1,1.0
+Wukong,Bard,Qiyana,Camille,1,1.0
+Wukong,Bard,Trundle,Milio,1,1.0
+Wukong,Bard,Vi,Alistar,1,0.0
+Wukong,Bard,Vi,Karma,1,0.0
+Wukong,Bard,Vi,Rakan,1,0.0
+Wukong,Bard,Xin Zhao,Karma,1,0.0
+Wukong,Bard,Xin Zhao,Seraphine,1,0.0
+Wukong,Bard,Zaahen,Seraphine,1,1.0
+Wukong,Bard,Zyra,Leona,1,1.0
+Wukong,Blitzcrank,Dr. Mundo,Lulu,1,1.0
+Wukong,Braum,Jarvan IV,Bard,1,0.0
+Wukong,Braum,Jayce,Alistar,1,0.0
+Wukong,Braum,Morgana,Nautilus,1,1.0
+Wukong,Braum,Olaf,Nautilus,1,0.0
+Wukong,Braum,Pantheon,Alistar,1,0.0
+Wukong,Braum,Qiyana,Alistar,1,1.0
+Wukong,Braum,Skarner,Alistar,1,0.0
+Wukong,Braum,Vi,Rakan,1,1.0
+Wukong,Braum,Vi,Rell,1,0.0
+Wukong,Braum,Xin Zhao,Milio,1,0.0
+Wukong,Braum,Xin Zhao,Thresh,1,0.0
+Wukong,Camille,Lee Sin,Leona,1,0.0
+Wukong,Camille,Vi,Bard,1,0.0
+Wukong,Camille,Vi,Rell,1,1.0
+Wukong,Camille,Vi,Shen,1,0.0
+Wukong,Elise,Jarvan IV,Alistar,1,0.0
+Wukong,Heimerdinger,Jarvan IV,Thresh,1,0.0
+Wukong,Karma,Aatrox,Alistar,1,0.0
+Wukong,Karma,Aatrox,Neeko,1,1.0
+Wukong,Karma,Ambessa,Bard,1,1.0
+Wukong,Karma,Brand,Amumu,1,1.0
+Wukong,Karma,Dr. Mundo,Pyke,1,0.0
+Wukong,Karma,Dr. Mundo,Rakan,1,1.0
+Wukong,Karma,Dr. Mundo,Seraphine,1,0.0
+Wukong,Karma,Jarvan IV,Anivia,1,0.0
+Wukong,Karma,Jarvan IV,Leona,1,0.0
+Wukong,Karma,Jarvan IV,Nami,1,1.0
+Wukong,Karma,Jarvan IV,Pyke,1,1.0
+Wukong,Karma,Jarvan IV,Rakan,1,1.0
+Wukong,Karma,Lee Sin,Bard,1,0.0
+Wukong,Karma,Lee Sin,Milio,1,0.0
+Wukong,Karma,Lee Sin,Neeko,1,0.0
+Wukong,Karma,Malphite,Bard,1,1.0
+Wukong,Karma,Naafiri,Milio,1,1.0
+Wukong,Karma,Naafiri,Nami,1,1.0
+Wukong,Karma,Nocturne,Nautilus,1,0.0
+Wukong,Karma,Nocturne,Rakan,1,1.0
+Wukong,Karma,Nocturne,Seraphine,1,0.0
+Wukong,Karma,Pantheon,Bard,1,1.0
+Wukong,Karma,Pantheon,Milio,1,0.0
+Wukong,Karma,Pantheon,Nami,1,0.0
+Wukong,Karma,Pantheon,Nautilus,1,0.0
+Wukong,Karma,Pantheon,Seraphine,1,1.0
+Wukong,Karma,Rek'Sai,Nami,1,0.0
+Wukong,Karma,Trundle,Lulu,1,1.0
+Wukong,Karma,Trundle,Nautilus,1,0.0
+Wukong,Karma,Vi,Lulu,1,1.0
+Wukong,Karma,Vi,Neeko,1,0.0
+Wukong,Karma,Vi,Rakan,1,0.0
+Wukong,Karma,Vi,Renata Glasc,1,1.0
+Wukong,Karma,Vi,Seraphine,1,0.0
+Wukong,Karma,Viego,Bard,1,0.0
+Wukong,Karma,Viego,Nautilus,1,1.0
+Wukong,Karma,Xin Zhao,Leona,1,1.0
+Wukong,Karma,Xin Zhao,Lulu,1,1.0
+Wukong,Karma,Xin Zhao,Nautilus,1,0.0
+Wukong,Karma,Xin Zhao,Rakan,1,1.0
+Wukong,Karma,Zaahen,Nautilus,1,1.0
+Wukong,Leona,Dr. Mundo,Bard,1,0.0
+Wukong,Leona,Ivern,Braum,1,1.0
+Wukong,Leona,Jarvan IV,Bard,1,1.0
+Wukong,Leona,Jarvan IV,Rell,1,1.0
+Wukong,Leona,Malphite,Rakan,1,0.0
+Wukong,Leona,Maokai,Nami,1,1.0
+Wukong,Leona,Nidalee,Nautilus,1,1.0
+Wukong,Leona,Nocturne,Alistar,1,0.0
+Wukong,Leona,Nocturne,Karma,1,1.0
+Wukong,Leona,Nunu & Willump,Alistar,1,1.0
+Wukong,Leona,Qiyana,Alistar,1,0.0
+Wukong,Leona,Qiyana,Poppy,1,0.0
+Wukong,Leona,Sion,Alistar,1,0.0
+Wukong,Leona,Trundle,Camille,1,0.0
+Wukong,Leona,Vi,Bard,1,1.0
+Wukong,Leona,Vi,Rell,1,0.0
+Wukong,Leona,Vi,Seraphine,1,0.0
+Wukong,Leona,Xin Zhao,Braum,1,0.0
+Wukong,Leona,Xin Zhao,Lulu,1,0.0
+Wukong,Leona,Xin Zhao,Rakan,1,0.0
+Wukong,Lulu,Aatrox,Seraphine,1,0.0
+Wukong,Lulu,Cho'Gath,Nautilus,1,1.0
+Wukong,Lulu,Dr. Mundo,Milio,1,1.0
+Wukong,Lulu,Jarvan IV,Bard,1,0.0
+Wukong,Lulu,Jarvan IV,Nami,1,1.0
+Wukong,Lulu,Jarvan IV,Neeko,1,0.0
+Wukong,Lulu,Jarvan IV,Seraphine,1,0.0
+Wukong,Lulu,Jayce,Alistar,1,0.0
+Wukong,Lulu,Jayce,Rakan,1,1.0
+Wukong,Lulu,Kha'Zix,Neeko,1,1.0
+Wukong,Lulu,Lee Sin,Anivia,1,1.0
+Wukong,Lulu,Lee Sin,Neeko,1,0.0
+Wukong,Lulu,Lee Sin,Rakan,1,0.0
+Wukong,Lulu,Malphite,Nami,1,1.0
+Wukong,Lulu,Nocturne,Bard,1,0.0
+Wukong,Lulu,Nocturne,Nautilus,1,0.0
+Wukong,Lulu,Nocturne,Neeko,1,1.0
+Wukong,Lulu,Pantheon,Bard,1,1.0
+Wukong,Lulu,Pantheon,Blitzcrank,1,0.0
+Wukong,Lulu,Pantheon,Rakan,1,0.0
+Wukong,Lulu,Pantheon,Soraka,1,1.0
+Wukong,Lulu,Qiyana,Pyke,1,1.0
+Wukong,Lulu,Trundle,Bard,1,0.0
+Wukong,Lulu,Trundle,Milio,1,1.0
+Wukong,Lulu,Vi,Nautilus,1,1.0
+Wukong,Lulu,Xin Zhao,Milio,1,0.0
+Wukong,Lulu,Xin Zhao,Neeko,1,1.0
+Wukong,Lulu,Xin Zhao,Rakan,1,0.0
+Wukong,Lulu,Zaahen,Sona,1,0.0
+Wukong,Mel,Jarvan IV,Seraphine,1,0.0
+Wukong,Milio,Dr. Mundo,Lulu,1,1.0
+Wukong,Milio,Jarvan IV,Karma,1,0.0
+Wukong,Milio,Jarvan IV,Nami,1,0.0
+Wukong,Milio,Jarvan IV,Pyke,1,0.0
+Wukong,Milio,Maokai,Renata Glasc,1,0.0
+Wukong,Milio,Naafiri,Karma,1,1.0
+Wukong,Milio,Naafiri,Rakan,1,0.0
+Wukong,Milio,Nocturne,Nautilus,1,1.0
+Wukong,Milio,Nocturne,Neeko,1,1.0
+Wukong,Milio,Pantheon,Rakan,1,1.0
+Wukong,Milio,Vi,Bard,1,0.0
+Wukong,Milio,Vi,Lulu,1,1.0
+Wukong,Milio,Vi,Nautilus,1,1.0
+Wukong,Milio,Vi,Neeko,1,0.0
+Wukong,Milio,Xin Zhao,Nautilus,1,0.0
+Wukong,Milio,Zaahen,Lulu,1,1.0
+Wukong,Morgana,Aatrox,Leona,1,1.0
+Wukong,Nami,Aatrox,Nautilus,1,0.0
+Wukong,Nami,Jarvan IV,Alistar,1,0.0
+Wukong,Nami,Jarvan IV,Nautilus,1,0.0
+Wukong,Nami,Jarvan IV,Soraka,1,1.0
+Wukong,Nami,Lee Sin,Milio,1,1.0
+Wukong,Nami,Nasus,Neeko,1,0.0
+Wukong,Nami,Nocturne,Karma,1,0.0
+Wukong,Nami,Nocturne,Nautilus,1,0.0
+Wukong,Nami,Pantheon,Karma,1,0.0
+Wukong,Nami,Pantheon,Lulu,1,1.0
+Wukong,Nami,Skarner,Lulu,1,0.0
+Wukong,Nami,Vi,Karma,1,0.0
+Wukong,Nami,Vi,Milio,1,0.0
+Wukong,Nami,Vi,Neeko,1,0.0
+Wukong,Nami,Volibear,Karma,1,0.0
+Wukong,Nami,Xin Zhao,Bard,1,1.0
+Wukong,Nami,Xin Zhao,Braum,1,0.0
+Wukong,Nami,Xin Zhao,Leona,1,1.0
+Wukong,Nami,Xin Zhao,Sona,1,1.0
+Wukong,Nami,Zaahen,Lulu,1,0.0
+Wukong,Nami,Zyra,Rell,1,0.0
+Wukong,Nautilus,Aatrox,Milio,1,1.0
+Wukong,Nautilus,Ambessa,Alistar,1,0.0
+Wukong,Nautilus,Ambessa,Braum,1,1.0
+Wukong,Nautilus,Darius,Renata Glasc,1,1.0
+Wukong,Nautilus,Dr. Mundo,Neeko,1,1.0
+Wukong,Nautilus,Jarvan IV,Bard,1,0.0
+Wukong,Nautilus,Jarvan IV,Braum,1,1.0
+Wukong,Nautilus,Jarvan IV,Seraphine,1,0.0
+Wukong,Nautilus,Jayce,Lulu,1,0.0
+Wukong,Nautilus,Lee Sin,Poppy,1,0.0
+Wukong,Nautilus,Lee Sin,Rell,1,0.0
+Wukong,Nautilus,Malphite,Braum,1,0.0
+Wukong,Nautilus,Malphite,Milio,1,0.0
+Wukong,Nautilus,Naafiri,Alistar,1,1.0
+Wukong,Nautilus,Naafiri,Leona,1,0.0
+Wukong,Nautilus,Naafiri,Rell,1,1.0
+Wukong,Nautilus,Nasus,Bard,1,0.0
+Wukong,Nautilus,Pantheon,Braum,1,0.0
+Wukong,Nautilus,Pantheon,Rell,1,1.0
+Wukong,Nautilus,Skarner,Alistar,1,0.0
+Wukong,Nautilus,Skarner,Milio,1,0.0
+Wukong,Nautilus,Sylas,Braum,1,1.0
+Wukong,Nautilus,Trundle,Karma,1,1.0
+Wukong,Nautilus,Vi,Alistar,1,0.0
+Wukong,Nautilus,Vi,Bard,1,0.0
+Wukong,Nautilus,Vi,Braum,1,0.0
+Wukong,Nautilus,Vi,Rell,1,0.0
+Wukong,Nautilus,Viego,Braum,1,1.0
+Wukong,Nautilus,Xin Zhao,Karma,1,0.0
+Wukong,Nautilus,Xin Zhao,Leona,1,1.0
+Wukong,Nautilus,Xin Zhao,Seraphine,1,1.0
+Wukong,Nautilus,Zaahen,Seraphine,1,0.0
+Wukong,Nautilus,Zyra,Taric,1,0.0
+Wukong,Neeko,Aatrox,Alistar,1,0.0
+Wukong,Neeko,Aatrox,Bard,1,0.0
+Wukong,Neeko,Aatrox,Nami,1,0.0
+Wukong,Neeko,Ambessa,Nautilus,1,0.0
+Wukong,Neeko,Dr. Mundo,Nami,1,1.0
+Wukong,Neeko,Jarvan IV,Lulu,1,1.0
+Wukong,Neeko,Lee Sin,Alistar,1,0.0
+Wukong,Neeko,Lee Sin,Annie,1,0.0
+Wukong,Neeko,Morgana,Lulu,1,0.0
+Wukong,Neeko,Nidalee,Lulu,1,1.0
+Wukong,Neeko,Nocturne,Alistar,1,1.0
+Wukong,Neeko,Nocturne,Leona,1,0.0
+Wukong,Neeko,Nocturne,Lulu,1,0.0
+Wukong,Neeko,Pantheon,Alistar,1,1.0
+Wukong,Neeko,Pantheon,Nami,1,0.0
+Wukong,Neeko,Pantheon,Nautilus,1,0.0
+Wukong,Neeko,Poppy,Leona,1,1.0
+Wukong,Neeko,Qiyana,Nautilus,1,1.0
+Wukong,Neeko,Qiyana,Rell,1,1.0
+Wukong,Neeko,Skarner,Lulu,1,0.0
+Wukong,Neeko,Skarner,Nami,1,0.0
+Wukong,Neeko,Vi,Alistar,1,1.0
+Wukong,Neeko,Vi,Bard,1,1.0
+Wukong,Neeko,Vi,Lulu,1,1.0
+Wukong,Neeko,Vi,Nautilus,1,0.0
+Wukong,Neeko,Xin Zhao,Leona,1,0.0
+Wukong,Neeko,Xin Zhao,Lux,1,0.0
+Wukong,Neeko,Xin Zhao,Milio,1,0.0
+Wukong,Neeko,Xin Zhao,Rakan,1,0.0
+Wukong,Neeko,Xin Zhao,Rell,1,1.0
+Wukong,Neeko,Zaahen,Lulu,1,1.0
+Wukong,Neeko,Zaahen,Nami,1,0.0
+Wukong,Neeko,Zaahen,Seraphine,1,0.0
+Wukong,Pantheon,Malphite,Alistar,1,1.0
+Wukong,Poppy,Jarvan IV,Alistar,1,0.0
+Wukong,Poppy,Jarvan IV,Leona,1,1.0
+Wukong,Poppy,Jarvan IV,Rell,1,1.0
+Wukong,Poppy,Naafiri,Bard,1,0.0
+Wukong,Poppy,Vi,Alistar,1,1.0
+Wukong,Pyke,Jarvan IV,Nami,1,1.0
+Wukong,Pyke,Nocturne,Nami,1,1.0
+Wukong,Pyke,Skarner,Bard,1,1.0
+Wukong,Pyke,Vi,Neeko,1,1.0
+Wukong,Rakan,Aatrox,Bard,1,1.0
+Wukong,Rakan,Aatrox,Lulu,1,1.0
+Wukong,Rakan,Ambessa,Leona,1,1.0
+Wukong,Rakan,Ambessa,Poppy,1,1.0
+Wukong,Rakan,Ambessa,Rell,1,1.0
+Wukong,Rakan,Dr. Mundo,Bard,1,0.0
+Wukong,Rakan,Dr. Mundo,Nautilus,1,1.0
+Wukong,Rakan,Jarvan IV,Leona,1,0.0
+Wukong,Rakan,Jarvan IV,Neeko,1,1.0
+Wukong,Rakan,Jarvan IV,Renata Glasc,1,0.0
+Wukong,Rakan,Lee Sin,Milio,1,1.0
+Wukong,Rakan,Maokai,Karma,1,1.0
+Wukong,Rakan,Maokai,Seraphine,1,0.0
+Wukong,Rakan,Naafiri,Neeko,1,0.0
+Wukong,Rakan,Nocturne,Bard,1,1.0
+Wukong,Rakan,Nocturne,Karma,1,1.0
+Wukong,Rakan,Nocturne,Leona,1,0.0
+Wukong,Rakan,Nocturne,Nautilus,1,1.0
+Wukong,Rakan,Nocturne,Rell,1,0.0
+Wukong,Rakan,Nocturne,Thresh,1,1.0
+Wukong,Rakan,Pantheon,Bard,1,0.0
+Wukong,Rakan,Pantheon,Milio,1,0.0
+Wukong,Rakan,Pantheon,Poppy,1,0.0
+Wukong,Rakan,Qiyana,Alistar,1,0.0
+Wukong,Rakan,Sejuani,Milio,1,1.0
+Wukong,Rakan,Skarner,Lulu,1,1.0
+Wukong,Rakan,Skarner,Nami,1,0.0
+Wukong,Rakan,Vi,Bard,1,1.0
+Wukong,Rakan,Vi,Nautilus,1,0.0
+Wukong,Rakan,Vi,Thresh,1,0.0
+Wukong,Rakan,Viego,Alistar,1,1.0
+Wukong,Rakan,Xin Zhao,Alistar,1,1.0
+Wukong,Rakan,Xin Zhao,Leona,1,1.0
+Wukong,Rakan,Xin Zhao,Lulu,1,0.0
+Wukong,Rakan,Zaahen,Karma,1,1.0
+Wukong,Rell,Aatrox,Rakan,1,0.0
+Wukong,Rell,Diana,Alistar,1,0.0
+Wukong,Rell,Dr. Mundo,Alistar,1,0.0
+Wukong,Rell,Ivern,Nautilus,1,0.0
+Wukong,Rell,Jarvan IV,Braum,1,0.0
+Wukong,Rell,Jarvan IV,Karma,1,1.0
+Wukong,Rell,Jarvan IV,Rakan,1,0.0
+Wukong,Rell,Lee Sin,Camille,1,0.0
+Wukong,Rell,Malphite,Milio,1,0.0
+Wukong,Rell,Maokai,Rakan,1,1.0
+Wukong,Rell,Naafiri,Alistar,1,0.0
+Wukong,Rell,Naafiri,Bard,1,0.0
+Wukong,Rell,Naafiri,Nautilus,1,0.0
+Wukong,Rell,Nocturne,Nautilus,1,1.0
+Wukong,Rell,Qiyana,Alistar,1,1.0
+Wukong,Rell,Qiyana,Rakan,1,0.0
+Wukong,Rell,Sejuani,Karma,1,0.0
+Wukong,Rell,Skarner,Seraphine,1,0.0
+Wukong,Rell,Vi,Nautilus,1,0.0
+Wukong,Rell,Vi,Neeko,1,1.0
+Wukong,Rell,Xin Zhao,Alistar,1,0.0
+Wukong,Rell,Xin Zhao,Braum,1,0.0
+Wukong,Rell,Xin Zhao,Tahm Kench,1,0.0
+Wukong,Renata Glasc,Jarvan IV,Bard,1,0.0
+Wukong,Renata Glasc,Nocturne,Alistar,1,1.0
+Wukong,Renata Glasc,Nocturne,Karma,1,0.0
+Wukong,Renata Glasc,Pantheon,Neeko,1,1.0
+Wukong,Renata Glasc,Skarner,Soraka,1,1.0
+Wukong,Renata Glasc,Trundle,Bard,1,0.0
+Wukong,Renata Glasc,Vi,Rakan,1,0.0
+Wukong,Rumble,Viego,Leona,1,1.0
+Wukong,Senna,Zaahen,Nautilus,1,0.0
+Wukong,Seraphine,Aatrox,Bard,1,1.0
+Wukong,Seraphine,Aatrox,Lulu,1,0.0
+Wukong,Seraphine,Ambessa,Nautilus,1,0.0
+Wukong,Seraphine,Ambessa,Sylas,1,1.0
+Wukong,Seraphine,Bel'Veth,Bard,1,1.0
+Wukong,Seraphine,Dr. Mundo,Blitzcrank,1,0.0
+Wukong,Seraphine,Dr. Mundo,Nami,1,1.0
+Wukong,Seraphine,Dr. Mundo,Pyke,1,1.0
+Wukong,Seraphine,Dr. Mundo,Rell,1,1.0
+Wukong,Seraphine,Jarvan IV,Braum,1,0.0
+Wukong,Seraphine,Jarvan IV,Lulu,1,1.0
+Wukong,Seraphine,Jarvan IV,Nami,1,0.0
+Wukong,Seraphine,Jarvan IV,Rell,1,1.0
+Wukong,Seraphine,Jarvan IV,Yuumi,1,1.0
+Wukong,Seraphine,Jax,Nami,1,1.0
+Wukong,Seraphine,Lee Sin,Nautilus,1,0.0
+Wukong,Seraphine,Lee Sin,Pyke,1,0.0
+Wukong,Seraphine,Lee Sin,Yuumi,1,0.0
+Wukong,Seraphine,Nocturne,Nautilus,1,1.0
+Wukong,Seraphine,Nocturne,Neeko,1,0.0
+Wukong,Seraphine,Nocturne,Shen,1,0.0
+Wukong,Seraphine,Pantheon,Nami,1,1.0
+Wukong,Seraphine,Pantheon,Nautilus,1,0.0
+Wukong,Seraphine,Qiyana,Lulu,1,1.0
+Wukong,Seraphine,Skarner,Anivia,1,0.0
+Wukong,Seraphine,Skarner,Nami,1,1.0
+Wukong,Seraphine,Trundle,Pyke,1,1.0
+Wukong,Seraphine,Vi,Lulu,1,1.0
+Wukong,Seraphine,Vi,Nami,1,1.0
+Wukong,Seraphine,Viego,Leona,1,0.0
+Wukong,Seraphine,Xin Zhao,Anivia,1,0.0
+Wukong,Seraphine,Xin Zhao,Braum,1,1.0
+Wukong,Seraphine,Xin Zhao,Lulu,1,1.0
+Wukong,Seraphine,Xin Zhao,Nami,1,0.0
+Wukong,Seraphine,Xin Zhao,Rell,1,1.0
+Wukong,Shen,Jarvan IV,Poppy,1,0.0
+Wukong,Shen,Naafiri,Karma,1,1.0
+Wukong,Shen,Naafiri,Seraphine,1,0.0
+Wukong,Shen,Udyr,Blitzcrank,1,1.0
+Wukong,Shen,Xin Zhao,Neeko,1,1.0
+Wukong,Sona,Xin Zhao,Milio,1,1.0
+Wukong,Soraka,Jarvan IV,Lulu,1,0.0
+Wukong,Soraka,Skarner,Nautilus,1,1.0
+Wukong,Taliyah,Shyvana,Rakan,1,1.0
+Wukong,Thresh,Jarvan IV,Lulu,1,1.0
+Wukong,Thresh,Jarvan IV,Nautilus,1,0.0
+Wukong,Thresh,Lee Sin,Milio,1,0.0
+Wukong,Thresh,Skarner,Rakan,1,0.0
+Wukong,Thresh,Xin Zhao,Bard,1,0.0
+Wukong,Thresh,Xin Zhao,Karma,1,0.0
+Wukong,Thresh,Xin Zhao,Lulu,1,0.0
+Wukong,Yuumi,Jarvan IV,Milio,1,1.0
+Wukong,Yuumi,Jarvan IV,Neeko,1,0.0
+Wukong,Yuumi,Jayce,Rakan,1,0.0
+Wukong,Yuumi,Xin Zhao,Lulu,1,0.0
+Xin Zhao,Alistar,Aatrox,Rell,1,1.0
+Xin Zhao,Alistar,Dr. Mundo,Bard,1,1.0
+Xin Zhao,Alistar,Dr. Mundo,Karma,1,1.0
+Xin Zhao,Alistar,Dr. Mundo,Zilean,1,1.0
+Xin Zhao,Alistar,Jarvan IV,Braum,1,0.0
+Xin Zhao,Alistar,Jarvan IV,Karma,1,1.0
+Xin Zhao,Alistar,Jarvan IV,Poppy,1,1.0
+Xin Zhao,Alistar,Jayce,Nami,1,0.0
+Xin Zhao,Alistar,Jayce,Nautilus,1,1.0
+Xin Zhao,Alistar,Lee Sin,Milio,1,0.0
+Xin Zhao,Alistar,Lee Sin,Nautilus,1,0.0
+Xin Zhao,Alistar,Nocturne,Bard,1,0.0
+Xin Zhao,Alistar,Nocturne,Braum,1,0.0
+Xin Zhao,Alistar,Nocturne,Nautilus,1,0.0
+Xin Zhao,Alistar,Nocturne,Neeko,1,1.0
+Xin Zhao,Alistar,Nunu & Willump,Karma,1,0.0
+Xin Zhao,Alistar,Pantheon,Nautilus,1,1.0
+Xin Zhao,Alistar,Pantheon,Seraphine,1,0.0
+Xin Zhao,Alistar,Sejuani,Nautilus,1,1.0
+Xin Zhao,Alistar,Skarner,Bard,1,0.0
+Xin Zhao,Alistar,Vi,Bard,1,1.0
+Xin Zhao,Alistar,Vi,Braum,1,1.0
+Xin Zhao,Alistar,Vi,Poppy,1,1.0
+Xin Zhao,Alistar,Volibear,Braum,1,0.0
+Xin Zhao,Alistar,Wukong,Leona,1,1.0
+Xin Zhao,Anivia,Olaf,Seraphine,1,1.0
+Xin Zhao,Anivia,Sejuani,Neeko,1,1.0
+Xin Zhao,Anivia,Trundle,Karma,1,1.0
+Xin Zhao,Anivia,Vi,Seraphine,1,1.0
+Xin Zhao,Anivia,Zaahen,Seraphine,1,1.0
+Xin Zhao,Ashe,Vi,Seraphine,1,1.0
+Xin Zhao,Bard,Aatrox,Karma,1,0.0
+Xin Zhao,Bard,Aatrox,Milio,1,1.0
+Xin Zhao,Bard,Aatrox,Neeko,1,1.0
+Xin Zhao,Bard,Ambessa,Nautilus,1,1.0
+Xin Zhao,Bard,Ambessa,Seraphine,1,0.0
+Xin Zhao,Bard,Dr. Mundo,Leona,1,1.0
+Xin Zhao,Bard,Graves,Karma,1,0.0
+Xin Zhao,Bard,Hecarim,Seraphine,1,1.0
+Xin Zhao,Bard,Ivern,Leona,1,1.0
+Xin Zhao,Bard,Jarvan IV,Leona,1,1.0
+Xin Zhao,Bard,Jarvan IV,Lulu,1,0.0
+Xin Zhao,Bard,Jarvan IV,Milio,1,1.0
+Xin Zhao,Bard,Jarvan IV,Nami,1,0.0
+Xin Zhao,Bard,Jarvan IV,Neeko,1,0.0
+Xin Zhao,Bard,Jarvan IV,Pyke,1,0.0
+Xin Zhao,Bard,Jarvan IV,Rakan,1,1.0
+Xin Zhao,Bard,Jarvan IV,Renata Glasc,1,1.0
+Xin Zhao,Bard,Jarvan IV,Soraka,1,0.0
+Xin Zhao,Bard,Jarvan IV,Thresh,1,0.0
+Xin Zhao,Bard,Jax,Alistar,1,0.0
+Xin Zhao,Bard,Jax,Lulu,1,1.0
+Xin Zhao,Bard,Kha'Zix,Neeko,1,0.0
+Xin Zhao,Bard,Kindred,Rell,1,0.0
+Xin Zhao,Bard,Lee Sin,Karma,1,1.0
+Xin Zhao,Bard,Lee Sin,Nautilus,1,1.0
+Xin Zhao,Bard,Lee Sin,Pyke,1,1.0
+Xin Zhao,Bard,Lee Sin,Rell,1,1.0
+Xin Zhao,Bard,Malphite,Nami,1,0.0
+Xin Zhao,Bard,Naafiri,Leona,1,1.0
+Xin Zhao,Bard,Naafiri,Nautilus,1,1.0
+Xin Zhao,Bard,Nocturne,Lulu,1,1.0
+Xin Zhao,Bard,Nocturne,Milio,1,1.0
+Xin Zhao,Bard,Pantheon,Braum,1,1.0
+Xin Zhao,Bard,Pantheon,Karma,1,0.0
+Xin Zhao,Bard,Pantheon,Leona,1,1.0
+Xin Zhao,Bard,Pantheon,Nami,1,0.0
+Xin Zhao,Bard,Pantheon,Nautilus,1,1.0
+Xin Zhao,Bard,Pantheon,Pyke,1,1.0
+Xin Zhao,Bard,Pantheon,Rakan,1,1.0
+Xin Zhao,Bard,Poppy,Lulu,1,1.0
+Xin Zhao,Bard,Poppy,Nami,1,0.0
+Xin Zhao,Bard,Vi,Alistar,1,0.0
+Xin Zhao,Bard,Vi,Neeko,1,0.0
+Xin Zhao,Bard,Vi,Poppy,1,1.0
+Xin Zhao,Bard,Vi,Rakan,1,1.0
+Xin Zhao,Bard,Vi,Rell,1,1.0
+Xin Zhao,Bard,Wukong,Alistar,1,1.0
+Xin Zhao,Bard,Wukong,Milio,1,0.0
+Xin Zhao,Bard,Wukong,Nami,1,0.0
+Xin Zhao,Bard,Wukong,Nautilus,1,1.0
+Xin Zhao,Bard,Wukong,Neeko,1,1.0
+Xin Zhao,Bard,Wukong,Pyke,1,1.0
+Xin Zhao,Bard,Zaahen,Nautilus,1,1.0
+Xin Zhao,Bard,Zaahen,Seraphine,1,1.0
+Xin Zhao,Blitzcrank,Pantheon,Bard,1,0.0
+Xin Zhao,Blitzcrank,Pantheon,Sett,1,0.0
+Xin Zhao,Blitzcrank,Vi,Lulu,1,1.0
+Xin Zhao,Braum,Aatrox,Nautilus,1,1.0
+Xin Zhao,Braum,Dr. Mundo,Leona,1,1.0
+Xin Zhao,Braum,Dr. Mundo,Lulu,1,1.0
+Xin Zhao,Braum,Dr. Mundo,Nautilus,1,0.0
+Xin Zhao,Braum,Ivern,Nautilus,1,1.0
+Xin Zhao,Braum,Jarvan IV,Nami,1,0.0
+Xin Zhao,Braum,Jarvan IV,Nautilus,1,0.0
+Xin Zhao,Braum,Jarvan IV,Pantheon,1,1.0
+Xin Zhao,Braum,Jax,Bard,1,0.0
+Xin Zhao,Braum,Jax,Nautilus,1,0.0
+Xin Zhao,Braum,Jax,Rell,1,1.0
+Xin Zhao,Braum,Jayce,Nautilus,1,1.0
+Xin Zhao,Braum,Kayn,Nautilus,1,1.0
+Xin Zhao,Braum,Maokai,Nautilus,1,1.0
+Xin Zhao,Braum,Pantheon,Alistar,1,1.0
+Xin Zhao,Braum,Sejuani,Rell,1,0.0
+Xin Zhao,Braum,Trundle,Karma,1,1.0
+Xin Zhao,Braum,Trundle,Milio,1,1.0
+Xin Zhao,Braum,Trundle,Rell,1,1.0
+Xin Zhao,Braum,Vi,Bard,1,1.0
+Xin Zhao,Braum,Wukong,Alistar,1,0.0
+Xin Zhao,Braum,Wukong,Lulu,1,0.0
+Xin Zhao,Braum,Wukong,Nautilus,1,1.0
+Xin Zhao,Braum,Zyra,Alistar,1,1.0
+Xin Zhao,Camille,Jarvan IV,Anivia,1,1.0
+Xin Zhao,Camille,Lee Sin,Shen,1,0.0
+Xin Zhao,Camille,Wukong,Bard,1,1.0
+Xin Zhao,Elise,Nocturne,Bard,1,0.0
+Xin Zhao,Elise,Nocturne,Neeko,1,0.0
+Xin Zhao,Elise,Trundle,Bard,1,0.0
+Xin Zhao,Elise,Wukong,Pyke,1,0.0
+Xin Zhao,Elise,Wukong,Rell,1,0.0
+Xin Zhao,Galio,Nidalee,Thresh,1,0.0
+Xin Zhao,Karma,Aatrox,Bard,1,1.0
+Xin Zhao,Karma,Aatrox,Seraphine,1,1.0
+Xin Zhao,Karma,Aatrox,Sona,1,1.0
+Xin Zhao,Karma,Dr. Mundo,Nautilus,1,0.0
+Xin Zhao,Karma,Dr. Mundo,Rakan,1,0.0
+Xin Zhao,Karma,Hecarim,Nautilus,1,0.0
+Xin Zhao,Karma,Ivern,Leona,1,1.0
+Xin Zhao,Karma,Jarvan IV,Rakan,1,1.0
+Xin Zhao,Karma,Jarvan IV,Yuumi,1,1.0
+Xin Zhao,Karma,Jax,Rakan,1,0.0
+Xin Zhao,Karma,Jayce,Yuumi,1,1.0
+Xin Zhao,Karma,Kha'Zix,Nami,1,1.0
+Xin Zhao,Karma,Kha'Zix,Rell,1,0.0
+Xin Zhao,Karma,Lee Sin,Camille,1,1.0
+Xin Zhao,Karma,Lee Sin,Nami,1,0.0
+Xin Zhao,Karma,Lee Sin,Nautilus,1,0.0
+Xin Zhao,Karma,Lee Sin,Rakan,1,0.0
+Xin Zhao,Karma,Malphite,Lulu,1,0.0
+Xin Zhao,Karma,Malphite,Neeko,1,0.0
+Xin Zhao,Karma,Naafiri,Anivia,1,0.0
+Xin Zhao,Karma,Naafiri,Lulu,1,1.0
+Xin Zhao,Karma,Naafiri,Nami,1,0.0
+Xin Zhao,Karma,Naafiri,Skarner,1,0.0
+Xin Zhao,Karma,Nocturne,Alistar,1,0.0
+Xin Zhao,Karma,Nocturne,Neeko,1,1.0
+Xin Zhao,Karma,Olaf,Nami,1,1.0
+Xin Zhao,Karma,Pantheon,Neeko,1,1.0
+Xin Zhao,Karma,Pantheon,Pyke,1,1.0
+Xin Zhao,Karma,Qiyana,Nami,1,0.0
+Xin Zhao,Karma,Rek'Sai,Lulu,1,1.0
+Xin Zhao,Karma,Sejuani,Nautilus,1,1.0
+Xin Zhao,Karma,Shen,Nami,1,0.0
+Xin Zhao,Karma,Skarner,Nami,1,1.0
+Xin Zhao,Karma,Trundle,Bard,1,0.0
+Xin Zhao,Karma,Trundle,Rakan,1,1.0
+Xin Zhao,Karma,Trundle,Seraphine,1,1.0
+Xin Zhao,Karma,Vi,Anivia,1,0.0
+Xin Zhao,Karma,Vi,Milio,1,1.0
+Xin Zhao,Karma,Wukong,Blitzcrank,1,0.0
+Xin Zhao,Karma,Wukong,Leona,1,0.0
+Xin Zhao,Karma,Wukong,Lulu,1,1.0
+Xin Zhao,Karma,Wukong,Nami,1,1.0
+Xin Zhao,Karma,Wukong,Renata Glasc,1,1.0
+Xin Zhao,Karma,Zaahen,Alistar,1,0.0
+Xin Zhao,Karma,Zaahen,Nautilus,1,0.0
+Xin Zhao,Leona,Ambessa,Rakan,1,0.0
+Xin Zhao,Leona,Diana,Braum,1,0.0
+Xin Zhao,Leona,Dr. Mundo,Nautilus,1,1.0
+Xin Zhao,Leona,Dr. Mundo,Rell,1,0.0
+Xin Zhao,Leona,Jarvan IV,Bard,1,1.0
+Xin Zhao,Leona,Jarvan IV,Braum,1,1.0
+Xin Zhao,Leona,Jarvan IV,Neeko,1,1.0
+Xin Zhao,Leona,Jarvan IV,Rakan,1,0.0
+Xin Zhao,Leona,Jayce,Alistar,1,0.0
+Xin Zhao,Leona,Lee Sin,Nautilus,1,0.0
+Xin Zhao,Leona,Lee Sin,Neeko,1,1.0
+Xin Zhao,Leona,Lee Sin,Seraphine,1,1.0
+Xin Zhao,Leona,Pantheon,Alistar,1,1.0
+Xin Zhao,Leona,Pantheon,Bard,1,0.0
+Xin Zhao,Leona,Qiyana,Alistar,1,0.0
+Xin Zhao,Leona,Skarner,Seraphine,1,1.0
+Xin Zhao,Leona,Trundle,Nautilus,1,1.0
+Xin Zhao,Leona,Trundle,Pyke,1,0.0
+Xin Zhao,Leona,Vi,Rakan,1,0.0
+Xin Zhao,Leona,Wukong,Nami,1,1.0
+Xin Zhao,Leona,Wukong,Nautilus,1,1.0
+Xin Zhao,Leona,Wukong,Seraphine,1,1.0
+Xin Zhao,Leona,Zaahen,Bard,1,1.0
+Xin Zhao,Lulu,Aatrox,Milio,1,1.0
+Xin Zhao,Lulu,Aatrox,Rakan,1,1.0
+Xin Zhao,Lulu,Ambessa,Pyke,1,0.0
+Xin Zhao,Lulu,Dr. Mundo,Bard,1,0.0
+Xin Zhao,Lulu,Jarvan IV,Anivia,1,1.0
+Xin Zhao,Lulu,Jarvan IV,Karma,1,1.0
+Xin Zhao,Lulu,Jarvan IV,Nami,1,1.0
+Xin Zhao,Lulu,Jarvan IV,Nautilus,1,0.0
+Xin Zhao,Lulu,Jarvan IV,Neeko,1,0.0
+Xin Zhao,Lulu,Jarvan IV,Rakan,1,0.0
+Xin Zhao,Lulu,Jarvan IV,Thresh,1,1.0
+Xin Zhao,Lulu,Jax,Seraphine,1,1.0
+Xin Zhao,Lulu,Jayce,Nautilus,1,1.0
+Xin Zhao,Lulu,Kha'Zix,Nami,1,0.0
+Xin Zhao,Lulu,Kha'Zix,Nautilus,1,0.0
+Xin Zhao,Lulu,Lee Sin,Bard,1,0.0
+Xin Zhao,Lulu,Maokai,Blitzcrank,1,0.0
+Xin Zhao,Lulu,Naafiri,Rakan,1,1.0
+Xin Zhao,Lulu,Nidalee,Nami,1,1.0
+Xin Zhao,Lulu,Nocturne,Neeko,1,0.0
+Xin Zhao,Lulu,Olaf,Milio,1,0.0
+Xin Zhao,Lulu,Pantheon,Bard,1,0.0
+Xin Zhao,Lulu,Pantheon,Karma,1,1.0
+Xin Zhao,Lulu,Pantheon,Seraphine,1,0.0
+Xin Zhao,Lulu,Qiyana,Nami,1,1.0
+Xin Zhao,Lulu,Qiyana,Rakan,1,0.0
+Xin Zhao,Lulu,Skarner,Neeko,1,0.0
+Xin Zhao,Lulu,Taliyah,Nautilus,1,1.0
+Xin Zhao,Lulu,Trundle,Karma,1,0.0
+Xin Zhao,Lulu,Trundle,Leona,1,0.0
+Xin Zhao,Lulu,Trundle,Nami,1,1.0
+Xin Zhao,Lulu,Trundle,Neeko,1,1.0
+Xin Zhao,Lulu,Trundle,Pyke,1,1.0
+Xin Zhao,Lulu,Vi,Alistar,1,1.0
+Xin Zhao,Lulu,Viego,Leona,1,0.0
+Xin Zhao,Lulu,Wukong,Karma,1,1.0
+Xin Zhao,Lulu,Wukong,Neeko,1,1.0
+Xin Zhao,Lulu,Wukong,Rakan,1,0.0
+Xin Zhao,Lulu,Wukong,Rell,1,0.0
+Xin Zhao,Lux,Maokai,Nami,1,1.0
+Xin Zhao,Maokai,Aatrox,Nami,1,0.0
+Xin Zhao,Mel,Pantheon,LeBlanc,1,0.0
+Xin Zhao,Milio,Aatrox,Seraphine,1,0.0
+Xin Zhao,Milio,Ambessa,Neeko,1,1.0
+Xin Zhao,Milio,Jarvan IV,Nami,1,1.0
+Xin Zhao,Milio,Jarvan IV,Nautilus,1,0.0
+Xin Zhao,Milio,Jarvan IV,Rakan,1,1.0
+Xin Zhao,Milio,Lee Sin,Nami,1,0.0
+Xin Zhao,Milio,Maokai,Anivia,1,1.0
+Xin Zhao,Milio,Maokai,Nami,1,1.0
+Xin Zhao,Milio,Pantheon,Bard,1,1.0
+Xin Zhao,Milio,Pantheon,Seraphine,1,0.0
+Xin Zhao,Milio,Trundle,Seraphine,1,0.0
+Xin Zhao,Milio,Vi,Alistar,1,0.0
+Xin Zhao,Milio,Vi,Nautilus,1,1.0
+Xin Zhao,Milio,Volibear,Bard,1,1.0
+Xin Zhao,Milio,Wukong,Karma,1,1.0
+Xin Zhao,Milio,Wukong,Nautilus,1,1.0
+Xin Zhao,Milio,Zaahen,Lulu,1,1.0
+Xin Zhao,Milio,Zaahen,Seraphine,1,1.0
+Xin Zhao,Nami,Aatrox,Karma,1,0.0
+Xin Zhao,Nami,Aatrox,Leona,1,0.0
+Xin Zhao,Nami,Aatrox,Rakan,1,1.0
+Xin Zhao,Nami,Dr. Mundo,Karma,1,0.0
+Xin Zhao,Nami,Jarvan IV,Milio,1,1.0
+Xin Zhao,Nami,Jarvan IV,Nautilus,1,1.0
+Xin Zhao,Nami,Jarvan IV,Neeko,1,0.0
+Xin Zhao,Nami,Jarvan IV,Thresh,1,1.0
+Xin Zhao,Nami,Jax,Karma,1,1.0
+Xin Zhao,Nami,Jax,Lulu,1,0.0
+Xin Zhao,Nami,Jayce,Lulu,1,1.0
+Xin Zhao,Nami,Lee Sin,Karma,1,1.0
+Xin Zhao,Nami,Lee Sin,Lulu,1,0.0
+Xin Zhao,Nami,Nidalee,Bard,1,0.0
+Xin Zhao,Nami,Nocturne,Bard,1,0.0
+Xin Zhao,Nami,Nocturne,Seraphine,1,0.0
+Xin Zhao,Nami,Pantheon,Nautilus,1,1.0
+Xin Zhao,Nami,Pantheon,Pyke,1,0.0
+Xin Zhao,Nami,Pantheon,Rakan,1,1.0
+Xin Zhao,Nami,Qiyana,Neeko,1,0.0
+Xin Zhao,Nami,Rek'Sai,Rell,1,0.0
+Xin Zhao,Nami,Trundle,Karma,1,0.0
+Xin Zhao,Nami,Vi,Karma,1,0.0
+Xin Zhao,Nami,Vi,Leona,1,1.0
+Xin Zhao,Nami,Vi,Neeko,1,0.0
+Xin Zhao,Nami,Wukong,Milio,1,0.0
+Xin Zhao,Nami,Wukong,Neeko,1,0.0
+Xin Zhao,Nami,Wukong,Seraphine,1,0.0
+Xin Zhao,Nautilus,Aatrox,Alistar,1,0.0
+Xin Zhao,Nautilus,Aatrox,Rell,1,1.0
+Xin Zhao,Nautilus,Ambessa,Alistar,1,0.0
+Xin Zhao,Nautilus,Ambessa,Neeko,1,0.0
+Xin Zhao,Nautilus,Jarvan IV,Lulu,1,1.0
+Xin Zhao,Nautilus,Jarvan IV,Milio,1,0.0
+Xin Zhao,Nautilus,Jarvan IV,Neeko,1,1.0
+Xin Zhao,Nautilus,Jarvan IV,Tahm Kench,1,1.0
+Xin Zhao,Nautilus,Lee Sin,Seraphine,1,0.0
+Xin Zhao,Nautilus,Maokai,Braum,1,0.0
+Xin Zhao,Nautilus,Naafiri,Bard,1,1.0
+Xin Zhao,Nautilus,Naafiri,Rell,1,0.0
+Xin Zhao,Nautilus,Naafiri,Seraphine,1,0.0
+Xin Zhao,Nautilus,Nasus,Seraphine,1,0.0
+Xin Zhao,Nautilus,Nocturne,Lulu,1,1.0
+Xin Zhao,Nautilus,Nocturne,Rakan,1,1.0
+Xin Zhao,Nautilus,Nocturne,Seraphine,1,0.0
+Xin Zhao,Nautilus,Pantheon,Anivia,1,1.0
+Xin Zhao,Nautilus,Pantheon,Nami,1,1.0
+Xin Zhao,Nautilus,Pantheon,Seraphine,1,1.0
+Xin Zhao,Nautilus,Sett,Seraphine,1,1.0
+Xin Zhao,Nautilus,Skarner,Braum,1,0.0
+Xin Zhao,Nautilus,Skarner,Seraphine,1,0.0
+Xin Zhao,Nautilus,Taliyah,Elise,1,0.0
+Xin Zhao,Nautilus,Trundle,Bard,1,0.0
+Xin Zhao,Nautilus,Trundle,Karma,1,1.0
+Xin Zhao,Nautilus,Trundle,Milio,1,1.0
+Xin Zhao,Nautilus,Trundle,Rakan,1,0.0
+Xin Zhao,Nautilus,Trundle,Seraphine,1,0.0
+Xin Zhao,Nautilus,Tryndamere,Neeko,1,1.0
+Xin Zhao,Nautilus,Vi,Karma,1,0.0
+Xin Zhao,Nautilus,Vi,Milio,1,0.0
+Xin Zhao,Nautilus,Vi,Renata Glasc,1,0.0
+Xin Zhao,Nautilus,Vi,Seraphine,1,0.0
+Xin Zhao,Nautilus,Viego,Braum,1,1.0
+Xin Zhao,Nautilus,Wukong,Bard,1,0.0
+Xin Zhao,Nautilus,Wukong,Neeko,1,0.0
+Xin Zhao,Nautilus,Wukong,Rakan,1,1.0
+Xin Zhao,Nautilus,Wukong,Rell,1,1.0
+Xin Zhao,Nautilus,Wukong,Senna,1,0.0
+Xin Zhao,Nautilus,Wukong,Seraphine,1,0.0
+Xin Zhao,Nautilus,Zaahen,Karma,1,1.0
+Xin Zhao,Nautilus,Zaahen,Neeko,1,1.0
+Xin Zhao,Neeko,Aatrox,Blitzcrank,1,0.0
+Xin Zhao,Neeko,Aatrox,Lulu,1,1.0
+Xin Zhao,Neeko,Ambessa,Bard,1,1.0
+Xin Zhao,Neeko,Jarvan IV,Alistar,1,0.0
+Xin Zhao,Neeko,Jarvan IV,Milio,1,0.0
+Xin Zhao,Neeko,Jarvan IV,Nautilus,1,1.0
+Xin Zhao,Neeko,Lee Sin,Lulu,1,0.0
+Xin Zhao,Neeko,Naafiri,Bard,1,0.0
+Xin Zhao,Neeko,Nocturne,Ezreal,1,0.0
+Xin Zhao,Neeko,Pantheon,Alistar,1,0.0
+Xin Zhao,Neeko,Pantheon,Bard,1,1.0
+Xin Zhao,Neeko,Pantheon,Milio,1,0.0
+Xin Zhao,Neeko,Pantheon,Nautilus,1,1.0
+Xin Zhao,Neeko,Pantheon,Yuumi,1,0.0
+Xin Zhao,Neeko,Qiyana,Bard,1,0.0
+Xin Zhao,Neeko,Skarner,Alistar,1,1.0
+Xin Zhao,Neeko,Skarner,Nami,1,0.0
+Xin Zhao,Neeko,Sylas,Karma,1,0.0
+Xin Zhao,Neeko,Sylas,Nautilus,1,0.0
+Xin Zhao,Neeko,Vi,Anivia,1,0.0
+Xin Zhao,Neeko,Vi,Lulu,1,0.0
+Xin Zhao,Neeko,Vi,Nami,1,0.0
+Xin Zhao,Neeko,Vi,Rakan,1,1.0
+Xin Zhao,Neeko,Vi,Rell,1,0.0
+Xin Zhao,Neeko,Wukong,Nami,1,1.0
+Xin Zhao,Neeko,Zaahen,Seraphine,1,1.0
+Xin Zhao,Pantheon,Naafiri,Rakan,1,0.0
+Xin Zhao,Poppy,Ambessa,Bard,1,0.0
+Xin Zhao,Poppy,Jarvan IV,Alistar,1,1.0
+Xin Zhao,Poppy,Jarvan IV,Bard,1,1.0
+Xin Zhao,Poppy,Lee Sin,Shen,1,1.0
+Xin Zhao,Poppy,Vi,Nautilus,1,1.0
+Xin Zhao,Pyke,Jax,Bard,1,0.0
+Xin Zhao,Pyke,Olaf,Seraphine,1,1.0
+Xin Zhao,Pyke,Pantheon,Alistar,1,0.0
+Xin Zhao,Pyke,Skarner,Lulu,1,0.0
+Xin Zhao,Pyke,Trundle,Bard,1,1.0
+Xin Zhao,Pyke,Trundle,Neeko,1,1.0
+Xin Zhao,Pyke,Wukong,Nautilus,1,0.0
+Xin Zhao,Rakan,Jarvan IV,Alistar,1,0.0
+Xin Zhao,Rakan,Jarvan IV,Bard,1,1.0
+Xin Zhao,Rakan,Jarvan IV,Milio,1,1.0
+Xin Zhao,Rakan,Jarvan IV,Neeko,1,1.0
+Xin Zhao,Rakan,Jayce,Alistar,1,0.0
+Xin Zhao,Rakan,Jayce,Bard,1,1.0
+Xin Zhao,Rakan,Lee Sin,Alistar,1,1.0
+Xin Zhao,Rakan,Lee Sin,Nautilus,1,1.0
+Xin Zhao,Rakan,Nocturne,Alistar,1,0.0
+Xin Zhao,Rakan,Nocturne,Leona,1,1.0
+Xin Zhao,Rakan,Pantheon,Lulu,1,0.0
+Xin Zhao,Rakan,Pantheon,Nami,1,0.0
+Xin Zhao,Rakan,Pantheon,Nautilus,1,0.0
+Xin Zhao,Rakan,Qiyana,Leona,1,1.0
+Xin Zhao,Rakan,Sejuani,Bard,1,1.0
+Xin Zhao,Rakan,Sejuani,Nautilus,1,1.0
+Xin Zhao,Rakan,Trundle,Braum,1,1.0
+Xin Zhao,Rakan,Trundle,Leona,1,0.0
+Xin Zhao,Rakan,Vi,Alistar,1,1.0
+Xin Zhao,Rakan,Vi,Neeko,1,0.0
+Xin Zhao,Rakan,Vi,Nidalee,1,1.0
+Xin Zhao,Rakan,Wukong,Alistar,1,0.0
+Xin Zhao,Rakan,Wukong,Bard,1,1.0
+Xin Zhao,Rakan,Wukong,Leona,1,0.0
+Xin Zhao,Rakan,Wukong,Nautilus,1,0.0
+Xin Zhao,Rakan,Wukong,Rell,1,1.0
+Xin Zhao,Rakan,Zaahen,Nami,1,1.0
+Xin Zhao,Rell,Dr. Mundo,Nautilus,1,1.0
+Xin Zhao,Rell,Jarvan IV,Bard,1,0.0
+Xin Zhao,Rell,Jarvan IV,Seraphine,1,1.0
+Xin Zhao,Rell,Jax,Nautilus,1,0.0
+Xin Zhao,Rell,Jax,Shen,1,1.0
+Xin Zhao,Rell,Lee Sin,Nautilus,1,0.0
+Xin Zhao,Rell,Naafiri,Neeko,1,0.0
+Xin Zhao,Rell,Nocturne,Rakan,1,0.0
+Xin Zhao,Rell,Pantheon,Bard,1,0.0
+Xin Zhao,Rell,Pantheon,Nami,1,0.0
+Xin Zhao,Rell,Pantheon,Renata Glasc,1,1.0
+Xin Zhao,Rell,Qiyana,Leona,1,0.0
+Xin Zhao,Rell,Qiyana,Seraphine,1,0.0
+Xin Zhao,Rell,Trundle,Camille,1,0.0
+Xin Zhao,Rell,Vi,Alistar,1,1.0
+Xin Zhao,Rell,Vi,Lulu,1,1.0
+Xin Zhao,Rell,Vi,Neeko,1,1.0
+Xin Zhao,Rell,Vi,Rakan,1,0.0
+Xin Zhao,Rell,Wukong,Karma,1,1.0
+Xin Zhao,Rell,Wukong,Poppy,1,0.0
+Xin Zhao,Rell,Wukong,Rakan,1,1.0
+Xin Zhao,Rell,Zaahen,Seraphine,1,0.0
+Xin Zhao,Rell,Zyra,Nautilus,1,1.0
+Xin Zhao,Renata Glasc,Dr. Mundo,Neeko,1,0.0
+Xin Zhao,Renata Glasc,Jarvan IV,Blitzcrank,1,1.0
+Xin Zhao,Renata Glasc,Jarvan IV,Milio,1,1.0
+Xin Zhao,Renata Glasc,Jarvan IV,Neeko,1,1.0
+Xin Zhao,Renata Glasc,Lee Sin,Nautilus,1,1.0
+Xin Zhao,Renata Glasc,Shyvana,Fiddlesticks,1,1.0
+Xin Zhao,Renata Glasc,Vi,Rakan,1,0.0
+Xin Zhao,Renata Glasc,Wukong,Karma,1,1.0
+Xin Zhao,Seraphine,Aatrox,Bard,1,0.0
+Xin Zhao,Seraphine,Ambessa,Lulu,1,0.0
+Xin Zhao,Seraphine,Darius,Karma,1,1.0
+Xin Zhao,Seraphine,Dr. Mundo,Bard,1,1.0
+Xin Zhao,Seraphine,Dr. Mundo,Rell,1,0.0
+Xin Zhao,Seraphine,Gwen,Karma,1,1.0
+Xin Zhao,Seraphine,Gwen,Rakan,1,1.0
+Xin Zhao,Seraphine,Jarvan IV,Alistar,1,0.0
+Xin Zhao,Seraphine,Jarvan IV,Bard,1,1.0
+Xin Zhao,Seraphine,Jarvan IV,Lulu,1,0.0
+Xin Zhao,Seraphine,Jarvan IV,Milio,1,1.0
+Xin Zhao,Seraphine,Jarvan IV,Pyke,1,1.0
+Xin Zhao,Seraphine,Jarvan IV,Skarner,1,0.0
+Xin Zhao,Seraphine,Jayce,Anivia,1,0.0
+Xin Zhao,Seraphine,Lee Sin,Leona,1,0.0
+Xin Zhao,Seraphine,Lee Sin,Lulu,1,0.0
+Xin Zhao,Seraphine,Lee Sin,Pyke,1,1.0
+Xin Zhao,Seraphine,Lee Sin,Rell,1,1.0
+Xin Zhao,Seraphine,Nasus,Milio,1,0.0
+Xin Zhao,Seraphine,Nocturne,Karma,1,0.0
+Xin Zhao,Seraphine,Nocturne,Lulu,1,1.0
+Xin Zhao,Seraphine,Nocturne,Mel,1,1.0
+Xin Zhao,Seraphine,Nocturne,Pantheon,1,1.0
+Xin Zhao,Seraphine,Nocturne,Rell,1,1.0
+Xin Zhao,Seraphine,Olaf,Nautilus,1,0.0
+Xin Zhao,Seraphine,Olaf,Neeko,1,1.0
+Xin Zhao,Seraphine,Pantheon,Karma,1,1.0
+Xin Zhao,Seraphine,Qiyana,Neeko,1,1.0
+Xin Zhao,Seraphine,Sejuani,Karma,1,1.0
+Xin Zhao,Seraphine,Skarner,Bard,1,0.0
+Xin Zhao,Seraphine,Skarner,Karma,1,0.0
+Xin Zhao,Seraphine,Trundle,Anivia,1,1.0
+Xin Zhao,Seraphine,Trundle,Milio,1,1.0
+Xin Zhao,Seraphine,Trundle,Nami,1,1.0
+Xin Zhao,Seraphine,Trundle,Pyke,1,1.0
+Xin Zhao,Seraphine,Trundle,Rakan,1,1.0
+Xin Zhao,Seraphine,Vi,Alistar,1,1.0
+Xin Zhao,Seraphine,Vi,Bard,1,1.0
+Xin Zhao,Seraphine,Vi,Camille,1,1.0
+Xin Zhao,Seraphine,Vi,Karma,1,1.0
+Xin Zhao,Seraphine,Vi,Lulu,1,0.0
+Xin Zhao,Seraphine,Vi,Milio,1,1.0
+Xin Zhao,Seraphine,Vi,Nami,1,1.0
+Xin Zhao,Seraphine,Vi,Pyke,1,1.0
+Xin Zhao,Seraphine,Vi,Rell,1,0.0
+Xin Zhao,Seraphine,Wukong,Renata Glasc,1,0.0
+Xin Zhao,Seraphine,Zaahen,Nami,1,1.0
+Xin Zhao,Shen,Vi,Nautilus,1,1.0
+Xin Zhao,Tahm Kench,Jarvan IV,Rell,1,1.0
+Xin Zhao,Tahm Kench,Nocturne,Leona,1,0.0
+Xin Zhao,Thresh,Jarvan IV,Alistar,1,0.0
+Xin Zhao,Thresh,Jarvan IV,Leona,1,1.0
+Xin Zhao,Thresh,Jarvan IV,Milio,1,0.0
+Xin Zhao,Thresh,Jayce,Leona,1,1.0
+Xin Zhao,Thresh,Qiyana,Leona,1,0.0
+Xin Zhao,Thresh,Shen,Braum,1,1.0
+Xin Zhao,Thresh,Vi,Lulu,1,0.0
+Xin Zhao,Thresh,Wukong,Seraphine,1,1.0
+Xin Zhao,Thresh,Zed,Rell,1,0.0
+Xin Zhao,Trundle,Vi,Leona,1,0.0
+Xin Zhao,Yuumi,Camille,Karma,1,0.0
+Xin Zhao,Yuumi,Jarvan IV,Karma,1,0.0
+Xin Zhao,Yuumi,Nocturne,Neeko,1,1.0
+Xin Zhao,Yuumi,Pantheon,Nami,1,0.0
+Xin Zhao,Yuumi,Vi,Neeko,1,0.0
+Xin Zhao,Yuumi,Vi,Seraphine,1,0.0
+Xin Zhao,Yuumi,Zaahen,Karma,1,1.0
+Zaahen,Alistar,Jarvan IV,Senna,1,1.0
+Zaahen,Alistar,Rek'Sai,Neeko,1,0.0
+Zaahen,Alistar,Vi,Nautilus,1,1.0
+Zaahen,Alistar,Vi,Rakan,1,1.0
+Zaahen,Alistar,Wukong,Rakan,1,0.0
+Zaahen,Alistar,Xin Zhao,Karma,1,1.0
+Zaahen,Alistar,Xin Zhao,Lulu,1,0.0
+Zaahen,Bard,Jarvan IV,Neeko,1,1.0
+Zaahen,Bard,Vi,Leona,1,1.0
+Zaahen,Bard,Vi,Neeko,1,1.0
+Zaahen,Bard,Xin Zhao,Nautilus,1,0.0
+Zaahen,Bard,Xin Zhao,Rakan,1,1.0
+Zaahen,Bard,Xin Zhao,Seraphine,1,1.0
+Zaahen,Blitzcrank,Xin Zhao,Lulu,1,1.0
+Zaahen,Braum,Gwen,Poppy,1,1.0
+Zaahen,Braum,Kha'Zix,Nautilus,1,1.0
+Zaahen,Braum,Vi,Alistar,1,1.0
+Zaahen,Braum,Viego,Rell,1,1.0
+Zaahen,Braum,Wukong,Nautilus,1,1.0
+Zaahen,Braum,Xin Zhao,Alistar,1,0.0
+Zaahen,Elise,Pantheon,Karma,1,1.0
+Zaahen,Janna,Dr. Mundo,Lulu,1,0.0
+Zaahen,Janna,Pantheon,Alistar,1,1.0
+Zaahen,Karma,Dr. Mundo,Nami,1,0.0
+Zaahen,Karma,Jarvan IV,Leona,1,0.0
+Zaahen,Karma,Jayce,Nami,1,0.0
+Zaahen,Karma,Jayce,Nautilus,1,0.0
+Zaahen,Karma,Naafiri,Seraphine,1,0.0
+Zaahen,Karma,Nocturne,Leona,1,1.0
+Zaahen,Karma,Nocturne,Renata Glasc,1,1.0
+Zaahen,Karma,Pantheon,Leona,1,1.0
+Zaahen,Karma,Pantheon,Neeko,1,1.0
+Zaahen,Karma,Skarner,Nami,1,0.0
+Zaahen,Karma,Vi,Rakan,1,1.0
+Zaahen,Karma,Vi,Seraphine,1,1.0
+Zaahen,Karma,Wukong,Lulu,1,1.0
+Zaahen,Karma,Wukong,Nautilus,1,0.0
+Zaahen,Karma,Wukong,Neeko,1,1.0
+Zaahen,Karma,Xin Zhao,Anivia,1,1.0
+Zaahen,Karma,Xin Zhao,Nami,1,0.0
+Zaahen,Leona,Pantheon,Braum,1,0.0
+Zaahen,Leona,Vi,Braum,1,1.0
+Zaahen,Leona,Vi,Taric,1,1.0
+Zaahen,Leona,Wukong,Braum,1,1.0
+Zaahen,Leona,Xin Zhao,Nautilus,1,1.0
+Zaahen,Lulu,Aatrox,Neeko,1,0.0
+Zaahen,Lulu,Dr. Mundo,Nami,1,0.0
+Zaahen,Lulu,Jayce,Neeko,1,1.0
+Zaahen,Lulu,Nocturne,Milio,1,0.0
+Zaahen,Lulu,Nocturne,Seraphine,1,1.0
+Zaahen,Lulu,Sejuani,Leona,1,1.0
+Zaahen,Lulu,Vi,Neeko,1,1.0
+Zaahen,Lulu,Vi,Rell,1,1.0
+Zaahen,Lulu,Wukong,Nautilus,1,1.0
+Zaahen,Lulu,Xin Zhao,Nami,1,1.0
+Zaahen,Milio,Lee Sin,Nami,1,1.0
+Zaahen,Milio,Vi,Nautilus,1,0.0
+Zaahen,Milio,Vi,Neeko,1,0.0
+Zaahen,Milio,Wukong,Alistar,1,1.0
+Zaahen,Nami,Dr. Mundo,Seraphine,1,0.0
+Zaahen,Nami,Kha'Zix,Seraphine,1,0.0
+Zaahen,Nami,Nocturne,Nautilus,1,0.0
+Zaahen,Nami,Vi,Rell,1,0.0
+Zaahen,Nami,Viego,Rell,1,1.0
+Zaahen,Nami,Wukong,Rell,1,1.0
+Zaahen,Nami,Xin Zhao,Lulu,1,1.0
+Zaahen,Nautilus,Aatrox,Bard,1,0.0
+Zaahen,Nautilus,Aatrox,Rakan,1,1.0
+Zaahen,Nautilus,Ambessa,Braum,1,1.0
+Zaahen,Nautilus,Ambessa,Leona,1,0.0
+Zaahen,Nautilus,Ambessa,Neeko,1,0.0
+Zaahen,Nautilus,Graves,Karma,1,0.0
+Zaahen,Nautilus,Jarvan IV,Rell,1,1.0
+Zaahen,Nautilus,Naafiri,Rell,1,0.0
+Zaahen,Nautilus,Pantheon,Leona,1,0.0
+Zaahen,Nautilus,Pantheon,Renata Glasc,1,1.0
+Zaahen,Nautilus,Vi,Alistar,1,1.0
+Zaahen,Nautilus,Vi,Rakan,1,0.0
+Zaahen,Nautilus,Vi,Rell,1,1.0
+Zaahen,Nautilus,Volibear,Karma,1,1.0
+Zaahen,Nautilus,Wukong,Leona,1,0.0
+Zaahen,Nautilus,Xin Zhao,Rell,1,1.0
+Zaahen,Nautilus,Zed,Karma,1,1.0
+Zaahen,Neeko,Kha'Zix,Bard,1,1.0
+Zaahen,Neeko,Pantheon,Lux,1,1.0
+Zaahen,Neeko,Pantheon,Nami,1,1.0
+Zaahen,Neeko,Sylas,Alistar,1,0.0
+Zaahen,Neeko,Vi,Nami,1,0.0
+Zaahen,Neeko,Xin Zhao,Bard,1,0.0
+Zaahen,Neeko,Xin Zhao,Nami,1,0.0
+Zaahen,Neeko,Zac,Bard,1,0.0
+Zaahen,Rakan,Jarvan IV,Karma,1,1.0
+Zaahen,Rakan,Vi,Alistar,1,0.0
+Zaahen,Rakan,Wukong,Neeko,1,1.0
+Zaahen,Rakan,Xin Zhao,Anivia,1,0.0
+Zaahen,Rell,Briar,Sylas,1,1.0
+Zaahen,Rell,Pantheon,Bard,1,0.0
+Zaahen,Rell,Skarner,Lulu,1,1.0
+Zaahen,Rell,Trundle,Lulu,1,1.0
+Zaahen,Rell,Wukong,Nami,1,1.0
+Zaahen,Rell,Wukong,Nautilus,1,1.0
+Zaahen,Rell,Xin Zhao,Nautilus,1,1.0
+Zaahen,Renata Glasc,Vi,Rell,1,1.0
+Zaahen,Seraphine,Aatrox,Karma,1,0.0
+Zaahen,Seraphine,Qiyana,Alistar,1,1.0
+Zaahen,Seraphine,Viego,Alistar,1,1.0
+Zaahen,Seraphine,Wukong,Nami,1,1.0
+Zaahen,Seraphine,Wukong,Neeko,1,1.0
+Zaahen,Seraphine,Xin Zhao,Bard,1,1.0
+Zaahen,Seraphine,Xin Zhao,Karma,1,1.0
+Zaahen,Seraphine,Xin Zhao,Leona,1,0.0
+Zaahen,Seraphine,Xin Zhao,Milio,1,1.0
+Zaahen,Seraphine,Zyra,Bard,1,0.0
+Zaahen,Thresh,Lee Sin,Neeko,1,1.0
+Zaahen,Zyra,Gwen,Lulu,1,0.0
+Zac,Blitzcrank,Qiyana,Bard,1,0.0
+Zac,Lulu,Wukong,Pyke,1,0.0
+Zac,Neeko,Wukong,Braum,1,0.0
+Zac,Rakan,Zaahen,Braum,1,0.0
+Zed,Nautilus,Rengar,Rakan,1,0.0
+Zyra,Alistar,Wukong,Janna,1,0.0
+Zyra,Anivia,Pantheon,Rakan,1,1.0
+Zyra,Bard,Dr. Mundo,Lulu,1,1.0
+Zyra,Bard,Vi,Rakan,1,1.0
+Zyra,Leona,Qiyana,Neeko,1,0.0
+Zyra,Leona,Talon,Braum,1,1.0
+Zyra,Leona,Wukong,Alistar,1,0.0
+Zyra,Lulu,Wukong,Pantheon,1,0.0
+Zyra,Nautilus,Ambessa,Bard,1,1.0
+Zyra,Nautilus,Darius,Braum,1,1.0
+Zyra,Nautilus,Lillia,Zac,1,0.0
+Zyra,Nautilus,Nocturne,Leona,1,1.0
+Zyra,Nautilus,Taliyah,Elise,1,0.0
+Zyra,Nautilus,Vi,Braum,1,0.0
+Zyra,Neeko,Nidalee,Sylas,1,0.0
+Zyra,Neeko,Wukong,Rell,1,1.0
+Zyra,Rakan,Naafiri,Poppy,1,1.0
+Zyra,Rakan,Wukong,Nautilus,1,0.0
+Zyra,Rell,Wukong,Alistar,1,0.0
+Zyra,Rell,Wukong,Braum,1,1.0
+Zyra,Rell,Wukong,Nautilus,1,1.0
+Zyra,Renata Glasc,Vi,Nautilus,1,1.0
+Zyra,Yuumi,Nocturne,Poppy,1,0.0

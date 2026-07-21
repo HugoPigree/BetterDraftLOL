@@ -1,5 +1,6 @@
 import type { DraftPick } from "../types/draft";
-import type { PredictResponse, TeamPredictionDetail } from "../types/predict";
+import type { PredictResponse, PredictionMode, TeamPredictionDetail } from "../types/predict";
+import { INSUFFICIENT_DATA_LABEL } from "../types/predict";
 import { ATTRIBUTE_LABELS } from "../types/predict";
 
 const WEIGHT_FORCE = 0.5;
@@ -32,10 +33,17 @@ const MERAKI_ROLE_LABELS: Record<string, string> = {
   WARDEN: "warden",
 };
 
-const FACTOR_LABELS: Record<string, string> = {
-  force: "la force individuelle (winrates solo queue)",
-  synergie: "l'affinité de composition",
-  side: "l'avantage de side blue",
+const FACTOR_LABELS: Record<string, Record<"force" | "synergie" | "side", string>> = {
+  mixed: {
+    force: "la force individuelle (winrates solo queue)",
+    synergie: "l'affinité de composition",
+    side: "l'avantage de side blue",
+  },
+  pro: {
+    force: "la force individuelle (winrates pro Oracle's Elixir)",
+    synergie: "l'affinité de composition",
+    side: "l'avantage de side blue",
+  },
 };
 
 export interface ScoreExplanation {
@@ -85,28 +93,29 @@ function translateMerakiRole(role: string): string {
   return MERAKI_ROLE_LABELS[role] ?? role.toLowerCase();
 }
 
-function averageWinrate(champions: TeamPredictionDetail["champions"]): number {
-  if (champions.length === 0) {
-    return 0.5;
+function averageWinrate(champions: TeamPredictionDetail["champions"]): number | null {
+  const valid = champions.filter(
+    (champion) => !champion.insufficient_data && champion.winrate !== null,
+  );
+  if (valid.length === 0) {
+    return null;
   }
-  return champions.reduce((sum, champion) => sum + champion.winrate, 0) / champions.length;
+  return valid.reduce((sum, champion) => sum + (champion.winrate ?? 0), 0) / valid.length;
 }
 
-function dominantFactor(result: PredictResponse): keyof typeof FACTOR_LABELS {
-  const forceDiff = Math.abs(result.blue.score_force - result.red.score_force);
+function dominantFactor(result: PredictResponse): keyof typeof FACTOR_LABELS.mixed {
+  const blueForce = result.blue.score_force ?? 0.5;
+  const redForce = result.red.score_force ?? 0.5;
+  const forceDiff = Math.abs(blueForce - redForce);
   const synergyDiff = Math.abs(result.blue.score_synergie - result.red.score_synergie);
 
   const blueSidePart =
-    result.blue.score_final -
-    WEIGHT_FORCE * result.blue.score_force -
-    WEIGHT_SYNERGY * result.blue.score_synergie;
+    result.blue.score_final - WEIGHT_FORCE * blueForce - WEIGHT_SYNERGY * result.blue.score_synergie;
   const redSidePart =
-    result.red.score_final -
-    WEIGHT_FORCE * result.red.score_force -
-    WEIGHT_SYNERGY * result.red.score_synergie;
+    result.red.score_final - WEIGHT_FORCE * redForce - WEIGHT_SYNERGY * result.red.score_synergie;
   const sideDiff = Math.abs(blueSidePart - redSidePart);
 
-  const factors: Array<{ name: keyof typeof FACTOR_LABELS; diff: number }> = [
+  const factors: Array<{ name: keyof typeof FACTOR_LABELS.mixed; diff: number }> = [
     { name: "force", diff: forceDiff },
     { name: "synergie", diff: synergyDiff },
     { name: "side", diff: sideDiff },
@@ -116,14 +125,29 @@ function dominantFactor(result: PredictResponse): keyof typeof FACTOR_LABELS {
   return factors[0]?.name ?? "force";
 }
 
-export function explainTeamScores(team: TeamPredictionDetail, side: "blue" | "red"): ScoreExplanation[] {
+export function explainTeamScores(
+  team: TeamPredictionDetail,
+  side: "blue" | "red",
+  isProMode = false,
+): ScoreExplanation[] {
   const sideLabel = side === "blue" ? "blue" : "red";
+  const forceLabel = isProMode ? "Force pro" : "Force soloQ";
+  const forceValue =
+    team.score_force === null
+      ? "N/A"
+      : formatPercent(team.score_force);
+  const forceHint =
+    team.score_force === null
+      ? INSUFFICIENT_DATA_LABEL
+      : team.force_partial
+        ? `Winrate pro moyen sur les picks avec assez de games (${formatDeltaPoints(team.score_force - 0.5)} vs 50% neutre).`
+        : `Winrate moyen des 5 picks (${formatDeltaPoints(team.score_force - 0.5)} vs 50% neutre).`;
 
   return [
     {
-      label: "Force soloQ",
-      value: formatPercent(team.score_force),
-      hint: `Winrate moyen des 5 picks (${formatDeltaPoints(team.score_force - 0.5)} vs 50% neutre).`,
+      label: forceLabel,
+      value: forceValue,
+      hint: forceHint,
     },
     {
       label: "Affinité compo",
@@ -196,11 +220,15 @@ function championsByRole(
   return map;
 }
 
-export function generateLaneMatchups(result: PredictResponse): LaneMatchupInsight[] {
+export function generateLaneMatchups(
+  result: PredictResponse,
+  isProMode = false,
+): LaneMatchupInsight[] {
   const roles: DraftPick["role"][] = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
   const blueByRole = championsByRole(result.blue);
   const redByRole = championsByRole(result.red);
   const matchups: LaneMatchupInsight[] = [];
+  const wrLabel = isProMode ? "pro" : "soloQ";
 
   for (const role of roles) {
     const bluePick = blueByRole[role];
@@ -209,16 +237,36 @@ export function generateLaneMatchups(result: PredictResponse): LaneMatchupInsigh
       continue;
     }
 
-    const deltaPoints = (bluePick.winrate - redPick.winrate) * 100;
+    if (
+      isProMode &&
+      (bluePick.insufficient_data ||
+        redPick.insufficient_data ||
+        bluePick.winrate === null ||
+        redPick.winrate === null)
+    ) {
+      matchups.push({
+        role,
+        roleLabel: ROLE_LABELS[role],
+        blueChampion: bluePick.champion,
+        redChampion: redPick.champion,
+        blueWinrate: bluePick.winrate ?? 0.5,
+        redWinrate: redPick.winrate ?? 0.5,
+        deltaPoints: 0,
+        summary: `${ROLE_LABELS[role]} : ${INSUFFICIENT_DATA_LABEL}`,
+      });
+      continue;
+    }
+
+    const deltaPoints = ((bluePick.winrate ?? 0.5) - (redPick.winrate ?? 0.5)) * 100;
     const roleLabel = ROLE_LABELS[role];
 
     let summary: string;
     if (Math.abs(deltaPoints) < 2) {
       summary = `Matchup ${roleLabel} équilibré entre ${bluePick.champion} et ${redPick.champion}.`;
     } else if (deltaPoints > 0) {
-      summary = `${bluePick.champion} (${formatPercent(bluePick.winrate)}) part avec un avantage soloQ sur ${redPick.champion} (${formatPercent(redPick.winrate)}) au ${roleLabel}.`;
+      summary = `${bluePick.champion} (${formatPercent(bluePick.winrate ?? 0.5)}) part avec un avantage ${wrLabel} sur ${redPick.champion} (${formatPercent(redPick.winrate ?? 0.5)}) au ${roleLabel}.`;
     } else {
-      summary = `${redPick.champion} (${formatPercent(redPick.winrate)}) part favori soloQ face à ${bluePick.champion} (${formatPercent(bluePick.winrate)}) au ${roleLabel}.`;
+      summary = `${redPick.champion} (${formatPercent(redPick.winrate ?? 0.5)}) part favori ${wrLabel} face à ${bluePick.champion} (${formatPercent(bluePick.winrate ?? 0.5)}) au ${roleLabel}.`;
     }
 
     matchups.push({
@@ -226,8 +274,8 @@ export function generateLaneMatchups(result: PredictResponse): LaneMatchupInsigh
       roleLabel,
       blueChampion: bluePick.champion,
       redChampion: redPick.champion,
-      blueWinrate: bluePick.winrate,
-      redWinrate: redPick.winrate,
+      blueWinrate: bluePick.winrate ?? 0.5,
+      redWinrate: redPick.winrate ?? 0.5,
       deltaPoints,
       summary,
     });
@@ -236,11 +284,21 @@ export function generateLaneMatchups(result: PredictResponse): LaneMatchupInsigh
   return matchups.sort((a, b) => Math.abs(b.deltaPoints) - Math.abs(a.deltaPoints));
 }
 
-export function generateAnalysis(result: PredictResponse, patch: string): string[] {
-  return generateDraftAnalysis(result, patch).summary;
+export function generateAnalysis(
+  result: PredictResponse,
+  patch: string,
+  mode: PredictionMode = "mixed",
+): string[] {
+  return generateDraftAnalysis(result, patch, mode).summary;
 }
 
-export function generateDraftAnalysis(result: PredictResponse, patch: string): DraftAnalysisBundle {
+export function generateDraftAnalysis(
+  result: PredictResponse,
+  patch: string,
+  mode: PredictionMode = "mixed",
+): DraftAnalysisBundle {
+  const isProMode = mode === "pro";
+  const factorLabels = FACTOR_LABELS[mode];
   const summary: string[] = [];
   const attributeThreshold = 0.3;
   const winrateThreshold = 0.02;
@@ -256,16 +314,20 @@ export function generateDraftAnalysis(result: PredictResponse, patch: string): D
 
   const blueAvg = averageWinrate(result.blue.champions);
   const redAvg = averageWinrate(result.red.champions);
-  const winrateGap = Math.abs(blueAvg - redAvg);
+  const winrateGap =
+    blueAvg !== null && redAvg !== null ? Math.abs(blueAvg - redAvg) : 0;
 
-  if (winrateGap > winrateThreshold) {
+  if (blueAvg !== null && redAvg !== null && winrateGap > winrateThreshold) {
     const strongerSide: "blue" | "red" = blueAvg > redAvg ? "blue" : "red";
+    const forceLabel = isProMode ? "pro" : "soloQ";
     summary.push(
-      `L'équipe ${teamLabel(strongerSide)} aligne des picks soloQ plus forts sur le patch ${patch} (${formatDeltaPoints(blueAvg - redAvg)} en moyenne).`,
+      `L'équipe ${teamLabel(strongerSide)} aligne des picks ${forceLabel} plus forts sur le patch ${patch} (${formatDeltaPoints(blueAvg - redAvg)} en moyenne).`,
     );
+  } else if (isProMode && (blueAvg === null || redAvg === null)) {
+    summary.push("Données pro insuffisantes pour comparer la force moyenne des deux équipes.");
   }
 
-  const laneMatchups = generateLaneMatchups(result);
+  const laneMatchups = generateLaneMatchups(result, isProMode);
   const decisiveMatchups = laneMatchups.filter((matchup) => Math.abs(matchup.deltaPoints) >= 4);
   if (decisiveMatchups.length > 0) {
     const top = decisiveMatchups[0];
@@ -287,14 +349,13 @@ export function generateDraftAnalysis(result: PredictResponse, patch: string): D
 
   if (allAttributesBalanced && winratesBalanced && summary.length === 0) {
     const mainFactor = dominantFactor(result);
-    summary.push(
-      `Draft très serrée : l'écart vient surtout de ${FACTOR_LABELS[mainFactor]}.`,
-    );
+    summary.push(`Draft très serrée : l'écart vient surtout de ${factorLabels[mainFactor]}.`);
   }
 
   if (summary.length === 0) {
+    const forceLabel = isProMode ? "pro" : "soloQ";
     summary.push(
-      "Les deux compositions restent proches : ni la force soloQ ni l'affinité ne créent un écart massif.",
+      `Les deux compositions restent proches : ni la force ${forceLabel} ni l'affinité ne créent un écart massif.`,
     );
   }
 
