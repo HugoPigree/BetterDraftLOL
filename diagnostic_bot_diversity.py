@@ -15,17 +15,18 @@ from dataclasses import dataclass
 from typing import Any
 
 import predict_draft as pd
-from pro_force import is_pro_viable_on_role
+from pro_force import get_meta_pool_for_role
 from suggest_draft import (
     BOT_CANDIDATES_PER_ROLE,
     PRO_MIN_SYNERGY_AFTER_TWO_PICKS,
     ROLES_ORDER,
+    TEMPERATURE_BOT_PICK,
     TeamSide,
+    _bot_meta_pool_for_role,
     _bot_pick_selection_score,
     _locked_pro_duo_bonus,
     _pro_meta_score_for,
     _pro_winrate_entry,
-    _rank_pro_for_role,
     _top_candidates_for_role,
     build_matchup_teams,
     build_simulated_team_with_pick,
@@ -81,6 +82,7 @@ def _random_meta_pick(
     catalog: dict[str, list[str]],
     reserved: set[str],
     rng: random.Random,
+    patch: str,
 ) -> str | None:
     playable = [
         name
@@ -89,8 +91,7 @@ def _random_meta_pick(
     ]
     if not playable:
         return None
-    ranked = _rank_pro_for_role(playable, role)
-    top = [name for _, _, _, _, name in ranked[:8]]
+    top = get_meta_pool_for_role(role, patch, top_n=8, candidates=playable)
     if not top:
         return None
     return rng.choice(top)
@@ -135,11 +136,6 @@ def _evaluate_role_candidates(
     candidates = _top_candidates_for_role(
         pool, role, catalog, patch, "pro", candidates_per_role
     )
-    candidates = [
-        name
-        for name in candidates
-        if is_pro_viable_on_role(name, role, champion_features, lookup_by_norm)
-    ] or candidates[:3]
 
     results: list[CandidateEval] = []
     for candidate in candidates:
@@ -218,6 +214,7 @@ def _simulate_bot_pick_turn(
     catalog: dict[str, list[str]],
     team_side: TeamSide,
     patch: str,
+    rng: random.Random,
 ) -> dict[str, Any]:
     from suggest_draft import suggest_bot_pick
 
@@ -228,6 +225,7 @@ def _simulate_bot_pick_turn(
         available_champions=pool,
         team_side=team_side,
         mode="pro",
+        rng=rng,
     )
 
 
@@ -251,7 +249,7 @@ def run_diversity_simulations(
         for _ in range(n_opp_starts):
             pool = _available_pool(catalog, used)
             role = rng.choice(ROLES_ORDER)
-            champ = _random_meta_pick(pool, role, catalog, used, rng)
+            champ = _random_meta_pick(pool, role, catalog, used, rng, patch)
             if champ is None:
                 continue
             opponent_partial.append({"champion": champ, "role": role})
@@ -268,7 +266,7 @@ def run_diversity_simulations(
             if not remaining:
                 break
             role = rng.choice(remaining)
-            champ = _random_meta_pick(pool, role, catalog, used, rng)
+            champ = _random_meta_pick(pool, role, catalog, used, rng, patch)
             if champ is None:
                 continue
             bot_partial.append({"champion": champ, "role": role})
@@ -279,7 +277,7 @@ def run_diversity_simulations(
             continue
 
         choice = _simulate_bot_pick_turn(
-            bot_partial, opponent_partial, pool, catalog, team_side, patch
+            bot_partial, opponent_partial, pool, catalog, team_side, patch, rng
         )
         champion = choice.get("champion")
         role = choice.get("role")
@@ -655,26 +653,80 @@ def _print_diagnosis_summary(
     print("=" * 72)
 
 
+def _merge_pick_counters(
+    counters: list[dict[str, Counter[str]]],
+) -> dict[str, Counter[str]]:
+    merged: dict[str, Counter[str]] = defaultdict(Counter)
+    for counter in counters:
+        for role, role_counter in counter.items():
+            merged[role].update(role_counter)
+    return merged
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Diagnostic diversité bot draft")
-    parser.add_argument("-n", "--simulations", type=int, default=DEFAULT_SIMULATIONS)
-    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("-n", "--simulations", type=int, default=30)
+    parser.add_argument("--seed", type=int, default=42, help="Seed unique (legacy)")
+    parser.add_argument(
+        "--seeds",
+        type=str,
+        default="42,123,999",
+        help="Seeds comma-separees pour agregation multi-series",
+    )
     parser.add_argument("--patch", type=str, default=PATCH)
+    parser.add_argument(
+        "--multi-seed",
+        action="store_true",
+        help="Lance n simulations par seed listee dans --seeds",
+    )
     args = parser.parse_args()
 
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()
     warmup_predict_caches(args.patch)
 
-    print("=" * 72)
-    print("DIAGNOSTIC BOT DRAFT — suggest_bot_pick()")
-    print(f"Simulations: {args.simulations} | Seed: {args.seed} | Patch: {args.patch}")
-    print("=" * 72)
+    if args.multi_seed:
+        seed_list = [int(part.strip()) for part in args.seeds.split(",") if part.strip()]
+        total_sims = args.simulations * len(seed_list)
+        print("=" * 72)
+        print("DIAGNOSTIC BOT DRAFT — suggest_bot_pick() [multi-seed]")
+        print(
+            f"Simulations: {args.simulations}/seed x {len(seed_list)} seeds "
+            f"= {total_sims} | Seeds: {seed_list} | T={TEMPERATURE_BOT_PICK}"
+        )
+        print("=" * 72)
 
-    picks_by_role, sim_log = run_diversity_simulations(
-        args.simulations, args.seed, args.patch
-    )
-    _print_frequency_report(picks_by_role, args.simulations)
+        per_seed: list[dict[str, Counter[str]]] = []
+        all_logs: list[dict[str, Any]] = []
+        for seed in seed_list:
+            print(f"\n--- Seed {seed} ---")
+            picks_by_role, sim_log = run_diversity_simulations(
+                args.simulations, seed, args.patch
+            )
+            per_seed.append(picks_by_role)
+            all_logs.extend(sim_log)
+            _print_frequency_report(picks_by_role, args.simulations)
+
+        merged = _merge_pick_counters(per_seed)
+        print("\n" + "=" * 72)
+        print(f"AGREGAT {total_sims} simulations ({len(seed_list)} seeds)")
+        print("=" * 72)
+        _print_frequency_report(merged, total_sims)
+        picks_by_role = merged
+        sim_log = all_logs
+    else:
+        print("=" * 72)
+        print("DIAGNOSTIC BOT DRAFT — suggest_bot_pick()")
+        print(
+            f"Simulations: {args.simulations} | Seed: {args.seed} | "
+            f"T={TEMPERATURE_BOT_PICK} | Patch: {args.patch}"
+        )
+        print("=" * 72)
+
+        picks_by_role, sim_log = run_diversity_simulations(
+            args.simulations, args.seed, args.patch
+        )
+        _print_frequency_report(picks_by_role, args.simulations)
 
     catalog = get_champion_role_catalog()
     rng = random.Random(args.seed + 999)
@@ -684,9 +736,9 @@ def main() -> None:
     champion_features, _, lookup_by_norm = get_meraki_context()
     _analyze_synergy_contextuality(catalog, champion_features, lookup_by_norm)
 
-    _print_diagnosis_summary(picks_by_role, contexts, args.simulations)
+    _print_diagnosis_summary(picks_by_role, contexts, len(sim_log))
 
-    print(f"\n({len(sim_log)} décisions bot enregistrées sur {args.simulations} simulations)")
+    print(f"\n({len(sim_log)} decisions bot enregistrees)")
 
 
 if __name__ == "__main__":

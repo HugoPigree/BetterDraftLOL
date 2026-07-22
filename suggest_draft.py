@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import logging
+import math
+import random
 from typing import Any, Literal
 
 import build_training_dataset as btd
@@ -22,11 +24,11 @@ from predict_draft import (
     load_soloq_scores,
 )
 from pro_force import (
+    MIN_GAMES_EXCLUSION,
     MIN_GAMES_PRO_FORCE,
     compute_pro_winrate_by_champion,
-    is_pro_viable_on_role,
+    get_meta_pool_for_role,
     pro_meta_score,
-    rank_pro_champions_for_role,
 )
 from build_duo_dataset import get_duo_score
 from champion_profile_stats import DescriptiveContext, format_descriptive_stats_clause
@@ -688,6 +690,10 @@ def build_opponent_team_with_pick(
 
 
 BOT_CANDIDATES_PER_ROLE = 12
+# Softmax pick diversity : plus bas = proche du deterministe, plus haut = plus de variety.
+# 0.3 laissait Ashe ~75% / Nocturne ~91% (scores serrés ~90-100 => exp(score/T) trop peaked).
+# 1.0 retenu apres 90 sims (3 seeds) : Ashe ~40%, Bard ~47%, Nocturne ~70%, 4-10 champs/rôle.
+TEMPERATURE_BOT_PICK = 1.0
 PRO_BOT_SYNERGY_WEIGHT = 0.38
 PRO_BOT_DUO_WEIGHT = 0.22
 PRO_BOT_META_WEIGHT = 0.18
@@ -704,10 +710,23 @@ def _pro_meta_score_for(champion: str, role: str) -> tuple[float, int, float, fl
     return pro_meta_score(champion, role, champion_features, lookup_by_norm)
 
 
-def _rank_pro_for_role(champions: list[str], role: str) -> list[tuple[float, int, float, float, str]]:
+def _bot_meta_pool_for_role(
+    pool: list[str],
+    role: str,
+    catalog: dict[str, list[str]],
+    patch: str,
+    limit: int,
+) -> list[str]:
+    """Pool candidats bot pro : get_meta_pool_for_role sur champions jouables disponibles."""
     champion_features, _, lookup_by_norm = get_meraki_context()
-    return rank_pro_champions_for_role(
-        champions, role, champion_features, lookup_by_norm
+    playable = champions_playable_on_role(pool, role, catalog)
+    return get_meta_pool_for_role(
+        role,
+        patch,
+        top_n=limit,
+        candidates=playable,
+        champion_features=champion_features,
+        lookup_by_norm=lookup_by_norm,
     )
 
 
@@ -741,9 +760,11 @@ def pick_meta_filler_for_role(
     playable = [name for name in playable if name.casefold() not in reserved]
 
     if mode == "pro":
-        ranked = _rank_pro_for_role(playable, role)
-        if ranked:
-            return ranked[0][4]
+        pool_names = _bot_meta_pool_for_role(
+            available, role, catalog, patch, limit=1
+        )
+        if pool_names:
+            return pool_names[0]
         return _pick_filler_for_role(role, catalog, available, reserved)
 
     ranked_mixed: list[tuple[float, int, float, str]] = []
@@ -856,8 +877,7 @@ def _top_candidates_for_role(
 ) -> list[str]:
     playable = champions_playable_on_role(pool, role, catalog)
     if mode == "pro":
-        ranked = _rank_pro_for_role(playable, role)
-        return [name for _, _, _, _, name in ranked[: max(1, limit)]]
+        return _bot_meta_pool_for_role(pool, role, catalog, patch, limit)
 
     ranked_mixed = [
         (_meta_strength_for(champion, role, patch, mode), champion)
@@ -945,6 +965,38 @@ def _bot_pick_selection_score(
     return score
 
 
+def _weighted_bot_pick(
+    candidates: list[dict[str, Any]],
+    temperature: float,
+    rng: random.Random,
+) -> dict[str, Any]:
+    """Tirage softmax parmi les candidats evalues (scores de selection)."""
+    if not candidates:
+        raise ValueError("Aucun candidat pour le tirage bot")
+    if len(candidates) == 1:
+        return candidates[0]
+
+    temp = max(temperature, 1e-6)
+    max_score = max(float(item["selection_score"]) for item in candidates)
+    weights = [
+        math.exp((float(item["selection_score"]) - max_score) / temp)
+        for item in candidates
+    ]
+    total = sum(weights)
+    roll = rng.random() * total
+    cumulative = 0.0
+    for item, weight in zip(candidates, weights, strict=True):
+        cumulative += weight
+        if roll <= cumulative:
+            item = dict(item)
+            item["selection_probability"] = round(weight / total, 4)
+            return item
+
+    chosen = dict(candidates[-1])
+    chosen["selection_probability"] = round(weights[-1] / total, 4)
+    return chosen
+
+
 def suggest_bot_pick(
     bot_partial_picks: list[dict[str, str]],
     opponent_partial_picks: list[dict[str, str]],
@@ -953,8 +1005,16 @@ def suggest_bot_pick(
     team_side: TeamSide = "blue",
     mode: PredictionMode = "pro",
     candidates_per_role: int = BOT_CANDIDATES_PER_ROLE,
+    rng: random.Random | None = None,
+    rng_seed: int | None = None,
 ) -> dict[str, Any]:
     """Choisit le prochain pick du bot en simulant une compo meta + synergie ML."""
+    if rng_seed is not None:
+        pick_rng = random.Random(rng_seed)
+    elif rng is not None:
+        pick_rng = rng
+    else:
+        pick_rng = random.Random()
     patch = patch.strip()
     warmup_predict_caches(patch)
     catalog = get_champion_role_catalog()
@@ -990,23 +1050,21 @@ def suggest_bot_pick(
 
     locked_picks = len(bot_partial)
     per_role = max(4, min(candidates_per_role, 20))
-    champion_features, _, lookup_by_norm = get_meraki_context()
 
-    best: dict[str, Any] | None = None
-    fallback: dict[str, Any] | None = None
+    eligible: list[dict[str, Any]] = []
+    fallback_eligible: list[dict[str, Any]] = []
+    role_pools: dict[str, list[str]] = {}
+    candidate_eval_logs: list[dict[str, Any]] = []
+    allowed_pool: set[str] = set()
+    min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
 
     for role in bot_remaining:
         candidates = _top_candidates_for_role(
             pool, role, catalog, patch, mode, per_role
         )
         if mode == "pro":
-            candidates = [
-                name
-                for name in candidates
-                if is_pro_viable_on_role(
-                    name, role, champion_features, lookup_by_norm
-                )
-            ] or candidates[:3]
+            role_pools[role] = list(candidates)
+            allowed_pool.update(name.casefold() for name in candidates)
 
         for candidate in candidates:
             meta_scored = _pro_meta_score_for(candidate, role) if mode == "pro" else None
@@ -1070,19 +1128,74 @@ def suggest_bot_pick(
                 "role_fitness": round(meta_scored[3], 4) if meta_scored else None,
             }
 
-            if fallback is None or selection_score > fallback["selection_score"]:
-                fallback = entry
+            if mode == "pro":
+                candidate_eval_logs.append(
+                    {
+                        "role": role,
+                        "champion": candidate,
+                        "pro_games": entry["pro_games"],
+                        "meta_score": entry["meta_score"],
+                        "win_prob": entry["win_probability"],
+                        "synergy": entry["synergy"],
+                        "duo_bonus": round(locked_duo_bonus, 2),
+                        "selection_score": round(selection_score, 2),
+                    }
+                )
 
-            min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
+            fallback_eligible.append(entry)
             if mode == "pro" and locked_picks >= 1 and synergy < min_synergy:
                 continue
+            eligible.append(entry)
 
-            if best is None or selection_score > best["selection_score"]:
-                best = entry
-
-    chosen = best or fallback
-    if chosen is None:
+    pick_pool = eligible if eligible else fallback_eligible
+    if not pick_pool:
         return {"champion": None, "role": None, "win_probability": None}
+
+    if mode == "pro":
+        chosen = _weighted_bot_pick(pick_pool, TEMPERATURE_BOT_PICK, pick_rng)
+    else:
+        chosen = max(pick_pool, key=lambda item: item["selection_score"])
+
+    if mode == "pro":
+        logger.info(
+            "Bot meta pools (>= %d games) by role: %s",
+            MIN_GAMES_EXCLUSION,
+            role_pools,
+        )
+        for row in sorted(
+            candidate_eval_logs,
+            key=lambda item: (-item["selection_score"], item["champion"].casefold()),
+        ):
+            logger.info(
+                "Bot candidate [%s] %s: games=%s meta=%s win=%.1f%% syn=%.3f "
+                "duo=%.1f score=%.2f",
+                row["role"],
+                row["champion"],
+                row["pro_games"],
+                row["meta_score"],
+                row["win_prob"] * 100,
+                row["synergy"],
+                row["duo_bonus"],
+                row["selection_score"],
+            )
+        logger.info(
+            "Bot softmax pick T=%.2f prob=%.2f%% pool_size=%d used_synergy_filter=%s",
+            TEMPERATURE_BOT_PICK,
+            chosen.get("selection_probability", 1.0) * 100,
+            len(pick_pool),
+            bool(eligible),
+        )
+        chosen_key = chosen["champion"].casefold()
+        if allowed_pool and chosen_key not in allowed_pool:
+            logger.error(
+                "Bot pick hors pool meta: %s (%s) not in %s",
+                chosen["champion"],
+                chosen["role"],
+                role_pools,
+            )
+            raise ValueError(
+                f"Pick bot hors pool meta restreint: {chosen['champion']} ({chosen['role']})"
+            )
 
     logger.info(
         "Bot pick side=%s: %s (%s) score=%.2f win=%.2f%% synergy=%.2f pro_games=%s",

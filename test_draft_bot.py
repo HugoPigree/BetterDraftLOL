@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
+from unittest.mock import patch
+
 import predict_draft as pd
 
 from draft_bot import choose_bot_action
-from suggest_draft import get_champion_role_catalog
+from pro_force import MIN_GAMES_EXCLUSION, get_meta_pool_for_role
+from suggest_draft import get_champion_role_catalog, suggest_bot_pick
 
 PATCH = "16.13"
+MOCK_LOW_VOLUME = "MockLowVolume"
 
 
 def _available_excluding(*teams: list[dict[str, str]]) -> list[str]:
@@ -182,3 +186,102 @@ def test_suggest_bot_pick_avoids_riven_top() -> None:
     assert result["champion"] != "Riven"
     if result.get("role_fitness") is not None:
         assert result["role_fitness"] >= 0.20
+
+
+def test_get_meta_pool_excludes_low_volume_champion() -> None:
+    pd.reset_predict_state()
+    import pro_force
+
+    champion_features, _, lookup_by_norm = pd.get_meraki_context()
+    real_lookup = dict(pro_force.get_pro_winrate_lookup())
+
+    mocked_lookup = dict(real_lookup)
+    mocked_lookup[(MOCK_LOW_VOLUME, "JUNGLE")] = (0.80, 14)
+
+    with patch.object(pro_force, "get_pro_winrate_lookup", return_value=mocked_lookup):
+        pro_force.reset_pro_force_state()
+        pool = get_meta_pool_for_role(
+            "JUNGLE",
+            PATCH,
+            top_n=15,
+            candidates=[MOCK_LOW_VOLUME, "Vi", "Pantheon"],
+            champion_features=champion_features,
+            lookup_by_norm=lookup_by_norm,
+        )
+
+    assert MOCK_LOW_VOLUME not in pool
+    assert "Vi" in pool
+
+
+def test_bot_never_picks_low_volume_mock_even_with_high_synergy() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    import pro_force
+
+    real_lookup = dict(pro_force.get_pro_winrate_lookup())
+    mocked_lookup = dict(real_lookup)
+    mocked_lookup[(MOCK_LOW_VOLUME, "JUNGLE")] = (0.80, 14)
+
+    bot_picks: list[dict[str, str]] = []
+    opponent_picks = [
+        {"champion": "Olaf", "role": "TOP"},
+        {"champion": "Galio", "role": "MIDDLE"},
+    ]
+    pool = _available_excluding(bot_picks, opponent_picks)
+    pool = [MOCK_LOW_VOLUME, *pool]
+
+    with patch.object(pro_force, "get_pro_winrate_lookup", return_value=mocked_lookup):
+        pro_force.reset_pro_force_state()
+        result = suggest_bot_pick(
+            bot_partial_picks=bot_picks,
+            opponent_partial_picks=opponent_picks,
+            patch=PATCH,
+            available_champions=pool,
+            team_side="red",
+            mode="pro",
+        )
+
+    assert result["champion"]
+    assert result["champion"] != MOCK_LOW_VOLUME
+    if result.get("pro_games") is not None:
+        assert result["pro_games"] >= MIN_GAMES_EXCLUSION
+
+
+def test_bot_pick_softmax_produces_role_diversity_across_seeds() -> None:
+    """Sur plusieurs seeds, au moins 2 champions distincts par role touche."""
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    bot_picks = [
+        {"champion": "Azir", "role": "MIDDLE"},
+        {"champion": "Rumble", "role": "TOP"},
+    ]
+    opponent_picks = [
+        {"champion": "Renekton", "role": "TOP"},
+        {"champion": "Syndra", "role": "MIDDLE"},
+    ]
+    pool = _available_excluding(bot_picks, opponent_picks)
+
+    picks_by_role: dict[str, set[str]] = {}
+    for seed in (11, 22, 33, 44, 55, 66, 77, 88):
+        result = suggest_bot_pick(
+            bot_partial_picks=bot_picks,
+            opponent_partial_picks=opponent_picks,
+            patch=PATCH,
+            available_champions=pool,
+            team_side="blue",
+            mode="pro",
+            rng_seed=seed,
+        )
+        assert result["champion"] and result["role"]
+        role = result["role"]
+        picks_by_role.setdefault(role, set()).add(result["champion"])
+
+    roles_with_multiple = [
+        role for role, names in picks_by_role.items() if len(names) >= 2
+    ]
+    assert roles_with_multiple, (
+        "Softmax trop deterministe: un seul champion par role sur 8 seeds — "
+        f"distribution={ {r: sorted(n) for r, n in picks_by_role.items()} }"
+    )

@@ -16,6 +16,7 @@ from build_duo_dataset import load_player_rows
 logger = logging.getLogger(__name__)
 
 MIN_GAMES_PRO_FORCE = 10
+MIN_GAMES_EXCLUSION = 30  # exclusion dure du pool bot (ajuster si trop restrictif)
 PRO_VOLUME_WEIGHT = 0.55
 PRO_WINRATE_WEIGHT = 0.45
 PRO_WINRATE_PRIOR_RATIO = 0.15
@@ -299,6 +300,7 @@ def rank_pro_champions_for_role(
     lookup_by_norm: dict[str, str],
     *,
     min_fitness: float = PRO_OFF_ROLE_MIN_RATIO,
+    min_games: int = MIN_GAMES_PRO_FORCE,
     oracle_csv: Path = DEFAULT_ORACLE_CSV,
 ) -> list[tuple[float, int, float, float, str]]:
     ranked: list[tuple[float, int, float, float, str]] = []
@@ -308,8 +310,83 @@ def rank_pro_champions_for_role(
         )
         if scored is None:
             continue
+        if scored[1] < min_games:
+            continue
         if scored[3] < min_fitness:
             continue
         ranked.append(scored)
     ranked.sort(key=lambda item: (-item[0], -item[1], item[4].casefold()))
     return ranked
+
+
+def get_meta_pool_for_role(
+    role: str,
+    patch: str,
+    top_n: int = 15,
+    *,
+    candidates: list[str] | None = None,
+    champion_features: dict[str, dict[str, Any]] | None = None,
+    lookup_by_norm: dict[str, str] | None = None,
+    min_fitness: float = PRO_OFF_ROLE_MIN_RATIO,
+    oracle_csv: Path = DEFAULT_ORACLE_CSV,
+) -> list[str]:
+    """Pool meta pro pour le bot : exclusion dure < MIN_GAMES_EXCLUSION, tri par meta_score.
+
+    Ne complète jamais avec des champions sous le seuil, même si moins de top_n disponibles.
+    ``patch`` est réservé pour un filtrage futur par patch Oracle.
+    """
+    del patch  # réservé pour filtrage patch futur
+    role = _normalize_role(role)
+    top_n = max(1, top_n)
+
+    if champion_features is None or lookup_by_norm is None:
+        from predict_draft import get_meraki_context
+
+        champion_features, _, lookup_by_norm = get_meraki_context()
+
+    pool_candidates = candidates if candidates is not None else []
+    if not pool_candidates:
+        pro_lookup = get_pro_winrate_lookup(oracle_csv)
+        pool_candidates = sorted(
+            {
+                champion
+                for (champion, slot_role), (_, games) in pro_lookup.items()
+                if slot_role == role and games >= MIN_GAMES_EXCLUSION
+            },
+            key=str.casefold,
+        )
+
+    ranked: list[tuple[float, int, float, float, str]] = []
+    for champion in pool_candidates:
+        entry = compute_pro_winrate_by_champion(
+            champion,
+            role,
+            champion_features,
+            lookup_by_norm,
+            min_games=MIN_GAMES_EXCLUSION,
+            oracle_csv=oracle_csv,
+        )
+        if entry is None:
+            continue
+
+        scored = pro_meta_score(
+            champion, role, champion_features, lookup_by_norm, oracle_csv
+        )
+        if scored is None or scored[1] < MIN_GAMES_EXCLUSION:
+            continue
+        if scored[3] < min_fitness:
+            continue
+        ranked.append(scored)
+
+    ranked.sort(key=lambda item: (-item[0], -item[1], item[4].casefold()))
+    selected = [name for _, _, _, _, name in ranked[:top_n]]
+
+    logger.debug(
+        "Meta pool %s: %d candidats (>=%d games), retourne top_%d=%s",
+        role,
+        len(ranked),
+        MIN_GAMES_EXCLUSION,
+        top_n,
+        selected,
+    )
+    return selected
