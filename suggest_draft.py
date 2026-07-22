@@ -28,6 +28,7 @@ from pro_force import (
     pro_meta_score,
     rank_pro_champions_for_role,
 )
+from build_duo_dataset import get_duo_score
 from champion_profile_stats import DescriptiveContext, format_descriptive_stats_clause
 
 logger = logging.getLogger(__name__)
