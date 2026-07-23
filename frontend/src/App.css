@@ -3115,30 +3115,31 @@ button {
     gap: 0.35rem 0.5rem;
   }
 
-  /* Shared mobile body: blue + red strips, then main panel */
+  /* Shared mobile body: main panel first, team strips under it */
   .drafter__body {
     flex: 1;
     min-height: 0;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
+      "center"
       "blue"
-      "red"
-      "center";
+      "red";
     align-content: stretch;
   }
 
   .drafter__picks--blue {
     grid-area: blue;
     border-right: 0;
-    border-bottom: 2px solid rgba(58, 159, 217, 0.45);
+    border-top: 2px solid rgba(58, 159, 217, 0.45);
+    border-bottom: 0;
   }
 
   .drafter__picks--red {
     grid-area: red;
     border-left: 0;
-    border-bottom: 2px solid rgba(200, 75, 75, 0.45);
-    border-top: 0;
+    border-top: 2px solid rgba(200, 75, 75, 0.45);
+    border-bottom: 0;
   }
 
   .drafter__center {
@@ -3190,12 +3191,12 @@ button {
   /* ========== DRAFT: compact strips + fill remaining with champion pool ========== */
   .drafter--draft .drafter__body {
     overflow: hidden;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto auto;
   }
 
   .drafter--draft .drafter__center {
     overflow: hidden;
-    min-height: 180px;
+    min-height: 0;
   }
 
   .drafter--draft .drafter__center-inner {
@@ -3213,24 +3214,22 @@ button {
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0.4rem 0.35rem 0.5rem;
+    padding: 0.35rem 0.35rem 0.4rem;
   }
 
   .drafter--draft .champion-pool__toolbar {
     flex-shrink: 0;
-    margin-bottom: 0.4rem;
-    padding-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.3rem;
   }
 
   .drafter--draft .champion-pool__hint {
-    flex-shrink: 0;
-    margin: 0 0 0.35rem;
-    font-size: 0.72rem;
+    display: none;
   }
 
   .drafter--draft .champion-pool__grid {
     flex: 1 1 auto;
-    min-height: 140px;
+    min-height: 0;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
@@ -3239,8 +3238,8 @@ button {
   .drafter--draft .splash-slot {
     width: 100%;
     height: auto;
-    min-height: 48px;
-    max-height: 56px;
+    min-height: 40px;
+    max-height: 48px;
     aspect-ratio: 1;
   }
 
@@ -3271,6 +3270,10 @@ button {
   .drafter--result .drafter__body,
   .drafter--editing .drafter__body {
     overflow: auto;
+    grid-template-areas:
+      "blue"
+      "red"
+      "center";
     grid-template-rows: auto auto auto;
     align-content: start;
   }
@@ -3445,19 +3448,20 @@ button {
     padding-bottom: 0;
   }
 
+  /* Rival VN is fixed overlay — do NOT inflate footer or it covers the pool */
   .app-shell--bot-vn .drafter--draft .drafter__footer {
-    padding-bottom: calc(0.4rem + env(safe-area-inset-bottom, 0) + 7.5rem);
+    padding-bottom: calc(0.35rem + env(safe-area-inset-bottom, 0));
   }
 
   .app-shell--bot-vn .drafter--confirmRoles .drafter__footer,
   .app-shell--bot-vn .drafter--result .drafter__footer {
-    padding-bottom: calc(0.4rem + env(safe-area-inset-bottom, 0) + 7.5rem);
+    padding-bottom: calc(0.4rem + env(safe-area-inset-bottom, 0) + 6.5rem);
   }
 
   .bot-vn {
     padding-left: max(0.5rem, env(safe-area-inset-left));
     padding-right: max(0.5rem, env(safe-area-inset-right));
-    padding-bottom: max(0.4rem, env(safe-area-inset-bottom));
+    padding-bottom: max(0.35rem, env(safe-area-inset-bottom));
   }
 
   .bot-vn__stage {
@@ -3469,12 +3473,18 @@ button {
   }
 
   .bot-vn__box {
-    padding: 0.65rem 0.85rem 0.7rem;
+    padding: 0.55rem 0.75rem 0.6rem;
+    max-height: 26vh;
+    overflow: auto;
   }
 
   .bot-vn__text {
-    font-size: 0.84rem;
-    min-height: 2.2em;
+    font-size: 0.8rem;
+    min-height: 1.8em;
+  }
+
+  .bot-vn__hint {
+    display: none;
   }
 }
 
@@ -3510,18 +3520,37 @@ button {
   }
 
   .drafter__footer {
-    grid-template-columns: 1fr;
-    justify-items: center;
+    grid-template-columns: auto 1fr auto;
+    justify-items: stretch;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.3rem 0.35rem calc(0.3rem + env(safe-area-inset-bottom, 0));
   }
 
   .drafter__bans--blue,
   .drafter__bans--red {
-    width: 100%;
+    width: auto;
   }
 
   .drafter__action {
-    order: -1;
-    width: 100%;
+    order: 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .drafter__action-btn {
+    width: auto;
+    max-width: 140px;
+    padding: 0.35rem 0.45rem;
+  }
+
+  .drafter__action-primary {
+    font-size: 0.65rem;
+    line-height: 1.2;
+  }
+
+  .drafter__reset {
+    font-size: 0.65rem;
   }
 }
 
