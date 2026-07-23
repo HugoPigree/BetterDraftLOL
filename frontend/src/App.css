@@ -3113,18 +3113,19 @@ button {
     gap: 0.4rem 0.55rem;
   }
 
-  /* Blue + Red drafts above the fold; analysis scrolls below */
+  /* Blue + Red drafts above the fold; center content sizes naturally and body scrolls */
   .drafter__body {
     flex: 1;
     min-height: 0;
     overflow: auto;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
     grid-template-areas:
       "blue"
       "red"
       "center";
+    align-content: start;
   }
 
   .drafter__picks--blue {
@@ -3143,17 +3144,33 @@ button {
     grid-area: center;
     overflow: visible;
     min-height: 0;
+    height: auto;
   }
 
   .drafter__center-inner {
     min-height: 0;
     height: auto;
+    flex: none;
     overflow: visible;
   }
 
   .confirm-roles,
   .draft-result {
     overflow: visible;
+  }
+
+  /* Champion pool must not rely on flex:1 height (parent is auto-sized) */
+  .champion-pool {
+    flex: none;
+    min-height: 0;
+    height: auto;
+    padding: 0.55rem 0.45rem 0.85rem;
+  }
+
+  .champion-pool__grid {
+    flex: none;
+    overflow: visible;
+    min-height: 0;
   }
 
   .drafter__picks {
@@ -3192,7 +3209,7 @@ button {
   .splash-slot {
     width: 100%;
     height: auto;
-    min-height: 92px;
+    min-height: 72px;
     aspect-ratio: 3 / 4;
   }
 
@@ -3378,7 +3395,7 @@ button {
   }
 
   .splash-slot {
-    min-height: 84px;
+    min-height: 64px;
   }
 
   .splash-slot__info {
