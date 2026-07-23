@@ -30,6 +30,8 @@ interface SortablePickColumnProps {
   editable?: boolean;
   selectedSlotIndex?: number | null;
   onSlotEdit?: (slotIndex: number) => void;
+  highlightedChampion?: string | null;
+  dimUnhighlighted?: boolean;
 }
 
 function sortableId(side: Team, champion: string): string {
@@ -43,6 +45,8 @@ function SortableRoleSlot({
   disabled,
   editable,
   selected,
+  highlighted,
+  dimmed,
   onEdit,
 }: {
   pick: DraftPick;
@@ -51,6 +55,8 @@ function SortableRoleSlot({
   disabled: boolean;
   editable?: boolean;
   selected?: boolean;
+  highlighted?: boolean;
+  dimmed?: boolean;
   onEdit?: () => void;
 }) {
   const id = sortableId(side, pick.champion);
@@ -88,6 +94,8 @@ function SortableRoleSlot({
         showDragBadge={!disabled && !useDragHandle}
         editable={editable && !disabled}
         selected={selected}
+        highlighted={highlighted}
+        dimmed={dimmed}
         onEdit={onEdit}
       />
       {useDragHandle && (
@@ -112,6 +120,8 @@ export function SortablePickColumn({
   editable = false,
   selectedSlotIndex = null,
   onSlotEdit,
+  highlightedChampion = null,
+  dimUnhighlighted = false,
 }: SortablePickColumnProps) {
   const [activeChampion, setActiveChampion] = useState<string | null>(null);
 
@@ -173,6 +183,15 @@ export function SortablePickColumn({
               disabled={confirmed}
               editable={editable}
               selected={selectedSlotIndex === index}
+              highlighted={Boolean(
+                highlightedChampion &&
+                  pick.champion.toLowerCase() === highlightedChampion.toLowerCase(),
+              )}
+              dimmed={Boolean(
+                dimUnhighlighted &&
+                  highlightedChampion &&
+                  pick.champion.toLowerCase() !== highlightedChampion.toLowerCase(),
+              )}
               onEdit={onSlotEdit ? () => onSlotEdit(index) : undefined}
             />
           ))}

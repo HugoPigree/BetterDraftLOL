@@ -18,6 +18,16 @@ export interface DraftBotMoveResponse {
   role?: DraftPick["role"];
 }
 
+export interface BotExplanationStep {
+  champion: string | null;
+  role?: DraftPick["role"] | null;
+  text: string;
+}
+
+export interface BotExplanationResponse {
+  steps: BotExplanationStep[];
+}
+
 export const API_BASE_URL = import.meta.env.VITE_API_URL ?? "/api";
 
 export async function fetchChampionsFromApi(): Promise<ChampionsCatalog> {
@@ -241,6 +251,24 @@ export async function draftBotMove(
       mode,
     },
     "Tour du bot impossible",
+  );
+}
+
+export async function fetchBotExplanation(
+  botPicks: DraftPick[],
+  opponentPicks: DraftPick[],
+  patch: string,
+  mode: PredictionMode = "pro",
+): Promise<BotExplanationResponse> {
+  return postJson<BotExplanationResponse>(
+    "/bot-explanation",
+    {
+      bot_picks: botPicks,
+      opponent_picks: opponentPicks,
+      patch,
+      mode,
+    },
+    "Explication des choix impossible",
   );
 }
 

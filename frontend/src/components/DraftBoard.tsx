@@ -44,6 +44,10 @@ interface DraftBoardProps {
   mode?: DraftBoardMode;
   confirmRoles?: ConfirmRolesConfig;
   editComp?: EditCompConfig;
+  highlightedChampion?: string | null;
+  highlightedSide?: Team | null;
+  resultBluePicks?: DraftPick[];
+  resultRedPicks?: DraftPick[];
   children?: ReactNode;
 }
 
@@ -150,23 +154,43 @@ export function DraftBoard({
   mode = "draft",
   confirmRoles,
   editComp,
+  highlightedChampion = null,
+  highlightedSide = null,
+  resultBluePicks,
+  resultRedPicks,
   children,
 }: DraftBoardProps) {
   const isEditMode = mode === "result" && Boolean(editComp);
   const activeSide = mode === "confirmRoles" || isEditMode ? playerSide : draft.whoseTurn;
   const isPlayerTurn = mode === "draft" && !draft.isDraftComplete && draft.whoseTurn === playerSide;
   const isConfirmMode = mode === "confirmRoles" && Boolean(confirmRoles);
+  const explaining = Boolean(highlightedChampion && highlightedSide);
+
+  function slotHighlight(side: Team, pick?: { champion: string }) {
+    if (!explaining || !pick) {
+      return { highlighted: false, dimmed: false };
+    }
+    if (side !== highlightedSide) {
+      return { highlighted: false, dimmed: true };
+    }
+    const match = pick.champion.toLowerCase() === highlightedChampion!.toLowerCase();
+    return { highlighted: match, dimmed: !match };
+  }
 
   const blueDisplayPicks = isEditMode
     ? editComp!.bluePicks
     : isConfirmMode
       ? confirmRoles!.bluePicks
-      : draft.bluePicks;
+      : mode === "result" && resultBluePicks
+        ? resultBluePicks
+        : draft.bluePicks;
   const redDisplayPicks = isEditMode
     ? editComp!.redPicks
     : isConfirmMode
       ? confirmRoles!.redPicks
-      : draft.redPicks;
+      : mode === "result" && resultRedPicks
+        ? resultRedPicks
+        : draft.redPicks;
 
   const currentStep = Math.min(
     draft.actionIndex + (draft.isDraftComplete ? 0 : 1),
@@ -352,16 +376,24 @@ export function DraftBoard({
               onSlotEdit={
                 isEditMode ? (slotIndex) => editComp!.onSlotEdit("blue", slotIndex) : undefined
               }
+              highlightedChampion={highlightedSide === "blue" ? highlightedChampion : null}
+              dimUnhighlighted={explaining}
             />
           ) : (
-            Array.from({ length: 5 }, (_, index) => (
-              <ChampionSplashSlot
-                key={`blue-pick-${index}`}
-                pick={blueDisplayPicks[index]}
-                side="blue"
-                index={index}
-              />
-            ))
+            Array.from({ length: 5 }, (_, index) => {
+              const pick = blueDisplayPicks[index];
+              const hl = slotHighlight("blue", pick);
+              return (
+                <ChampionSplashSlot
+                  key={`blue-pick-${index}`}
+                  pick={pick}
+                  side="blue"
+                  index={index}
+                  highlighted={hl.highlighted}
+                  dimmed={hl.dimmed}
+                />
+              );
+            })
           )}
         </aside>
 
@@ -403,16 +435,24 @@ export function DraftBoard({
               onSlotEdit={
                 isEditMode ? (slotIndex) => editComp!.onSlotEdit("red", slotIndex) : undefined
               }
+              highlightedChampion={highlightedSide === "red" ? highlightedChampion : null}
+              dimUnhighlighted={explaining}
             />
           ) : (
-            Array.from({ length: 5 }, (_, index) => (
-              <ChampionSplashSlot
-                key={`red-pick-${index}`}
-                pick={redDisplayPicks[index]}
-                side="red"
-                index={index}
-              />
-            ))
+            Array.from({ length: 5 }, (_, index) => {
+              const pick = redDisplayPicks[index];
+              const hl = slotHighlight("red", pick);
+              return (
+                <ChampionSplashSlot
+                  key={`red-pick-${index}`}
+                  pick={pick}
+                  side="red"
+                  index={index}
+                  highlighted={hl.highlighted}
+                  dimmed={hl.dimmed}
+                />
+              );
+            })
           )}
         </aside>
       </div>

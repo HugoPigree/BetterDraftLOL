@@ -9,6 +9,7 @@ import { DraftBoard } from "./components/DraftBoard";
 import { DraftResult } from "./components/DraftResult";
 import { EditCompPhase } from "./components/EditCompPhase";
 import { useBotDialogue } from "./hooks/useBotDialogue";
+import { useBotExplanation } from "./hooks/useBotExplanation";
 import { useDraftBot } from "./hooks/useDraftBot";
 import { useDraftState } from "./hooks/useDraftState";
 import { usePostDraftFlow } from "./hooks/usePostDraftFlow";
@@ -43,6 +44,19 @@ function App() {
     botThinking,
     botError,
     lastBotMove: botLastMove,
+  });
+
+  const botSide: Team = playerSide === "blue" ? "red" : "blue";
+  const botPicks = botSide === "blue" ? postDraft.bluePicks : postDraft.redPicks;
+  const opponentPicks = botSide === "blue" ? postDraft.redPicks : postDraft.bluePicks;
+
+  const botExplanation = useBotExplanation({
+    botSide,
+    botPicks,
+    opponentPicks,
+    patch,
+    mode: "pro",
+    enabled: botEnabled && postDraft.phase === "result" && !postDraft.isEditing,
   });
 
   useEffect(() => {
@@ -91,11 +105,29 @@ function App() {
   }, []);
 
   function handleReset() {
+    botExplanation.skipAll();
     draft.resetDraft();
     postDraft.resetFlow();
   }
 
-  const showBotNovel = botEnabled && postDraft.phase === "drafting";
+  const showDraftNovel = botEnabled && postDraft.phase === "drafting";
+  const showExplainNovel = botExplanation.active;
+  const showBotNovel = showDraftNovel || showExplainNovel;
+
+  const novelLine = showExplainNovel
+    ? (botExplanation.currentStep?.text ?? "")
+    : botDialogue.line;
+  const novelSide = showExplainNovel ? botExplanation.highlightedSide : botDialogue.botSide;
+  const novelVisible = showExplainNovel
+    ? Boolean(botExplanation.currentStep?.text)
+    : botDialogue.visible;
+
+  const stepLabel =
+    showExplainNovel && botExplanation.currentStep
+      ? botExplanation.currentStep.champion
+        ? `${botExplanation.stepIndex + 1}/${botExplanation.stepCount - 1} — ${botExplanation.currentStep.champion}`
+        : "Synthèse d'équipe"
+      : null;
 
   const boardMode =
     postDraft.phase === "confirmRoles"
@@ -121,6 +153,16 @@ function App() {
           botThinking={botThinking}
           botError={botError}
           mode={boardMode}
+          highlightedChampion={
+            showExplainNovel ? botExplanation.highlightedChampion : null
+          }
+          highlightedSide={showExplainNovel ? botExplanation.highlightedSide : null}
+          resultBluePicks={
+            postDraft.phase === "result" ? postDraft.bluePicks : undefined
+          }
+          resultRedPicks={
+            postDraft.phase === "result" ? postDraft.redPicks : undefined
+          }
           confirmRoles={
             postDraft.phase === "confirmRoles"
               ? {
@@ -179,6 +221,12 @@ function App() {
                   onReset={handleReset}
                   onStartEditing={postDraft.startEditing}
                   isEditing={postDraft.isEditing}
+                  botEnabled={botEnabled}
+                  onExplainBotChoices={() => {
+                    void botExplanation.start();
+                  }}
+                  explainLoading={botExplanation.loading}
+                  explainError={botExplanation.error}
                 />
               )}
             </>
@@ -211,9 +259,14 @@ function App() {
         </DraftBoard>
         {showBotNovel && (
           <BotVisualNovel
-            visible={botDialogue.visible}
-            line={botDialogue.line}
-            botSide={botDialogue.botSide}
+            visible={novelVisible}
+            line={novelLine}
+            botSide={novelSide}
+            explanationMode={showExplainNovel}
+            stepLabel={stepLabel}
+            isLastStep={showExplainNovel ? botExplanation.isLastStep : false}
+            onNext={botExplanation.next}
+            onSkipAll={botExplanation.skipAll}
           />
         )}
       </main>

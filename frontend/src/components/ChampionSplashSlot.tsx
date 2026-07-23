@@ -10,6 +10,8 @@ interface ChampionSplashSlotProps {
   showDragBadge?: boolean;
   editable?: boolean;
   selected?: boolean;
+  highlighted?: boolean;
+  dimmed?: boolean;
   onEdit?: () => void;
 }
 
@@ -29,6 +31,8 @@ export function ChampionSplashSlot({
   showDragBadge = false,
   editable = false,
   selected = false,
+  highlighted = false,
+  dimmed = false,
   onEdit,
 }: ChampionSplashSlotProps) {
   const isEmpty = !pick;
@@ -48,6 +52,8 @@ export function ChampionSplashSlot({
         draggable ? "splash-slot--draggable" : "",
         isClickable ? "splash-slot--editable" : "",
         selected ? "splash-slot--selected" : "",
+        highlighted ? "splash-slot--highlighted" : "",
+        dimmed ? "splash-slot--dimmed" : "",
       ].join(" ")}
       style={{ "--slot-index": index } as CSSProperties}
     >

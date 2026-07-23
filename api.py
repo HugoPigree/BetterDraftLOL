@@ -30,6 +30,7 @@ from suggest_draft import (
     suggest_retrospective_bans,
     suggest_retrospective_picks,
 )
+from bot_speech_builder import build_bot_explanation_steps
 
 logger = logging.getLogger(__name__)
 
@@ -327,6 +328,23 @@ class DraftBotMoveResponse(BaseModel):
     role: Role | None = None
 
 
+class BotExplanationRequest(BaseModel):
+    bot_picks: list[ChampionSlot] = Field(min_length=1, max_length=5)
+    opponent_picks: list[ChampionSlot] = Field(default_factory=list, max_length=5)
+    mode: Literal["mixed", "pro"] = "pro"
+    patch: str = Field(default="16.13", min_length=1)
+
+
+class BotExplanationStep(BaseModel):
+    champion: str | None = None
+    role: Role | None = None
+    text: str
+
+
+class BotExplanationResponse(BaseModel):
+    steps: list[BotExplanationStep]
+
+
 POSITION_MAP = {
     "SUPPORT": "UTILITY",
 }
@@ -366,7 +384,7 @@ def create_app() -> FastAPI:
         logger.info(
             "API prête sur /health, /champions, /predict, /suggest-pick, "
             "/suggest-ban, /suggest-retrospective-ban, /suggest-retrospective-pick, "
-            "/draft-bot/move et /ask-chatbot-rules"
+            "/draft-bot/move, /bot-explanation et /ask-chatbot-rules"
         )
         yield
 
@@ -562,6 +580,23 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         except Exception as exc:
             logger.exception("Erreur interne pendant draft-bot/move")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.post("/bot-explanation", response_model=BotExplanationResponse)
+    async def bot_explanation_endpoint(request: BotExplanationRequest) -> dict[str, Any]:
+        try:
+            steps = build_bot_explanation_steps(
+                bot_picks=[slot.model_dump() for slot in request.bot_picks],
+                opponent_picks=[slot.model_dump() for slot in request.opponent_picks],
+                mode=request.mode,
+            )
+            return {"steps": steps}
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant bot-explanation")
             raise HTTPException(status_code=500, detail=str(exc)) from exc
 
     @app.post("/ask-chatbot-rules", response_model=AskChatbotRulesResponse)

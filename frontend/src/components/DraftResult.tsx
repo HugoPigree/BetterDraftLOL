@@ -31,6 +31,10 @@ interface DraftResultProps {
   onReset: () => void;
   onStartEditing: () => void;
   isEditing?: boolean;
+  botEnabled?: boolean;
+  onExplainBotChoices?: () => void;
+  explainLoading?: boolean;
+  explainError?: string | null;
 }
 
 function formatPercent(value: number): string {
@@ -49,6 +53,10 @@ export function DraftResult({
   onReset,
   onStartEditing,
   isEditing = false,
+  botEnabled = false,
+  onExplainBotChoices,
+  explainLoading = false,
+  explainError = null,
 }: DraftResultProps) {
   const [result, setResult] = useState<PredictResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -236,10 +244,21 @@ export function DraftResult({
             Modifier la compo
           </button>
         )}
+        {botEnabled && !isEditing && onExplainBotChoices && (
+          <button
+            type="button"
+            className="draft-result__edit draft-result__explain"
+            onClick={onExplainBotChoices}
+            disabled={explainLoading}
+          >
+            {explainLoading ? "Chargement…" : "Explication des choix"}
+          </button>
+        )}
         <button type="button" className="draft-result__reset" onClick={onReset}>
           Nouvelle draft
         </button>
       </div>
+      {explainError && <p className="error">{explainError}</p>}
     </section>
   );
 }
