@@ -208,7 +208,7 @@ export function DraftBoard({
   const progressComplete = mode !== "draft";
 
   return (
-    <div className="drafter">
+    <div className={`drafter drafter--${mode}${isEditMode ? " drafter--editing" : ""}`}>
       <header className="drafter__nav">
         <div className="drafter__progress-wrap" aria-hidden="true">
           <div className="drafter__progress-track">
