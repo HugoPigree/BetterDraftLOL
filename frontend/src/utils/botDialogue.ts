@@ -1,7 +1,5 @@
 import type { Role, Team } from "../types/draft";
 
-const EX_NAME = "Daisy";
-
 const ROLE_FR: Record<Role, string> = {
   TOP: "top",
   JUNGLE: "jungle",
