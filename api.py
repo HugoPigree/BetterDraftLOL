@@ -6,12 +6,14 @@ from __future__ import annotations
 import logging
 from contextlib import asynccontextmanager
 from enum import Enum
+from pathlib import Path
 from typing import Any, Literal
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 import build_training_dataset as btd
@@ -581,6 +583,19 @@ def create_app() -> FastAPI:
         except Exception as exc:
             logger.exception("Erreur interne pendant ask-chatbot-rules")
             raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    static_dir = Path(__file__).resolve().parent / "public"
+    if static_dir.is_dir():
+        assets_dir = static_dir / "assets"
+        if assets_dir.is_dir():
+            app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+        @app.get("/{full_path:path}")
+        async def spa(full_path: str) -> FileResponse:
+            candidate = static_dir / full_path
+            if full_path and candidate.is_file():
+                return FileResponse(candidate)
+            return FileResponse(static_dir / "index.html")
 
     return app
 
