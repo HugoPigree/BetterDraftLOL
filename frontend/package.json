@@ -23,7 +23,6 @@
     "@rolldown/binding-win32-x64-msvc": "^1.1.5"
   },
   "devDependencies": {
-    "@rolldown/binding-win32-x64-msvc": "^1.1.5",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
