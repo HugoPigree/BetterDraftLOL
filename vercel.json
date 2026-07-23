@@ -3,6 +3,7 @@
   "buildCommand": "npm --prefix frontend install && npm --prefix frontend run build && rm -rf public && mkdir -p public && cp -r frontend/dist/. public/",
   "functions": {
     "api.py": {
+      "includeFiles": "public/**",
       "excludeFiles": "{frontend/**,test_*.py,train_*.py,audit_*.py,collect_*.py,diagnostic_*.py,debug_*.py,export_*.py}"
     }
   }
