@@ -1,5 +1,6 @@
-import { useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { ROLES } from "../hooks/useDraftState";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import type { DraftContext, Role } from "../types/draft";
 import { ChampionIcon } from "./ChampionIcon";
 import { RoleIcon } from "./RoleIcons";
@@ -28,10 +29,16 @@ const ROLE_LABELS: Record<RoleFilter, string> = {
 
 const FILTER_OPTIONS: RoleFilter[] = ["ALL", ...ROLES];
 
-const GRID_COLUMNS: Record<GridSize, number> = {
+const DESKTOP_GRID_COLUMNS: Record<GridSize, number> = {
   compact: 6,
   normal: 8,
   large: 10,
+};
+
+const MOBILE_GRID_COLUMNS: Record<GridSize, number> = {
+  compact: 4,
+  normal: 5,
+  large: 6,
 };
 
 function championMatchesRole(
@@ -55,10 +62,17 @@ export function ChampionGrid({
   error,
   isPlayerTurn = true,
 }: ChampionGridProps) {
+  const isMobile = useMediaQuery("(max-width: 720px)");
   const [search, setSearch] = useState("");
   const [filterRole, setFilterRole] = useState<RoleFilter>("ALL");
   const [pickRole, setPickRole] = useState<Role>("TOP");
   const [gridSize, setGridSize] = useState<GridSize>("normal");
+
+  useEffect(() => {
+    if (isMobile) {
+      setGridSize("compact");
+    }
+  }, [isMobile]);
 
   const bannedChampions = useMemo(
     () => new Set([...draft.blueBans, ...draft.redBans]),
@@ -90,7 +104,8 @@ export function ChampionGrid({
 
   const isPickTurn = draft.currentActionType === "pick";
   const isDisabled = draft.isDraftComplete || loading || Boolean(error) || !isPlayerTurn;
-  const gridColumns = GRID_COLUMNS[gridSize];
+  const columnMap = isMobile ? MOBILE_GRID_COLUMNS : DESKTOP_GRID_COLUMNS;
+  const gridColumns = columnMap[gridSize];
 
   function handleRoleFilter(role: RoleFilter) {
     setFilterRole(role);
@@ -100,11 +115,15 @@ export function ChampionGrid({
   }
 
   function shrinkGrid() {
-    setGridSize((current) => (current === "large" ? "normal" : current === "normal" ? "compact" : current));
+    setGridSize((current) =>
+      current === "large" ? "normal" : current === "normal" ? "compact" : current,
+    );
   }
 
   function growGrid() {
-    setGridSize((current) => (current === "compact" ? "normal" : current === "normal" ? "large" : current));
+    setGridSize((current) =>
+      current === "compact" ? "normal" : current === "normal" ? "large" : current,
+    );
   }
 
   return (
@@ -154,7 +173,7 @@ export function ChampionGrid({
           <input
             type="search"
             className="champion-pool__search"
-            placeholder="Search champion…"
+            placeholder="Chercher…"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             disabled={isDisabled}

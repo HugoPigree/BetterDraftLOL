@@ -3,6 +3,7 @@ import {
   DragOverlay,
   KeyboardSensor,
   PointerSensor,
+  TouchSensor,
   closestCenter,
   useSensor,
   useSensors,
@@ -12,6 +13,7 @@ import {
 import {
   SortableContext,
   arrayMove,
+  horizontalListSortingStrategy,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
@@ -19,6 +21,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 import { ROLES } from "../hooks/useDraftState";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import type { DraftPick, Team } from "../types/draft";
 import { ChampionSplashSlot } from "./ChampionSplashSlot";
 
@@ -123,16 +126,19 @@ export function SortablePickColumn({
   highlightedChampion = null,
   dimUnhighlighted = false,
 }: SortablePickColumnProps) {
+  const isMobile = useMediaQuery("(max-width: 860px)");
   const [activeChampion, setActiveChampion] = useState<string | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 8 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
   const itemIds = picks.map((pick) => sortableId(side, pick.champion));
   const activePick = activeChampion ? picks.find((pick) => pick.champion === activeChampion) : null;
   const activeIndex = activePick ? picks.indexOf(activePick) : -1;
+  const sortingStrategy = isMobile ? horizontalListSortingStrategy : verticalListSortingStrategy;
 
   function handleDragStart(event: DragStartEvent) {
     const champion = String(event.active.id).replace(`${side}-`, "");
@@ -173,7 +179,7 @@ export function SortablePickColumn({
       onDragCancel={handleDragCancel}
     >
       <div className="drafter__picks-sortable">
-        <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
+        <SortableContext items={itemIds} strategy={sortingStrategy}>
           {picks.map((pick, index) => (
             <SortableRoleSlot
               key={sortableId(side, pick.champion)}
