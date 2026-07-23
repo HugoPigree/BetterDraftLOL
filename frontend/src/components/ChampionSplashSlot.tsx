@@ -15,7 +15,7 @@ interface ChampionSplashSlotProps {
   onEdit?: () => void;
 }
 
-const ROLE_LABELS: Record<DraftPick["role"], string> = {
+const ROLE_LABELS: Record<NonNullable<DraftPick["role"]>, string> = {
   TOP: "TOP",
   JUNGLE: "JG",
   MIDDLE: "MID",
@@ -100,9 +100,11 @@ export function ChampionSplashSlot({
           <div className="splash-slot__shade" />
           <div className="splash-slot__info">
             <span className="splash-slot__name">{pick.champion.toUpperCase()}</span>
-            <span className={`splash-slot__role splash-slot__role--${pick.role.toLowerCase()}`}>
-              {ROLE_LABELS[pick.role]}
-            </span>
+            {pick.role && (
+              <span className={`splash-slot__role splash-slot__role--${pick.role.toLowerCase()}`}>
+                {ROLE_LABELS[pick.role]}
+              </span>
+            )}
           </div>
           {isClickable && (
             <span className="splash-slot__edit-hint">Cliquer pour remplacer</span>

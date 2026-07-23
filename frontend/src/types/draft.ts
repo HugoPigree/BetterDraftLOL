@@ -5,7 +5,8 @@ export type Role = "TOP" | "JUNGLE" | "MIDDLE" | "BOTTOM" | "UTILITY";
 
 export interface DraftPick {
   champion: string;
-  role: Role;
+  /** Absent pendant la draft : les postes ne sont connus qu'à la confirmation. */
+  role?: Role;
 }
 
 export interface SequenceStep {

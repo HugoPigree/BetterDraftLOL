@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { DRAFT_SEQUENCE } from "../draft/sequence";
-import type { DraftContext, Role, Team } from "../types/draft";
+import type { DraftContext, Team } from "../types/draft";
 import type { BotLastMove } from "./useDraftBot";
 import {
   botSideForPlayer,
@@ -21,7 +21,7 @@ function lastChampionFromDraft(
   draft: DraftContext,
   team: Team,
   actionType: "ban" | "pick",
-): { champion: string; role?: Role } | null {
+): { champion: string } | null {
   if (actionType === "ban") {
     const bans = team === "blue" ? draft.blueBans : draft.redBans;
     const champion = bans[bans.length - 1];
@@ -30,7 +30,7 @@ function lastChampionFromDraft(
 
   const picks = team === "blue" ? draft.bluePicks : draft.redPicks;
   const last = picks[picks.length - 1];
-  return last ? { champion: last.champion, role: last.role } : null;
+  return last ? { champion: last.champion } : null;
 }
 
 export function useBotDialogue({
@@ -99,13 +99,10 @@ export function useBotDialogue({
       return;
     }
 
-    if (lastBotMove.role) {
-      speak({
-        type: "bot_pick",
-        champion: lastBotMove.champion,
-        role: lastBotMove.role,
-      });
-    }
+    speak({
+      type: "bot_pick",
+      champion: lastBotMove.champion,
+    });
   }, [enabled, lastBotMove]);
 
   useEffect(() => {
@@ -148,7 +145,7 @@ export function useBotDialogue({
         if (step.actionType === "ban") {
           speak({ type: "player_ban", champion: payload.champion });
         } else {
-          speak({ type: "player_pick", champion: payload.champion, role: payload.role });
+          speak({ type: "player_pick", champion: payload.champion });
         }
       }
     }

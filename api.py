@@ -67,6 +67,24 @@ class ChampionSlot(BaseModel):
         return value
 
 
+class DraftPickSlot(BaseModel):
+    """Pick en cours de draft : le poste n'est pas encore connu."""
+
+    model_config = ConfigDict(use_enum_values=True)
+
+    champion: str = Field(min_length=1)
+    role: Role | None = None
+
+    @field_validator("role", mode="before")
+    @classmethod
+    def normalize_optional_role(cls, value: str | Role | None) -> str | Role | None:
+        if value is None or value == "":
+            return None
+        if isinstance(value, str):
+            return value.strip().upper()
+        return value
+
+
 class PredictRequest(BaseModel):
     blue_team: list[ChampionSlot] = Field(min_length=5, max_length=5)
     red_team: list[ChampionSlot] = Field(min_length=5, max_length=5)
@@ -315,8 +333,8 @@ class AskChatbotRulesResponse(BaseModel):
 class DraftBotMoveRequest(BaseModel):
     action_type: Literal["ban", "pick"]
     bot_side: Literal["blue", "red"]
-    bot_picks: list[ChampionSlot] = Field(default_factory=list, max_length=5)
-    opponent_picks: list[ChampionSlot] = Field(default_factory=list, max_length=5)
+    bot_picks: list[DraftPickSlot] = Field(default_factory=list, max_length=5)
+    opponent_picks: list[DraftPickSlot] = Field(default_factory=list, max_length=5)
     patch: str = Field(min_length=1)
     available_champions: list[str] = Field(min_length=1)
     mode: Literal["mixed", "pro"] = "mixed"

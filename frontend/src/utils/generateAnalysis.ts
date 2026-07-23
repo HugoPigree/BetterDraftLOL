@@ -1,4 +1,4 @@
-import type { DraftPick } from "../types/draft";
+import type { Role } from "../types/draft";
 import type { PredictResponse, PredictionMode, TeamPredictionDetail } from "../types/predict";
 import { INSUFFICIENT_DATA_LABEL } from "../types/predict";
 import { ATTRIBUTE_LABELS } from "../types/predict";
@@ -6,7 +6,7 @@ import { ATTRIBUTE_LABELS } from "../types/predict";
 const WEIGHT_FORCE = 0.5;
 const WEIGHT_SYNERGY = 0.4;
 
-const ROLE_LABELS: Record<DraftPick["role"], string> = {
+const ROLE_LABELS: Record<Role, string> = {
   TOP: "top",
   JUNGLE: "jungle",
   MIDDLE: "mid",
@@ -58,7 +58,7 @@ export interface TeamAffinityInsight {
 }
 
 export interface LaneMatchupInsight {
-  role: DraftPick["role"];
+  role: Role;
   roleLabel: string;
   blueChampion: string;
   redChampion: string;
@@ -212,8 +212,8 @@ function generateTeamAffinity(team: TeamPredictionDetail, side: "blue" | "red"):
 
 function championsByRole(
   team: TeamPredictionDetail,
-): Partial<Record<DraftPick["role"], TeamPredictionDetail["champions"][number]>> {
-  const map: Partial<Record<DraftPick["role"], TeamPredictionDetail["champions"][number]>> = {};
+): Partial<Record<Role, TeamPredictionDetail["champions"][number]>> {
+  const map: Partial<Record<Role, TeamPredictionDetail["champions"][number]>> = {};
   for (const champion of team.champions) {
     map[champion.role] = champion;
   }
@@ -224,7 +224,7 @@ export function generateLaneMatchups(
   result: PredictResponse,
   isProMode = false,
 ): LaneMatchupInsight[] {
-  const roles: DraftPick["role"][] = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
+  const roles: Role[] = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
   const blueByRole = championsByRole(result.blue);
   const redByRole = championsByRole(result.red);
   const matchups: LaneMatchupInsight[] = [];

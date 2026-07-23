@@ -1,10 +1,10 @@
-import type { DraftPick } from "./draft";
+import type { DraftPick, Role } from "./draft";
 
 export type PredictionMode = "mixed" | "pro";
 
 export interface ChampionForceDetail {
   champion: string;
-  role: DraftPick["role"];
+  role: Role;
   winrate: number | null;
   games?: number | null;
   insufficient_data?: boolean;
@@ -26,7 +26,7 @@ export interface MerakiRoleCount {
 
 export interface SynergyContribution {
   champion: string;
-  role: DraftPick["role"];
+  role: Role;
   marginal_points: number;
 }
 
@@ -119,14 +119,14 @@ export interface PickSuggestion {
 
 export interface SuggestPickResponse {
   team_side: "blue" | "red";
-  role: DraftPick["role"];
+  role: Role;
   current_win_probability: number | null;
   suggestions: PickSuggestion[];
 }
 
 export interface BanSuggestion {
   champion: string;
-  best_opponent_role: DraftPick["role"];
+  best_opponent_role: Role;
   opponent_win_probability: number;
   threat_percentage_points: number;
   delta_force: number;
@@ -144,7 +144,7 @@ export interface SuggestBanResponse {
 
 export interface RetrospectiveBanSuggestion {
   champion: string;
-  role: DraftPick["role"];
+  role: Role;
   replacement_champion: string;
   win_probability: number;
   gain_percentage_points: number;
@@ -162,7 +162,7 @@ export interface SuggestRetrospectiveBanResponse {
 }
 
 export interface RetrospectivePickSuggestion {
-  role: DraftPick["role"];
+  role: Role;
   current_champion: string;
   champion: string;
   win_probability: number;

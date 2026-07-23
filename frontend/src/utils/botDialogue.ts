@@ -12,7 +12,7 @@ export type BotDialogueEvent =
   | { type: "intro" }
   | { type: "thinking"; action: "ban" | "pick" }
   | { type: "bot_ban"; champion: string }
-  | { type: "bot_pick"; champion: string; role: Role }
+  | { type: "bot_pick"; champion: string; role?: Role }
   | { type: "player_ban"; champion: string }
   | { type: "player_pick"; champion: string; role?: Role }
   | { type: "player_turn" }
@@ -175,21 +175,21 @@ const BOT_BAN_EX_FLAVOR = [
 ];
 
 const BOT_PICK_GENERIC = [
-  (c: string, r: string) => `${c} en ${r}. Propre. Tu suis ou tu rage comme Daisy en ranked ?`,
-  (c: string, r: string) => `Je lock ${c} ${r}. Mes calculs pro ne mentent pas. Elle, si.`,
-  (c: string, r: string) => `${c} (${r}). Ta réaction va être priceless. La mienne aussi, mais c'est autre chose.`,
-  (c: string, r: string) => `${c} ${r}. Comp cohérente. Nouveau moi. Who dis ?`,
-  (c: string, r: string) => `Pick ${c} ${r}. J'ai enfin un plan de jeu. Progress.`,
-  (c: string, r: string) => `${c} en ${r}. Solide. Pas de red flag. Enfin si, je suis le bot.`,
-  (c: string, r: string) => `Je prends ${c} ${r}. Tu peux tilt, moi j'ai déjà tilt sur l'amour.`,
-  (c: string, r: string) => `${c} (${r}). Synergie validée. Closure émotionnelle : pending.`,
-  (c: string, r: string) => `${c} ${r}. C'est beau une draft qui a du sens. Contrairement à nos derniers messages.`,
-  (c: string, r: string) => `Lock ${c} ${r}. Meta, synergie, et zéro message à 2h du mat'.`,
+  (c: string) => `${c}. Propre. Tu suis ou tu rage comme Daisy en ranked ?`,
+  (c: string) => `Je lock ${c}. Mes calculs pro ne mentent pas. Elle, si.`,
+  (c: string) => `${c}. Ta réaction va être priceless. La mienne aussi, mais c'est autre chose.`,
+  (c: string) => `${c}. Comp cohérente. Nouveau moi. Who dis ?`,
+  (c: string) => `Pick ${c}. J'ai enfin un plan de jeu. Progress.`,
+  (c: string) => `${c}. Solide. Pas de red flag. Enfin si, je suis le bot.`,
+  (c: string) => `Je prends ${c}. Tu peux tilt, moi j'ai déjà tilt sur l'amour.`,
+  (c: string) => `${c}. Synergie validée. Closure émotionnelle : pending.`,
+  (c: string) => `${c}. C'est beau une draft qui a du sens. Contrairement à nos derniers messages.`,
+  (c: string) => `Lock ${c}. Meta, synergie, et zéro message à 2h du mat'.`,
 ];
 
 const BOT_PICK_EX_FLAVOR = [
-  (c: string, r: string) => `${c} ${r}. Ça me rappelle personne. C'est reposant.`,
-  (c: string, r: string) => `${c} en ${r}. Pick safe émotionnellement. Enfin.`,
+  (c: string) => `${c}. Ça me rappelle personne. C'est reposant.`,
+  (c: string) => `${c}. Pick safe émotionnellement. Enfin.`,
 ];
 
 const PLAYER_BAN_GENERIC = [
@@ -294,14 +294,13 @@ export function lineForBotEvent(event: BotDialogueEvent): string {
         mapLines(event.champion, BOT_BAN_EX_FLAVOR),
       );
     case "bot_pick": {
-      const role = ROLE_FR[event.role];
       const exLine = maybeExChampionLine(event.champion);
       if (exLine) {
         return exLine;
       }
       return pickRandom([
-        ...mapLinesRole(event.champion, role, BOT_PICK_GENERIC),
-        ...mapLinesRole(event.champion, role, BOT_PICK_EX_FLAVOR),
+        ...mapLines(event.champion, BOT_PICK_GENERIC),
+        ...mapLines(event.champion, BOT_PICK_EX_FLAVOR),
       ]);
     }
     case "player_ban":

@@ -86,8 +86,8 @@ export function ConfirmRolesPhase({
       <header className="confirm-roles__header">
         <h2>Assignation des rôles</h2>
         <p>
-          Glissez les champions dans les slots latéraux pour ajuster TOP → SUPPORT. Les rôles sont
-          pré-remplis via Meraki ; confirmez chaque équipe avant l&apos;analyse.
+          Glissez les champions (TOP → SUPPORT) pour ajuster. Confirmez chaque équipe
+          avant l&apos;analyse.
         </p>
       </header>
 

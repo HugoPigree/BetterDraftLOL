@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { DraftContext, Role, Team } from "../types/draft";
+import type { DraftContext, Team } from "../types/draft";
 import type { PredictionMode } from "../types/predict";
 import { draftBotMove } from "../services/api";
 import {
@@ -11,7 +11,6 @@ import {
 export interface BotLastMove {
   action: "ban" | "pick";
   champion: string;
-  role?: Role;
 }
 
 interface UseDraftBotOptions {
@@ -88,12 +87,11 @@ export function useDraftBot({
           return;
         }
 
-        if (move.action === "pick" && move.role) {
-          draft.selectChampion(move.champion, move.role as Role);
+        if (move.action === "pick") {
+          draft.selectChampion(move.champion);
           setLastMove({
             action: "pick",
             champion: move.champion,
-            role: move.role as Role,
           });
         } else {
           draft.selectChampion(move.champion);

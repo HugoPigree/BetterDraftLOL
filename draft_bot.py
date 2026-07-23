@@ -13,6 +13,7 @@ from suggest_draft import (
     get_champion_role_catalog,
     normalize_role,
     slots_to_team,
+    soft_assign_roles,
     suggest_ban,
     suggest_bot_pick,
 )
@@ -22,17 +23,18 @@ BOT_MODE: PredictionMode = "pro"
 
 
 def _remaining_roles(partial_picks: list[dict[str, str]]) -> list[str]:
-    filled = {normalize_role(slot["role"]) for slot in partial_picks}
+    filled = {normalize_role(slot["role"]) for slot in partial_picks if slot.get("role")}
     return [role for role in ROLES_ORDER if role not in filled]
 
 
 def _used_champions(
-    bot_picks: list[dict[str, str]],
-    opponent_picks: list[dict[str, str]],
+    bot_picks: list[dict[str, Any]],
+    opponent_picks: list[dict[str, Any]],
 ) -> set[str]:
     return {
-        slot["champion"].casefold()
+        str(slot.get("champion", "")).strip().casefold()
         for slot in bot_picks + opponent_picks
+        if str(slot.get("champion", "")).strip()
     }
 
 
@@ -101,14 +103,17 @@ def _fallback_pick(
 
 def choose_bot_ban(
     bot_side: TeamSide,
-    bot_picks: list[dict[str, str]],
-    opponent_picks: list[dict[str, str]],
+    bot_picks: list[dict[str, Any]],
+    opponent_picks: list[dict[str, Any]],
     patch: str,
     available_champions: list[str],
     mode: PredictionMode = BOT_MODE,
 ) -> dict[str, Any]:
     """Choisit le ban le plus menaçant pour l'adversaire."""
     catalog = get_champion_role_catalog()
+    # Postes inconnus en draft : déduction Meraki pour le scoring uniquement.
+    bot_guessed = soft_assign_roles(bot_picks, catalog)
+    opponent_guessed = soft_assign_roles(opponent_picks, catalog)
     reserved = _used_champions(bot_picks, opponent_picks)
     pool = [
         champion.strip()
@@ -118,12 +123,12 @@ def choose_bot_ban(
     if not pool:
         raise ValueError("Aucun champion disponible pour le ban du bot")
 
-    bot_team = _pad_team_meta(bot_picks, catalog, pool, reserved, patch, mode)
-    opponent_remaining = _remaining_roles(opponent_picks) or ROLES_ORDER.copy()
+    bot_team = _pad_team_meta(bot_guessed, catalog, pool, reserved, patch, mode)
+    opponent_remaining = _remaining_roles(opponent_guessed) or ROLES_ORDER.copy()
 
     result = suggest_ban(
         available_champions=pool,
-        opponent_partial_picks=opponent_picks,
+        opponent_partial_picks=opponent_guessed,
         opponent_remaining_roles=opponent_remaining,
         patch=patch,
         team_picks=bot_team,
@@ -146,8 +151,8 @@ def choose_bot_ban(
 
 def choose_bot_pick(
     bot_side: TeamSide,
-    bot_picks: list[dict[str, str]],
-    opponent_picks: list[dict[str, str]],
+    bot_picks: list[dict[str, Any]],
+    opponent_picks: list[dict[str, Any]],
     patch: str,
     available_champions: list[str],
     mode: PredictionMode = BOT_MODE,
@@ -163,7 +168,8 @@ def choose_bot_pick(
     if not pool:
         raise ValueError("Aucun champion disponible pour le pick du bot")
 
-    bot_remaining = _remaining_roles(bot_picks)
+    bot_guessed = soft_assign_roles(bot_picks, catalog)
+    bot_remaining = _remaining_roles(bot_guessed)
     if not bot_remaining:
         raise ValueError("La compo du bot est déjà complète")
 
@@ -177,27 +183,27 @@ def choose_bot_pick(
     )
 
     champion = choice.get("champion")
-    role = choice.get("role")
-    if champion and role:
+    # Le rôle renvoyé n'est qu'une hypothèse de scoring : le client ne doit pas le figer.
+    if champion:
         return {
             "action": "pick",
             "champion": champion,
-            "role": role,
+            "role": None,
         }
 
-    fallback_champion, fallback_role = _fallback_pick(pool, bot_remaining, catalog, reserved)
+    fallback_champion, _fallback_role = _fallback_pick(pool, bot_remaining, catalog, reserved)
     return {
         "action": "pick",
         "champion": fallback_champion,
-        "role": fallback_role,
+        "role": None,
     }
 
 
 def choose_bot_action(
     action_type: ActionType,
     bot_side: TeamSide,
-    bot_picks: list[dict[str, str]],
-    opponent_picks: list[dict[str, str]],
+    bot_picks: list[dict[str, Any]],
+    opponent_picks: list[dict[str, Any]],
     patch: str,
     available_champions: list[str],
     mode: PredictionMode = BOT_MODE,

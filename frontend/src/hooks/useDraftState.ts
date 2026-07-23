@@ -38,10 +38,6 @@ function draftReducer(state: DraftState, action: DraftReducerAction): DraftState
         return state;
       }
 
-      if (currentStep.actionType === "pick" && !action.role) {
-        return state;
-      }
-
       const usedChampions = [...state.usedChampions, champion];
 
       if (currentStep.actionType === "ban") {
@@ -63,7 +59,8 @@ function draftReducer(state: DraftState, action: DraftReducerAction): DraftState
         };
       }
 
-      const pick = { champion, role: action.role as Role };
+      // En draft, le poste n'est pas connu : on stocke seulement le champion.
+      const pick = action.role ? { champion, role: action.role } : { champion };
       const bluePicks =
         currentStep.team === "blue"
           ? [...state.bluePicks, pick]

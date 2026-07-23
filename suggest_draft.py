@@ -76,6 +76,76 @@ def slots_to_team(slots: list[dict[str, str]]) -> list[dict[str, str]]:
     return [
         {"champion": slot["champion"].strip(), "role": normalize_role(slot["role"])}
         for slot in slots
+        if slot.get("champion", "").strip() and slot.get("role")
+    ]
+
+
+def soft_assign_roles(
+    partial_picks: list[dict[str, Any]],
+    catalog: dict[str, list[str]] | None = None,
+) -> list[dict[str, str]]:
+    """Déduit des rôles provisoires à partir des positions Meraki.
+
+    En draft réelle les postes ne sont pas connus : on ignore tout rôle client
+    et on assigne au mieux pour le scoring uniquement.
+    """
+    catalog = catalog or get_champion_role_catalog()
+    champions = [
+        str(slot.get("champion", "")).strip()
+        for slot in partial_picks
+        if str(slot.get("champion", "")).strip()
+    ]
+    if not champions:
+        return []
+
+    assigned: dict[str, str] = {}
+    remaining = set(range(len(champions)))
+
+    # Pass 1: champions with a single open fitting role
+    for idx in list(remaining):
+        name = champions[idx]
+        positions = [r for r in catalog.get(name, []) if r in ROLES_ORDER]
+        open_roles = [r for r in ROLES_ORDER if r not in assigned.values()]
+        fitting = [r for r in open_roles if r in positions]
+        if len(fitting) == 1:
+            assigned[name] = fitting[0]
+            remaining.discard(idx)
+
+    # Pass 2: best score among remaining open roles
+    for role in ROLES_ORDER:
+        if role in assigned.values():
+            continue
+        best_idx: int | None = None
+        best_score = -2
+        for idx in remaining:
+            name = champions[idx]
+            positions = catalog.get(name, [])
+            if role not in positions:
+                score = -1
+            elif len(positions) == 1:
+                score = 3
+            elif positions and positions[0] == role:
+                score = 2
+            else:
+                score = 1
+            if score > best_score:
+                best_score = score
+                best_idx = idx
+        if best_idx is not None and best_score >= 0:
+            assigned[champions[best_idx]] = role
+            remaining.discard(best_idx)
+
+    # Pass 3: leftover champions get leftover roles
+    leftover_roles = [r for r in ROLES_ORDER if r not in assigned.values()]
+    for idx in sorted(remaining):
+        if not leftover_roles:
+            break
+        assigned[champions[idx]] = leftover_roles.pop(0)
+
+    return [
+        {"champion": name, "role": assigned[name]}
+        for name in champions
+        if name in assigned
     ]
 
 
@@ -890,8 +960,8 @@ def decompose_bot_candidate_score(
     warmup_predict_caches(patch)
     catalog = get_champion_role_catalog()
 
-    bot_partial = slots_to_team(bot_partial_picks)
-    opponent_partial = slots_to_team(opponent_partial_picks)
+    bot_partial = soft_assign_roles(bot_partial_picks, catalog)
+    opponent_partial = soft_assign_roles(opponent_partial_picks, catalog)
     candidate_role = normalize_role(candidate_role)
 
     reserved = {
@@ -1065,8 +1135,8 @@ def suggest_bot_pick(
     warmup_predict_caches(patch)
     catalog = get_champion_role_catalog()
 
-    bot_partial = slots_to_team(bot_partial_picks)
-    opponent_partial = slots_to_team(opponent_partial_picks)
+    bot_partial = soft_assign_roles(bot_partial_picks, catalog)
+    opponent_partial = soft_assign_roles(opponent_partial_picks, catalog)
 
     reserved = {
         slot["champion"].casefold()

@@ -10,7 +10,9 @@ export function getAvailableChampions(
 }
 
 export function getRemainingRoles(picks: DraftPick[]): Role[] {
-  const filled = new Set(picks.map((pick) => pick.role));
+  const filled = new Set(
+    picks.map((pick) => pick.role).filter((role): role is Role => Boolean(role)),
+  );
   return ROLES.filter((role) => !filled.has(role));
 }
 
@@ -52,7 +54,9 @@ export function buildPaddedTeam(
 ): DraftPick[] {
   const byRole = new Map<Role, string>();
   for (const pick of picks) {
-    byRole.set(pick.role, pick.champion);
+    if (pick.role) {
+      byRole.set(pick.role, pick.champion);
+    }
   }
 
   const available = getAvailableChampions(allChampions, usedChampions);

@@ -244,8 +244,8 @@ export async function draftBotMove(
     {
       action_type: actionType,
       bot_side: botSide,
-      bot_picks: botPicks,
-      opponent_picks: opponentPicks,
+      bot_picks: botPicks.map((pick) => ({ champion: pick.champion })),
+      opponent_picks: opponentPicks.map((pick) => ({ champion: pick.champion })),
       patch,
       available_champions: availableChampions,
       mode,

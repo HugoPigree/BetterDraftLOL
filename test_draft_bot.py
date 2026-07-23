@@ -41,12 +41,12 @@ def test_choose_bot_ban_returns_champion() -> None:
     assert move["role"] is None
 
 
-def test_choose_bot_pick_returns_champion_and_role() -> None:
+def test_choose_bot_pick_returns_champion_without_locked_role() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()
 
-    bot_picks = [{"champion": "Gnar", "role": "TOP"}]
-    opponent_picks = [{"champion": "Renekton", "role": "TOP"}]
+    bot_picks = [{"champion": "Gnar"}]
+    opponent_picks = [{"champion": "Renekton"}]
 
     move = choose_bot_action(
         action_type="pick",
@@ -60,7 +60,30 @@ def test_choose_bot_pick_returns_champion_and_role() -> None:
 
     assert move["action"] == "pick"
     assert move["champion"]
-    assert move["role"] in {"JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"}
+    assert move["role"] is None
+
+
+def test_choose_bot_pick_ignores_client_roles() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    # Rôles client volontairement absurdes : le bot doit quand même pick sans les figer.
+    bot_picks = [{"champion": "Gnar", "role": "UTILITY"}]
+    opponent_picks = [{"champion": "Renekton", "role": "UTILITY"}]
+
+    move = choose_bot_action(
+        action_type="pick",
+        bot_side="blue",
+        bot_picks=bot_picks,
+        opponent_picks=opponent_picks,
+        patch=PATCH,
+        available_champions=_available_excluding(bot_picks, opponent_picks),
+        mode="pro",
+    )
+
+    assert move["action"] == "pick"
+    assert move["champion"]
+    assert move["role"] is None
 
 
 def test_suggest_bot_pick_prefers_meta_candidate() -> None:

@@ -65,7 +65,6 @@ export function ChampionGrid({
   const isMobile = useMediaQuery("(max-width: 720px)");
   const [search, setSearch] = useState("");
   const [filterRole, setFilterRole] = useState<RoleFilter>("ALL");
-  const [pickRole, setPickRole] = useState<Role>("TOP");
   const [gridSize, setGridSize] = useState<GridSize>("normal");
 
   useEffect(() => {
@@ -109,9 +108,6 @@ export function ChampionGrid({
 
   function handleRoleFilter(role: RoleFilter) {
     setFilterRole(role);
-    if (role !== "ALL" && isPickTurn) {
-      setPickRole(role);
-    }
   }
 
   function shrinkGrid() {
@@ -181,10 +177,9 @@ export function ChampionGrid({
         </div>
       </header>
 
-      {isPickTurn && filterRole === "ALL" && (
+      {isPickTurn && (
         <p className="champion-pool__hint">
-          Pick assigné au rôle <strong>{ROLE_LABELS[pickRole]}</strong> — filtre un rôle pour le
-          changer.
+          Les postes se confirment après la draft — le filtre rôle sert seulement à naviguer.
         </p>
       )}
 
@@ -212,11 +207,7 @@ export function ChampionGrid({
               className={`champion-pool__item ${isUsed ? "champion-pool__item--used" : ""}`}
               disabled={isDisabled || isUsed}
               onClick={() => {
-                if (isPickTurn) {
-                  draft.selectChampion(champion, pickRole);
-                } else {
-                  draft.selectChampion(champion);
-                }
+                draft.selectChampion(champion);
               }}
               title={champion}
             >

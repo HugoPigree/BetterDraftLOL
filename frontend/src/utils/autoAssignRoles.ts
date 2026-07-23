@@ -116,6 +116,13 @@ export function validateTeamRoles(picks: DraftPick[]): RoleValidation {
 
   const roleCounts = new Map<Role, number>();
   for (const pick of picks) {
+    if (!pick.role) {
+      return {
+        valid: false,
+        duplicateRoles: [],
+        message: "Certains champions n'ont pas de poste assigné.",
+      };
+    }
     roleCounts.set(pick.role, (roleCounts.get(pick.role) ?? 0) + 1);
   }
 
@@ -147,9 +154,12 @@ export function getMerakiMismatchWarnings(
   championPositions: Record<string, Role[]>,
 ): string[] {
   return picks
-    .filter((pick) => !championCanPlayRole(pick.champion, pick.role, championPositions))
+    .filter(
+      (pick) =>
+        pick.role != null && !championCanPlayRole(pick.champion, pick.role, championPositions),
+    )
     .map(
       (pick) =>
-        `${pick.champion} n'est pas typiquement joué en ${ROLE_LABELS[pick.role]} (Meraki).`,
+        `${pick.champion} n'est pas typiquement joué en ${ROLE_LABELS[pick.role!]} (Meraki).`,
     );
 }
