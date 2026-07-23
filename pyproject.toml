@@ -18,3 +18,6 @@ train = [
 
 [tool.vercel]
 entrypoint = "api:app"
+
+[tool.vercel.scripts]
+build = "npm --prefix frontend install && npm --prefix frontend run build && rm -rf public && mkdir -p public && cp -r frontend/dist/. public/"
