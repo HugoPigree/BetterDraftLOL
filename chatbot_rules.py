@@ -16,7 +16,6 @@ from predict_draft import (
 )
 from suggest_draft import (
     ROLE_LABELS_FR,
-    build_decomposed_reason,
     build_matchup_teams,
     decompose_winrate_delta,
     get_champion_role_catalog,
@@ -26,6 +25,7 @@ from suggest_draft import (
     team_side_win_probability,
     _champion_winrate_for,
 )
+from justification_builder import generate_pick_justification
 from champion_profile_stats import format_descriptive_stats_clause
 from predict_draft import get_meraki_context, resolve_soloq_champion_name
 
@@ -538,20 +538,18 @@ def _answer_simulate_change(
     decomposition = decompose_winrate_delta(
         baseline, updated, team_side, role, "team", mode
     )
-    reason = build_decomposed_reason(
-        headline=f"Simulation : {champion} en {role.lower()}",
-        decomposition=decomposition,
-        role=role,
-        candidate=champion,
-        current=current,
-        opponent=opponent,
-        team=modified_team,
-        baseline=baseline,
-        updated=updated,
-        team_side=team_side,
-        changed_side="team",
-        patch=patch,
-        mode=mode,
+    reason = generate_pick_justification(
+        champion,
+        role,
+        team_context=modified_team,
+        opponent_context=opponent,
+        source_data={
+            "patch": patch,
+            "mode": mode,
+            "pick_side": "team",
+            "changed_side": "team",
+            "decomposition": decomposition,
+        },
     )
 
     return (

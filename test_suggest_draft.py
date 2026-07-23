@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import pytest
 import predict_draft as pd
-from fastapi.testclient import TestClient
 
-from api import create_app
 from champion_profile_stats import DESCRIPTIVE_DISCLAIMER
+from justification_builder import assert_narrative_order, section_positions
+from pro_force import MIN_GAMES_EXCLUSION
 from suggest_draft import (
     champions_playable_on_role,
     get_champion_role_catalog,
@@ -119,6 +120,10 @@ def test_suggest_ban_returns_threat_ranking() -> None:
 
 
 def test_suggest_endpoints_via_api() -> None:
+    from fastapi.testclient import TestClient
+
+    from api import create_app
+
     client = TestClient(create_app())
     available = _available_excluding(BLUE, RED)
 
@@ -214,7 +219,10 @@ def test_suggest_retrospective_picks_returns_up_to_three_per_role() -> None:
     assert by_role, "Au moins un rôle devrait avoir des alternatives"
     for role, items in by_role.items():
         assert len(items) <= 3
-        assert len(items) >= 2, f"Attendu au moins 2 alternatives pour {role}, got {len(items)}"
+        assert len(items) >= 1, (
+            f"Au moins 1 alternative meta-viable (>= {MIN_GAMES_EXCLUSION} games) "
+            f"attendue pour {role}, got {len(items)}"
+        )
         assert role in {"TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"}
         champions = {entry["champion"] for entry in items}
         assert len(champions) == len(items)
@@ -242,10 +250,65 @@ def test_suggest_reason_may_include_descriptive_historical_stats() -> None:
 
     with_stats = [item for item in result["suggestions"] if DESCRIPTIVE_DISCLAIMER in item["reason"]]
     assert with_stats, "Au moins une suggestion top devrait inclure des stats historiques"
-    assert any("historiquement" in item["reason"] for item in with_stats)
+    for item in with_stats:
+        pos = section_positions(item["reason"])
+        assert "meta" in pos
+        assert "stats" in pos
+        assert pos["stats"] > pos["meta"]
 
 
-def test_decomposed_reason_warns_lane_gain_synergy_loss() -> None:
+def test_justification_narrative_order_on_concrete_cases() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    jungle_result = suggest_improvements(
+        team_picks=BLUE,
+        opponent_picks=RED,
+        role_to_improve="JUNGLE",
+        patch=PATCH,
+        available_champions=_available_excluding(BLUE, RED),
+        team_side="blue",
+        top_n=5,
+    )
+    assert jungle_result["suggestions"]
+    assert_narrative_order(jungle_result["suggestions"][0]["reason"])
+
+    bot_partial = [
+        {"champion": "Corki", "role": "BOTTOM"},
+        {"champion": "Leona", "role": "UTILITY"},
+    ]
+    opponent_partial = RED[:3]
+    from suggest_draft import suggest_bot_pick
+
+    bot_result = suggest_bot_pick(
+        bot_partial_picks=bot_partial,
+        opponent_partial_picks=opponent_partial,
+        patch=PATCH,
+        available_champions=_available_excluding(BLUE, RED),
+        team_side="blue",
+        mode="pro",
+        rng_seed=42,
+    )
+    assert bot_result.get("reason")
+    assert_narrative_order(bot_result["reason"])
+    bot_pos = section_positions(bot_result["reason"])
+    if "duo" in bot_pos:
+        assert bot_pos["duo"] > bot_pos.get("meta", -1)
+
+    ban_result = suggest_ban(
+        available_champions=_available_excluding(BLUE, RED[:3]),
+        opponent_partial_picks=RED[:3],
+        opponent_remaining_roles=["BOTTOM", "UTILITY"],
+        patch=PATCH,
+        team_picks=BLUE,
+        team_side="blue",
+        top_n=5,
+    )
+    assert ban_result["suggestions"]
+    assert_narrative_order(ban_result["suggestions"][0]["reason"])
+
+
+def test_lane_gain_synergy_loss_mentioned_in_composition() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()
 
@@ -261,11 +324,18 @@ def test_decomposed_reason_warns_lane_gain_synergy_loss() -> None:
 
     for item in result["suggestions"]:
         if item["delta_force"] > 0.05 and item["delta_synergie"] < -0.05:
-            assert "Attention" in item["reason"]
             assert "synergie globale" in item["reason"]
+            assert_narrative_order(item["reason"])
+            break
+    else:
+        pytest.skip("Aucun candidat top avec gain lane / perte synergie dans ce draft")
 
 
 def test_suggest_retrospective_pick_endpoint() -> None:
+    from fastapi.testclient import TestClient
+
+    from api import create_app
+
     client = TestClient(create_app())
     available = _available_excluding(BLUE, RED)
 

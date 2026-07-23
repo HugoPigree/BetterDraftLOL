@@ -285,3 +285,36 @@ def test_bot_pick_softmax_produces_role_diversity_across_seeds() -> None:
         "Softmax trop deterministe: un seul champion par role sur 8 seeds — "
         f"distribution={ {r: sorted(n) for r, n in picks_by_role.items()} }"
     )
+
+
+def test_bot_pick_reason_follows_narrative_order() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from justification_builder import assert_narrative_order, section_positions
+
+    bot_picks = [
+        {"champion": "Corki", "role": "BOTTOM"},
+        {"champion": "Leona", "role": "UTILITY"},
+    ]
+    opponent_picks = [
+        {"champion": "Renekton", "role": "TOP"},
+        {"champion": "Graves", "role": "JUNGLE"},
+        {"champion": "Syndra", "role": "MIDDLE"},
+    ]
+    result = suggest_bot_pick(
+        bot_partial_picks=bot_picks,
+        opponent_partial_picks=opponent_picks,
+        patch=PATCH,
+        available_champions=_available_excluding(bot_picks, opponent_picks),
+        team_side="blue",
+        mode="pro",
+        rng_seed=7,
+    )
+
+    assert result.get("reason")
+    assert_narrative_order(result["reason"])
+    positions = section_positions(result["reason"])
+    assert "meta" in positions
+    if "duo" in positions and "composition" in positions:
+        assert positions["composition"] < positions["duo"]

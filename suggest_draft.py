@@ -31,8 +31,8 @@ from pro_force import (
     pro_meta_score,
 )
 from build_duo_dataset import get_duo_score
-from champion_profile_stats import DescriptiveContext, format_descriptive_stats_clause
 from composition_archetype import score_archetype_coherence
+from justification_builder import generate_pick_justification
 
 logger = logging.getLogger(__name__)
 
@@ -113,6 +113,49 @@ def champions_playable_on_role(
         if role in catalog.get(name, []):
             playable.append(name)
     return sorted(set(playable), key=str.casefold)
+
+
+def filter_meta_pool_candidates_for_role(
+    pool: list[str],
+    role: str,
+    catalog: dict[str, list[str]],
+    patch: str,
+    *,
+    top_n: int | None = None,
+) -> list[str]:
+    """Candidats filtrés par get_meta_pool_for_role (>= MIN_GAMES_EXCLUSION games pro)."""
+    role = normalize_role(role)
+    playable = champions_playable_on_role(pool, role, catalog)
+    if not playable:
+        return []
+
+    champion_features, _, lookup_by_norm = get_meraki_context()
+    limit = top_n if top_n is not None else len(playable)
+    return get_meta_pool_for_role(
+        role,
+        patch,
+        top_n=max(limit, 1),
+        candidates=playable,
+        champion_features=champion_features,
+        lookup_by_norm=lookup_by_norm,
+    )
+
+
+def is_champion_in_meta_pool_for_role(
+    champion: str,
+    role: str,
+    catalog: dict[str, list[str]],
+    patch: str,
+) -> bool:
+    """True si le champion atteint MIN_GAMES_EXCLUSION à ce rôle."""
+    eligible = filter_meta_pool_candidates_for_role(
+        [champion.strip()],
+        role,
+        catalog,
+        patch,
+    )
+    key = champion.strip().casefold()
+    return any(name.casefold() == key for name in eligible)
 
 
 def replace_role_pick(
@@ -319,139 +362,6 @@ def decompose_winrate_delta(
     }
 
 
-def _describe_synergy_shift(
-    baseline: dict[str, Any],
-    updated: dict[str, Any],
-    team_side: TeamSide,
-    changed_side: ChangedSide,
-) -> str:
-    side = _changed_team_side(team_side, changed_side)
-    prof_b = _detail_for_side(baseline, side)["attribute_profile"]
-    prof_n = _detail_for_side(updated, side)["attribute_profile"]
-    shifts: list[str] = []
-    for key, label in ATTRIBUTE_LABELS_FR.items():
-        delta = float(prof_n[key]) - float(prof_b[key])
-        if abs(delta) >= 0.12:
-            shifts.append(label)
-    if not shifts:
-        return "meilleure cohérence globale de la composition"
-    return f"plus de {', '.join(shifts[:2])}, cohérent avec le reste de la comp"
-
-
-def build_decomposed_reason(
-    *,
-    headline: str,
-    decomposition: dict[str, float],
-    role: str,
-    candidate: str,
-    current: str | None,
-    opponent: list[dict[str, str]],
-    team: list[dict[str, str]],
-    baseline: dict[str, Any],
-    updated: dict[str, Any],
-    team_side: TeamSide,
-    changed_side: ChangedSide,
-    patch: str,
-    mode: PredictionMode,
-) -> str:
-    role = normalize_role(role)
-    role_fr = ROLE_LABELS_FR.get(role, role.lower())
-    wr_label = "pro" if mode == "pro" else "soloQ"
-    delta = decomposition
-    parts: list[str] = [headline]
-
-    force_clause: str | None = None
-    opp_same = _champion_for_role(opponent, role)
-    cand_wr = _champion_winrate_for(candidate, role, patch, mode)
-    curr_wr = _champion_winrate_for(current, role, patch, mode) if current else None
-    opp_wr = _champion_winrate_for(opp_same, role, patch, mode) if opp_same else None
-
-    if abs(delta["delta_force"]) >= 0.05:
-        if changed_side == "team" and opp_same and cand_wr is not None and opp_wr is not None:
-            force_clause = (
-                f"{delta['delta_force']:+.1f} pt car {candidate} est un profil plus favorable "
-                f"face à {opp_same} en {role_fr} ({wr_label})"
-            )
-        elif changed_side == "opponent" and opp_same and cand_wr is not None:
-            force_clause = (
-                f"{delta['delta_force']:+.1f} pt car {candidate} renforcerait l'{role_fr} adverse "
-                f"face à {_champion_for_role(team, role) or 'votre pick'} ({wr_label})"
-            )
-        else:
-            force_clause = f"{delta['delta_force']:+.1f} pt via la force individuelle ({wr_label})"
-
-    duo_clause: str | None = None
-    if role in DUO_ROLES and abs(delta["delta_duo"]) >= 0.05:
-        team_ref = team if changed_side == "team" else opponent
-        if role == "BOTTOM":
-            partner = _champion_for_role(team_ref, "UTILITY")
-            duo_clause = (
-                f"{delta['delta_duo']:+.1f} pt via le duo bot avec {partner or 'le support'}"
-            )
-        elif role == "JUNGLE":
-            partner = _champion_for_role(team_ref, "UTILITY")
-            duo_clause = (
-                f"{delta['delta_duo']:+.1f} pt via le duo jungle-support "
-                f"avec {partner or 'le support'}"
-            )
-        else:
-            adc = _champion_for_role(team_ref, "BOTTOM")
-            jng = _champion_for_role(team_ref, "JUNGLE")
-            duo_clause = (
-                f"{delta['delta_duo']:+.1f} pt via les duos bot/jungle "
-                f"({adc or 'adc'}/{jng or 'jungle'})"
-            )
-
-    synergy_shift = _describe_synergy_shift(baseline, updated, team_side, changed_side)
-    clauses: list[str] = []
-    if force_clause:
-        clauses.append(force_clause)
-    if abs(delta["delta_synergie"]) >= 0.05:
-        if delta["delta_synergie"] > 0:
-            clauses.append(
-                f"{delta['delta_synergie']:+.1f} pt car elle renforce la synergie globale "
-                f"({synergy_shift})"
-            )
-        else:
-            clauses.append(
-                f"{delta['delta_synergie']:+.1f} pt sur la synergie globale de la composition"
-            )
-    if duo_clause:
-        clauses.append(duo_clause)
-
-    if clauses:
-        parts.append(
-            f"{delta['delta_total']:+.1f} pt au total — dont " + ", et ".join(clauses[:3]) + "."
-        )
-    else:
-        parts.append(f"{delta['delta_total']:+.1f} pt au total.")
-
-    if changed_side == "team" and delta["delta_force"] > 0.05 and delta["delta_synergie"] < -0.05:
-        parts.append(
-            f"Attention : ce pick gagne sa lane mais affaiblit légèrement la synergie globale "
-            f"de l'équipe ({delta['delta_synergie']:+.1f} pt), le gain net reste "
-            f"{'positif' if delta['delta_total'] > 0 else 'négatif'} mais plus modeste qu'il n'y paraît."
-        )
-
-    stats_context: DescriptiveContext = "neutral"
-    if changed_side == "team" and force_clause and delta["delta_force"] > 0.05:
-        stats_context = "counter"
-    elif changed_side == "opponent" and delta["delta_force"] < -0.05:
-        stats_context = "threat"
-
-    descriptive = format_descriptive_stats_clause(
-        candidate,
-        role,
-        caller="suggest_draft",
-        role_fr=role_fr,
-        context=stats_context,
-    )
-    if descriptive:
-        parts.append(descriptive)
-
-    return " ".join(parts)
-
-
 def _champion_for_role(team: list[dict[str, str]], role: str) -> str | None:
     role = normalize_role(role)
     for slot in team:
@@ -525,7 +435,7 @@ def suggest_improvements(
         for champion in available_champions
         if champion.strip() and champion.strip().casefold() not in used
     ]
-    candidates = champions_playable_on_role(pool, role, catalog)
+    candidates = filter_meta_pool_candidates_for_role(pool, role, catalog, patch)
     if not candidates:
         return {
             "team_side": team_side,
@@ -548,26 +458,24 @@ def suggest_improvements(
         decomposition = decompose_winrate_delta(
             baseline, result, team_side, role, "team", mode
         )
-        role_fr = ROLE_LABELS_FR.get(role, role.lower())
-        headline = (
-            f"{candidate} à la place de {current_champion} ({role_fr})"
-            if current_champion
-            else f"{candidate} en {role_fr}"
-        )
-        reason = build_decomposed_reason(
-            headline=headline,
-            decomposition=decomposition,
-            role=role,
-            candidate=candidate,
-            current=current_champion,
-            opponent=opponent,
-            team=modified_team,
-            baseline=baseline,
-            updated=result,
-            team_side=team_side,
-            changed_side="team",
-            patch=patch,
-            mode=mode,
+        team_so_far = [
+            slot["champion"]
+            for slot in team
+            if normalize_role(slot["role"]) != role
+        ]
+        reason = generate_pick_justification(
+            candidate,
+            role,
+            team_context=modified_team,
+            opponent_context=opponent,
+            source_data={
+                "patch": patch,
+                "mode": mode,
+                "pick_side": "team",
+                "changed_side": "team",
+                "decomposition": decomposition,
+                "archetype_score": score_archetype_coherence(team_so_far, candidate),
+            },
         )
         suggestions.append(
             {
@@ -722,15 +630,8 @@ def _bot_meta_pool_for_role(
     limit: int,
 ) -> list[str]:
     """Pool candidats bot pro : get_meta_pool_for_role sur champions jouables disponibles."""
-    champion_features, _, lookup_by_norm = get_meraki_context()
-    playable = champions_playable_on_role(pool, role, catalog)
-    return get_meta_pool_for_role(
-        role,
-        patch,
-        top_n=limit,
-        candidates=playable,
-        champion_features=champion_features,
-        lookup_by_norm=lookup_by_norm,
+    return filter_meta_pool_candidates_for_role(
+        pool, role, catalog, patch, top_n=limit
     )
 
 
@@ -970,6 +871,144 @@ def _bot_pick_selection_score(
             score -= (min_synergy - synergy) * PRO_BOT_SYNERGY_PENALTY_SCALE
 
     return score
+
+
+def decompose_bot_candidate_score(
+    bot_partial_picks: list[dict[str, str]],
+    opponent_partial_picks: list[dict[str, str]],
+    candidate: str,
+    candidate_role: str,
+    patch: str,
+    available_champions: list[str],
+    team_side: TeamSide = "blue",
+    mode: PredictionMode = "pro",
+    *,
+    weight_archetype: float = WEIGHT_ARCHETYPE,
+) -> dict[str, Any] | None:
+    """Décompose le score de sélection d'un candidat bot (composantes brutes + pondérées)."""
+    patch = patch.strip()
+    warmup_predict_caches(patch)
+    catalog = get_champion_role_catalog()
+
+    bot_partial = slots_to_team(bot_partial_picks)
+    opponent_partial = slots_to_team(opponent_partial_picks)
+    candidate_role = normalize_role(candidate_role)
+
+    reserved = {
+        slot["champion"].casefold()
+        for slot in bot_partial + opponent_partial
+    }
+    pool = [
+        champion.strip()
+        for champion in available_champions
+        if champion.strip() and champion.strip().casefold() not in reserved
+    ]
+    if candidate.casefold() in reserved:
+        return None
+
+    bot_remaining = [
+        role
+        for role in ROLES_ORDER
+        if role not in {normalize_role(slot["role"]) for slot in bot_partial}
+    ]
+    if candidate_role not in bot_remaining:
+        return None
+
+    opponent_remaining = [
+        role
+        for role in ROLES_ORDER
+        if role not in {normalize_role(slot["role"]) for slot in opponent_partial}
+    ] or ROLES_ORDER.copy()
+
+    locked_picks = len(bot_partial)
+    meta_scored = _pro_meta_score_for(candidate, candidate_role) if mode == "pro" else None
+    candidate_meta = meta_scored[0] if meta_scored else None
+    locked_duo_bonus = (
+        _locked_pro_duo_bonus(bot_partial, candidate, candidate_role) if mode == "pro" else 0.0
+    )
+
+    trial_reserved = reserved | {candidate.casefold()}
+    bot_full = build_simulated_team_with_pick(
+        partial_picks=bot_partial,
+        candidate=candidate,
+        candidate_role=candidate_role,
+        remaining_roles=bot_remaining,
+        catalog=catalog,
+        available_champions=pool,
+        reserved=trial_reserved,
+        patch=patch,
+        mode=mode,
+    )
+    if bot_full is None:
+        return None
+
+    used_for_opp = trial_reserved | {
+        slot["champion"].casefold() for slot in bot_full
+    }
+    opponent_full = build_team_with_meta_fillers(
+        partial_picks=opponent_partial,
+        remaining_roles=opponent_remaining,
+        catalog=catalog,
+        available_champions=pool,
+        reserved=used_for_opp,
+        patch=patch,
+        mode=mode,
+    )
+    if opponent_full is None:
+        return None
+
+    mod_blue, mod_red = build_matchup_teams(bot_full, opponent_full, team_side)
+    result = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
+    win_prob = team_side_win_probability(result, team_side)
+    detail = _detail_for_side(result, team_side)
+    synergy = float(detail["score_synergie"])
+    duo_avg = _average_measured_duo_score(result, team_side)
+    team_so_far = [slot["champion"] for slot in bot_partial]
+    archetype_score = score_archetype_coherence(team_so_far, candidate)
+
+    score_winrate = win_prob * 100.0
+    score_synergy_ml = synergy * 100.0 * PRO_BOT_SYNERGY_WEIGHT
+    score_duo = duo_avg * 100.0 * PRO_BOT_DUO_WEIGHT if duo_avg is not None else 0.0
+    score_meta = (
+        candidate_meta * 100.0 * PRO_BOT_META_WEIGHT if candidate_meta is not None else 0.0
+    )
+    score_archetype = archetype_score * 100.0 * weight_archetype
+
+    synergy_penalty = 0.0
+    if mode == "pro":
+        min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
+        if locked_picks >= 1 and synergy < min_synergy:
+            synergy_penalty = (min_synergy - synergy) * PRO_BOT_SYNERGY_PENALTY_SCALE
+
+    selection_score = (
+        score_winrate
+        + score_synergy_ml
+        + score_duo
+        + score_meta
+        + locked_duo_bonus
+        + score_archetype
+        - synergy_penalty
+    )
+
+    return {
+        "champion": candidate,
+        "role": candidate_role,
+        "win_probability": round(win_prob, 4),
+        "synergy_raw": round(synergy, 4),
+        "meta_raw": round(candidate_meta, 4) if candidate_meta is not None else None,
+        "duo_raw": round(duo_avg, 4) if duo_avg is not None else None,
+        "archetype_raw": archetype_score,
+        "duo_bonus": round(locked_duo_bonus, 2),
+        "score_winrate": round(score_winrate, 2),
+        "score_synergy_ml": round(score_synergy_ml, 2),
+        "score_duo": round(score_duo, 2),
+        "score_meta": round(score_meta, 2),
+        "score_archetype": round(score_archetype, 2),
+        "score_duo_bonus": round(locked_duo_bonus, 2),
+        "score_synergy_penalty": round(synergy_penalty, 2),
+        "selection_score": round(selection_score, 2),
+        "weight_archetype": weight_archetype,
+    }
 
 
 def _weighted_bot_pick(
@@ -1220,6 +1259,22 @@ def suggest_bot_pick(
         chosen.get("pro_games"),
     )
 
+    bot_team_with_pick = bot_partial + [
+        {"champion": chosen["champion"], "role": chosen["role"]}
+    ]
+    chosen["reason"] = generate_pick_justification(
+        chosen["champion"],
+        chosen["role"],
+        team_context=bot_team_with_pick,
+        opponent_context=opponent_partial,
+        source_data={
+            "patch": patch,
+            "mode": mode,
+            "pick_side": "team",
+            "archetype_score": chosen.get("archetype_score"),
+        },
+    )
+
     return chosen
 
 
@@ -1277,15 +1332,31 @@ def suggest_ban(
     baseline = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
     baseline_opp_prob = opponent_side_win_probability(baseline, team_side)
 
+    meta_pools_by_role: dict[str, set[str]] = {}
+    canonical_by_key: dict[str, str] = {}
+    for slot_role in remaining:
+        for name in filter_meta_pool_candidates_for_role(
+            pool, slot_role, catalog, patch
+        ):
+            meta_pools_by_role.setdefault(slot_role, set()).add(name.casefold())
+            canonical_by_key[name.casefold()] = name
+
+    ban_candidate_keys: set[str] = set()
+    for slot_role in remaining:
+        ban_candidate_keys |= meta_pools_by_role.get(slot_role, set())
+
     suggestions: list[dict[str, Any]] = []
-    for candidate in sorted(set(pool), key=str.casefold):
-        reserved = used | {candidate.casefold()}
+    for key in sorted(ban_candidate_keys, key=str.casefold):
+        candidate = canonical_by_key[key]
+        reserved = used | {key}
         best_opponent_prob = -1.0
         best_role: str | None = None
         best_result: dict[str, Any] | None = None
         best_opponent_full: list[dict[str, str]] | None = None
 
         for role in remaining:
+            if key not in meta_pools_by_role.get(role, set()):
+                continue
             if role not in catalog.get(candidate, []):
                 continue
 
@@ -1319,24 +1390,18 @@ def suggest_ban(
         decomposition = decompose_winrate_delta(
             baseline, best_result, team_side, best_role, "opponent", mode
         )
-        role_fr = ROLE_LABELS_FR.get(best_role, best_role.lower())
-        reason = build_decomposed_reason(
-            headline=(
-                f"Si l'adversaire pick {candidate} ({role_fr}), "
-                f"votre winrate"
-            ),
-            decomposition=decomposition,
-            role=best_role,
-            candidate=candidate,
-            current=None,
-            opponent=best_opponent_full,
-            team=team,
-            baseline=baseline,
-            updated=best_result,
-            team_side=team_side,
-            changed_side="opponent",
-            patch=patch,
-            mode=mode,
+        reason = generate_pick_justification(
+            candidate,
+            best_role,
+            team_context=team,
+            opponent_context=best_opponent_full,
+            source_data={
+                "patch": patch,
+                "mode": mode,
+                "pick_side": "opponent",
+                "changed_side": "opponent",
+                "decomposition": decomposition,
+            },
         )
 
         threat_points = (
@@ -1408,6 +1473,9 @@ def suggest_retrospective_bans(
         role = normalize_role(slot["role"])
         banned_champ = slot["champion"]
 
+        if not is_champion_in_meta_pool_for_role(banned_champ, role, catalog, patch):
+            continue
+
         reserved = {pick["champion"].casefold() for pick in team + opponent}
         reserved.discard(banned_champ.casefold())
 
@@ -1428,21 +1496,19 @@ def suggest_retrospective_bans(
             baseline, result, team_side, role, "opponent", mode
         )
         gain = decomposition["delta_total"]
-        role_fr = ROLE_LABELS_FR.get(role, role.lower())
-        reason = build_decomposed_reason(
-            headline=f"Ban manqué : {banned_champ} ({role_fr})",
-            decomposition=decomposition,
-            role=role,
-            candidate=banned_champ,
-            current=filler,
-            opponent=opponent,
-            team=team,
-            baseline=baseline,
-            updated=result,
-            team_side=team_side,
-            changed_side="opponent",
-            patch=patch,
-            mode=mode,
+        reason = generate_pick_justification(
+            banned_champ,
+            role,
+            team_context=team,
+            opponent_context=opponent,
+            source_data={
+                "patch": patch,
+                "mode": mode,
+                "pick_side": "opponent",
+                "changed_side": "opponent",
+                "decomposition": decomposition,
+                "prefix": f"Ban manqué sur {banned_champ} ({ROLE_LABELS_FR.get(role, role.lower())})",
+            },
         )
 
         if gain < MIN_RETROSPECTIVE_BAN_GAIN:
@@ -1520,7 +1586,7 @@ def suggest_retrospective_picks(
             patch=patch,
             available_champions=available_champions,
             team_side=team_side,
-            top_n=max(picks_per_role * 5, 20),
+            top_n=max(picks_per_role * 15, 50),
             mode=mode,
         )
         if not role_result["suggestions"]:
@@ -1529,6 +1595,8 @@ def suggest_retrospective_picks(
         added_for_role = 0
         for candidate in role_result["suggestions"]:
             if candidate["champion"].casefold() == current_champion.casefold():
+                continue
+            if candidate["gain_percentage_points"] <= 0:
                 continue
 
             suggestions.append(

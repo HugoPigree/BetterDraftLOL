@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import logging
 import math
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -21,7 +22,10 @@ PRO_VOLUME_WEIGHT = 0.55
 PRO_WINRATE_WEIGHT = 0.45
 PRO_WINRATE_PRIOR_RATIO = 0.15
 PRO_OFF_ROLE_MIN_RATIO = 0.20
+PRESENCE_SCORE_WEIGHT = 0.15  # score_final = meta_score + weight * presence_score
 DEFAULT_ORACLE_CSV = Path("data/2026_LoL_esports_match_data_from_OraclesElixir.csv")
+DEFAULT_META_TIERLIST_CSV = Path("data/meta_tierlist.csv")
+ROLES_ORDER = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"]
 
 ORACLE_POSITION_TO_ROLE = {
     "top": "TOP",
@@ -35,14 +39,19 @@ _pro_winrate_lookup: dict[tuple[str, str], tuple[float, int]] | None = None
 _pro_oracle_path: Path | None = None
 _role_pro_volume_cache: dict[str, dict[str, float]] = {}
 _champion_pro_roles_cache: dict[str, dict[str, int]] = {}
+_presence_lookup: dict[tuple[str, str], float] | None = None
+_presence_csv_path: Path | None = None
 
 
 def reset_pro_force_state() -> None:
-    global _pro_winrate_lookup, _pro_oracle_path, _role_pro_volume_cache, _champion_pro_roles_cache
+    global _pro_winrate_lookup, _pro_oracle_path, _role_pro_volume_cache
+    global _champion_pro_roles_cache, _presence_lookup, _presence_csv_path
     _pro_winrate_lookup = None
     _pro_oracle_path = None
     _role_pro_volume_cache = {}
     _champion_pro_roles_cache = {}
+    _presence_lookup = None
+    _presence_csv_path = None
 
 
 def build_pro_winrate_lookup(
@@ -319,25 +328,80 @@ def rank_pro_champions_for_role(
     return ranked
 
 
-def get_meta_pool_for_role(
+def load_presence_lookup(
+    tierlist_csv: Path = DEFAULT_META_TIERLIST_CSV,
+) -> dict[tuple[str, str], float]:
+    """Charge presence_score (pick_rate + ban_rate) depuis meta_tierlist.csv."""
+    global _presence_lookup, _presence_csv_path
+    if _presence_csv_path == tierlist_csv and _presence_lookup is not None:
+        return _presence_lookup
+
+    if not tierlist_csv.exists():
+        logger.warning(
+            "meta_tierlist.csv introuvable (%s) — presence_score=0 pour le tri pool.",
+            tierlist_csv,
+        )
+        _presence_lookup = {}
+        _presence_csv_path = tierlist_csv
+        return _presence_lookup
+
+    df = pd.read_csv(tierlist_csv)
+    lookup: dict[tuple[str, str], float] = {}
+    for _, row in df.iterrows():
+        champion = str(row["champion"]).strip()
+        role = _normalize_role(str(row["role"]))
+        lookup[(champion, role)] = float(row["presence_score"])
+    _presence_lookup = lookup
+    _presence_csv_path = tierlist_csv
+    logger.info("Presence lookup charge: %d entrees depuis %s", len(lookup), tierlist_csv)
+    return lookup
+
+
+def get_presence_score(
+    champion: str,
+    role: str,
+    tierlist_csv: Path = DEFAULT_META_TIERLIST_CSV,
+) -> float:
+    role = _normalize_role(role)
+    lookup = load_presence_lookup(tierlist_csv)
+    return lookup.get((champion.strip(), role), 0.0)
+
+
+def compute_final_meta_score(
+    meta_score: float,
+    presence_score: float,
+    *,
+    presence_weight: float = PRESENCE_SCORE_WEIGHT,
+) -> float:
+    return meta_score + presence_weight * presence_score
+
+
+@dataclass(frozen=True)
+class MetaPoolEntry:
+    name: str
+    meta_score: float
+    presence_score: float
+    final_score: float
+    games: int
+    fitness: float
+
+
+def _rank_meta_pool_for_role(
     role: str,
     patch: str,
-    top_n: int = 15,
     *,
     candidates: list[str] | None = None,
     champion_features: dict[str, dict[str, Any]] | None = None,
     lookup_by_norm: dict[str, str] | None = None,
     min_fitness: float = PRO_OFF_ROLE_MIN_RATIO,
     oracle_csv: Path = DEFAULT_ORACLE_CSV,
-) -> list[str]:
-    """Pool meta pro pour le bot : exclusion dure < MIN_GAMES_EXCLUSION, tri par meta_score.
-
-    Ne complète jamais avec des champions sous le seuil, même si moins de top_n disponibles.
-    ``patch`` est réservé pour un filtrage futur par patch Oracle.
-    """
-    del patch  # réservé pour filtrage patch futur
+    tierlist_csv: Path = DEFAULT_META_TIERLIST_CSV,
+    apply_presence_bonus: bool = True,
+    presence_weight: float = PRESENCE_SCORE_WEIGHT,
+) -> list[MetaPoolEntry]:
+    """Classe les candidats apres filtre dur MIN_GAMES_EXCLUSION."""
+    del patch
     role = _normalize_role(role)
-    top_n = max(1, top_n)
 
     if champion_features is None or lookup_by_norm is None:
         from predict_draft import get_meraki_context
@@ -356,7 +420,9 @@ def get_meta_pool_for_role(
             key=str.casefold,
         )
 
-    ranked: list[tuple[float, int, float, float, str]] = []
+    presence_lookup = load_presence_lookup(tierlist_csv) if apply_presence_bonus else {}
+    ranked: list[MetaPoolEntry] = []
+
     for champion in pool_candidates:
         entry = compute_pro_winrate_by_champion(
             champion,
@@ -376,14 +442,132 @@ def get_meta_pool_for_role(
             continue
         if scored[3] < min_fitness:
             continue
-        ranked.append(scored)
 
-    ranked.sort(key=lambda item: (-item[0], -item[1], item[4].casefold()))
-    selected = [name for _, _, _, _, name in ranked[:top_n]]
+        meta_score, games, _, fitness, name = scored
+        presence = presence_lookup.get((name, role), 0.0) if apply_presence_bonus else 0.0
+        final_score = (
+            compute_final_meta_score(meta_score, presence, presence_weight=presence_weight)
+            if apply_presence_bonus
+            else meta_score
+        )
+        ranked.append(
+            MetaPoolEntry(
+                name=name,
+                meta_score=meta_score,
+                presence_score=presence,
+                final_score=final_score,
+                games=games,
+                fitness=fitness,
+            )
+        )
+
+    ranked.sort(
+        key=lambda item: (-item.final_score, -item.games, item.name.casefold())
+    )
+    return ranked
+
+
+def print_meta_pool_comparison(
+    patch: str = "16.13",
+    top_n: int = 15,
+    *,
+    oracle_csv: Path = DEFAULT_ORACLE_CSV,
+    tierlist_csv: Path = DEFAULT_META_TIERLIST_CSV,
+    presence_weight: float = PRESENCE_SCORE_WEIGHT,
+) -> None:
+    """Compare top-N pool par role : meta_score seul vs meta_score + presence."""
+    from predict_draft import get_meraki_context
+
+    get_meraki_context()
+    print("\n" + "=" * 88)
+    print(
+        f"COMPARAISON POOL TOP-{top_n} — meta_score seul vs "
+        f"meta_score + {presence_weight} x presence_score"
+    )
+    print(f"(filtre dur >= {MIN_GAMES_EXCLUSION} games inchange)")
+    print("=" * 88)
+
+    for role in ROLES_ORDER:
+        before = _rank_meta_pool_for_role(
+            role,
+            patch,
+            apply_presence_bonus=False,
+            oracle_csv=oracle_csv,
+            tierlist_csv=tierlist_csv,
+        )[:top_n]
+        after = _rank_meta_pool_for_role(
+            role,
+            patch,
+            apply_presence_bonus=True,
+            oracle_csv=oracle_csv,
+            tierlist_csv=tierlist_csv,
+            presence_weight=presence_weight,
+        )[:top_n]
+
+        before_names = {entry.name for entry in before}
+        after_names = {entry.name for entry in after}
+        only_before = sorted(before_names - after_names, key=str.casefold)
+        only_after = sorted(after_names - before_names, key=str.casefold)
+
+        print(f"\n--- {role} ---")
+        print(f"{'#':>2}  {'meta_score seul':<32}  {'+ presence bonus':<32}")
+        for index in range(top_n):
+            left = (
+                f"{index + 1:2}. {before[index].name:<16} "
+                f"(m={before[index].meta_score:.3f})"
+                if index < len(before)
+                else ""
+            )
+            right = (
+                f"{index + 1:2}. {after[index].name:<16} "
+                f"(f={after[index].final_score:.3f} m={after[index].meta_score:.3f} "
+                f"p={after[index].presence_score:.3f})"
+                if index < len(after)
+                else ""
+            )
+            print(f"{index + 1:2}  {left:<32}  {right}")
+
+        if only_before:
+            print(f"  Sortis du top-{top_n} : {', '.join(only_before)}")
+        if only_after:
+            print(f"  Entres dans top-{top_n} : {', '.join(only_after)}")
+        if not only_before and not only_after:
+            print(f"  Meme set top-{top_n} (ordre possiblement different).")
+
+
+def get_meta_pool_for_role(
+    role: str,
+    patch: str,
+    top_n: int = 15,
+    *,
+    candidates: list[str] | None = None,
+    champion_features: dict[str, dict[str, Any]] | None = None,
+    lookup_by_norm: dict[str, str] | None = None,
+    min_fitness: float = PRO_OFF_ROLE_MIN_RATIO,
+    oracle_csv: Path = DEFAULT_ORACLE_CSV,
+) -> list[str]:
+    """Pool meta pro : exclusion dure >= MIN_GAMES_EXCLUSION, tri score_final_meta.
+
+    score_final_meta = meta_score + PRESENCE_SCORE_WEIGHT * presence_score
+    (presence depuis meta_tierlist.csv). Wilson LB n'entre pas dans le tri.
+    """
+    top_n = max(1, top_n)
+    ranked = _rank_meta_pool_for_role(
+        role,
+        patch,
+        candidates=candidates,
+        champion_features=champion_features,
+        lookup_by_norm=lookup_by_norm,
+        min_fitness=min_fitness,
+        oracle_csv=oracle_csv,
+        tierlist_csv=DEFAULT_META_TIERLIST_CSV,
+        apply_presence_bonus=True,
+    )
+    selected = [entry.name for entry in ranked[:top_n]]
 
     logger.debug(
         "Meta pool %s: %d candidats (>=%d games), retourne top_%d=%s",
-        role,
+        _normalize_role(role),
         len(ranked),
         MIN_GAMES_EXCLUSION,
         top_n,

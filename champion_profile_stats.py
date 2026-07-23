@@ -30,6 +30,7 @@ DESCRIPTIVE_DISCLAIMER = "(statistique historique moyenne)"
 ALLOWED_DESCRIPTIVE_CALLERS = frozenset(
     {
         "suggest_draft",
+        "justification_builder",
         "chatbot_rules",
         "api_descriptive_enrichment",
         "champion_profile_stats",
