@@ -32,6 +32,7 @@ from pro_force import (
 )
 from build_duo_dataset import get_duo_score
 from champion_profile_stats import DescriptiveContext, format_descriptive_stats_clause
+from composition_archetype import score_archetype_coherence
 
 logger = logging.getLogger(__name__)
 
@@ -697,6 +698,9 @@ TEMPERATURE_BOT_PICK = 1.0
 PRO_BOT_SYNERGY_WEIGHT = 0.38
 PRO_BOT_DUO_WEIGHT = 0.22
 PRO_BOT_META_WEIGHT = 0.18
+# Cohérence d'archétype (early/late, engage/peel, AD/AP). Testé empiriquement : 0.18
+# pénalise ~18 pts un carry fragile dans une comp dive sans changer le softmax global.
+WEIGHT_ARCHETYPE = 0.18
 PRO_BOT_SYNERGY_PENALTY_SCALE = 90.0
 PRO_MIN_SYNERGY_AFTER_TWO_PICKS = 0.44
 
@@ -941,8 +945,9 @@ def _bot_pick_selection_score(
     locked_picks: int,
     candidate_meta: float | None = None,
     locked_duo_bonus: float = 0.0,
+    archetype_score: float | None = None,
 ) -> float:
-    """Score de sélection : winrate + synergie ML + duos pro + meta Oracle."""
+    """Score de sélection : winrate + synergie ML + duos pro + meta + archétype."""
     win_prob = team_side_win_probability(result, team_side)
     detail = _detail_for_side(result, team_side)
     synergy = float(detail["score_synergie"])
@@ -957,6 +962,8 @@ def _bot_pick_selection_score(
         if candidate_meta is not None:
             score += candidate_meta * 100.0 * PRO_BOT_META_WEIGHT
         score += locked_duo_bonus
+        if archetype_score is not None:
+            score += archetype_score * 100.0 * WEIGHT_ARCHETYPE
 
         min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
         if locked_picks >= 1 and synergy < min_synergy:
@@ -1106,6 +1113,8 @@ def suggest_bot_pick(
             mod_blue, mod_red = build_matchup_teams(bot_full, opponent_full, team_side)
             result = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
             win_prob = team_side_win_probability(result, team_side)
+            team_so_far = [slot["champion"] for slot in bot_partial]
+            archetype_score = score_archetype_coherence(team_so_far, candidate)
             selection_score = _bot_pick_selection_score(
                 result,
                 team_side,
@@ -1113,6 +1122,7 @@ def suggest_bot_pick(
                 locked_picks,
                 candidate_meta=candidate_meta,
                 locked_duo_bonus=locked_duo_bonus,
+                archetype_score=archetype_score,
             )
             synergy = float(_detail_for_side(result, team_side)["score_synergie"])
 
@@ -1126,6 +1136,7 @@ def suggest_bot_pick(
                 "pro_games": pro_entry[1] if pro_entry else None,
                 "meta_score": round(candidate_meta, 4) if candidate_meta is not None else None,
                 "role_fitness": round(meta_scored[3], 4) if meta_scored else None,
+                "archetype_score": archetype_score,
             }
 
             if mode == "pro":
@@ -1138,6 +1149,7 @@ def suggest_bot_pick(
                         "win_prob": entry["win_probability"],
                         "synergy": entry["synergy"],
                         "duo_bonus": round(locked_duo_bonus, 2),
+                        "archetype_score": archetype_score,
                         "selection_score": round(selection_score, 2),
                     }
                 )
