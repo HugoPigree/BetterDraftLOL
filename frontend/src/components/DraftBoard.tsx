@@ -48,6 +48,9 @@ interface DraftBoardProps {
   highlightedSide?: Team | null;
   resultBluePicks?: DraftPick[];
   resultRedPicks?: DraftPick[];
+  onExplainBotChoices?: () => void;
+  explainLoading?: boolean;
+  explainError?: string | null;
   children?: ReactNode;
 }
 
@@ -158,6 +161,9 @@ export function DraftBoard({
   highlightedSide = null,
   resultBluePicks,
   resultRedPicks,
+  onExplainBotChoices,
+  explainLoading = false,
+  explainError = null,
   children,
 }: DraftBoardProps) {
   const isEditMode = mode === "result" && Boolean(editComp);
@@ -492,6 +498,19 @@ export function DraftBoard({
               </span>
             )}
           </span>
+          {mode === "result" && botEnabled && onExplainBotChoices && !isEditMode && (
+            <button
+              type="button"
+              className="drafter__explain-btn"
+              onClick={onExplainBotChoices}
+              disabled={explainLoading}
+            >
+              {explainLoading ? "Chargement…" : "Explication des choix"}
+            </button>
+          )}
+          {mode === "result" && explainError && (
+            <span className="drafter__explain-error">{explainError}</span>
+          )}
           {mode === "draft" && !draft.isDraftComplete && (
             <button type="button" className="drafter__reset" onClick={draft.resetDraft}>
               Reset draft

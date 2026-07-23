@@ -12,40 +12,60 @@ from bot_speech_builder import (
 
 def test_build_plain_pick_explanation_has_no_technical_jargon() -> None:
     technical = {
-        "meta": "Ahri est un pick établi en mid pro (900 games, Wilson LB 53%, tendance en hausse)",
-        "composition": "Ce pick comble un manque de peel dans la composition",
-        "duo": "En mid, le duo jungle-support avec Thresh est solide (meta_score 0.72).",
-        "stats": "presence_score élevé et damage_profile magic.",
         "meta_kind": "established",
         "trend": "hausse",
+        "ban_rate": 0.12,
+        "games": 900,
         "composition_shifts": ["peel"],
-        "coherence": "ok",
-        "duo_partner": "Thresh",
+        "duo": {
+            "partner": "Thresh",
+            "lane_label": "bot lane",
+            "winrate": 0.54,
+            "games": 80,
+        },
         "lane_opponent": "Zed",
-        "technical_full": "Ahri est un pick établi… Wilson LB 53%… archétype Meraki…",
+        "my_gold_at_15": 145.0,
+        "opp_gold_at_15": 20.0,
     }
 
     spoken = build_plain_pick_explanation("Ahri", "MIDDLE", technical)
 
     assert spoken
     assert "Ahri" in spoken
+    assert "900" in spoken or "Thresh" in spoken or "145" in spoken
     for banned in TECHNICAL_BLACKLIST:
         assert banned not in spoken, f"Jargon technique trouvé: {banned!r} dans {spoken!r}"
 
 
-def test_build_plain_pick_explanation_covers_matchup_and_duo() -> None:
+def test_build_plain_pick_explanation_duo_and_matchup_are_concrete() -> None:
     spoken = build_plain_pick_explanation(
-        "Jinx",
+        "Sivir",
         "BOTTOM",
         {
             "meta_kind": "established",
-            "trend": None,
-            "composition_shifts": ["engage"],
-            "duo_partner": "Nautilus",
-            "lane_opponent": "Kai'Sa",
+            "games": 400,
+            "composition_shifts": ["damage_balance"],
+            "duo": {
+                "partner": "Bard",
+                "lane_label": "bot lane",
+                "winrate": 0.553,
+                "games": 62,
+            },
+            "lane_opponent": "Caitlyn",
+            "my_gold_at_15": 120.0,
+            "opp_gold_at_15": 40.0,
+            "damage_before": {
+                "damage_profile": {"physical_count": 3, "magic_count": 1},
+            },
+            "damage_after": {
+                "damage_profile": {"physical_count": 3, "magic_count": 2},
+            },
         },
     )
-    assert "Jinx" in spoken or "Nautilus" in spoken or "Kai'Sa" in spoken
+    assert "Bard" in spoken
+    assert "55.3%" in spoken or "55%" in spoken or "winrate" in spoken.lower()
+    assert "Caitlyn" in spoken
+    assert "gold" in spoken.lower()
     for banned in ("Wilson", "meta_score", "presence_score", "damage_profile"):
         assert banned not in spoken
 
@@ -58,7 +78,9 @@ def test_build_plain_team_synergy_summary_has_no_technical_jargon() -> None:
             "engage_score": 0.7,
             "peel_score": 0.6,
             "damage_profile": {
-                "magic_ratio": 0.45,
+                "physical_count": 3,
+                "magic_count": 2,
+                "magic_ratio": 0.4,
                 "damage_balance": 0.9,
             },
         },

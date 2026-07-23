@@ -163,6 +163,15 @@ function App() {
           resultRedPicks={
             postDraft.phase === "result" ? postDraft.redPicks : undefined
           }
+          onExplainBotChoices={
+            botEnabled && postDraft.phase === "result" && !postDraft.isEditing
+              ? () => {
+                  void botExplanation.start();
+                }
+              : undefined
+          }
+          explainLoading={botExplanation.loading}
+          explainError={botExplanation.error}
           confirmRoles={
             postDraft.phase === "confirmRoles"
               ? {
@@ -221,12 +230,6 @@ function App() {
                   onReset={handleReset}
                   onStartEditing={postDraft.startEditing}
                   isEditing={postDraft.isEditing}
-                  botEnabled={botEnabled}
-                  onExplainBotChoices={() => {
-                    void botExplanation.start();
-                  }}
-                  explainLoading={botExplanation.loading}
-                  explainError={botExplanation.error}
                 />
               )}
             </>
