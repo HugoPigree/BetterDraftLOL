@@ -1,8 +1,28 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "api.py": {
-      "excludeFiles": "{frontend/**,test_*.py,train_*.py,audit_*.py,collect_*.py,diagnostic_*.py,debug_*.py,export_*.py}"
+  "services": {
+    "frontend": {
+      "root": "frontend/",
+      "framework": "vite"
+    },
+    "backend": {
+      "root": "./",
+      "entrypoint": "api:app",
+      "functions": {
+        "api.py": {
+          "excludeFiles": "{frontend/**,test_*.py,train_*.py,audit_*.py,collect_*.py,diagnostic_*.py,debug_*.py,export_*.py}"
+        }
+      }
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": { "service": "backend" }
+    },
+    {
+      "source": "/(.*)",
+      "destination": { "service": "frontend" }
+    }
+  ]
 }

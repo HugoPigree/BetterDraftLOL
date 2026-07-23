@@ -39,7 +39,9 @@ ALLOWED_ORIGINS = [
     "http://localhost:5174",
     "http://127.0.0.1:5173",
     "http://127.0.0.1:5174",
+    "https://better-draft-lol.vercel.app",
 ]
+ALLOWED_ORIGIN_REGEX = r"https://.*\.vercel\.app"
 
 
 class Role(str, Enum):
@@ -375,9 +377,18 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
+    @app.middleware("http")
+    async def strip_api_prefix(request: Request, call_next):
+        # Vercel Services keep the /api prefix; local Vite proxy already strips it.
+        path = request.scope.get("path", "")
+        if path == "/api" or path.startswith("/api/"):
+            request.scope["path"] = path[4:] or "/"
+        return await call_next(request)
+
     app.add_middleware(
         CORSMiddleware,
         allow_origins=ALLOWED_ORIGINS,
+        allow_origin_regex=ALLOWED_ORIGIN_REGEX,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
