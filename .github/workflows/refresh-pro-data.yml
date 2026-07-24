@@ -1,0 +1,49 @@
+name: Refresh pro data
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      train_model:
+        description: "Réentraîner le modèle XGBoost"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Refresh Oracle + Meraki + derived datasets
+        run: |
+          TRAIN_FLAG=""
+          if [ "${{ github.event.inputs.train_model }}" = "true" ]; then
+            TRAIN_FLAG="--train-model"
+          fi
+          python scripts/refresh_data.py $TRAIN_FLAG
+
+      - name: Smoke tests
+        run: |
+          python -m pytest test_meta_status.py test_duo_dataset.py test_meta_tierlist.py -q
+
+      - name: Commit and push if changed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(data): refresh Oracle pro data"
+          file_pattern: "data/* model/* data/oracle_drive_index.json"

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-07-24T19:13:43.383041+00:00",
+  "oracle": {
+    "status": "skipped"
+  },
+  "meraki": {
+    "status": "downloaded",
+    "champion_count": 171,
+    "updated_at": "2026-07-24T19:12:26.239679+00:00",
+    "cache_path": "data\\meraki_champions.json"
+  },
+  "patches": {
+    "latest_patch": "16.14",
+    "patches": [
+      "16.01",
+      "16.02",
+      "16.03",
+      "16.04",
+      "16.05",
+      "16.06",
+      "16.07",
+      "16.08",
+      "16.09",
+      "16.1",
+      "16.11",
+      "16.12",
+      "16.13",
+      "16.14"
+    ],
+    "player_rows": 58670,
+    "team_games": 5867
+  },
+  "unmapped_champions": [
+    "Locke",
+    "Zaahen"
+  ],
+  "artifacts": {
+    "oracle_csv": "data\\2026_LoL_esports_match_data_from_OraclesElixir.csv",
+    "meta_tierlist": "data\\meta_tierlist.csv",
+    "duo_bot_lane": "data\\duo_bot_lane.csv",
+    "duo_jungle_support": "data\\duo_jungle_support.csv",
+    "meraki_cache": "data\\meraki_champions.json"
+  },
+  "warnings": [
+    "unmapped_champions_detected"
+  ]
+}
