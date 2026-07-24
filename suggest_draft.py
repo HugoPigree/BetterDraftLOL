@@ -611,16 +611,24 @@ def build_opponent_team_with_fillers(
     used = set(reserved)
     used.update(name.casefold() for name in picked.values())
 
+    team_champions = [picked[r] for r in ROLES_ORDER if r in picked]
     for role in roles_to_fill:
         if role in picked:
             continue
         filler = _pick_filler_for_role_smart(
-            role, catalog, available_champions, used, patch, mode
+            role,
+            catalog,
+            available_champions,
+            used,
+            patch,
+            mode,
+            team_champions_so_far=team_champions,
         )
         if filler is None:
             return None
         picked[role] = filler
         used.add(filler.casefold())
+        team_champions.append(filler)
 
     if len(picked) != 5:
         return None
@@ -651,16 +659,24 @@ def build_opponent_team_with_pick(
     used.add(candidate.casefold())
     used.update(name.casefold() for name in picked.values())
 
+    team_champions = [picked[r] for r in ROLES_ORDER if r in picked]
     for role in roles_to_fill:
         if role in picked:
             continue
         filler = _pick_filler_for_role_smart(
-            role, catalog, available_champions, used, patch, mode
+            role,
+            catalog,
+            available_champions,
+            used,
+            patch,
+            mode,
+            team_champions_so_far=team_champions,
         )
         if filler is None:
             return None
         picked[role] = filler
         used.add(filler.casefold())
+        team_champions.append(filler)
 
     if len(picked) != 5:
         return None
@@ -753,6 +769,43 @@ def pick_meta_filler_for_role(
     return ranked_mixed[0][3]
 
 
+ARCHETYPE_FILLER_CANDIDATES = 5
+
+
+def pick_archetype_coherent_filler_for_role(
+    role: str,
+    catalog: dict[str, list[str]],
+    available: list[str],
+    reserved: set[str],
+    patch: str,
+    mode: PredictionMode,
+    team_champions_so_far: list[str],
+) -> str | None:
+    """Choisit un filler meta compatible avec l'archétype de la comp partielle."""
+    if not team_champions_so_far:
+        return pick_meta_filler_for_role(role, catalog, available, reserved, patch, mode)
+
+    candidates = _bot_meta_pool_for_role(
+        available, role, catalog, patch, ARCHETYPE_FILLER_CANDIDATES
+    )
+    playable = [
+        champion
+        for champion in candidates
+        if champion.casefold() not in reserved
+    ]
+    if not playable:
+        return pick_meta_filler_for_role(role, catalog, available, reserved, patch, mode)
+
+    return max(
+        playable,
+        key=lambda champion: (
+            score_archetype_coherence(team_champions_so_far, champion),
+            _meta_strength_for(champion, role, patch, mode),
+            tuple(-ord(char) for char in champion.casefold()),
+        ),
+    )
+
+
 def _pick_filler_for_role_smart(
     role: str,
     catalog: dict[str, list[str]],
@@ -760,7 +813,20 @@ def _pick_filler_for_role_smart(
     reserved: set[str],
     patch: str,
     mode: PredictionMode,
+    team_champions_so_far: list[str] | None = None,
 ) -> str | None:
+    if mode == "pro" and team_champions_so_far:
+        coherent = pick_archetype_coherent_filler_for_role(
+            role,
+            catalog,
+            available,
+            reserved,
+            patch,
+            mode,
+            team_champions_so_far,
+        )
+        if coherent is not None:
+            return coherent
     if mode == "pro":
         return pick_meta_filler_for_role(role, catalog, available, reserved, patch, mode)
     return _pick_filler_for_role(role, catalog, available, reserved)
@@ -782,16 +848,24 @@ def build_team_with_meta_fillers(
     used = set(reserved)
     used.update(name.casefold() for name in picked.values())
 
+    team_champions = [picked[r] for r in ROLES_ORDER if r in picked]
     for role in roles_to_fill:
         if role in picked:
             continue
         filler = _pick_filler_for_role_smart(
-            role, catalog, available_champions, used, patch, mode
+            role,
+            catalog,
+            available_champions,
+            used,
+            patch,
+            mode,
+            team_champions_so_far=team_champions,
         )
         if filler is None:
             return None
         picked[role] = filler
         used.add(filler.casefold())
+        team_champions.append(filler)
 
     if len(picked) != 5:
         return None
@@ -825,16 +899,24 @@ def build_simulated_team_with_pick(
     used.add(candidate.casefold())
     used.update(name.casefold() for name in picked.values())
 
+    team_champions = [picked[r] for r in ROLES_ORDER if r in picked]
     for role in roles_to_fill:
         if role in picked:
             continue
         filler = _pick_filler_for_role_smart(
-            role, catalog, available_champions, used, patch, mode
+            role,
+            catalog,
+            available_champions,
+            used,
+            patch,
+            mode,
+            team_champions_so_far=team_champions,
         )
         if filler is None:
             return None
         picked[role] = filler
         used.add(filler.casefold())
+        team_champions.append(filler)
 
     if len(picked) != 5:
         return None

@@ -134,3 +134,34 @@ def test_aligned_meta_and_archetype_only_marginally_differs() -> None:
     assert top_meta["meta_raw"] >= second_meta["meta_raw"]
     assert top_meta["selection_score"] >= second_meta["selection_score"]
     assert abs(top_meta["score_archetype"] - second_meta["score_archetype"]) <= 1.0
+
+
+def test_archetype_coherent_filler_prefers_peel_on_early_dive() -> None:
+    """Les fillers de simulation complètent l'archétype au lieu de prendre le #1 meta aveugle."""
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from suggest_draft import (
+        get_champion_role_catalog,
+        pick_archetype_coherent_filler_for_role,
+        pick_meta_filler_for_role,
+    )
+
+    early_dive = ["Renekton", "LeeSin", "Pantheon", "Lucian"]
+    catalog = get_champion_role_catalog()
+    pool = _pool_excluding()
+    reserved: set[str] = set()
+
+    coherent = pick_archetype_coherent_filler_for_role(
+        "UTILITY", catalog, pool, reserved, PATCH, "pro", early_dive
+    )
+    blind_meta = pick_meta_filler_for_role(
+        "UTILITY", catalog, pool, reserved, PATCH, "pro"
+    )
+
+    assert coherent
+    assert blind_meta
+    coherent_score = score_archetype_coherence(early_dive, coherent)
+    blind_score = score_archetype_coherence(early_dive, blind_meta)
+    assert coherent_score >= blind_score
+    assert coherent_score >= 0.75
