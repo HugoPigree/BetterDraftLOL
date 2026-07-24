@@ -403,6 +403,35 @@ def test_lookahead_duo_bonus_favors_jungle_with_support_synergy() -> None:
     assert vi_bonus >= taliyah_bonus
 
 
+def test_pair_planning_bonus_positive_when_bot_lane_open() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from suggest_draft import _duo_pair_planning_bonus, get_champion_role_catalog
+
+    bot_picks = [{"champion": "Renekton", "role": "TOP"}]
+    opponent_picks = [{"champion": "Azir", "role": "MIDDLE"}]
+    pool = _available_excluding(bot_picks, opponent_picks)
+    catalog = get_champion_role_catalog()
+    reserved = {slot["champion"].casefold() for slot in bot_picks + opponent_picks}
+
+    bonus = _duo_pair_planning_bonus(
+        bot_picks,
+        "Caitlyn",
+        "BOTTOM",
+        ["JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"],
+        opponent_picks,
+        ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"],
+        pool,
+        catalog,
+        reserved,
+        "blue",
+        PATCH,
+        "pro",
+    )
+    assert bonus >= 0.0
+
+
 def test_duo_denial_ban_boost_targets_bot_lane_partner() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()

@@ -704,6 +704,8 @@ BOT_ROLE_PRIORITY_SCALE = 12.0
 LOOKAHEAD_DUO_PARTNERS = 4
 LOOKAHEAD_DUO_WEIGHT = 7.0
 DUO_DENIAL_BAN_WEIGHT = 5.0
+PAIR_PLANNING_PARTNERS = 4
+PAIR_PLANNING_SCALE = 2.8
 
 
 def _duo_denial_ban_boost(
@@ -1096,6 +1098,188 @@ def build_simulated_team_with_pick(
     return [{"champion": picked[role], "role": role} for role in picked]
 
 
+def build_simulated_team_with_extra_picks(
+    partial_picks: list[dict[str, str]],
+    extra_picks: list[tuple[str, str]],
+    remaining_roles: list[str],
+    catalog: dict[str, list[str]],
+    available_champions: list[str],
+    reserved: set[str],
+    patch: str,
+    mode: PredictionMode,
+) -> list[dict[str, str]] | None:
+    """Simule une compo complète en posant plusieurs picks planifiés puis fillers meta."""
+    team = slots_to_team(partial_picks)
+    picked = {normalize_role(slot["role"]): slot["champion"] for slot in team}
+    roles_to_fill = [normalize_role(role) for role in remaining_roles]
+
+    for champion, role in extra_picks:
+        role = normalize_role(role)
+        if role in picked:
+            return None
+        picked[role] = champion.strip()
+
+    used = set(reserved)
+    used.update(name.casefold() for name in picked.values())
+
+    team_champions = [picked[r] for r in ROLES_ORDER if r in picked]
+    for role in roles_to_fill:
+        if role in picked:
+            continue
+        filler = _pick_filler_for_role_smart(
+            role,
+            catalog,
+            available_champions,
+            used,
+            patch,
+            mode,
+            team_champions_so_far=team_champions,
+        )
+        if filler is None:
+            return None
+        picked[role] = filler
+        used.add(filler.casefold())
+        team_champions.append(filler)
+
+    if len(picked) != 5:
+        return None
+
+    return [{"champion": picked[role], "role": role} for role in picked]
+
+
+def _simulate_bot_team_win_probability(
+    bot_full: list[dict[str, str]],
+    opponent_partial: list[dict[str, str]],
+    opponent_remaining: list[str],
+    pool: list[str],
+    catalog: dict[str, list[str]],
+    reserved: set[str],
+    team_side: TeamSide,
+    patch: str,
+    mode: PredictionMode,
+) -> float | None:
+    used_for_opp = reserved | {slot["champion"].casefold() for slot in bot_full}
+    opponent_full = build_team_with_meta_fillers(
+        partial_picks=opponent_partial,
+        remaining_roles=opponent_remaining,
+        catalog=catalog,
+        available_champions=pool,
+        reserved=used_for_opp,
+        patch=patch,
+        mode=mode,
+    )
+    if opponent_full is None:
+        return None
+
+    mod_blue, mod_red = build_matchup_teams(bot_full, opponent_full, team_side)
+    result = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
+    return team_side_win_probability(result, team_side)
+
+
+def _duo_pair_planning_bonus(
+    bot_partial: list[dict[str, str]],
+    candidate: str,
+    candidate_role: str,
+    bot_remaining: list[str],
+    opponent_partial: list[dict[str, str]],
+    opponent_remaining: list[str],
+    pool: list[str],
+    catalog: dict[str, list[str]],
+    reserved: set[str],
+    team_side: TeamSide,
+    patch: str,
+    mode: PredictionMode,
+) -> float:
+    """Bonus si le candidat s'inscrit dans la meilleure paire duo planifiée (2 picks)."""
+    if mode != "pro" or len(bot_partial) < 1:
+        return 0.0
+
+    role = normalize_role(candidate_role)
+    remaining_set = {normalize_role(item) for item in bot_remaining}
+    best_margin = 0.0
+
+    pair_roles: list[str] = []
+    if role in {"BOTTOM", "UTILITY"} and {"BOTTOM", "UTILITY"} <= remaining_set:
+        pair_roles.append("UTILITY" if role == "BOTTOM" else "BOTTOM")
+    if (
+        role in {"JUNGLE", "UTILITY"}
+        and {"JUNGLE", "UTILITY"} <= remaining_set
+        and (_champion_for_role(bot_partial, "BOTTOM") or len(bot_partial) >= 2)
+    ):
+        partner = "UTILITY" if role == "JUNGLE" else "JUNGLE"
+        if partner != role:
+            pair_roles.append(partner)
+
+    if not pair_roles:
+        return 0.0
+
+    single_reserved = reserved | {candidate.casefold()}
+    single_full = build_simulated_team_with_pick(
+        partial_picks=bot_partial,
+        candidate=candidate,
+        candidate_role=role,
+        remaining_roles=bot_remaining,
+        catalog=catalog,
+        available_champions=pool,
+        reserved=single_reserved,
+        patch=patch,
+        mode=mode,
+    )
+    if single_full is None:
+        return 0.0
+    single_win = _simulate_bot_team_win_probability(
+        single_full,
+        opponent_partial,
+        opponent_remaining,
+        pool,
+        catalog,
+        single_reserved,
+        team_side,
+        patch,
+        mode,
+    )
+    if single_win is None:
+        return 0.0
+
+    for partner_role in pair_roles:
+        partners = _bot_meta_pool_for_role(
+            pool, partner_role, catalog, patch, PAIR_PLANNING_PARTNERS
+        )
+        for partner in partners:
+            if partner.casefold() in reserved or partner.casefold() == candidate.casefold():
+                continue
+            extra = [(candidate, role), (partner, partner_role)]
+            trial_reserved = reserved | {candidate.casefold(), partner.casefold()}
+            pair_full = build_simulated_team_with_extra_picks(
+                partial_picks=bot_partial,
+                extra_picks=extra,
+                remaining_roles=bot_remaining,
+                catalog=catalog,
+                available_champions=pool,
+                reserved=trial_reserved,
+                patch=patch,
+                mode=mode,
+            )
+            if pair_full is None:
+                continue
+            pair_win = _simulate_bot_team_win_probability(
+                pair_full,
+                opponent_partial,
+                opponent_remaining,
+                pool,
+                catalog,
+                trial_reserved,
+                team_side,
+                patch,
+                mode,
+            )
+            if pair_win is None:
+                continue
+            best_margin = max(best_margin, pair_win - single_win)
+
+    return max(0.0, best_margin * 100.0 * PAIR_PLANNING_SCALE)
+
+
 def _top_candidates_for_role(
     pool: list[str],
     role: str,
@@ -1477,6 +1661,24 @@ def suggest_bot_pick(
                 if mode == "pro"
                 else 0.0
             )
+            pair_planning_bonus = (
+                _duo_pair_planning_bonus(
+                    bot_partial,
+                    candidate,
+                    role,
+                    bot_remaining,
+                    opponent_partial,
+                    opponent_remaining,
+                    pool,
+                    catalog,
+                    reserved,
+                    team_side,
+                    patch,
+                    mode,
+                )
+                if mode == "pro"
+                else 0.0
+            )
 
             trial_reserved = reserved | {candidate.casefold()}
             bot_full = build_simulated_team_with_pick(
@@ -1527,6 +1729,7 @@ def suggest_bot_pick(
                     bot_partial, role, bot_remaining
                 )
                 selection_score += lookahead_duo_bonus
+                selection_score += pair_planning_bonus
             synergy = float(_detail_for_side(result, team_side)["score_synergie"])
 
             pro_entry = _pro_winrate_entry(candidate, role)
@@ -1541,6 +1744,7 @@ def suggest_bot_pick(
                 "role_fitness": round(meta_scored[3], 4) if meta_scored else None,
                 "archetype_score": archetype_score,
                 "lookahead_duo_bonus": round(lookahead_duo_bonus, 2),
+                "pair_planning_bonus": round(pair_planning_bonus, 2),
             }
 
             if mode == "pro":
