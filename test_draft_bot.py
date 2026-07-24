@@ -554,3 +554,40 @@ def test_bot_pick_reason_follows_narrative_order() -> None:
     reason = result["reason"]
     assert "Je " in reason or "je " in reason
     assert result["champion"] in reason or "winrate" in reason.lower()
+
+
+def test_cap_combined_duo_bonuses_limits_stacking() -> None:
+    from suggest_draft import MAX_COMBINED_DUO_BONUS, _cap_combined_duo_bonuses
+
+    locked, lookahead, pair = _cap_combined_duo_bonuses(12.0, 10.0, 8.0)
+    assert round(locked + lookahead + pair, 4) == round(MAX_COMBINED_DUO_BONUS, 4)
+    assert locked < 12.0
+    assert lookahead < 10.0
+
+
+def test_choose_bot_pick_and_ban_return_reason() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    pool = _available_excluding()
+    ban_move = choose_bot_action(
+        "ban",
+        bot_side="red",
+        bot_picks=[],
+        opponent_picks=[{"champion": "Ahri", "role": "MIDDLE"}],
+        patch=PATCH,
+        available_champions=pool,
+    )
+    assert ban_move["action"] == "ban"
+    assert ban_move.get("reason")
+
+    pick_move = choose_bot_action(
+        "pick",
+        bot_side="red",
+        bot_picks=[],
+        opponent_picks=[{"champion": "Ahri", "role": "MIDDLE"}],
+        patch=PATCH,
+        available_champions=pool,
+    )
+    assert pick_move["action"] == "pick"
+    assert pick_move.get("reason")

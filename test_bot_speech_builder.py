@@ -96,6 +96,25 @@ def test_build_plain_pick_explanation_duo_and_matchup_are_concrete() -> None:
         assert banned not in spoken
 
 
+def test_generate_bot_ban_reason_is_decisive() -> None:
+    from bot_speech_builder import generate_bot_ban_reason
+
+    spoken = generate_bot_ban_reason(
+        "Azir",
+        "MIDDLE",
+        [{"champion": "Rell", "role": "UTILITY"}, {"champion": "Jinx", "role": "BOTTOM"}],
+        [{"champion": "Ornn", "role": "TOP"}],
+        threat_points=2.4,
+        duo_denial_boost=3.5,
+        flex_roles=1,
+        opponent_win_probability=0.542,
+        mode="pro",
+    )
+    assert "Azir" in spoken
+    assert "Je ban" in spoken
+    assert "2.4" in spoken or "winrate" in spoken.lower() or "menaç" in spoken.lower()
+
+
 def test_build_plain_team_synergy_summary_has_no_technical_jargon() -> None:
     summary = build_plain_team_synergy_summary(
         ["Gnar", "Lee Sin", "Ahri", "Jinx", "Thresh"],

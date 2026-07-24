@@ -11,6 +11,7 @@ import {
 export interface BotLastMove {
   action: "ban" | "pick";
   champion: string;
+  reason?: string | null;
 }
 
 interface UseDraftBotOptions {
@@ -92,10 +93,15 @@ export function useDraftBot({
           setLastMove({
             action: "pick",
             champion: move.champion,
+            reason: move.reason,
           });
         } else {
           draft.selectChampion(move.champion);
-          setLastMove({ action: "ban", champion: move.champion });
+          setLastMove({
+            action: "ban",
+            champion: move.champion,
+            reason: move.reason,
+          });
         }
       } catch (botError) {
         if (cancelled || requestId !== requestIdRef.current) {

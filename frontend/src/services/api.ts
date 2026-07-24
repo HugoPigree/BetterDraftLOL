@@ -16,6 +16,7 @@ export interface DraftBotMoveResponse {
   action: "ban" | "pick";
   champion: string;
   role?: DraftPick["role"];
+  reason?: string | null;
 }
 
 export interface BotExplanationStep {

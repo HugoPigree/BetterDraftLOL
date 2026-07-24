@@ -95,13 +95,18 @@ export function useBotDialogue({
     prevLastMoveRef.current = lastBotMove;
 
     if (lastBotMove.action === "ban") {
-      speak({ type: "bot_ban", champion: lastBotMove.champion });
+      speak({
+        type: "bot_ban",
+        champion: lastBotMove.champion,
+        reason: lastBotMove.reason,
+      });
       return;
     }
 
     speak({
       type: "bot_pick",
       champion: lastBotMove.champion,
+      reason: lastBotMove.reason,
     });
   }, [enabled, lastBotMove]);
 

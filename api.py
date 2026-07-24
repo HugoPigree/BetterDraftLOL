@@ -344,6 +344,7 @@ class DraftBotMoveResponse(BaseModel):
     action: Literal["ban", "pick"]
     champion: str
     role: Role | None = None
+    reason: str | None = None
 
 
 class BotExplanationRequest(BaseModel):

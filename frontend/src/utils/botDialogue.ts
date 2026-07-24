@@ -11,8 +11,8 @@ const ROLE_FR: Record<Role, string> = {
 export type BotDialogueEvent =
   | { type: "intro" }
   | { type: "thinking"; action: "ban" | "pick" }
-  | { type: "bot_ban"; champion: string }
-  | { type: "bot_pick"; champion: string; role?: Role }
+  | { type: "bot_ban"; champion: string; reason?: string | null }
+  | { type: "bot_pick"; champion: string; role?: Role; reason?: string | null }
   | { type: "player_ban"; champion: string }
   | { type: "player_pick"; champion: string; role?: Role }
   | { type: "player_turn" }
@@ -288,12 +288,18 @@ export function lineForBotEvent(event: BotDialogueEvent): string {
     case "thinking":
       return pickRandom(event.action === "ban" ? THINKING_BAN_LINES : THINKING_PICK_LINES);
     case "bot_ban":
+      if (event.reason?.trim()) {
+        return event.reason.trim();
+      }
       return withChampionFlavor(
         event.champion,
         mapLines(event.champion, BOT_BAN_GENERIC),
         mapLines(event.champion, BOT_BAN_EX_FLAVOR),
       );
     case "bot_pick": {
+      if (event.reason?.trim()) {
+        return event.reason.trim();
+      }
       const exLine = maybeExChampionLine(event.champion);
       if (exLine) {
         return exLine;

@@ -139,14 +139,16 @@ def choose_bot_ban(
 
     suggestions = result.get("suggestions") or []
     if suggestions:
+        top = suggestions[0]
         return {
             "action": "ban",
-            "champion": suggestions[0]["champion"],
+            "champion": top["champion"],
             "role": None,
+            "reason": top.get("reason"),
         }
 
     champion = _fallback_ban(pool, catalog, reserved)
-    return {"action": "ban", "champion": champion, "role": None}
+    return {"action": "ban", "champion": champion, "role": None, "reason": None}
 
 
 def choose_bot_pick(
@@ -189,6 +191,7 @@ def choose_bot_pick(
             "action": "pick",
             "champion": champion,
             "role": None,
+            "reason": choice.get("reason"),
         }
 
     fallback_champion, _fallback_role = _fallback_pick(pool, bot_remaining, catalog, reserved)
@@ -196,6 +199,7 @@ def choose_bot_pick(
         "action": "pick",
         "champion": fallback_champion,
         "role": None,
+        "reason": None,
     }
 
 
