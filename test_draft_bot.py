@@ -403,6 +403,20 @@ def test_lookahead_duo_bonus_favors_jungle_with_support_synergy() -> None:
     assert vi_bonus >= taliyah_bonus
 
 
+def test_duo_denial_ban_boost_targets_bot_lane_partner() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from suggest_draft import _duo_denial_ban_boost
+
+    opponent = [{"champion": "Caitlyn", "role": "BOTTOM"}]
+    support_boost = _duo_denial_ban_boost(opponent, "Nautilus", "UTILITY", "pro")
+    jungle_boost = _duo_denial_ban_boost(opponent, "Nocturne", "JUNGLE", "pro")
+
+    assert support_boost >= 0.0
+    assert support_boost >= jungle_boost
+
+
 def test_bot_pick_reason_follows_narrative_order() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()

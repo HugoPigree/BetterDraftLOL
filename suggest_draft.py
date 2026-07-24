@@ -703,6 +703,43 @@ BOT_ROLE_PRIORITY_LAST_SLOT = 1.25
 BOT_ROLE_PRIORITY_SCALE = 12.0
 LOOKAHEAD_DUO_PARTNERS = 4
 LOOKAHEAD_DUO_WEIGHT = 7.0
+DUO_DENIAL_BAN_WEIGHT = 5.0
+
+
+def _duo_denial_ban_boost(
+    opponent_partial: list[dict[str, str]],
+    candidate: str,
+    candidate_role: str,
+    mode: PredictionMode,
+) -> float:
+    """Renforce le ban si le champion complète un duo pro déjà amorcé chez l'adversaire."""
+    if mode != "pro":
+        return 0.0
+
+    role = normalize_role(candidate_role)
+    adc = _champion_for_role(opponent_partial, "BOTTOM")
+    support = _champion_for_role(opponent_partial, "UTILITY")
+    jungle = _champion_for_role(opponent_partial, "JUNGLE")
+    boost = 0.0
+
+    if role == "UTILITY" and adc:
+        duo = get_duo_score(adc, candidate, "bot_lane", mode="pro")
+        if not duo.insufficient_data and duo.score is not None:
+            boost = max(boost, float(duo.score) * DUO_DENIAL_BAN_WEIGHT)
+    if role == "BOTTOM" and support:
+        duo = get_duo_score(candidate, support, "bot_lane", mode="pro")
+        if not duo.insufficient_data and duo.score is not None:
+            boost = max(boost, float(duo.score) * DUO_DENIAL_BAN_WEIGHT)
+    if role == "UTILITY" and jungle:
+        duo = get_duo_score(jungle, candidate, "jungle_support", mode="pro")
+        if not duo.insufficient_data and duo.score is not None:
+            boost = max(boost, float(duo.score) * DUO_DENIAL_BAN_WEIGHT * 0.85)
+    if role == "JUNGLE" and support:
+        duo = get_duo_score(candidate, support, "jungle_support", mode="pro")
+        if not duo.insufficient_data and duo.score is not None:
+            boost = max(boost, float(duo.score) * DUO_DENIAL_BAN_WEIGHT * 0.85)
+
+    return boost
 
 
 def _bot_archetype_weight(locked_picks: int) -> float:
@@ -1737,12 +1774,16 @@ def suggest_ban(
             if baseline_opp_prob is not None
             else round(best_opponent_prob * 100, 2)
         )
+        duo_denial_boost = _duo_denial_ban_boost(opponent, candidate, best_role, mode)
+        effective_threat = round(best_opponent_prob + duo_denial_boost / 100.0, 4)
         suggestions.append(
             {
                 "champion": candidate,
                 "best_opponent_role": best_role,
                 "opponent_win_probability": round(best_opponent_prob, 4),
                 "threat_percentage_points": threat_points,
+                "duo_denial_boost": round(duo_denial_boost, 2),
+                "effective_threat": effective_threat,
                 "delta_force": decomposition["delta_force"],
                 "delta_synergie": decomposition["delta_synergie"],
                 "delta_duo": decomposition["delta_duo"],
@@ -1752,7 +1793,11 @@ def suggest_ban(
         )
 
     suggestions.sort(
-        key=lambda item: (item["opponent_win_probability"], item["threat_percentage_points"]),
+        key=lambda item: (
+            item["effective_threat"],
+            item["threat_percentage_points"],
+            item["opponent_win_probability"],
+        ),
         reverse=True,
     )
 
