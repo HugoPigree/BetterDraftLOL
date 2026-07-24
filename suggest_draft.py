@@ -709,6 +709,9 @@ DUO_DENIAL_BAN_WEIGHT = 5.0
 PAIR_PLANNING_PARTNERS = 4
 PAIR_PLANNING_SCALE = 2.8
 COMP_DIRECTION_SCALE = 22.0
+META_DIVERSITY_THRESHOLD = 0.72
+META_DIVERSITY_PENALTY = 11.0
+OPPONENT_COUNTER_SCALE = 20.0
 
 
 def _duo_denial_ban_boost(
@@ -1322,6 +1325,45 @@ def _comp_direction_alignment_bonus(team_champions: list[str], candidate: str) -
     return bonus
 
 
+def _opponent_lane_counter_bonus(
+    opponent_partial: list[dict[str, str]],
+    candidate: str,
+    candidate_role: str,
+    mode: PredictionMode,
+) -> float:
+    """Favorise les picks qui counter le même rôle adverse en winrate pro."""
+    if mode != "pro":
+        return 0.0
+
+    opponent = _champion_for_role(opponent_partial, candidate_role)
+    if not opponent:
+        return 0.0
+
+    ours = _pro_meta_score_for(candidate, candidate_role)
+    theirs = _pro_meta_score_for(opponent, candidate_role)
+    if ours is None or theirs is None:
+        return 0.0
+
+    margin = ours[0] - theirs[0]
+    if margin <= 0:
+        return 0.0
+    return margin * OPPONENT_COUNTER_SCALE
+
+
+def _meta_diversity_penalty(
+    candidate_meta: float | None,
+    role_candidate_scores: list[float],
+) -> float:
+    """Évite que le #1 meta écrase des alternatives quasi équivalentes."""
+    if candidate_meta is None or candidate_meta < META_DIVERSITY_THRESHOLD:
+        return 0.0
+    if len(role_candidate_scores) < 2:
+        return 0.0
+    if max(role_candidate_scores) - min(role_candidate_scores) > 4.0:
+        return 0.0
+    return (candidate_meta - META_DIVERSITY_THRESHOLD) * META_DIVERSITY_PENALTY
+
+
 def _top_candidates_for_role(
     pool: list[str],
     role: str,
@@ -1714,6 +1756,9 @@ def suggest_bot_pick(
             role_pools[role] = list(candidates)
             allowed_pool.update(name.casefold() for name in candidates)
 
+        role_entries: list[dict[str, Any]] = []
+        role_fallback_entries: list[dict[str, Any]] = []
+
         for candidate in candidates:
             meta_scored = _pro_meta_score_for(candidate, role) if mode == "pro" else None
             candidate_meta = meta_scored[0] if meta_scored else None
@@ -1797,6 +1842,9 @@ def suggest_bot_pick(
                 selection_score += lookahead_duo_bonus
                 selection_score += pair_planning_bonus
                 selection_score += _comp_direction_alignment_bonus(team_so_far, candidate)
+                selection_score += _opponent_lane_counter_bonus(
+                    opponent_partial, candidate, role, mode
+                )
             synergy = float(_detail_for_side(result, team_side)["score_synergie"])
 
             pro_entry = _pro_winrate_entry(candidate, role)
@@ -1825,14 +1873,35 @@ def suggest_bot_pick(
                         "synergy": entry["synergy"],
                         "duo_bonus": round(locked_duo_bonus, 2),
                         "archetype_score": archetype_score,
+                        "pair_bonus": round(pair_planning_bonus, 2),
                         "selection_score": round(selection_score, 2),
                     }
                 )
 
-            fallback_eligible.append(entry)
+            role_fallback_entries.append(entry)
             if mode == "pro" and locked_picks >= 1 and synergy < min_synergy:
                 continue
-            eligible.append(entry)
+            role_entries.append(entry)
+
+        if mode == "pro" and role_entries:
+            role_scores = [float(item["selection_score"]) for item in role_entries]
+            for entry in role_entries:
+                entry["selection_score"] -= _meta_diversity_penalty(
+                    entry.get("meta_score"),
+                    role_scores,
+                )
+        elif mode == "pro" and role_fallback_entries:
+            role_scores = [
+                float(item["selection_score"]) for item in role_fallback_entries
+            ]
+            for entry in role_fallback_entries:
+                entry["selection_score"] -= _meta_diversity_penalty(
+                    entry.get("meta_score"),
+                    role_scores,
+                )
+
+        fallback_eligible.extend(role_fallback_entries)
+        eligible.extend(role_entries if role_entries else role_fallback_entries)
 
     pick_pool = eligible if eligible else fallback_eligible
     if not pick_pool:

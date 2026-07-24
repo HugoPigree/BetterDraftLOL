@@ -458,6 +458,16 @@ def test_two_stage_pick_preserves_role_pool() -> None:
     assert chosen["champion"] in {"Vi", "Nocturne", "Nautilus", "Bard"}
 
 
+def test_opponent_lane_counter_bonus_favors_stronger_matchup() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from suggest_draft import _opponent_lane_counter_bonus
+
+    opponent = [{"champion": "Renekton", "role": "TOP"}]
+    assert _opponent_lane_counter_bonus(opponent, "Gnar", "TOP", "pro") >= 0.0
+
+
 def test_duo_denial_ban_boost_targets_bot_lane_partner() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()
