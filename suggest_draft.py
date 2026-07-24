@@ -697,9 +697,47 @@ PRO_BOT_META_WEIGHT = 0.18
 WEIGHT_ARCHETYPE = 0.18
 PRO_BOT_SYNERGY_PENALTY_SCALE = 90.0
 PRO_MIN_SYNERGY_AFTER_TWO_PICKS = 0.44
+BOT_ROLE_PRIORITY_DUO = 1.35
+BOT_ROLE_PRIORITY_JG_SUP = 1.18
+BOT_ROLE_PRIORITY_LAST_SLOT = 1.25
+BOT_ROLE_PRIORITY_SCALE = 12.0
 
 
-def _pro_winrate_entry(champion: str, role: str) -> tuple[float, int] | None:
+def _bot_role_priority_multiplier(
+    bot_partial: list[dict[str, str]],
+    role: str,
+    bot_remaining: list[str],
+) -> float:
+    """Priorise les rôles qui complètent un duo ou le dernier slot de la compo."""
+    role = normalize_role(role)
+    multiplier = 1.0
+
+    adc = _champion_for_role(bot_partial, "BOTTOM")
+    support = _champion_for_role(bot_partial, "UTILITY")
+    jungle = _champion_for_role(bot_partial, "JUNGLE")
+
+    if role == "UTILITY" and adc and not support:
+        multiplier = max(multiplier, BOT_ROLE_PRIORITY_DUO)
+    if role == "BOTTOM" and support and not adc:
+        multiplier = max(multiplier, BOT_ROLE_PRIORITY_DUO)
+    if role == "UTILITY" and jungle and not support:
+        multiplier = max(multiplier, BOT_ROLE_PRIORITY_JG_SUP)
+    if role == "JUNGLE" and support and not jungle:
+        multiplier = max(multiplier, BOT_ROLE_PRIORITY_JG_SUP)
+
+    if len(bot_remaining) == 1:
+        multiplier = max(multiplier, BOT_ROLE_PRIORITY_LAST_SLOT)
+
+    return multiplier
+
+
+def _bot_role_priority_bonus(
+    bot_partial: list[dict[str, str]],
+    role: str,
+    bot_remaining: list[str],
+) -> float:
+    multiplier = _bot_role_priority_multiplier(bot_partial, role, bot_remaining)
+    return (multiplier - 1.0) * BOT_ROLE_PRIORITY_SCALE
     return _pro_winrate_for(champion, normalize_role(role))
 
 
@@ -1141,6 +1179,12 @@ def decompose_bot_candidate_score(
         + score_archetype
         - synergy_penalty
     )
+    role_priority_bonus = (
+        _bot_role_priority_bonus(bot_partial, candidate_role, bot_remaining)
+        if mode == "pro"
+        else 0.0
+    )
+    selection_score += role_priority_bonus
 
     return {
         "champion": candidate,
@@ -1158,6 +1202,7 @@ def decompose_bot_candidate_score(
         "score_archetype": round(score_archetype, 2),
         "score_duo_bonus": round(locked_duo_bonus, 2),
         "score_synergy_penalty": round(synergy_penalty, 2),
+        "score_role_priority": round(role_priority_bonus, 2),
         "selection_score": round(selection_score, 2),
         "weight_archetype": weight_archetype,
     }
@@ -1315,6 +1360,10 @@ def suggest_bot_pick(
                 locked_duo_bonus=locked_duo_bonus,
                 archetype_score=archetype_score,
             )
+            if mode == "pro":
+                selection_score += _bot_role_priority_bonus(
+                    bot_partial, role, bot_remaining
+                )
             synergy = float(_detail_for_side(result, team_side)["score_synergie"])
 
             pro_entry = _pro_winrate_entry(candidate, role)

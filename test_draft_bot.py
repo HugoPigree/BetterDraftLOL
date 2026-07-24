@@ -310,6 +310,77 @@ def test_bot_pick_softmax_produces_role_diversity_across_seeds() -> None:
     )
 
 
+def test_bot_prioritizes_support_when_adc_locked() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from suggest_draft import (
+        BOT_ROLE_PRIORITY_DUO,
+        _bot_role_priority_bonus,
+        _bot_role_priority_multiplier,
+    )
+
+    bot_picks = [
+        {"champion": "Caitlyn", "role": "BOTTOM"},
+        {"champion": "Renekton", "role": "TOP"},
+    ]
+    remaining = ["JUNGLE", "MIDDLE", "UTILITY"]
+
+    assert _bot_role_priority_multiplier(bot_picks, "UTILITY", remaining) >= BOT_ROLE_PRIORITY_DUO
+    assert _bot_role_priority_multiplier(bot_picks, "JUNGLE", remaining) == 1.0
+    assert _bot_role_priority_bonus(bot_picks, "UTILITY", remaining) > 0.0
+    assert _bot_role_priority_bonus(bot_picks, "JUNGLE", remaining) == 0.0
+
+
+def test_bot_pick_favors_support_after_adc_lock() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    bot_picks = [
+        {"champion": "Caitlyn", "role": "BOTTOM"},
+        {"champion": "Renekton", "role": "TOP"},
+        {"champion": "Azir", "role": "MIDDLE"},
+    ]
+    opponent_picks = [
+        {"champion": "Gnar", "role": "TOP"},
+        {"champion": "Syndra", "role": "MIDDLE"},
+    ]
+    pool = _available_excluding(bot_picks, opponent_picks)
+
+    support_scores: list[float] = []
+    jungle_scores: list[float] = []
+    for candidate in pool[:40]:
+        from suggest_draft import decompose_bot_candidate_score
+
+        sup_row = decompose_bot_candidate_score(
+            bot_picks,
+            opponent_picks,
+            candidate,
+            "UTILITY",
+            PATCH,
+            pool,
+            team_side="blue",
+            mode="pro",
+        )
+        jg_row = decompose_bot_candidate_score(
+            bot_picks,
+            opponent_picks,
+            candidate,
+            "JUNGLE",
+            PATCH,
+            pool,
+            team_side="blue",
+            mode="pro",
+        )
+        if sup_row:
+            support_scores.append(sup_row["selection_score"])
+        if jg_row:
+            jungle_scores.append(jg_row["selection_score"])
+
+    assert support_scores and jungle_scores
+    assert max(support_scores) >= max(jungle_scores)
+
+
 def test_bot_pick_reason_follows_narrative_order() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()
