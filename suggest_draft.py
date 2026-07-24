@@ -701,6 +701,89 @@ BOT_ROLE_PRIORITY_DUO = 1.35
 BOT_ROLE_PRIORITY_JG_SUP = 1.18
 BOT_ROLE_PRIORITY_LAST_SLOT = 1.25
 BOT_ROLE_PRIORITY_SCALE = 12.0
+LOOKAHEAD_DUO_PARTNERS = 4
+LOOKAHEAD_DUO_WEIGHT = 7.0
+
+
+def _lookahead_duo_bonus(
+    bot_partial: list[dict[str, str]],
+    candidate: str,
+    candidate_role: str,
+    pool: list[str],
+    catalog: dict[str, list[str]],
+    patch: str,
+    mode: PredictionMode,
+) -> float:
+    """Estime le meilleur duo pro possible avec un partenaire de lane encore ouvert."""
+    if mode != "pro":
+        return 0.0
+
+    role = normalize_role(candidate_role)
+    adc = _champion_for_role(bot_partial, "BOTTOM")
+    support = _champion_for_role(bot_partial, "UTILITY")
+    jungle = _champion_for_role(bot_partial, "JUNGLE")
+    bonus = 0.0
+
+    def _best_duo_score(
+        partners: list[str],
+        duo_type: Literal["bot_lane", "jungle_support"],
+        *,
+        candidate_first: bool,
+    ) -> float:
+        best = 0.0
+        for partner in partners:
+            if partner.casefold() == candidate.casefold():
+                continue
+            if duo_type == "bot_lane":
+                duo = get_duo_score(
+                    candidate if candidate_first else partner,
+                    partner if candidate_first else candidate,
+                    "bot_lane",
+                    mode="pro",
+                )
+            else:
+                duo = get_duo_score(
+                    candidate if candidate_first else partner,
+                    partner if candidate_first else candidate,
+                    "jungle_support",
+                    mode="pro",
+                )
+            if duo.insufficient_data or duo.score is None:
+                continue
+            best = max(best, float(duo.score))
+        return best * LOOKAHEAD_DUO_WEIGHT
+
+    if role == "JUNGLE" and not support:
+        partners = _bot_meta_pool_for_role(
+            pool, "UTILITY", catalog, patch, LOOKAHEAD_DUO_PARTNERS
+        )
+        bonus = max(bonus, _best_duo_score(partners, "jungle_support", candidate_first=True))
+
+    if role == "UTILITY":
+        if not adc:
+            partners = _bot_meta_pool_for_role(
+                pool, "BOTTOM", catalog, patch, LOOKAHEAD_DUO_PARTNERS
+            )
+            bonus = max(
+                bonus,
+                _best_duo_score(partners, "bot_lane", candidate_first=False),
+            )
+        if not jungle:
+            partners = _bot_meta_pool_for_role(
+                pool, "JUNGLE", catalog, patch, LOOKAHEAD_DUO_PARTNERS
+            )
+            bonus = max(
+                bonus,
+                _best_duo_score(partners, "jungle_support", candidate_first=False),
+            )
+
+    if role == "BOTTOM" and not support:
+        partners = _bot_meta_pool_for_role(
+            pool, "UTILITY", catalog, patch, LOOKAHEAD_DUO_PARTNERS
+        )
+        bonus = max(bonus, _best_duo_score(partners, "bot_lane", candidate_first=True))
+
+    return bonus
 
 
 def _bot_role_priority_multiplier(
@@ -1116,6 +1199,13 @@ def decompose_bot_candidate_score(
     locked_duo_bonus = (
         _locked_pro_duo_bonus(bot_partial, candidate, candidate_role) if mode == "pro" else 0.0
     )
+    lookahead_duo_bonus = (
+        _lookahead_duo_bonus(
+            bot_partial, candidate, candidate_role, pool, catalog, patch, mode
+        )
+        if mode == "pro"
+        else 0.0
+    )
 
     trial_reserved = reserved | {candidate.casefold()}
     bot_full = build_simulated_team_with_pick(
@@ -1185,6 +1275,7 @@ def decompose_bot_candidate_score(
         else 0.0
     )
     selection_score += role_priority_bonus
+    selection_score += lookahead_duo_bonus
 
     return {
         "champion": candidate,
@@ -1203,6 +1294,7 @@ def decompose_bot_candidate_score(
         "score_duo_bonus": round(locked_duo_bonus, 2),
         "score_synergy_penalty": round(synergy_penalty, 2),
         "score_role_priority": round(role_priority_bonus, 2),
+        "score_lookahead_duo": round(lookahead_duo_bonus, 2),
         "selection_score": round(selection_score, 2),
         "weight_archetype": weight_archetype,
     }
@@ -1315,6 +1407,13 @@ def suggest_bot_pick(
             locked_duo_bonus = (
                 _locked_pro_duo_bonus(bot_partial, candidate, role) if mode == "pro" else 0.0
             )
+            lookahead_duo_bonus = (
+                _lookahead_duo_bonus(
+                    bot_partial, candidate, role, pool, catalog, patch, mode
+                )
+                if mode == "pro"
+                else 0.0
+            )
 
             trial_reserved = reserved | {candidate.casefold()}
             bot_full = build_simulated_team_with_pick(
@@ -1364,6 +1463,7 @@ def suggest_bot_pick(
                 selection_score += _bot_role_priority_bonus(
                     bot_partial, role, bot_remaining
                 )
+                selection_score += lookahead_duo_bonus
             synergy = float(_detail_for_side(result, team_side)["score_synergie"])
 
             pro_entry = _pro_winrate_entry(candidate, role)
@@ -1377,6 +1477,7 @@ def suggest_bot_pick(
                 "meta_score": round(candidate_meta, 4) if candidate_meta is not None else None,
                 "role_fitness": round(meta_scored[3], 4) if meta_scored else None,
                 "archetype_score": archetype_score,
+                "lookahead_duo_bonus": round(lookahead_duo_bonus, 2),
             }
 
             if mode == "pro":

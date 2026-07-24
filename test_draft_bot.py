@@ -381,6 +381,28 @@ def test_bot_pick_favors_support_after_adc_lock() -> None:
     assert max(support_scores) >= max(jungle_scores)
 
 
+def test_lookahead_duo_bonus_favors_jungle_with_support_synergy() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from suggest_draft import _lookahead_duo_bonus, get_champion_role_catalog
+
+    bot_picks = [{"champion": "Renekton", "role": "TOP"}]
+    opponent_picks = [{"champion": "Azir", "role": "MIDDLE"}]
+    pool = _available_excluding(bot_picks, opponent_picks)
+    catalog = get_champion_role_catalog()
+
+    vi_bonus = _lookahead_duo_bonus(
+        bot_picks, "Vi", "JUNGLE", pool, catalog, PATCH, "pro"
+    )
+    taliyah_bonus = _lookahead_duo_bonus(
+        bot_picks, "Taliyah", "JUNGLE", pool, catalog, PATCH, "pro"
+    )
+
+    assert vi_bonus >= 0.0
+    assert vi_bonus >= taliyah_bonus
+
+
 def test_bot_pick_reason_follows_narrative_order() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()
