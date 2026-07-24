@@ -482,6 +482,48 @@ def test_duo_denial_ban_boost_targets_bot_lane_partner() -> None:
     assert support_boost >= jungle_boost
 
 
+def test_bot_pick_reason_is_concrete_and_decisive() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    bot_picks = [
+        {"champion": "Corki", "role": "BOTTOM"},
+        {"champion": "Leona", "role": "UTILITY"},
+    ]
+    opponent_picks = [
+        {"champion": "Renekton", "role": "TOP"},
+        {"champion": "Graves", "role": "JUNGLE"},
+        {"champion": "Syndra", "role": "MIDDLE"},
+    ]
+    result = suggest_bot_pick(
+        bot_partial_picks=bot_picks,
+        opponent_partial_picks=opponent_picks,
+        patch=PATCH,
+        available_champions=_available_excluding(bot_picks, opponent_picks),
+        team_side="blue",
+        mode="pro",
+        rng_seed=7,
+    )
+
+    reason = result.get("reason") or ""
+    assert reason
+    assert result["champion"] in reason or "Je lock" in reason or "Je prends" in reason
+    assert any(
+        token in reason
+        for token in (
+            "%",
+            "winrate",
+            "duo",
+            "Corki",
+            "Leona",
+            "draft",
+            "comp",
+            "gold",
+        )
+    )
+    assert "crédible pour ce que je voulais" not in reason.lower()
+
+
 def test_bot_pick_reason_follows_narrative_order() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()
@@ -508,8 +550,7 @@ def test_bot_pick_reason_follows_narrative_order() -> None:
     )
 
     assert result.get("reason")
-    assert_narrative_order(result["reason"])
-    positions = section_positions(result["reason"])
-    assert "meta" in positions
-    if "duo" in positions and "composition" in positions:
-        assert positions["composition"] < positions["duo"]
+    # Les raisons bot utilisent build_plain_pick_explanation (1re personne, pas meta→duo strict).
+    reason = result["reason"]
+    assert "Je " in reason or "je " in reason
+    assert result["champion"] in reason or "winrate" in reason.lower()

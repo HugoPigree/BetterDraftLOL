@@ -23,7 +23,8 @@ from justification_builder import (
     lookup_meta_tierlist_row,
     normalize_role,
 )
-from predict_draft import PredictionMode
+from predict_draft import PredictionMode, get_meraki_context
+from pro_force import pro_meta_score
 
 ROLE_ORDER = ("TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY")
 
@@ -165,6 +166,47 @@ def _role_weight_sum_local(roles: list[str], weights: dict[str, float]) -> float
     return sum(weights.get(role, 0.0) for role in roles)
 
 
+def _pro_winrate_line(champion: str, role: str) -> tuple[float, int] | None:
+    try:
+        champion_features, _, lookup_by_norm = get_meraki_context()
+        scored = pro_meta_score(champion, role, champion_features, lookup_by_norm)
+    except (FileNotFoundError, ValueError):
+        return None
+    if scored is None:
+        return None
+    _meta, games, winrate, _fitness, _name = scored
+    return float(winrate), int(games)
+
+
+def _format_teammates(so_far: list[str], limit: int = 3) -> str:
+    names = [name.strip() for name in so_far if name.strip()]
+    if not names:
+        return ""
+    if len(names) == 1:
+        return names[0]
+    if len(names) == 2:
+        return f"{names[0]} et {names[1]}"
+    visible = names[:limit]
+    return ", ".join(visible[:-1]) + f" et {visible[-1]}"
+
+
+def _comp_plan_label(before: dict[str, Any]) -> str | None:
+    engage = float(before.get("engage_score", 0.0))
+    peel = float(before.get("peel_score", 0.0))
+    curve = float(before.get("power_curve", 0.0))
+    balance = float((before.get("damage_profile") or {}).get("damage_balance", 1.0))
+
+    if engage >= 0.4 and peel < 0.22:
+        return "dive"
+    if curve >= 0.08:
+        return "scaling"
+    if curve <= -0.12:
+        return "early"
+    if balance < 0.45:
+        return "damage_mix"
+    return None
+
+
 def build_pick_justification_dict(
     champion: str,
     role: str,
@@ -172,6 +214,7 @@ def build_pick_justification_dict(
     opponent_context: list[dict[str, str]] | None,
     *,
     mode: PredictionMode = "pro",
+    scoring: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Construit un dict structuré (meta / composition / duo / stats) pour un pick."""
     role = normalize_role(role)
@@ -200,9 +243,11 @@ def build_pick_justification_dict(
 
     so_far = _team_champions_excluding_role(pick_team, role)
     shifts: list[ShiftKind] = []
+    comp_plan: str | None = None
     if so_far:
         before = compute_composition_archetype(so_far)
         after = compute_composition_archetype(so_far + [champion])
+        comp_plan = _comp_plan_label(before)
         raw_shifts = _describe_archetype_shift(before, after)
         mapping = {
             "comble un manque de peel": "peel",
@@ -221,10 +266,19 @@ def build_pick_justification_dict(
     my_cs = _lane_cs_at_15(champion, role)
     opp_gold = _lane_gold_at_15(lane_opponent, role) if lane_opponent else None
 
+    my_pro = _pro_winrate_line(champion, role) if mode == "pro" else None
+    opp_pro = (
+        _pro_winrate_line(lane_opponent, role)
+        if lane_opponent and mode == "pro"
+        else None
+    )
+
     damage_before = compute_composition_archetype(so_far) if so_far else None
     damage_after = (
         compute_composition_archetype(so_far + [champion]) if so_far else None
     )
+
+    score_payload = scoring or {}
 
     return {
         "meta_kind": meta_kind,
@@ -232,11 +286,20 @@ def build_pick_justification_dict(
         "ban_rate": ban_rate,
         "games": games,
         "composition_shifts": shifts,
+        "comp_plan": comp_plan,
+        "teammates": so_far,
         "duo": duo_details,
         "lane_opponent": lane_opponent,
         "my_gold_at_15": my_gold,
         "my_cs_at_15": my_cs,
         "opp_gold_at_15": opp_gold,
+        "my_pro_winrate": my_pro[0] if my_pro else None,
+        "my_pro_games": my_pro[1] if my_pro else None,
+        "opp_pro_winrate": opp_pro[0] if opp_pro else None,
+        "opp_pro_games": opp_pro[1] if opp_pro else None,
+        "win_probability": score_payload.get("win_probability"),
+        "pair_planning_bonus": score_payload.get("pair_planning_bonus"),
+        "archetype_score": score_payload.get("archetype_score"),
         "damage_before": damage_before,
         "damage_after": damage_after,
     }
@@ -247,151 +310,262 @@ def build_plain_pick_explanation(
     role: str,
     justification_technique: dict[str, Any],
 ) -> str:
-    """Retraduit une justification technique en phrase parlée à la 1re personne."""
+    """Retraduit une justification technique en argument convaincant à la 1re personne."""
     role = normalize_role(role)
     role_fr = ROLE_LABELS_FR.get(role, role.lower())
-    parts: list[str] = []
+    teammates = list(justification_technique.get("teammates") or [])
+    team_label = _format_teammates(teammates)
+    comp_plan = justification_technique.get("comp_plan")
+    win_prob = justification_technique.get("win_probability")
+    pair_bonus = float(justification_technique.get("pair_planning_bonus") or 0.0)
 
-    meta_kind = justification_technique.get("meta_kind") or "credible"
-    trend = justification_technique.get("trend")
-    ban_rate = justification_technique.get("ban_rate")
-    games = justification_technique.get("games")
-
-    if meta_kind == "often_banned" and ban_rate is not None:
-        ban_pct = int(round(float(ban_rate) * 100))
-        games_bit = f", sur {games} games pickées" if games else ""
-        parts.append(
-            _pick(
-                [
-                    "J'ai pris {champion} parce que c'est une vraie menace en {role} — les pros le bannissent dans {ban_pct}% des games{games_bit}.",
-                    "{champion} en {role}, trop dangereux à laisser passer : {ban_pct}% de ban rate en pro{games_bit}.",
-                ],
-                champion=champion,
-                role=role_fr,
-                ban_pct=ban_pct,
-                games_bit=games_bit,
-            )
-        )
-    elif meta_kind == "established" and games is not None:
-        base = (
-            f"J'ai pris {champion} en {role_fr} parce que c'est un pick établi "
-            f"en pro ({games} games sur ce poste)."
-        )
-        if trend == "hausse":
-            base += " Et la tendance monte en ce moment."
-        elif trend == "baisse":
-            base += " Même s'il est un peu moins joué qu'avant, le volume reste solide."
-        parts.append(base)
-    elif meta_kind == "niche" and games is not None:
-        parts.append(
-            f"J'ai sorti {champion} en {role_fr} — peu joué en pro ({games} games), "
-            "mais ça me donne un angle moins préparé."
-        )
-    else:
-        parts.append(
-            f"J'ai pris {champion} en {role_fr} — un choix crédible pour ce que je voulais ici."
-        )
-
-    shifts: list[str] = list(justification_technique.get("composition_shifts") or [])
-    damage_before = justification_technique.get("damage_before") or {}
-    damage_after = justification_technique.get("damage_after") or {}
-    for shift in shifts[:2]:
-        if shift == "peel":
-            parts.append(
-                "En plus, ça apporte enfin de la protection (peel) : "
-                "on manquait de filets de sécu pour nos carries."
-            )
-        elif shift == "engage":
-            parts.append(
-                "En plus, ça me donne un vrai outil d'engage pour ouvrir les fights "
-                "au lieu d'attendre que l'adversaire décide."
-            )
-        elif shift == "early":
-            parts.append(
-                "En plus, ça accélère notre début de partie — "
-                "on veut forcer le tempo avant que l'adversaire scale."
-            )
-        elif shift == "scaling":
-            parts.append(
-                "En plus, ça renforce notre late game : "
-                "plus on avance, plus notre compo devient dangereuse."
-            )
-        elif shift == "damage_balance":
-            before_phys = int((damage_before.get("damage_profile") or {}).get("physical_count", 0))
-            before_mag = int((damage_before.get("damage_profile") or {}).get("magic_count", 0))
-            after_phys = int((damage_after.get("damage_profile") or {}).get("physical_count", 0))
-            after_mag = int((damage_after.get("damage_profile") or {}).get("magic_count", 0))
-            parts.append(
-                f"En plus, ça rééquilibre nos dégâts "
-                f"(on passe de {before_phys} AD / {before_mag} AP "
-                f"à {after_phys} AD / {after_mag} AP) — plus dur à itemizer contre nous."
-            )
+    lead: str | None = None
+    support: list[str] = []
 
     duo = justification_technique.get("duo")
-    if isinstance(duo, dict) and duo.get("partner"):
+    if isinstance(duo, dict) and duo.get("partner") and float(duo.get("winrate", 0)) >= 0.51:
         wr = float(duo["winrate"]) * 100
         partner = duo["partner"]
         lane = duo.get("lane_label", "duo")
         duo_games = int(duo.get("games", 0))
-        parts.append(
-            f"Avec {partner}, le duo {lane} tient la route en pro : "
-            f"environ {wr:.1f}% de winrate sur {duo_games} games ensemble."
+        lead = (
+            f"Je lock {champion} parce qu'avec {partner}, notre {lane} affiche "
+            f"{wr:.1f}% de winrate pro sur {duo_games} games — c'est le duo le plus fiable "
+            f"disponible pour moi sur ce slot."
         )
-    elif justification_technique.get("duo_partner"):
-        # Compat anciens appels de test
-        partner = justification_technique["duo_partner"]
-        parts.append(
-            f"Avec {partner}, ces deux-là ont une synergie de duo mesurée en pro."
+    elif pair_bonus >= 1.0 and teammates:
+        lead = (
+            f"Je prends {champion} en {role_fr} parce que c'est le meilleur chaînon "
+            f"pour compléter {team_label} : en simulant la suite de la draft, "
+            "c'est le pick qui maximise notre winrate d'équipe."
         )
+
+    shifts: list[str] = list(justification_technique.get("composition_shifts") or [])
+    if not lead and shifts and teammates:
+        shift = shifts[0]
+        if shift == "peel":
+            lead = (
+                f"Avec {team_label} déjà lockés, on partait en comp agressive sans filet : "
+                f"{champion} apporte enfin du peel pour sécuriser nos carries en fight."
+            )
+        elif shift == "engage":
+            lead = (
+                f"{team_label} posent une base solide, mais il nous manquait un vrai bouton "
+                f"d'engage — {champion} me permet de forcer l'ouverture quand je le décide."
+            )
+        elif shift == "early":
+            lead = (
+                f"Notre draft avec {team_label} cherche le tempo early : "
+                f"{champion} accélère le plan au lieu de nous laisser scaler passivement."
+            )
+        elif shift == "scaling":
+            lead = (
+                f"On a {team_label} pour tenir le mid game ; "
+                f"{champion} renforce notre scaling et allonge la fenêtre où on devient dangereux."
+            )
+        elif shift == "damage_balance":
+            before = justification_technique.get("damage_before") or {}
+            after = justification_technique.get("damage_after") or {}
+            before_phys = int((before.get("damage_profile") or {}).get("physical_count", 0))
+            before_mag = int((before.get("damage_profile") or {}).get("magic_count", 0))
+            after_phys = int((after.get("damage_profile") or {}).get("physical_count", 0))
+            after_mag = int((after.get("damage_profile") or {}).get("magic_count", 0))
+            lead = (
+                f"On était trop prévisibles en dégâts ({before_phys} AD / {before_mag} AP) "
+                f"avec {team_label} — {champion} nous passe à {after_phys} AD / {after_mag} AP, "
+                "donc plus dur à itemiser pour l'adversaire."
+            )
 
     lane_opponent = justification_technique.get("lane_opponent")
-    my_gold = justification_technique.get("my_gold_at_15")
-    my_cs = justification_technique.get("my_cs_at_15")
-    opp_gold = justification_technique.get("opp_gold_at_15")
-
-    if lane_opponent:
-        if my_gold is not None and opp_gold is not None:
-            if my_gold > opp_gold + 30:
-                parts.append(
-                    f"Face à ton {lane_opponent}, le matchup me plaît sur les chiffres : "
-                    f"{champion} sort en moyenne {int(round(my_gold)):+d} gold à 15 min en {role_fr}, "
-                    f"contre {int(round(opp_gold)):+d} pour {lane_opponent}."
-                )
-            elif my_gold < opp_gold - 30:
-                parts.append(
-                    f"Face à ton {lane_opponent}, je ne nie pas que sa lane est forte "
-                    f"({int(round(opp_gold)):+d} gold à 15 min en moyenne), "
-                    f"mais {champion} reste mon meilleur outil pour limiter les dégâts."
-                )
-            else:
-                parts.append(
-                    f"Contre ton {lane_opponent}, les lanes sont proches en gold à 15 "
-                    f"({champion} {int(round(my_gold)):+d}, "
-                    f"{lane_opponent} {int(round(opp_gold)):+d}) — "
-                    "je joue sur l'exécution et le reste de la compo."
-                )
-        elif my_gold is not None:
-            parts.append(
-                f"Contre ton {lane_opponent}, je m'appuie sur le profil de lane de {champion} : "
-                f"en moyenne {int(round(my_gold)):+d} gold à 15 minutes en {role_fr}."
+    my_pro_wr = justification_technique.get("my_pro_winrate")
+    opp_pro_wr = justification_technique.get("opp_pro_winrate")
+    my_pro_games = justification_technique.get("my_pro_games")
+    if not lead and lane_opponent and my_pro_wr is not None and opp_pro_wr is not None:
+        margin = (float(my_pro_wr) - float(opp_pro_wr)) * 100
+        if margin >= 1.5:
+            games_bit = f" sur {my_pro_games} games" if my_pro_games else ""
+            lead = (
+                f"Tu as déjà {lane_opponent} en face : je prends {champion} parce qu'en pro "
+                f"il sort à {float(my_pro_wr)*100:.1f}%{games_bit} contre "
+                f"{float(opp_pro_wr)*100:.1f}% pour {lane_opponent} sur le même rôle — "
+                "c'est mon meilleur counter crédible."
             )
-        elif my_cs is not None:
-            parts.append(
-                f"Contre ton {lane_opponent}, {champion} a un profil de farm solide "
-                f"({int(round(my_cs)):+d} CS à 15 min en moyenne en {role_fr})."
+        elif margin <= -1.5:
+            lead = (
+                f"Je sais que {lane_opponent} est favori en winrate pro "
+                f"({float(opp_pro_wr)*100:.1f}% vs {float(my_pro_wr)*100:.1f}%), "
+                f"mais {champion} limite le snowball adverse et garde notre plan d'équipe intact."
+            )
+
+    my_gold = justification_technique.get("my_gold_at_15")
+    opp_gold = justification_technique.get("opp_gold_at_15")
+    if not lead and lane_opponent and my_gold is not None and opp_gold is not None:
+        if float(my_gold) > float(opp_gold) + 30:
+            lead = (
+                f"Face à ton {lane_opponent}, {champion} sort en moyenne "
+                f"{int(round(my_gold)):+d} gold à 15 min contre "
+                f"{int(round(opp_gold)):+d} pour lui — je veux gagner la lane, pas juste survive."
+            )
+
+    meta_kind = justification_technique.get("meta_kind") or "credible"
+    ban_rate = justification_technique.get("ban_rate")
+    games = justification_technique.get("games")
+    trend = justification_technique.get("trend")
+
+    if not lead:
+        if meta_kind == "often_banned" and ban_rate is not None:
+            ban_pct = int(round(float(ban_rate) * 100))
+            lead = (
+                f"{champion} en {role_fr}, je ne peux pas le laisser rotater : "
+                f"les pros le bannissent {ban_pct}% du temps, signe qu'il domine le meta actuel."
+            )
+        elif my_pro_wr is not None and my_pro_games and int(my_pro_games) >= 20:
+            lead = (
+                f"Je prends {champion} en {role_fr} : "
+                f"{float(my_pro_wr)*100:.1f}% de winrate pro sur {my_pro_games} games sur ce poste."
+            )
+        elif meta_kind == "established" and games is not None:
+            lead = (
+                f"{champion} est mon pick {role_fr} le plus sûr : "
+                f"{games} games pro sur le patch, pick établi que je peux blind."
+            )
+        elif comp_plan == "dive" and role in {"UTILITY", "JUNGLE"}:
+            lead = (
+                f"Notre draft part en dive — {champion} en {role_fr} "
+                "est le chaînon qui manquait pour convertir les engages."
+            )
+        elif comp_plan == "scaling" and role in {"BOTTOM", "MIDDLE"}:
+            lead = (
+                f"On scale avec {team_label or 'la compo en cours'} : "
+                f"{champion} en {role_fr} porte notre win condition late."
             )
         else:
-            parts.append(
-                f"Contre ton {lane_opponent}, je prends {champion} pour le plan d'équipe "
-                "plus que pour un counter parfait 1v1."
+            lead = (
+                f"Je lock {champion} en {role_fr} parce que c'est le candidat "
+                "qui maximise notre winrate estimé sur le pool restant."
             )
-    elif my_gold is not None:
-        parts.append(
-            f"Sur ce poste, {champion} affiche en moyenne "
-            f"{int(round(my_gold)):+d} gold à 15 minutes — un profil de lane concret."
+
+    if shifts and teammates and lead:
+        shift = shifts[0]
+        if shift == "peel" and "peel" not in lead.lower():
+            support.append(
+                f"Avec {team_label} déjà lockés, {champion} apporte le peel "
+                "qui manquait pour protéger nos carries en fight."
+            )
+        elif shift == "engage" and "engage" not in lead.lower():
+            support.append(
+                f"Sur {team_label}, on avait besoin d'un bouton d'engage — "
+                f"{champion} le fournit sans casser le plan."
+            )
+        elif shift == "damage_balance" and "dégâts" not in lead.lower():
+            before = justification_technique.get("damage_before") or {}
+            after = justification_technique.get("damage_after") or {}
+            before_phys = int((before.get("damage_profile") or {}).get("physical_count", 0))
+            before_mag = int((before.get("damage_profile") or {}).get("magic_count", 0))
+            after_phys = int((after.get("damage_profile") or {}).get("physical_count", 0))
+            after_mag = int((after.get("damage_profile") or {}).get("magic_count", 0))
+            support.append(
+                f"On passe de {before_phys} AD / {before_mag} AP à {after_phys} AD / {after_mag} AP "
+                f"avec {team_label} — l'adversaire ne peut plus stack une seule résistance."
+            )
+        elif shift == "early" and "early" not in lead.lower():
+            support.append(
+                f"Ça accélère notre tempo avec {team_label} au lieu de nous laisser scaler passivement."
+            )
+        elif shift == "scaling" and "scaling" not in lead.lower():
+            support.append(
+                f"Ça renforce notre scaling autour de {team_label} pour gagner le late game."
+            )
+
+    if comp_plan and teammates and lead and comp_plan not in lead.lower():
+        if comp_plan == "dive":
+            support.append(
+                f"Notre draft part en dive avec {team_label} — {champion} "
+                "est le chaînon qui convertit les engages."
+            )
+        elif comp_plan == "scaling":
+            support.append(
+                f"On scale autour de {team_label} ; {champion} porte la win condition late."
+            )
+        elif comp_plan == "early":
+            support.append(
+                f"Le plan early avec {team_label} demande ce type de pick pour punir avant le scaling adverse."
+            )
+
+    if lane_opponent and lead and lane_opponent not in lead:
+        if my_pro_wr is not None and opp_pro_wr is not None:
+            margin = (float(my_pro_wr) - float(opp_pro_wr)) * 100
+            if margin >= 1.5:
+                games_bit = f" sur {my_pro_games} games" if my_pro_games else ""
+                support.append(
+                    f"Face à {lane_opponent}, {champion} sort à {float(my_pro_wr)*100:.1f}%{games_bit} "
+                    f"contre {float(opp_pro_wr)*100:.1f}% pour lui — je joue le counter crédible."
+                )
+            elif margin <= -1.5:
+                support.append(
+                    f"{lane_opponent} domine en winrate pro ({float(opp_pro_wr)*100:.1f}% vs "
+                    f"{float(my_pro_wr)*100:.1f}%), mais {champion} limite son snowball lane."
+                )
+        elif my_gold is not None and "gold" not in lead.lower():
+            opp_bit = (
+                f" contre {int(round(opp_gold)):+d} pour {lane_opponent}"
+                if opp_gold is not None
+                else f" face à {lane_opponent}"
+            )
+            support.append(
+                f"Historiquement, {champion} sort {int(round(my_gold)):+d} gold à 15 min{opp_bit} "
+                "— je veux gagner la lane, pas juste survive."
+            )
+
+    if win_prob is not None and float(win_prob) > 0:
+        support.append(
+            f"Après ce pick, j'estime notre winrate draft à {float(win_prob)*100:.1f}%."
         )
 
-    return _scrub(" ".join(parts))
+    if trend == "hausse" and meta_kind == "established" and len(support) < 2:
+        support.append("Sa présence en pro monte en ce moment.")
+    elif (
+        my_gold is not None
+        and lane_opponent
+        and "gold" not in lead.lower()
+        and not any("gold" in s.lower() for s in support)
+    ):
+        support.append(
+            f"Historiquement, {champion} sort {int(round(my_gold)):+d} gold à 15 min en {role_fr}."
+        )
+    elif (
+        justification_technique.get("my_cs_at_15") is not None
+        and lane_opponent
+        and len(support) < 2
+    ):
+        cs = int(round(float(justification_technique["my_cs_at_15"])))
+        support.append(
+            f"Son profil de farm ({cs:+d} CS à 15 min) me permet de stabiliser la lane."
+        )
+
+    parts = [lead, *support[:3]]
+    return _scrub(" ".join(part for part in parts if part))
+
+
+def generate_bot_pick_reason(
+    champion: str,
+    role: str,
+    team_context: list[dict[str, str]] | None,
+    opponent_context: list[dict[str, str]] | None,
+    *,
+    mode: PredictionMode = "pro",
+    scoring: dict[str, Any] | None = None,
+) -> str:
+    """Justification convaincante pour un pick bot (visual novel + reason API)."""
+    technical = build_pick_justification_dict(
+        champion,
+        role,
+        team_context,
+        opponent_context,
+        mode=mode,
+        scoring=scoring,
+    )
+    return build_plain_pick_explanation(champion, role, technical)
 
 
 def build_plain_team_synergy_summary(
@@ -415,16 +589,21 @@ def build_plain_team_synergy_summary(
 
     if power <= -0.25:
         tempo = (
-            "Au final, mon équipe veut imposer le rythme en early"
-            + (f" grâce à {', '.join(early[:2])}" if early else "")
+            "Mon plan : imposer le tempo en early"
+            + (f" avec {', '.join(early[:2])} en tête de pont" if early else "")
+            + ", punir les erreurs avant le scaling adverse."
         )
     elif power >= 0.25:
         tempo = (
-            "Au final, mon équipe scale vers le late"
-            + (f" avec {', '.join(late[:2])} comme menaces principales" if late else "")
+            "Mon plan : survivre au mid game puis gagner le late"
+            + (f" autour de {', '.join(late[:2])}" if late else "")
+            + " quand nos items tournent."
         )
     else:
-        tempo = "Au final, mon équipe reste flexible sur le timing des fights"
+        tempo = (
+            "Mon plan : rester flexible sur le timing — "
+            "je peux forcer une fight ou slow push selon ce que tu me laisses."
+        )
 
     bits: list[str] = [tempo]
 

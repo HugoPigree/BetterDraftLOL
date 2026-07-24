@@ -33,6 +33,7 @@ from pro_force import (
 )
 from build_duo_dataset import get_duo_score
 from composition_archetype import compute_composition_archetype, score_archetype_coherence
+from bot_speech_builder import generate_bot_pick_reason
 from justification_builder import generate_pick_justification
 
 logger = logging.getLogger(__name__)
@@ -1967,17 +1968,13 @@ def suggest_bot_pick(
     bot_team_with_pick = bot_partial + [
         {"champion": chosen["champion"], "role": chosen["role"]}
     ]
-    chosen["reason"] = generate_pick_justification(
+    chosen["reason"] = generate_bot_pick_reason(
         chosen["champion"],
         chosen["role"],
         team_context=bot_team_with_pick,
         opponent_context=opponent_partial,
-        source_data={
-            "patch": patch,
-            "mode": mode,
-            "pick_side": "team",
-            "archetype_score": chosen.get("archetype_score"),
-        },
+        mode=mode,
+        scoring=chosen,
     )
 
     return chosen

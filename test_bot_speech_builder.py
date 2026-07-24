@@ -37,6 +37,31 @@ def test_build_plain_pick_explanation_has_no_technical_jargon() -> None:
         assert banned not in spoken, f"Jargon technique trouvé: {banned!r} dans {spoken!r}"
 
 
+def test_build_plain_pick_explanation_leads_with_decisive_reason() -> None:
+    spoken = build_plain_pick_explanation(
+        "Nautilus",
+        "UTILITY",
+        {
+            "meta_kind": "established",
+            "games": 120,
+            "composition_shifts": ["peel"],
+            "teammates": ["Caitlyn", "Vi"],
+            "comp_plan": "dive",
+            "duo": {
+                "partner": "Caitlyn",
+                "lane_label": "bot lane",
+                "winrate": 0.542,
+                "games": 88,
+            },
+            "win_probability": 0.534,
+        },
+    )
+    assert "Caitlyn" in spoken
+    assert "54.2%" in spoken or "54%" in spoken
+    assert "Vi" in spoken or "peel" in spoken.lower() or "dive" in spoken.lower()
+    assert "crédible pour ce que je voulais" not in spoken.lower()
+
+
 def test_build_plain_pick_explanation_duo_and_matchup_are_concrete() -> None:
     spoken = build_plain_pick_explanation(
         "Sivir",
@@ -45,6 +70,7 @@ def test_build_plain_pick_explanation_duo_and_matchup_are_concrete() -> None:
             "meta_kind": "established",
             "games": 400,
             "composition_shifts": ["damage_balance"],
+            "teammates": ["Ornn", "Orianna"],
             "duo": {
                 "partner": "Bard",
                 "lane_label": "bot lane",

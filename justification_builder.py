@@ -168,13 +168,24 @@ def _build_meta_sentence(
         except (FileNotFoundError, ValueError):
             scored = None
         if scored is not None:
-            meta_score, games, _, _, _ = scored
+            meta_score, games, winrate, _fitness, _name = scored
             return (
-                f"{champion} affiche un meta_score pro de {meta_score:.2f} "
-                f"en {role_fr} ({games} games)."
+                f"{champion} affiche {winrate * 100:.1f}% de winrate pro "
+                f"en {role_fr} ({games} games, score meta {meta_score:.2f})."
             )
 
     return f"{champion} est une option crédible en {role_fr} dans le pool actuel."
+
+
+def _format_teammates_list(names: list[str]) -> str:
+    cleaned = [name.strip() for name in names if name.strip()]
+    if not cleaned:
+        return "la compo"
+    if len(cleaned) == 1:
+        return cleaned[0]
+    if len(cleaned) == 2:
+        return f"{cleaned[0]} et {cleaned[1]}"
+    return ", ".join(cleaned[:-1]) + f" et {cleaned[-1]}"
 
 
 def _describe_archetype_shift(
@@ -235,11 +246,17 @@ def _build_composition_sentence(
         parts.append(f"{subject} renforce la cohérence d'archétype de l'équipe")
     elif score <= ARCHETYPE_PENALTY_THRESHOLD:
         parts.append(
-            f"{subject} affaiblit nettement la cohérence d'archétype "
-            f"(score {score:.2f})"
+            f"{subject} casse la cohérence du plan "
+            f"(profil peu aligné, score interne {score:.2f})"
         )
     else:
-        parts.append(f"{subject} s'intègre correctement au profil de la composition")
+        if len(so_far) >= 2:
+            ally = _format_teammates_list(so_far)
+            parts.append(
+                f"{subject} complète {ally} sans dénaturer le plan de composition"
+            )
+        else:
+            parts.append(f"{subject} pose une base cohérente pour la suite de la draft")
 
     if (
         decomposition is not None
