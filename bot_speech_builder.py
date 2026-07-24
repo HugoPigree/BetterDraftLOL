@@ -299,6 +299,9 @@ def build_pick_justification_dict(
         "opp_pro_games": opp_pro[1] if opp_pro else None,
         "win_probability": score_payload.get("win_probability"),
         "pair_planning_bonus": score_payload.get("pair_planning_bonus"),
+        "lookahead_duo_bonus": score_payload.get("lookahead_duo_bonus"),
+        "comp_direction_bonus": score_payload.get("comp_direction_bonus"),
+        "opponent_counter_bonus": score_payload.get("opponent_counter_bonus"),
         "archetype_score": score_payload.get("archetype_score"),
         "damage_before": damage_before,
         "damage_after": damage_after,
@@ -566,6 +569,74 @@ def generate_bot_pick_reason(
         scoring=scoring,
     )
     return build_plain_pick_explanation(champion, role, technical)
+
+
+def generate_bot_ban_reason(
+    champion: str,
+    role: str,
+    opponent_partial: list[dict[str, str]] | None,
+    team_context: list[dict[str, str]] | None,
+    *,
+    threat_points: float,
+    duo_denial_boost: float,
+    flex_roles: int,
+    opponent_win_probability: float,
+    mode: PredictionMode = "pro",
+) -> str:
+    """Justification convaincante pour un ban bot à la 1re personne."""
+    role_fr = ROLE_LABELS_FR.get(normalize_role(role), role.lower())
+    teammates = _format_teammates(
+        _team_champions_excluding_role(list(opponent_partial or []), role)
+    )
+    row = lookup_meta_tierlist_row(champion, role)
+    ban_rate_pct = int(round(float(row.ban_rate) * 100)) if row else None
+    games = int(row.games) if row else None
+
+    lead: str
+    if duo_denial_boost >= 2.0 and teammates:
+        lead = (
+            f"Je ban {champion} parce qu'avec {teammates} déjà visible, "
+            f"il complète un duo pro trop dangereux — je coupe leur win condition "
+            f"avant qu'ils le lockent en {role_fr}."
+        )
+    elif flex_roles >= 2:
+        lead = (
+            f"Je ban {champion} : il flex sur {flex_roles} rôles restants chez toi, "
+            f"donc je lui retire plusieurs options de draft d'un coup."
+        )
+    elif ban_rate_pct is not None and ban_rate_pct >= 15:
+        lead = (
+            f"Je ban {champion} en priorité — {ban_rate_pct}% de ban rate pro "
+            f"sur le patch, je ne veux pas le affronter en {role_fr}."
+        )
+    elif threat_points >= 1.5:
+        lead = (
+            f"Je ban {champion} parce que s'il tombe en {role_fr}, "
+            f"ton winrate draft monte de {threat_points:.1f} pts "
+            f"(j'estime ton équipe à {opponent_win_probability * 100:.1f}% si tu le récupères)."
+        )
+    elif games is not None and games >= 30:
+        lead = (
+            f"Je ban {champion} : c'est le power pick {role_fr} le plus menaçant "
+            f"disponible ({games} games pro sur le patch)."
+        )
+    else:
+        lead = (
+            f"Je ban {champion} parce que c'est la menace la plus crédible "
+            f"que je peux retirer de ton pool en {role_fr}."
+        )
+
+    support: list[str] = []
+    if threat_points >= 0.5 and "winrate draft" not in lead:
+        support.append(
+            f"Simulation : ce ban te coûte environ {threat_points:.1f} pts de winrate adverse."
+        )
+    if row and row.presence_score >= 0.08:
+        support.append(
+            f"Sa présence pro est élevée — je préfère le retirer maintenant plutôt qu'en affrontement direct."
+        )
+
+    return _scrub(" ".join(part for part in [lead, *support[:1]] if part))
 
 
 def build_plain_team_synergy_summary(
