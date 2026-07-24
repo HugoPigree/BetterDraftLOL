@@ -432,6 +432,15 @@ def test_pair_planning_bonus_positive_when_bot_lane_open() -> None:
     assert bonus >= 0.0
 
 
+def test_comp_direction_alignment_bonus_rewards_peel_on_engage() -> None:
+    from suggest_draft import _comp_direction_alignment_bonus
+
+    early_engage = ["Renekton", "LeeSin", "Pantheon"]
+    peel_bonus = _comp_direction_alignment_bonus(early_engage, "Lulu")
+    random_bonus = _comp_direction_alignment_bonus(early_engage, "Gnar")
+    assert peel_bonus >= random_bonus
+
+
 def test_duo_denial_ban_boost_targets_bot_lane_partner() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()

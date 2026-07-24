@@ -31,7 +31,7 @@ from pro_force import (
     pro_meta_score,
 )
 from build_duo_dataset import get_duo_score
-from composition_archetype import score_archetype_coherence
+from composition_archetype import compute_composition_archetype, score_archetype_coherence
 from justification_builder import generate_pick_justification
 
 logger = logging.getLogger(__name__)
@@ -706,6 +706,7 @@ LOOKAHEAD_DUO_WEIGHT = 7.0
 DUO_DENIAL_BAN_WEIGHT = 5.0
 PAIR_PLANNING_PARTNERS = 4
 PAIR_PLANNING_SCALE = 2.8
+COMP_DIRECTION_SCALE = 22.0
 
 
 def _duo_denial_ban_boost(
@@ -1280,6 +1281,45 @@ def _duo_pair_planning_bonus(
     return max(0.0, best_margin * 100.0 * PAIR_PLANNING_SCALE)
 
 
+def _comp_direction_alignment_bonus(team_champions: list[str], candidate: str) -> float:
+    """Renforce les picks qui prolongent la direction de compo déjà amorcée."""
+    if len(team_champions) < 2:
+        return 0.0
+
+    base = compute_composition_archetype(team_champions)
+    updated = compute_composition_archetype(team_champions + [candidate])
+    bonus = 0.0
+
+    if base["engage_score"] >= 0.32:
+        bonus += max(0.0, updated["engage_score"] - base["engage_score"]) * COMP_DIRECTION_SCALE
+        if base["peel_score"] < 0.24:
+            bonus += (
+                max(0.0, updated["peel_score"] - base["peel_score"])
+                * COMP_DIRECTION_SCALE
+                * 1.15
+            )
+
+    if base["power_curve"] >= 0.06:
+        bonus += (
+            max(0.0, updated["power_curve"] - base["power_curve"])
+            * COMP_DIRECTION_SCALE
+            * 0.9
+        )
+
+    if float(base["damage_profile"]["damage_balance"]) < 0.52:
+        bonus += (
+            max(
+                0.0,
+                float(updated["damage_profile"]["damage_balance"])
+                - float(base["damage_profile"]["damage_balance"]),
+            )
+            * COMP_DIRECTION_SCALE
+            * 0.85
+        )
+
+    return bonus
+
+
 def _top_candidates_for_role(
     pool: list[str],
     role: str,
@@ -1730,6 +1770,7 @@ def suggest_bot_pick(
                 )
                 selection_score += lookahead_duo_bonus
                 selection_score += pair_planning_bonus
+                selection_score += _comp_direction_alignment_bonus(team_so_far, candidate)
             synergy = float(_detail_for_side(result, team_side)["score_synergie"])
 
             pro_entry = _pro_winrate_entry(candidate, role)
