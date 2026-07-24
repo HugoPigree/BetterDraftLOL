@@ -352,6 +352,15 @@ body {
   text-align: center;
 }
 
+.drafter__data-status {
+  margin: 0.15rem 0 0;
+  max-width: 280px;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--lol-text-dim);
+  letter-spacing: 0.02em;
+}
+
 .drafter__team {
   display: none;
 }

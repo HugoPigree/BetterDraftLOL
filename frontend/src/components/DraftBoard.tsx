@@ -33,6 +33,7 @@ interface DraftBoardProps {
   ddragonVersion: string;
   patch: string;
   onPatchChange: (patch: string) => void;
+  dataStatusLabel?: string | null;
   predictionMode: PredictionMode;
   onPredictionModeChange: (mode: PredictionMode) => void;
   playerSide: Team;
@@ -146,6 +147,7 @@ export function DraftBoard({
   ddragonVersion,
   patch,
   onPatchChange,
+  dataStatusLabel = null,
   predictionMode,
   onPredictionModeChange,
   playerSide,
@@ -348,6 +350,11 @@ export function DraftBoard({
                 disabled={mode === "result" && !isEditMode}
               />
             </label>
+            {dataStatusLabel ? (
+              <p className="drafter__data-status" title={dataStatusLabel}>
+                {dataStatusLabel}
+              </p>
+            ) : null}
           </div>
         </div>
       </header>

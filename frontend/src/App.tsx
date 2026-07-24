@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Role, Team } from "./types/draft";
 import type { PredictionMode } from "./types/predict";
 import "./App.css";
@@ -12,6 +12,7 @@ import { useBotDialogue } from "./hooks/useBotDialogue";
 import { useBotExplanation } from "./hooks/useBotExplanation";
 import { useDraftBot } from "./hooks/useDraftBot";
 import { useDraftState } from "./hooks/useDraftState";
+import { formatMetaStatusLabel, useMetaStatus } from "./hooks/useMetaStatus";
 import { usePostDraftFlow } from "./hooks/usePostDraftFlow";
 import { fetchChampionsFromApi } from "./services/api";
 import { fetchLatestDdragonVersion } from "./utils/ddragon";
@@ -22,6 +23,8 @@ function App() {
   const [championPositions, setChampionPositions] = useState<Record<string, Role[]>>({});
   const [ddragonVersion, setDdragonVersion] = useState("14.23.1");
   const [patch, setPatch] = useState("16.13");
+  const patchInitializedRef = useRef(false);
+  const { status: metaStatus } = useMetaStatus();
   const [predictionMode, setPredictionMode] = useState<PredictionMode>("mixed");
   const [playerSide, setPlayerSide] = useState<Team>("blue");
   const [botEnabled, setBotEnabled] = useState(true);
@@ -58,6 +61,13 @@ function App() {
     mode: "pro",
     enabled: botEnabled && postDraft.phase === "result" && !postDraft.isEditing,
   });
+
+  useEffect(() => {
+    if (!patchInitializedRef.current && metaStatus?.latest_patch) {
+      setPatch(metaStatus.latest_patch);
+      patchInitializedRef.current = true;
+    }
+  }, [metaStatus?.latest_patch]);
 
   useEffect(() => {
     let cancelled = false;
@@ -129,6 +139,8 @@ function App() {
         : "Synthèse d'équipe"
       : null;
 
+  const dataStatusLabel = formatMetaStatusLabel(metaStatus);
+
   const boardMode =
     postDraft.phase === "confirmRoles"
       ? "confirmRoles"
@@ -144,6 +156,7 @@ function App() {
           ddragonVersion={ddragonVersion}
           patch={patch}
           onPatchChange={setPatch}
+          dataStatusLabel={dataStatusLabel}
           predictionMode={predictionMode}
           onPredictionModeChange={setPredictionMode}
           playerSide={playerSide}

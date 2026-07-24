@@ -30,6 +30,7 @@ from suggest_draft import (
     suggest_retrospective_bans,
     suggest_retrospective_picks,
 )
+from meta_status import get_meta_status
 from bot_speech_builder import build_bot_explanation_steps
 
 logger = logging.getLogger(__name__)
@@ -99,6 +100,19 @@ class HealthResponse(BaseModel):
 class ChampionsResponse(BaseModel):
     champions: list[str]
     positions: dict[str, list[str]]
+
+
+class MetaStatusResponse(BaseModel):
+    latest_patch: str
+    patches_available: list[str] = Field(default_factory=list)
+    data_built_at: str | None = None
+    oracle_updated_at: str | None = None
+    oracle_status: str | None = None
+    oracle_team_games: int | None = None
+    meraki_updated_at: str | None = None
+    meraki_champion_count: int | None = None
+    unmapped_champions: list[str] = Field(default_factory=list)
+    schema_version: int = 0
 
 
 class ChampionForceDetail(BaseModel):
@@ -403,7 +417,7 @@ def create_app() -> FastAPI:
         logger.info(
             "API prête sur /health, /champions, /predict, /suggest-pick, "
             "/suggest-ban, /suggest-retrospective-ban, /suggest-retrospective-pick, "
-            "/draft-bot/move, /bot-explanation et /ask-chatbot-rules"
+            "/draft-bot/move, /bot-explanation, /meta/status et /ask-chatbot-rules"
         )
         yield
 
@@ -463,6 +477,15 @@ def create_app() -> FastAPI:
         names = sorted(catalog.keys())
         logger.info("Liste champions servie (%d entrées)", len(names))
         return ChampionsResponse(champions=names, positions=catalog)
+
+    @app.get("/meta/status", response_model=MetaStatusResponse)
+    async def meta_status() -> dict[str, Any]:
+        try:
+            status = get_meta_status()
+        except Exception as exc:
+            logger.exception("Impossible de lire meta/status")
+            raise HTTPException(status_code=502, detail="Statut data indisponible") from exc
+        return status
 
     @app.post("/predict", response_model=PredictResponse)
     async def predict(request: PredictRequest) -> dict[str, Any]:

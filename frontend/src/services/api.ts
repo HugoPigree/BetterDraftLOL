@@ -19,6 +19,19 @@ export interface DraftBotMoveResponse {
   reason?: string | null;
 }
 
+export interface MetaStatusResponse {
+  latest_patch: string;
+  patches_available: string[];
+  data_built_at?: string | null;
+  oracle_updated_at?: string | null;
+  oracle_status?: string | null;
+  oracle_team_games?: number | null;
+  meraki_updated_at?: string | null;
+  meraki_champion_count?: number | null;
+  unmapped_champions: string[];
+  schema_version: number;
+}
+
 export interface BotExplanationStep {
   champion: string | null;
   role?: DraftPick["role"] | null;
@@ -78,6 +91,21 @@ export async function checkApiHealth(): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export async function fetchMetaStatus(): Promise<MetaStatusResponse> {
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}/meta/status`);
+  } catch {
+    throw new Error(networkErrorMessage());
+  }
+
+  if (!response.ok) {
+    throw new Error(`Statut data indisponible (HTTP ${response.status})`);
+  }
+
+  return (await response.json()) as MetaStatusResponse;
 }
 
 export async function predictDraft(
