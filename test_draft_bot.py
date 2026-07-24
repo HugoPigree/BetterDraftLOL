@@ -441,6 +441,23 @@ def test_comp_direction_alignment_bonus_rewards_peel_on_engage() -> None:
     assert peel_bonus >= random_bonus
 
 
+def test_two_stage_pick_preserves_role_pool() -> None:
+    import random
+
+    from suggest_draft import _two_stage_weighted_bot_pick
+
+    pool = [
+        {"champion": "Vi", "role": "JUNGLE", "selection_score": 95.0},
+        {"champion": "Nocturne", "role": "JUNGLE", "selection_score": 94.0},
+        {"champion": "Nautilus", "role": "UTILITY", "selection_score": 96.0},
+        {"champion": "Bard", "role": "UTILITY", "selection_score": 95.5},
+    ]
+    rng = random.Random(42)
+    chosen = _two_stage_weighted_bot_pick(pool, 1.0, rng)
+    assert chosen["role"] in {"JUNGLE", "UTILITY"}
+    assert chosen["champion"] in {"Vi", "Nocturne", "Nautilus", "Bard"}
+
+
 def test_duo_denial_ban_boost_targets_bot_lane_partner() -> None:
     pd.reset_predict_state()
     pd.initialize_blue_side_winrate()

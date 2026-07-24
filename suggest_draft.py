@@ -6,6 +6,7 @@ from __future__ import annotations
 import logging
 import math
 import random
+from collections import defaultdict
 from typing import Any, Literal
 
 import build_training_dataset as btd
@@ -688,7 +689,8 @@ BOT_CANDIDATES_PER_ROLE = 12
 # Softmax pick diversity : plus bas = proche du deterministe, plus haut = plus de variety.
 # 0.3 laissait Ashe ~75% / Nocturne ~91% (scores serrés ~90-100 => exp(score/T) trop peaked).
 # 1.0 retenu apres 90 sims (3 seeds) : Ashe ~40%, Bard ~47%, Nocturne ~70%, 4-10 champs/rôle.
-TEMPERATURE_BOT_PICK = 1.0
+# 1.15 + sélection two-stage pour limiter la répétition systématique des #1 meta.
+TEMPERATURE_BOT_PICK = 1.15
 PRO_BOT_SYNERGY_WEIGHT = 0.38
 PRO_BOT_DUO_WEIGHT = 0.22
 PRO_BOT_META_WEIGHT = 0.18
@@ -1587,6 +1589,30 @@ def decompose_bot_candidate_score(
     }
 
 
+def _two_stage_weighted_bot_pick(
+    candidates: list[dict[str, Any]],
+    temperature: float,
+    rng: random.Random,
+) -> dict[str, Any]:
+    """Softmax par rôle puis softmax entre les finalistes de chaque rôle."""
+    if not candidates:
+        raise ValueError("Aucun candidat pour le tirage bot")
+
+    by_role: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for item in candidates:
+        by_role[normalize_role(item["role"])].append(item)
+
+    if len(by_role) == 1:
+        return _weighted_bot_pick(candidates, temperature, rng)
+
+    role_winners: list[dict[str, Any]] = []
+    intra_temp = max(temperature * 0.85, 0.35)
+    for role_items in by_role.values():
+        role_winners.append(_weighted_bot_pick(role_items, intra_temp, rng))
+
+    return _weighted_bot_pick(role_winners, temperature, rng)
+
+
 def _weighted_bot_pick(
     candidates: list[dict[str, Any]],
     temperature: float,
@@ -1813,7 +1839,7 @@ def suggest_bot_pick(
         return {"champion": None, "role": None, "win_probability": None}
 
     if mode == "pro":
-        chosen = _weighted_bot_pick(pick_pool, TEMPERATURE_BOT_PICK, pick_rng)
+        chosen = _two_stage_weighted_bot_pick(pick_pool, TEMPERATURE_BOT_PICK, pick_rng)
     else:
         chosen = max(pick_pool, key=lambda item: item["selection_score"])
 
