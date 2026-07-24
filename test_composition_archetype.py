@@ -165,3 +165,25 @@ def test_archetype_coherent_filler_prefers_peel_on_early_dive() -> None:
     blind_score = score_archetype_coherence(early_dive, blind_meta)
     assert coherent_score >= blind_score
     assert coherent_score >= 0.75
+
+
+def test_archetype_weight_scales_with_locked_picks() -> None:
+    from suggest_draft import WEIGHT_ARCHETYPE, _bot_archetype_weight
+
+    assert _bot_archetype_weight(0) < WEIGHT_ARCHETYPE
+    assert _bot_archetype_weight(3) > WEIGHT_ARCHETYPE
+    assert _bot_archetype_weight(3) > _bot_archetype_weight(1)
+
+
+def test_late_draft_archetype_gap_wider_on_early_dive() -> None:
+    """A 4e pick, la pénalité archétype pèse plus qu'en début de draft."""
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    early_pick = _decompose([], "Renekton", "TOP")
+    late_fragile = _decompose(EARLY_DIVE_FOUR, "Jinx", "UTILITY")
+    late_peel = _decompose(EARLY_DIVE_FOUR, "Lulu", "UTILITY")
+
+    assert late_peel["selection_score"] > late_fragile["selection_score"]
+    assert late_peel["score_archetype"] - late_fragile["score_archetype"] > 0
+    assert late_peel["weight_archetype"] > early_pick["weight_archetype"]

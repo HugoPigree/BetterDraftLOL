@@ -705,6 +705,17 @@ LOOKAHEAD_DUO_PARTNERS = 4
 LOOKAHEAD_DUO_WEIGHT = 7.0
 
 
+def _bot_archetype_weight(locked_picks: int) -> float:
+    """Renforce la cohérence de compo au fur et à mesure que la draft se remplit."""
+    if locked_picks >= 3:
+        return WEIGHT_ARCHETYPE * 1.6
+    if locked_picks >= 2:
+        return WEIGHT_ARCHETYPE * 1.35
+    if locked_picks >= 1:
+        return WEIGHT_ARCHETYPE * 1.15
+    return WEIGHT_ARCHETYPE * 0.9
+
+
 def _lookahead_duo_bonus(
     bot_partial: list[dict[str, str]],
     candidate: str,
@@ -821,6 +832,9 @@ def _bot_role_priority_bonus(
 ) -> float:
     multiplier = _bot_role_priority_multiplier(bot_partial, role, bot_remaining)
     return (multiplier - 1.0) * BOT_ROLE_PRIORITY_SCALE
+
+
+def _pro_winrate_entry(champion: str, role: str) -> tuple[float, int] | None:
     return _pro_winrate_for(champion, normalize_role(role))
 
 
@@ -1120,11 +1134,18 @@ def _bot_pick_selection_score(
     candidate_meta: float | None = None,
     locked_duo_bonus: float = 0.0,
     archetype_score: float | None = None,
+    *,
+    weight_archetype: float | None = None,
 ) -> float:
     """Score de sélection : winrate + synergie ML + duos pro + meta + archétype."""
     win_prob = team_side_win_probability(result, team_side)
     detail = _detail_for_side(result, team_side)
     synergy = float(detail["score_synergie"])
+    archetype_weight = (
+        weight_archetype
+        if weight_archetype is not None
+        else _bot_archetype_weight(locked_picks)
+    )
 
     score = win_prob * 100.0
 
@@ -1137,7 +1158,7 @@ def _bot_pick_selection_score(
             score += candidate_meta * 100.0 * PRO_BOT_META_WEIGHT
         score += locked_duo_bonus
         if archetype_score is not None:
-            score += archetype_score * 100.0 * WEIGHT_ARCHETYPE
+            score += archetype_score * 100.0 * archetype_weight
 
         min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
         if locked_picks >= 1 and synergy < min_synergy:
@@ -1156,7 +1177,7 @@ def decompose_bot_candidate_score(
     team_side: TeamSide = "blue",
     mode: PredictionMode = "pro",
     *,
-    weight_archetype: float = WEIGHT_ARCHETYPE,
+    weight_archetype: float | None = None,
 ) -> dict[str, Any] | None:
     """Décompose le score de sélection d'un candidat bot (composantes brutes + pondérées)."""
     patch = patch.strip()
@@ -1194,6 +1215,7 @@ def decompose_bot_candidate_score(
     ] or ROLES_ORDER.copy()
 
     locked_picks = len(bot_partial)
+    dynamic_archetype_weight = _bot_archetype_weight(locked_picks)
     meta_scored = _pro_meta_score_for(candidate, candidate_role) if mode == "pro" else None
     candidate_meta = meta_scored[0] if meta_scored else None
     locked_duo_bonus = (
@@ -1252,7 +1274,9 @@ def decompose_bot_candidate_score(
     score_meta = (
         candidate_meta * 100.0 * PRO_BOT_META_WEIGHT if candidate_meta is not None else 0.0
     )
-    score_archetype = archetype_score * 100.0 * weight_archetype
+    score_archetype = archetype_score * 100.0 * (
+        weight_archetype if weight_archetype is not None else dynamic_archetype_weight
+    )
 
     synergy_penalty = 0.0
     if mode == "pro":
@@ -1296,7 +1320,9 @@ def decompose_bot_candidate_score(
         "score_role_priority": round(role_priority_bonus, 2),
         "score_lookahead_duo": round(lookahead_duo_bonus, 2),
         "selection_score": round(selection_score, 2),
-        "weight_archetype": weight_archetype,
+        "weight_archetype": (
+            weight_archetype if weight_archetype is not None else dynamic_archetype_weight
+        ),
     }
 
 
