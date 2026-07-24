@@ -30,15 +30,21 @@ export interface BotExplanationResponse {
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL ?? "/api";
 
+function networkErrorMessage(): string {
+  const base = API_BASE_URL;
+  if (base.startsWith("http://localhost") || base.startsWith("http://127.0.0.1")) {
+    return "API locale injoignable. Lance : uvicorn api:app --reload --port 8001";
+  }
+  return "API injoignable. Réessaie dans un instant.";
+}
+
 export async function fetchChampionsFromApi(): Promise<ChampionsCatalog> {
   let response: Response;
 
   try {
     response = await fetch(`${API_BASE_URL}/champions`);
   } catch {
-    throw new Error(
-      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8001",
-    );
+    throw new Error(networkErrorMessage());
   }
 
   if (!response.ok) {
@@ -94,9 +100,7 @@ export async function predictDraft(
       body: JSON.stringify(payload),
     });
   } catch {
-    throw new Error(
-      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8001",
-    );
+    throw new Error(networkErrorMessage());
   }
 
   if (!response.ok) {
@@ -120,9 +124,7 @@ async function postJson<T>(path: string, payload: unknown, errorPrefix: string):
       body: JSON.stringify(payload),
     });
   } catch {
-    throw new Error(
-      "Impossible de joindre l'API locale. Lance : uvicorn api:app --reload --port 8001",
-    );
+    throw new Error(networkErrorMessage());
   }
 
   if (!response.ok) {
