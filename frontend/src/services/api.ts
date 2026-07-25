@@ -1,10 +1,12 @@
 import type { DraftPick, Role } from "../types/draft";
+import type { MatchSimulationResult, WorldsRoster, WorldsStartResponse } from "../types/worlds";
 import type { PredictionMode, PredictResponse, SuggestBanResponse, SuggestPickResponse, SuggestRetrospectiveBanResponse, SuggestRetrospectivePickResponse } from "../types/predict";
 import { fetchChampionPositionsFromMeraki } from "../utils/championPositions";
 
 export interface ChampionsCatalog {
   champions: string[];
   positions: Record<string, Role[]>;
+  estimatedChampions: string[];
 }
 
 export interface AskChatbotRulesResponse {
@@ -28,6 +30,9 @@ export interface MetaStatusResponse {
   oracle_team_games?: number | null;
   meraki_updated_at?: string | null;
   meraki_champion_count?: number | null;
+  ddragon_version?: string | null;
+  ddragon_updated_at?: string | null;
+  estimated_champions: string[];
   unmapped_champions: string[];
   schema_version: number;
 }
@@ -65,7 +70,11 @@ export async function fetchChampionsFromApi(): Promise<ChampionsCatalog> {
     throw new Error(`Impossible de charger les champions (HTTP ${response.status})`);
   }
 
-  const data = (await response.json()) as { champions: string[]; positions?: Record<string, Role[]> };
+  const data = (await response.json()) as {
+    champions: string[];
+    positions?: Record<string, Role[]>;
+    estimated_champions?: string[];
+  };
   if (!Array.isArray(data.champions) || data.champions.length === 0) {
     throw new Error("La liste des champions renvoyée par l'API est vide");
   }
@@ -82,6 +91,7 @@ export async function fetchChampionsFromApi(): Promise<ChampionsCatalog> {
   return {
     champions: data.champions,
     positions,
+    estimatedChampions: data.estimated_champions ?? [],
   };
 }
 export async function checkApiHealth(): Promise<boolean> {
@@ -142,6 +152,21 @@ export async function predictDraft(
   }
 
   return (await response.json()) as PredictResponse;
+}
+
+async function getJson<T>(path: string, errorPrefix: string): Promise<T> {
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`);
+  } catch {
+    throw new Error(networkErrorMessage());
+  }
+
+  if (!response.ok) {
+    throw new Error(`${errorPrefix} (HTTP ${response.status})`);
+  }
+
+  return (await response.json()) as T;
 }
 
 async function postJson<T>(path: string, payload: unknown, errorPrefix: string): Promise<T> {
@@ -316,5 +341,76 @@ export async function askChatbotRules(
       available_champions: availableChampions,
     },
     "Question au chatbot impossible",
+  );
+}
+
+export async function fetchWorldsTeams(): Promise<{ teams: WorldsStartResponse["opponent_teams"] }> {
+  return getJson("/worlds/teams", "Impossible de charger les équipes Worlds");
+}
+
+export async function startWorldsTournament(
+  teamName: string,
+  coachName: string,
+  roster: WorldsRoster,
+): Promise<WorldsStartResponse> {
+  return postJson<WorldsStartResponse>(
+    "/worlds/start",
+    {
+      team_name: teamName,
+      coach_name: coachName,
+      roster,
+    },
+    "Impossible de démarrer le tournoi Worlds",
+  );
+}
+
+export async function worldsDraftBotMove(
+  actionType: "ban" | "pick",
+  botSide: "blue" | "red",
+  botPicks: DraftPick[],
+  opponentPicks: DraftPick[],
+  patch: string,
+  availableChampions: string[],
+  teamId: string,
+  teamRoster: WorldsRoster,
+): Promise<DraftBotMoveResponse> {
+  return postJson<DraftBotMoveResponse>(
+    "/worlds/draft-bot/move",
+    {
+      action_type: actionType,
+      bot_side: botSide,
+      bot_picks: botPicks.map((pick) => ({ champion: pick.champion })),
+      opponent_picks: opponentPicks.map((pick) => ({ champion: pick.champion })),
+      patch,
+      available_champions: availableChampions,
+      mode: "pro",
+      team_id: teamId,
+      team_roster: teamRoster,
+    },
+    "Tour du bot Worlds impossible",
+  );
+}
+
+export async function simulateWorldsMatch(
+  playerSide: "blue" | "red",
+  playerTeamName: string,
+  opponentTeamName: string,
+  draftBlueWinProbability: number,
+  opponentTeamId?: string,
+  playerRoster?: WorldsRoster,
+  opponentRoster?: WorldsRoster,
+): Promise<MatchSimulationResult> {
+  return postJson<MatchSimulationResult>(
+    "/worlds/simulate-match",
+    {
+      player_side: playerSide,
+      player_team_name: playerTeamName,
+      opponent_team_name: opponentTeamName,
+      draft_blue_win_probability: draftBlueWinProbability,
+      opponent_team_id: opponentTeamId,
+      player_roster: playerRoster,
+      opponent_roster: opponentRoster,
+    },
+    "Simulation de match impossible",
   );
 }

@@ -116,7 +116,7 @@ export function useBotDialogue({
     }
 
     if (botError && botError !== prevErrorRef.current) {
-      speak({ type: "error" });
+      speak({ type: "error", detail: botError });
     }
     prevErrorRef.current = botError;
   }, [enabled, botError]);

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -9,6 +10,7 @@ from typing import Any
 from data_refresh.constants import (
     DATA_MANIFEST_PATH,
     DEFAULT_ORACLE_CSV,
+    DDRAGON_META_PATH,
     MERAKI_CACHE_PATH,
 )
 from data_refresh.manifest import load_data_manifest
@@ -33,7 +35,23 @@ def get_meta_status() -> dict[str, Any]:
 
     oracle_section = manifest.get("oracle") if manifest else {}
     meraki_section = manifest.get("meraki") if manifest else {}
+    ddragon_section = manifest.get("ddragon") if manifest else {}
+    if not isinstance(oracle_section, dict):
+        oracle_section = {}
+    if not isinstance(meraki_section, dict):
+        meraki_section = {}
+    if not isinstance(ddragon_section, dict):
+        ddragon_section = {}
     unmapped = manifest.get("unmapped_champions") if manifest else []
+    estimated = manifest.get("estimated_champions") if manifest else []
+
+    if not estimated:
+        try:
+            from champion_catalog import list_estimated_champion_names, load_unified_champions
+
+            estimated = list_estimated_champion_names(load_unified_champions(ensure_ddragon=False))
+        except Exception:
+            estimated = []
 
     latest_patch = str(patch_info.get("latest_patch") or "16.13")
     built_at = manifest.get("built_at") or _file_mtime_iso(DATA_MANIFEST_PATH)
@@ -47,6 +65,13 @@ def get_meta_status() -> dict[str, Any]:
         "oracle_team_games": patch_info.get("team_games"),
         "meraki_updated_at": meraki_section.get("updated_at") or _file_mtime_iso(MERAKI_CACHE_PATH),
         "meraki_champion_count": meraki_section.get("champion_count"),
+        "ddragon_version": ddragon_section.get("version") or (
+            json.loads(DDRAGON_META_PATH.read_text(encoding="utf-8")).get("version")
+            if DDRAGON_META_PATH.exists()
+            else None
+        ),
+        "ddragon_updated_at": ddragon_section.get("updated_at") or _file_mtime_iso(DDRAGON_META_PATH),
+        "estimated_champions": estimated or [],
         "unmapped_champions": unmapped or [],
         "schema_version": manifest.get("schema_version", 0),
     }

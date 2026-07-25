@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Coach Homme">
+  <rect width="200" height="240" fill="#1a0f0f"/>
+  <circle cx="100" cy="78" r="42" fill="#e74c3c"/>
+  <rect x="58" y="118" width="84" height="96" rx="18" fill="#3d1f1f"/>
+  <text x="100" y="88" text-anchor="middle" fill="#1a0f0f" font-family="Arial,sans-serif" font-size="34" font-weight="700">H</text>
+  <text x="100" y="228" text-anchor="middle" fill="#e74c3c" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">HOMME</text>
+</svg>

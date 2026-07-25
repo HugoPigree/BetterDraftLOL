@@ -152,23 +152,14 @@ def soft_assign_roles(
 
 
 def get_champion_role_catalog() -> dict[str, list[str]]:
-    champions = btd.load_meraki_champions(btd.MERAKI_URL, btd.DEFAULT_MERAKI_CACHE)
-    catalog: dict[str, list[str]] = {}
+    from champion_catalog import build_api_position_catalog, load_unified_champions
 
-    for key, payload in champions.items():
-        name = str(payload.get("name", key)).strip()
-        if not name:
-            continue
-
-        positions: list[str] = []
-        for position in payload.get("positions", []):
-            mapped = normalize_role(str(position))
-            if mapped in VALID_ROLES and mapped not in positions:
-                positions.append(mapped)
-
-        catalog[name] = positions
-
-    return catalog
+    champions = load_unified_champions()
+    catalog = build_api_position_catalog(champions)
+    return {
+        name: [role for role in positions if role in VALID_ROLES]
+        for name, positions in catalog.items()
+    }
 
 
 def champions_playable_on_role(

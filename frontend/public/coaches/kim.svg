@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Coach Kim">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2744"/>
+      <stop offset="100%" stop-color="#0d1528"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="240" fill="url(#bg)"/>
+  <circle cx="100" cy="78" r="42" fill="#d4af37"/>
+  <rect x="58" y="118" width="84" height="96" rx="18" fill="#243656"/>
+  <text x="100" y="88" text-anchor="middle" fill="#0d1528" font-family="Arial,sans-serif" font-size="34" font-weight="700">K</text>
+  <text x="100" y="228" text-anchor="middle" fill="#d4af37" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">KIM</text>
+</svg>

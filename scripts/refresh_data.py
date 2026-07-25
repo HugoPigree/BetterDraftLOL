@@ -18,6 +18,7 @@ from data_refresh.constants import (
     DATA_DIR,
     DATA_MANIFEST_PATH,
     DEFAULT_ORACLE_CSV,
+    DDRAGON_CACHE_PATH,
     MERAKI_CACHE_PATH,
     UNMAPPED_CHAMPIONS_PATH,
 )
@@ -25,6 +26,8 @@ from data_refresh.manifest import build_manifest, write_data_manifest
 from data_refresh.meraki import refresh_meraki_champions
 from data_refresh.oracle import fetch_oracle_csv
 from data_refresh.patches import detect_patch_info
+from data_refresh.ddragon import refresh_ddragon_champions
+from champion_catalog import list_estimated_champion_names, load_unified_champions
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +65,15 @@ def refresh_all(
         }
 
     meraki_result = refresh_meraki_champions(MERAKI_CACHE_PATH)
+    ddragon_result = refresh_ddragon_champions(DDRAGON_CACHE_PATH)
+
+    unified = load_unified_champions(
+        meraki_cache=MERAKI_CACHE_PATH,
+        ddragon_cache=DDRAGON_CACHE_PATH,
+        oracle_csv=DEFAULT_ORACLE_CSV,
+        ensure_ddragon=False,
+    )
+    estimated_champions = list_estimated_champion_names(unified)
 
     _run_step("Duo datasets", [sys.executable, "build_duo_dataset.py"])
     _run_step("Meta tierlist", [sys.executable, "build_meta_tierlist.py"])
@@ -76,14 +88,17 @@ def refresh_all(
     manifest = build_manifest(
         oracle=oracle_result,
         meraki=meraki_result,
+        ddragon=ddragon_result,
         patches=patch_info,
         unmapped_champions=unmapped,
+        estimated_champions=estimated_champions,
         artifacts={
             "oracle_csv": str(DEFAULT_ORACLE_CSV),
             "meta_tierlist": str(DATA_DIR / "meta_tierlist.csv"),
             "duo_bot_lane": str(DATA_DIR / "duo_bot_lane.csv"),
             "duo_jungle_support": str(DATA_DIR / "duo_jungle_support.csv"),
             "meraki_cache": str(MERAKI_CACHE_PATH),
+            "ddragon_cache": str(DDRAGON_CACHE_PATH),
         },
         warnings=(
             ["unmapped_champions_detected"] if unmapped else []
@@ -92,8 +107,10 @@ def refresh_all(
     write_data_manifest(manifest, DATA_MANIFEST_PATH)
     logger.info("Manifest écrit: %s", DATA_MANIFEST_PATH)
     logger.info("Patch pro le plus récent: %s", patch_info.get("latest_patch"))
+    if estimated_champions:
+        logger.info("Profils estimés (Data Dragon): %s", ", ".join(estimated_champions))
     if unmapped:
-        logger.warning("Champions non mappés Meraki: %s", ", ".join(unmapped[:10]))
+        logger.warning("Champions non mappés: %s", ", ".join(unmapped[:10]))
     return manifest
 
 

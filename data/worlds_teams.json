@@ -1,0 +1,102 @@
+{
+  "teams": [
+    {
+      "id": "t1",
+      "name": "T1",
+      "region": "LCK",
+      "coach": "Tom",
+      "coach_portrait": "/coaches/tom.jpg",
+      "roster": {
+        "TOP": "Doran",
+        "JUNGLE": "Oner",
+        "MIDDLE": "Faker",
+        "BOTTOM": "Peyz",
+        "UTILITY": "Keria"
+      }
+    },
+    {
+      "id": "geng",
+      "name": "Gen.G",
+      "region": "LCK",
+      "coach": "Ryu",
+      "coach_portrait": "/coaches/ryu.jpg",
+      "roster": {
+        "TOP": "Kiin",
+        "JUNGLE": "Canyon",
+        "MIDDLE": "Chovy",
+        "BOTTOM": "Ruler",
+        "UTILITY": "Duro"
+      }
+    },
+    {
+      "id": "blg",
+      "name": "Bilibili Gaming",
+      "region": "LPL",
+      "coach": "Daeny",
+      "coach_portrait": "/coaches/daeny.jpg",
+      "roster": {
+        "TOP": "Bin",
+        "JUNGLE": "Xun",
+        "MIDDLE": "Knight",
+        "BOTTOM": "Viper",
+        "UTILITY": "ON"
+      }
+    },
+    {
+      "id": "g2",
+      "name": "G2 Esports",
+      "region": "LEC",
+      "coach": "Perkz",
+      "coach_portrait": "/coaches/perkz.jpg",
+      "roster": {
+        "TOP": "BrokenBlade",
+        "JUNGLE": "SkewMond",
+        "MIDDLE": "Caps",
+        "BOTTOM": "Hans Sama",
+        "UTILITY": "Labrov"
+      }
+    },
+    {
+      "id": "hle",
+      "name": "Hanwha Life Esports",
+      "region": "LCK",
+      "coach": "Homme",
+      "coach_portrait": "/coaches/homme.jpg",
+      "roster": {
+        "TOP": "Zeus",
+        "JUNGLE": "Kanavi",
+        "MIDDLE": "Zeka",
+        "BOTTOM": "Gumayusi",
+        "UTILITY": "Delight"
+      }
+    },
+    {
+      "id": "tes",
+      "name": "Top Esports",
+      "region": "LPL",
+      "coach": "Poppy",
+      "coach_portrait": "/coaches/poppy.jpg",
+      "roster": {
+        "TOP": "369",
+        "JUNGLE": "Tian",
+        "MIDDLE": "Creme",
+        "BOTTOM": "JackeyLove",
+        "UTILITY": "Hang"
+      }
+    },
+    {
+      "id": "dk",
+      "name": "Dplus Kia",
+      "region": "LCK",
+      "coach": "cvMax",
+      "coach_portrait": "/coaches/cvmax.jpg",
+      "roster": {
+        "TOP": "Siwoo",
+        "JUNGLE": "Lucid",
+        "MIDDLE": "ShowMaker",
+        "BOTTOM": "Smash",
+        "UTILITY": "Career"
+      }
+    }
+  ]
+}

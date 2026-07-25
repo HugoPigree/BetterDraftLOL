@@ -12,6 +12,7 @@ interface ChampionGridProps {
   draft: DraftContext;
   champions: string[];
   championPositions: Record<string, Role[]>;
+  estimatedChampions?: string[];
   ddragonVersion: string;
   loading: boolean;
   error: string | null;
@@ -57,6 +58,7 @@ export function ChampionGrid({
   draft,
   champions,
   championPositions,
+  estimatedChampions = [],
   ddragonVersion,
   loading,
   error,
@@ -66,6 +68,7 @@ export function ChampionGrid({
   const [search, setSearch] = useState("");
   const [filterRole, setFilterRole] = useState<RoleFilter>("ALL");
   const [gridSize, setGridSize] = useState<GridSize>("normal");
+  const estimatedSet = useMemo(() => new Set(estimatedChampions), [estimatedChampions]);
 
   useEffect(() => {
     if (isMobile) {
@@ -199,17 +202,24 @@ export function ChampionGrid({
           const isBanned = bannedChampions.has(champion);
           const isPicked = pickedChampions.has(champion);
           const overlay = isBanned ? "ban" : isPicked ? "picked" : "none";
+          const isEstimated = estimatedSet.has(champion);
 
           return (
             <button
               key={champion}
               type="button"
-              className={`champion-pool__item ${isUsed ? "champion-pool__item--used" : ""}`}
+              className={`champion-pool__item ${isUsed ? "champion-pool__item--used" : ""} ${
+                isEstimated ? "champion-pool__item--estimated" : ""
+              }`}
               disabled={isDisabled || isUsed}
               onClick={() => {
                 draft.selectChampion(champion);
               }}
-              title={champion}
+              title={
+                isEstimated
+                  ? `${champion} — profil estimé (Data Dragon + data pro)`
+                  : champion
+              }
             >
               <ChampionIcon
                 championName={champion}

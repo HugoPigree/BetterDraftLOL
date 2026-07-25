@@ -1370,6 +1370,7 @@ body {
 }
 
 .champion-pool__item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1395,6 +1396,22 @@ body {
 
 .champion-pool__item--used {
   opacity: 0.5;
+}
+
+.champion-pool__item--estimated {
+  box-shadow: inset 0 0 0 2px rgba(255, 196, 87, 0.85);
+}
+
+.champion-pool__item--estimated::after {
+  content: "~";
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #ffc457;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
 }
 
 .champion-pool__name {
@@ -4147,4 +4164,885 @@ button {
     flex: 1 1 auto;
     text-align: center;
   }
+}
+
+/* ========== HOME & WORLDS ========== */
+
+.home-screen,
+.worlds-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 2rem clamp(1rem, 4vw, 3rem);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(200, 170, 110, 0.14), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(58, 159, 217, 0.16), transparent 38%),
+    radial-gradient(circle at 50% 100%, rgba(120, 60, 180, 0.08), transparent 45%),
+    linear-gradient(180deg, #0a0e18 0%, #060810 100%);
+  position: relative;
+}
+
+.home-screen__content,
+.worlds-screen__header,
+.worlds-setup,
+.worlds-bracket,
+.match-intro,
+.match-simulation,
+.match-outcome {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.home-screen__eyebrow,
+.worlds-screen__eyebrow {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+  font-size: 0.8rem;
+}
+
+.home-screen__title,
+.worlds-screen__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-screen__subtitle,
+.worlds-screen__subtitle {
+  margin: 0.75rem 0 2rem;
+  color: var(--lol-text-dim);
+  max-width: 42rem;
+}
+
+.home-screen__modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.25rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.home-card:hover {
+  border-color: rgba(200, 170, 110, 0.45);
+  transform: translateY(-2px);
+}
+
+.home-card--worlds {
+  border-color: rgba(58, 159, 217, 0.25);
+}
+
+.home-card__label {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.home-card__title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+}
+
+.home-card__desc {
+  color: var(--lol-text-dim);
+  line-height: 1.5;
+}
+
+.mode-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--lol-border);
+  background: #111;
+}
+
+.mode-toolbar__label {
+  font-family: var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.worlds-btn {
+  border: 1px solid var(--lol-border);
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--lol-text);
+  cursor: pointer;
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.worlds-btn--primary {
+  background: linear-gradient(180deg, rgba(58, 159, 217, 0.35), rgba(58, 159, 217, 0.15));
+  border-color: rgba(58, 159, 217, 0.45);
+}
+
+.worlds-btn--ghost {
+  background: transparent;
+}
+
+.worlds-screen__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.worlds-screen--center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.worlds-setup__grid,
+.worlds-setup__roles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.worlds-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.worlds-field span {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.worlds-field input {
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--lol-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--lol-text);
+}
+
+.worlds-error {
+  color: var(--lol-red-bright);
+}
+
+.worlds-bracket {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.bracket-match {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--lol-border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bracket-match--player {
+  border-color: rgba(200, 170, 110, 0.45);
+}
+
+.bracket-match--done {
+  opacity: 0.75;
+}
+
+.bracket-match__round {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+  margin-bottom: 0.35rem;
+}
+
+.bracket-match__teams {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.bracket-match__team--winner {
+  color: var(--lol-gold);
+}
+
+.match-intro,
+.match-simulation,
+.match-outcome {
+  text-align: center;
+}
+
+.match-intro__teams,
+.match-simulation__scoreboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+.match-intro__team {
+  min-width: 180px;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--lol-border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.match-intro__team strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+}
+
+.match-intro__roster {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 1.5rem;
+  max-width: 420px;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.match-intro__roster li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--lol-border);
+}
+
+.match-simulation__timeline {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem auto 0;
+  max-width: 560px;
+  text-align: left;
+}
+
+.match-simulation__event {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--lol-border);
+}
+
+.match-simulation__event--blue span {
+  color: var(--lol-blue-bright);
+}
+
+.match-simulation__event--red span {
+  color: var(--lol-red-bright);
+}
+
+/* Bracket tree — layout Worlds */
+.worlds-screen--bracket {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bracket-tree {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  margin: 2rem 0 2.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.bracket-tree__round {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+
+.bracket-tree__round--hidden {
+  opacity: 0.35;
+  filter: blur(1px);
+}
+
+.bracket-tree__round-label {
+  display: block;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+  margin-bottom: 1rem;
+}
+
+.bracket-tree__round-matches {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex: 1;
+  gap: 1.25rem;
+}
+
+.bracket-tree__round-matches--quarter {
+  min-height: 420px;
+}
+
+.bracket-tree__round-matches--semi {
+  min-height: 420px;
+  padding: 4.5rem 0;
+}
+
+.bracket-tree__round-matches--final {
+  min-height: 420px;
+  justify-content: center;
+}
+
+.bracket-tree__connector {
+  width: 48px;
+  align-self: stretch;
+  background:
+    linear-gradient(var(--lol-gold), var(--lol-gold)) center 22% / 2px 18% no-repeat,
+    linear-gradient(var(--lol-gold), var(--lol-gold)) center 78% / 2px 18% no-repeat,
+    linear-gradient(var(--lol-gold), var(--lol-gold)) center / 2px 100% no-repeat,
+    linear-gradient(var(--lol-gold), var(--lol-gold)) center 22% / 100% 2px no-repeat,
+    linear-gradient(var(--lol-gold), var(--lol-gold)) center 78% / 100% 2px no-repeat;
+  opacity: 0.35;
+}
+
+.bracket-tree__match {
+  border: 1px solid rgba(200, 170, 110, 0.22);
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.bracket-tree__match--player {
+  border-color: rgba(200, 170, 110, 0.65);
+  box-shadow: 0 0 20px rgba(200, 170, 110, 0.12);
+}
+
+.bracket-tree__match--done {
+  opacity: 0.72;
+}
+
+.bracket-tree__slot {
+  padding: 0.55rem 0.75rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  font-size: 0.82rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.bracket-tree__slot:last-child {
+  border-bottom: none;
+}
+
+.bracket-tree__slot--winner {
+  color: var(--lol-gold);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.bracket-tree__slot--tbd {
+  color: var(--lol-text-dim);
+  font-style: italic;
+  opacity: 0.65;
+}
+
+/* Coach panel Worlds — centré comme le Rival */
+.worlds-coach.bot-vn {
+  pointer-events: none;
+}
+
+.worlds-coach__sprite-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: 52px;
+  transform: translateX(-58%);
+  z-index: 1;
+}
+
+.worlds-coach__sprite {
+  max-height: min(340px, 42vh);
+  width: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: top center;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.65));
+}
+
+.worlds-coach__sprite-fallback {
+  width: 140px;
+  height: min(340px, 42vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: var(--lol-gold);
+  border: 2px solid rgba(200, 170, 110, 0.45);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #1a2744, #0d1528);
+}
+
+.worlds-coach__box {
+  border-color: rgba(200, 170, 110, 0.28);
+  background: rgba(0, 0, 0, 0.88);
+}
+
+.worlds-coach--lck .worlds-coach__box {
+  box-shadow: inset 0 0 0 1px rgba(58, 159, 217, 0.35);
+}
+
+.worlds-coach--lpl .worlds-coach__box {
+  box-shadow: inset 0 0 0 1px rgba(231, 76, 60, 0.35);
+}
+
+.worlds-coach--lec .worlds-coach__box {
+  box-shadow: inset 0 0 0 1px rgba(155, 89, 182, 0.35);
+}
+
+.worlds-coach--lck .worlds-coach__sprite,
+.worlds-coach--lck .worlds-coach__sprite-fallback {
+  border: 2px solid rgba(58, 159, 217, 0.55);
+}
+
+.worlds-coach--lpl .worlds-coach__sprite,
+.worlds-coach--lpl .worlds-coach__sprite-fallback {
+  border: 2px solid rgba(231, 76, 60, 0.55);
+}
+
+.worlds-coach--lec .worlds-coach__sprite,
+.worlds-coach--lec .worlds-coach__sprite-fallback {
+  border: 2px solid rgba(155, 89, 182, 0.55);
+}
+
+.worlds-draft-shell {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(58, 159, 217, 0.08), transparent 40%),
+    var(--lol-bg);
+}
+
+.worlds-draft-result__card {
+  width: min(720px, 100%);
+  padding: 1.5rem;
+  border: 1px solid rgba(200, 170, 110, 0.25);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.worlds-draft-result__hint {
+  text-align: center;
+  color: var(--lol-text-dim);
+  margin: 1rem 0 1.25rem;
+}
+
+.draft-result__team-name {
+  display: block;
+  font-size: 0.95rem;
+  margin: 0.25rem 0 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+.worlds-ambience-toggle {
+  position: fixed;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 100;
+  border: 1px solid rgba(200, 170, 110, 0.35);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--lol-gold);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.worlds-simulation .match-simulation {
+  max-width: 680px;
+}
+
+.match-simulation__vs {
+  color: var(--lol-gold);
+  font-size: 0.85em;
+}
+
+.match-simulation__scoreboard--win strong {
+  color: var(--lol-gold);
+  text-shadow: 0 0 20px rgba(200, 170, 110, 0.35);
+}
+
+.match-simulation__scoreboard--loss strong {
+  color: var(--lol-red-bright);
+}
+
+.match-simulation__minute {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.match-simulation__phase {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+  margin-bottom: 0.2rem;
+  font-style: normal;
+}
+
+.match-simulation__event--latest {
+  animation: worlds-event-in 0.45s ease;
+}
+
+.match-simulation__event--latest p {
+  color: var(--lol-text);
+}
+
+@keyframes worlds-event-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.match-intro__coach-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.match-intro__coach-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.match-intro__coach-portrait {
+  width: 96px;
+  height: 120px;
+  border-radius: 8px;
+  border: 2px solid rgba(200, 170, 110, 0.4);
+  overflow: hidden;
+  background: #1a2744;
+}
+
+.match-intro__coach-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ========== WORLDS BRAND & CHAMP SELECT THEME ========== */
+
+.worlds-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  text-align: center;
+}
+
+.worlds-brand__logo {
+  filter: drop-shadow(0 0 18px rgba(200, 170, 110, 0.35));
+  object-fit: contain;
+}
+
+.worlds-brand--sm .worlds-brand__logo {
+  width: 52px;
+  height: 52px;
+}
+
+.worlds-brand--md .worlds-brand__logo {
+  width: 72px;
+  height: 72px;
+}
+
+.worlds-brand--lg .worlds-brand__logo {
+  width: 96px;
+  height: 96px;
+}
+
+.worlds-brand--hero .worlds-brand__logo {
+  width: clamp(110px, 18vw, 160px);
+  height: clamp(110px, 18vw, 160px);
+}
+
+.worlds-brand__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.worlds-brand__subtitle {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.worlds-screen__header--brand {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.worlds-screen__header--brand .worlds-btn {
+  align-self: flex-start;
+}
+
+.worlds-screen__header-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.home-card__worlds-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(200, 170, 110, 0.3));
+}
+
+.home-card--worlds {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(200, 170, 110, 0.08), transparent 55%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.worlds-outcome .match-outcome {
+  max-width: 640px;
+}
+
+.worlds-screen::before {
+  display: none;
+}
+
+.worlds-cs-backdrop {
+  display: none;
+}
+
+.match-outcome__history {
+  margin: 1.25rem 0;
+  text-align: left;
+}
+
+.match-outcome__history-toggle {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.match-outcome__history-panel {
+  padding: 1rem;
+  border: 1px solid rgba(200, 170, 110, 0.22);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.match-outcome__history-stat {
+  margin: 0 0 0.75rem;
+  color: var(--lol-text-dim);
+}
+
+.match-outcome__history-stat strong {
+  color: var(--lol-gold);
+}
+
+.match-outcome__comps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.match-outcome__comps span {
+  display: block;
+  font-family: var(--font-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--lol-gold);
+  margin-bottom: 0.35rem;
+}
+
+.match-outcome__comps ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.match-outcome__comps li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.88rem;
+}
+
+.match-outcome__timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.match-outcome__timeline li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 0.65rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.match-outcome__timeline span {
+  color: var(--lol-gold);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+}
+
+/* Champ select shell — Worlds draft */
+.worlds-draft-shell {
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 35%, rgba(200, 170, 110, 0.07), transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(20, 40, 80, 0.45), transparent 50%),
+    linear-gradient(180deg, #0c1424 0%, #060b14 45%, #04070d 100%);
+}
+
+.worlds-cs-header {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(200, 170, 110, 0.22);
+  background: linear-gradient(180deg, rgba(8, 12, 22, 0.95), rgba(8, 12, 22, 0.75));
+  backdrop-filter: blur(8px);
+}
+
+.worlds-cs-header__back {
+  justify-self: start;
+}
+
+.worlds-cs-header__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.worlds-cs-header__phase {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f0e6d2;
+  text-shadow: 0 0 20px rgba(200, 170, 110, 0.25);
+}
+
+.worlds-cs-header__matchup {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lol-text-dim);
+}
+
+.worlds-cs-header__vs {
+  margin: 0 0.45rem;
+  color: var(--lol-gold);
+}
+
+.worlds-cs-header__side--blue {
+  color: var(--lol-blue-bright);
+}
+
+.worlds-cs-header__side--red {
+  color: var(--lol-red-bright);
+}
+
+.worlds-cs-header__opponent {
+  color: var(--lol-gold);
+}
+
+.worlds-cs-main {
+  position: relative;
+  z-index: 1;
+}
+
+.worlds-draft-shell .drafter {
+  background: transparent;
+}
+
+.worlds-draft-shell .drafter__nav {
+  border-color: rgba(200, 170, 110, 0.18);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.worlds-draft-shell .drafter__progress-track {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(200, 170, 110, 0.15);
+}
+
+.worlds-draft-shell .drafter__progress-fill {
+  background: linear-gradient(90deg, rgba(200, 170, 110, 0.5), rgba(200, 170, 110, 0.85));
+}
+
+.worlds-draft-shell .drafter__team--blue,
+.worlds-draft-shell .drafter__team--red {
+  border: 1px solid rgba(200, 170, 110, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+}
+
+.worlds-draft-shell .champion-pool {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(200, 170, 110, 0.15);
+  border-radius: 8px;
+}
+
+.worlds-draft-shell .ban-slot,
+.worlds-draft-shell .pick-slot {
+  border-color: rgba(200, 170, 110, 0.22);
+}
+
+.worlds-draft-shell .mode-toolbar {
+  display: none;
 }

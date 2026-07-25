@@ -31,6 +31,15 @@ interface DraftResultProps {
   onReset: () => void;
   onStartEditing: () => void;
   isEditing?: boolean;
+  hideReset?: boolean;
+  primaryAction?: {
+    label: string;
+    loadingLabel?: string;
+    onClick: (result: PredictResponse) => void;
+    loading?: boolean;
+    disabled?: boolean;
+  };
+  onResultChange?: (result: PredictResponse | null) => void;
 }
 
 function formatPercent(value: number): string {
@@ -49,6 +58,9 @@ export function DraftResult({
   onReset,
   onStartEditing,
   isEditing = false,
+  hideReset = false,
+  primaryAction,
+  onResultChange,
 }: DraftResultProps) {
   const [result, setResult] = useState<PredictResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -81,6 +93,10 @@ export function DraftResult({
       cancelled = true;
     };
   }, [bluePicks, redPicks, patch, predictionMode]);
+
+  useEffect(() => {
+    onResultChange?.(result);
+  }, [result, onResultChange]);
 
   const isProMode = predictionMode === "pro";
   const methodology = isProMode ? PREDICT_METHODOLOGY_PRO : PREDICT_METHODOLOGY;
@@ -236,9 +252,23 @@ export function DraftResult({
             Modifier la compo
           </button>
         )}
-        <button type="button" className="draft-result__reset" onClick={onReset}>
-          Nouvelle draft
-        </button>
+        {primaryAction && result && (
+          <button
+            type="button"
+            className="draft-result__reset worlds-btn worlds-btn--primary"
+            disabled={primaryAction.disabled || primaryAction.loading || !result}
+            onClick={() => primaryAction.onClick(result)}
+          >
+            {primaryAction.loading
+              ? (primaryAction.loadingLabel ?? primaryAction.label)
+              : primaryAction.label}
+          </button>
+        )}
+        {!hideReset && (
+          <button type="button" className="draft-result__reset" onClick={onReset}>
+            Nouvelle draft
+          </button>
+        )}
       </div>
     </section>
   );

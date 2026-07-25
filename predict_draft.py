@@ -150,10 +150,59 @@ def patch_to_float(patch: str) -> float:
     return float(parse_patch(patch))
 
 
+def list_available_soloq_patches() -> list[str]:
+    return sorted(
+        path.stem.replace("soloq_winrates_euw_", "")
+        for path in SOLOQ_DIR.glob("soloq_winrates_euw_*.csv")
+    )
+
+
+def resolve_soloq_patch(patch: str) -> str:
+    """Retourne un patch soloQ disponible (fallback latest puis le plus récent)."""
+    requested = parse_patch(patch)
+    if requested == "latest":
+        latest_path = SOLOQ_DIR / SOLOQ_FILE_PATTERN.format(patch="latest")
+        if latest_path.exists():
+            return "latest"
+
+    exact_path = SOLOQ_DIR / SOLOQ_FILE_PATTERN.format(patch=requested)
+    if exact_path.exists():
+        return requested
+
+    latest_path = SOLOQ_DIR / SOLOQ_FILE_PATTERN.format(patch="latest")
+    if latest_path.exists():
+        logger.warning(
+            "Patch soloQ %s indisponible, fallback sur latest (%s)",
+            requested,
+            latest_path,
+        )
+        return "latest"
+
+    available = [
+        name
+        for name in list_available_soloq_patches()
+        if name not in {"latest"}
+    ]
+    if available:
+        fallback = available[-1]
+        logger.warning(
+            "Patch soloQ %s indisponible, fallback sur %s",
+            requested,
+            fallback,
+        )
+        return fallback
+
+    raise FileNotFoundError(
+        f"Aucun fichier solo queue disponible pour le patch {requested}. "
+        f"Patches disponibles: {', '.join(list_available_soloq_patches()) or 'aucun'}"
+    )
+
+
 def soloq_file_for_patch(patch: str) -> Path:
-    path = SOLOQ_DIR / SOLOQ_FILE_PATTERN.format(patch=parse_patch(patch))
+    resolved = resolve_soloq_patch(patch)
+    path = SOLOQ_DIR / SOLOQ_FILE_PATTERN.format(patch=resolved)
     if not path.exists():
-        available = sorted(p.stem.replace("soloq_winrates_euw_", "") for p in SOLOQ_DIR.glob("soloq_winrates_euw_*.csv"))
+        available = list_available_soloq_patches()
         raise FileNotFoundError(
             f"Fichier solo queue introuvable pour le patch {patch}: {path}. "
             f"Patches disponibles: {', '.join(available) if available else 'aucun'}"

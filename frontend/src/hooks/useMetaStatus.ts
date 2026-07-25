@@ -52,5 +52,9 @@ export function formatMetaStatusLabel(status: MetaStatusResponse | null): string
     status.oracle_team_games != null
       ? ` · ${status.oracle_team_games.toLocaleString("fr-FR")} games pro`
       : "";
-  return `Data pro · patch ${status.latest_patch} · MAJ ${dateLabel}${games}`;
+  const estimated =
+    status.estimated_champions?.length
+      ? ` · ${status.estimated_champions.length} profil(s) estimé(s)`
+      : "";
+  return `Data pro · patch ${status.latest_patch} · MAJ ${dateLabel}${games}${estimated}`;
 }

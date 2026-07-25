@@ -9,7 +9,7 @@ venv/
 
 frontend/node_modules/
 frontend/dist/
-public/
+/public/
 
 *.log
 .DS_Store

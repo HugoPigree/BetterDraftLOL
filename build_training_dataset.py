@@ -64,18 +64,11 @@ def normalize_name(name: str) -> str:
 
 
 def load_meraki_champions(url: str, cache_path: Path) -> dict[str, Any]:
-    if cache_path.exists():
-        logging.info("Chargement Meraki depuis le cache %s", cache_path)
-        return json.loads(cache_path.read_text(encoding="utf-8"))
+    """Charge le catalogue unifié Meraki + Data Dragon + rôles Oracle."""
+    from champion_catalog import load_unified_champions
 
-    logging.info("Téléchargement Meraki: %s", url)
-    response = requests.get(url, timeout=60)
-    response.raise_for_status()
-    champions = response.json()
-    cache_path.parent.mkdir(parents=True, exist_ok=True)
-    cache_path.write_text(json.dumps(champions, indent=2), encoding="utf-8")
-    logging.info("Cache Meraki sauvegardé dans %s", cache_path)
-    return champions
+    _ = url  # conservé pour compatibilité des appels existants
+    return load_unified_champions(meraki_cache=cache_path)
 
 
 def build_champion_feature_dict(champions: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], list[str]]:

@@ -32,6 +32,10 @@ from suggest_draft import (
 )
 from meta_status import get_meta_status
 from bot_speech_builder import build_bot_explanation_steps
+from match_simulator import simulate_match
+from player_signatures import get_player_signatures
+from team_draft_bot import choose_team_bot_action, warmup_worlds_draft_bot
+from worlds_teams import build_player_team, create_bracket, load_pro_teams, pick_opponent_teams
 
 logger = logging.getLogger(__name__)
 
@@ -100,6 +104,7 @@ class HealthResponse(BaseModel):
 class ChampionsResponse(BaseModel):
     champions: list[str]
     positions: dict[str, list[str]]
+    estimated_champions: list[str] = Field(default_factory=list)
 
 
 class MetaStatusResponse(BaseModel):
@@ -111,6 +116,9 @@ class MetaStatusResponse(BaseModel):
     oracle_team_games: int | None = None
     meraki_updated_at: str | None = None
     meraki_champion_count: int | None = None
+    ddragon_version: str | None = None
+    ddragon_updated_at: str | None = None
+    estimated_champions: list[str] = Field(default_factory=list)
     unmapped_champions: list[str] = Field(default_factory=list)
     schema_version: int = 0
 
@@ -365,6 +373,37 @@ class BotExplanationRequest(BaseModel):
     bot_picks: list[ChampionSlot] = Field(min_length=1, max_length=5)
     opponent_picks: list[ChampionSlot] = Field(default_factory=list, max_length=5)
     mode: Literal["mixed", "pro"] = "pro"
+
+
+class WorldsRosterInput(BaseModel):
+    TOP: str = Field(min_length=1)
+    JUNGLE: str = Field(min_length=1)
+    MIDDLE: str = Field(min_length=1)
+    BOTTOM: str = Field(min_length=1)
+    UTILITY: str = Field(min_length=1)
+
+
+class WorldsStartRequest(BaseModel):
+    team_name: str = Field(min_length=1)
+    coach_name: str = Field(min_length=1)
+    roster: WorldsRosterInput
+    seed: int | None = None
+
+
+class WorldsTeamDraftBotRequest(DraftBotMoveRequest):
+    team_id: str = Field(min_length=1)
+    team_roster: WorldsRosterInput
+
+
+class WorldsSimulateMatchRequest(BaseModel):
+    player_side: Literal["blue", "red"]
+    player_team_name: str = Field(min_length=1)
+    opponent_team_name: str = Field(min_length=1)
+    draft_blue_win_probability: float = Field(ge=0.0, le=1.0)
+    opponent_team_id: str | None = None
+    player_roster: WorldsRosterInput | None = None
+    opponent_roster: WorldsRosterInput | None = None
+    seed: int | None = None
     patch: str = Field(default="16.13", min_length=1)
 
 
@@ -387,25 +426,17 @@ def fetch_champion_names() -> list[str]:
     return sorted(fetch_champion_catalog().keys())
 
 
-def fetch_champion_catalog() -> dict[str, list[str]]:
-    champions = btd.load_meraki_champions(btd.MERAKI_URL, btd.DEFAULT_MERAKI_CACHE)
-    catalog: dict[str, list[str]] = {}
+def fetch_champion_catalog() -> tuple[dict[str, list[str]], list[str]]:
+    from champion_catalog import (
+        build_api_position_catalog,
+        list_estimated_champion_names,
+        load_unified_champions,
+    )
 
-    for key, payload in champions.items():
-        name = str(payload.get("name", key)).strip()
-        if not name:
-            continue
-
-        raw_positions = payload.get("positions", [])
-        positions: list[str] = []
-        for position in raw_positions:
-            mapped = POSITION_MAP.get(str(position).upper(), str(position).upper())
-            if mapped not in positions:
-                positions.append(mapped)
-
-        catalog[name] = positions
-
-    return catalog
+    champions = load_unified_champions()
+    catalog = build_api_position_catalog(champions)
+    estimated = list_estimated_champion_names(champions)
+    return catalog, estimated
 
 
 def create_app() -> FastAPI:
@@ -417,7 +448,7 @@ def create_app() -> FastAPI:
         logger.info(
             "API prête sur /health, /champions, /predict, /suggest-pick, "
             "/suggest-ban, /suggest-retrospective-ban, /suggest-retrospective-pick, "
-            "/draft-bot/move, /bot-explanation, /meta/status et /ask-chatbot-rules"
+            "/draft-bot/move, /bot-explanation, /meta/status, /worlds/* et /ask-chatbot-rules"
         )
         yield
 
@@ -469,14 +500,18 @@ def create_app() -> FastAPI:
     @app.get("/champions", response_model=ChampionsResponse)
     async def champions() -> ChampionsResponse:
         try:
-            catalog = fetch_champion_catalog()
+            catalog, estimated = fetch_champion_catalog()
         except Exception as exc:
-            logger.error("Impossible de charger la liste Meraki: %s", exc)
+            logger.error("Impossible de charger le catalogue champions: %s", exc)
             raise HTTPException(status_code=502, detail="Impossible de charger les champions") from exc
 
         names = sorted(catalog.keys())
-        logger.info("Liste champions servie (%d entrées)", len(names))
-        return ChampionsResponse(champions=names, positions=catalog)
+        logger.info(
+            "Liste champions servie (%d entrées, %d profils estimés)",
+            len(names),
+            len(estimated),
+        )
+        return ChampionsResponse(champions=names, positions=catalog, estimated_champions=estimated)
 
     @app.get("/meta/status", response_model=MetaStatusResponse)
     async def meta_status() -> dict[str, Any]:
@@ -639,6 +674,117 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         except Exception as exc:
             logger.exception("Erreur interne pendant bot-explanation")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.get("/worlds/teams")
+    async def worlds_teams() -> dict[str, Any]:
+        try:
+            teams = load_pro_teams()
+        except (FileNotFoundError, ValueError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return {"teams": teams}
+
+    @app.post("/worlds/start")
+    async def worlds_start(request: WorldsStartRequest) -> dict[str, Any]:
+        try:
+            pro_teams = load_pro_teams()
+            opponents = pick_opponent_teams(pro_teams, seed=request.seed)
+            player_team = build_player_team(
+                team_name=request.team_name,
+                coach_name=request.coach_name,
+                roster=request.roster.model_dump(),
+            )
+            bracket = create_bracket(player_team, opponents, seed=request.seed)
+            warmup_worlds_draft_bot()
+        except (FileNotFoundError, ValueError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return {
+            "player_team": player_team,
+            "opponent_teams": opponents,
+            "bracket": bracket,
+        }
+
+    @app.get("/worlds/signatures/{player_name}")
+    async def worlds_player_signatures(player_name: str, role: Role) -> dict[str, Any]:
+        try:
+            signatures = get_player_signatures(player_name, role.value, top_n=8)
+        except Exception as exc:
+            logger.exception("Erreur signatures joueur")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+        return {
+            "player": player_name,
+            "role": role.value,
+            "signatures": [
+                {
+                    "champion": item.champion,
+                    "games": item.games,
+                    "pick_rate": round(item.pick_rate, 4),
+                    "winrate": round(item.winrate, 4),
+                    "score": round(item.score, 2),
+                }
+                for item in signatures
+            ],
+        }
+
+    @app.post("/worlds/draft-bot/move", response_model=DraftBotMoveResponse)
+    async def worlds_draft_bot_move_endpoint(
+        request: WorldsTeamDraftBotRequest,
+    ) -> dict[str, Any]:
+        try:
+            return choose_team_bot_action(
+                action_type=request.action_type,
+                bot_side=request.bot_side,
+                bot_picks=[slot.model_dump() for slot in request.bot_picks],
+                opponent_picks=[slot.model_dump() for slot in request.opponent_picks],
+                patch=request.patch.strip(),
+                available_champions=request.available_champions,
+                team_roster=request.team_roster.model_dump(),
+                mode=request.mode,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant worlds/draft-bot/move")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.post("/worlds/simulate-match")
+    async def worlds_simulate_match_endpoint(
+        request: WorldsSimulateMatchRequest,
+    ) -> dict[str, Any]:
+        opponent_power = 0.55
+        opponent_roster: dict[str, str] | None = None
+        player_roster: dict[str, str] | None = None
+        if request.player_roster:
+            player_roster = request.player_roster.model_dump()
+        if request.opponent_roster:
+            opponent_roster = request.opponent_roster.model_dump()
+        if request.opponent_team_id:
+            try:
+                teams = {team["id"]: team for team in load_pro_teams()}
+                opponent = teams.get(request.opponent_team_id)
+                if opponent:
+                    if opponent.get("region") in {"LCK", "LPL"}:
+                        opponent_power = 0.58
+                    if opponent_roster is None:
+                        opponent_roster = opponent.get("roster")
+            except FileNotFoundError:
+                pass
+        try:
+            return simulate_match(
+                player_side=request.player_side,
+                player_team_name=request.player_team_name,
+                opponent_team_name=request.opponent_team_name,
+                draft_blue_win_prob=request.draft_blue_win_probability,
+                player_roster=player_roster,
+                opponent_roster=opponent_roster,
+                player_roster_power=0.5,
+                opponent_roster_power=opponent_power,
+                seed=request.seed,
+            )
+        except Exception as exc:
+            logger.exception("Erreur interne pendant worlds/simulate-match")
             raise HTTPException(status_code=500, detail=str(exc)) from exc
 
     @app.post("/ask-chatbot-rules", response_model=AskChatbotRulesResponse)

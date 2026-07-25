@@ -9,6 +9,8 @@ DEFAULT_ORACLE_CSV = DATA_DIR / "2026_LoL_esports_match_data_from_OraclesElixir.
 ORACLE_DRIVE_INDEX_PATH = DATA_DIR / "oracle_drive_index.json"
 MERAKI_URL = "http://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions.json"
 MERAKI_CACHE_PATH = DATA_DIR / "meraki_champions.json"
+DDRAGON_CACHE_PATH = DATA_DIR / "ddragon_champions.json"
+DDRAGON_META_PATH = DATA_DIR / "ddragon_meta.json"
 DATA_MANIFEST_PATH = DATA_DIR / "data_manifest.json"
 UNMAPPED_CHAMPIONS_PATH = DATA_DIR / "unmapped_champions.txt"
 

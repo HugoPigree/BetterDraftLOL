@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Coach Ggoong">
+  <rect width="200" height="240" fill="#0f1a2e"/>
+  <circle cx="100" cy="78" r="42" fill="#f39c12"/>
+  <rect x="58" y="118" width="84" height="96" rx="18" fill="#243656"/>
+  <text x="100" y="88" text-anchor="middle" fill="#0f1a2e" font-family="Arial,sans-serif" font-size="34" font-weight="700">G</text>
+  <text x="100" y="228" text-anchor="middle" fill="#f39c12" font-family="Arial,sans-serif" font-size="12" letter-spacing="1">GGOONG</text>
+</svg>

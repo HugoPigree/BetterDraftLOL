@@ -52,6 +52,7 @@ interface DraftBoardProps {
   onExplainBotChoices?: () => void;
   explainLoading?: boolean;
   explainError?: string | null;
+  hideModeControls?: boolean;
   children?: ReactNode;
 }
 
@@ -166,6 +167,7 @@ export function DraftBoard({
   onExplainBotChoices,
   explainLoading = false,
   explainError = null,
+  hideModeControls = false,
   children,
 }: DraftBoardProps) {
   const isEditMode = mode === "result" && Boolean(editComp);
@@ -264,6 +266,7 @@ export function DraftBoard({
           </div>
 
           <div className="drafter__nav-right">
+            {!hideModeControls && (
             <div className="drafter__mode-picker" role="group" aria-label="Mode de prédiction">
               <span className="drafter__mode-picker-label">Mode</span>
               {(["mixed", "pro"] as const).map((value) => (
@@ -282,7 +285,8 @@ export function DraftBoard({
                 </button>
               ))}
             </div>
-            {mode === "draft" && (
+            )}
+            {mode === "draft" && !hideModeControls && (
               <>
                 <div className="drafter__side-picker" role="group" aria-label="Votre équipe">
                   <span className="drafter__side-picker-label">Side</span>

@@ -16,7 +16,7 @@ export type BotDialogueEvent =
   | { type: "player_ban"; champion: string }
   | { type: "player_pick"; champion: string; role?: Role }
   | { type: "player_turn" }
-  | { type: "error" }
+  | { type: "error"; detail?: string | null }
   | { type: "draft_complete" };
 
 function pickRandom(lines: string[]): string {
@@ -332,6 +332,9 @@ export function lineForBotEvent(event: BotDialogueEvent): string {
     case "player_turn":
       return pickRandom(PLAYER_TURN_LINES);
     case "error":
+      if (event.detail?.trim()) {
+        return event.detail.trim();
+      }
       return pickRandom(ERROR_LINES);
     case "draft_complete":
       return pickRandom(DRAFT_COMPLETE_LINES);
