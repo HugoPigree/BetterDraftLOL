@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import type { DraftPreferences } from "../types/draft";
 import type {
   BracketMatch,
   WorldsPhase,
@@ -20,6 +21,11 @@ import {
 } from "../utils/worldsNpcMatches";
 import { startWorldsTournament } from "../services/api";
 
+const DEFAULT_DRAFT_PREFERENCES: DraftPreferences = {
+  playerSide: "blue",
+  pickOrder: "first",
+};
+
 export function useWorldsTournament() {
   const [phase, setPhase] = useState<WorldsPhase>("setup");
   const [playerTeam, setPlayerTeam] = useState<WorldsTeam | null>(null);
@@ -28,6 +34,9 @@ export function useWorldsTournament() {
   const [currentMatchId, setCurrentMatchId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [draftPreferences, setDraftPreferences] = useState<DraftPreferences>(
+    DEFAULT_DRAFT_PREFERENCES,
+  );
 
   const hydratedBracket = useMemo(() => hydrateBracket(bracket), [bracket]);
 
@@ -45,12 +54,7 @@ export function useWorldsTournament() {
     return opponentForPlayer(currentMatch, playerTeam.id);
   }, [currentMatch, playerTeam]);
 
-  const playerSide = useMemo(() => {
-    if (!currentMatch || !playerTeam) {
-      return "blue" as const;
-    }
-    return playerIsTeamA(currentMatch, playerTeam.id) ? ("blue" as const) : ("red" as const);
-  }, [currentMatch, playerTeam]);
+  const playerSide = draftPreferences.playerSide;
 
   const startTournament = useCallback(
     async (teamName: string, coachName: string, roster: WorldsRoster) => {
@@ -91,6 +95,11 @@ export function useWorldsTournament() {
       return;
     }
     setCurrentMatchId(nextMatch.id);
+    const bracketSide = playerIsTeamA(nextMatch, playerTeam.id) ? "blue" : "red";
+    setDraftPreferences({
+      playerSide: bracketSide,
+      pickOrder: bracketSide === "blue" ? "first" : "last",
+    });
     setPhase("matchIntro");
   }, [bracket, playerTeam]);
 
@@ -145,6 +154,7 @@ export function useWorldsTournament() {
     setOpponentTeams([]);
     setBracket([]);
     setCurrentMatchId(null);
+    setDraftPreferences(DEFAULT_DRAFT_PREFERENCES);
     setError(null);
   }, []);
 
@@ -157,6 +167,8 @@ export function useWorldsTournament() {
     currentMatch,
     currentOpponent,
     playerSide,
+    draftPreferences,
+    setDraftPreferences,
     loading,
     error,
     startTournament,

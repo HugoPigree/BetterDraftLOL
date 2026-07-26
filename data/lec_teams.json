@@ -1,0 +1,171 @@
+{
+  "season_label": "LEC 2025 — Saison régulière",
+  "format": {
+    "regular_season": "bo1",
+    "playoffs": "bo3",
+    "final": "bo5",
+    "worlds_slots": 3
+  },
+  "teams": [
+    {
+      "id": "fnatic",
+      "name": "Fnatic",
+      "short_name": "FNC",
+      "region": "LEC",
+      "coach": "GrabbZ",
+      "brand_color": "#FF5900",
+      "power_rating": 0.58,
+      "roster": {
+        "TOP": "Oscarinin",
+        "JUNGLE": "Razork",
+        "MIDDLE": "Humanoid",
+        "BOTTOM": "Upset",
+        "UTILITY": "Mikyx"
+      }
+    },
+    {
+      "id": "g2",
+      "name": "G2 Esports",
+      "short_name": "G2",
+      "region": "LEC",
+      "coach": "Dytam",
+      "brand_color": "#C89B3C",
+      "power_rating": 0.56,
+      "roster": {
+        "TOP": "BrokenBlade",
+        "JUNGLE": "SkewMond",
+        "MIDDLE": "Caps",
+        "BOTTOM": "Hans Sama",
+        "UTILITY": "Labrov"
+      }
+    },
+    {
+      "id": "kc",
+      "name": "Karmine Corp",
+      "short_name": "KC",
+      "region": "LEC",
+      "coach": "Bubbling",
+      "brand_color": "#0066FF",
+      "power_rating": 0.57,
+      "roster": {
+        "TOP": "Canna",
+        "JUNGLE": "Yike",
+        "MIDDLE": "kyoya",
+        "BOTTOM": "Caliste",
+        "UTILITY": "Targamas"
+      }
+    },
+    {
+      "id": "mkoi",
+      "name": "Movistar KOI",
+      "short_name": "MKOI",
+      "region": "LEC",
+      "coach": "Melia",
+      "brand_color": "#004DE6",
+      "power_rating": 0.54,
+      "roster": {
+        "TOP": "Myrwn",
+        "JUNGLE": "Elyoya",
+        "MIDDLE": "Jojopyun",
+        "BOTTOM": "Supa",
+        "UTILITY": "Alvaro"
+      }
+    },
+    {
+      "id": "vitality",
+      "name": "Team Vitality",
+      "short_name": "VIT",
+      "region": "LEC",
+      "coach": "Horcus",
+      "brand_color": "#FFD700",
+      "power_rating": 0.51,
+      "roster": {
+        "TOP": "Lot",
+        "JUNGLE": "LJLA",
+        "MIDDLE": "Vetheo",
+        "BOTTOM": "Carzzy",
+        "UTILITY": "Naak Nako"
+      }
+    },
+    {
+      "id": "giantx",
+      "name": "GIANTX",
+      "short_name": "GX",
+      "region": "LEC",
+      "coach": "Guilhoto",
+      "brand_color": "#00A3E0",
+      "power_rating": 0.52,
+      "roster": {
+        "TOP": "Odoamne",
+        "JUNGLE": "Isma",
+        "MIDDLE": "Jackies",
+        "BOTTOM": "Noah",
+        "UTILITY": "Jun"
+      }
+    },
+    {
+      "id": "heretics",
+      "name": "Team Heretics",
+      "short_name": "TH",
+      "region": "LEC",
+      "coach": "Hatrixx",
+      "brand_color": "#E8D5B7",
+      "power_rating": 0.48,
+      "roster": {
+        "TOP": "Tracyn",
+        "JUNGLE": "Sheo",
+        "MIDDLE": "Kamiloo",
+        "BOTTOM": "Jackspektra",
+        "UTILITY": "Stend"
+      }
+    },
+    {
+      "id": "bds",
+      "name": "Team BDS",
+      "short_name": "BDS",
+      "region": "LEC",
+      "coach": "Striker",
+      "brand_color": "#00B4D8",
+      "power_rating": 0.49,
+      "roster": {
+        "TOP": "Rooster",
+        "JUNGLE": "Boukada",
+        "MIDDLE": "nuc",
+        "BOTTOM": "Ice",
+        "UTILITY": "Parus"
+      }
+    },
+    {
+      "id": "sk",
+      "name": "SK Gaming",
+      "short_name": "SK",
+      "region": "LEC",
+      "coach": "Own3r",
+      "brand_color": "#E4002B",
+      "power_rating": 0.45,
+      "roster": {
+        "TOP": "Wunder",
+        "JUNGLE": "Skeanz",
+        "MIDDLE": "LIDER",
+        "BOTTOM": "Rahel",
+        "UTILITY": "Jactroll"
+      }
+    },
+    {
+      "id": "rogue",
+      "name": "Rogue",
+      "short_name": "RGE",
+      "region": "LEC",
+      "coach": "Blumigan",
+      "brand_color": "#E4002B",
+      "power_rating": 0.44,
+      "roster": {
+        "TOP": "Adam",
+        "JUNGLE": "Markoon",
+        "MIDDLE": "Larssen",
+        "BOTTOM": "Patrik",
+        "UTILITY": "Jehiac"
+      }
+    }
+  ]
+}

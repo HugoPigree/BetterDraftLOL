@@ -4482,10 +4482,75 @@ button {
   letter-spacing: 0.06em;
 }
 
+.match-intro__draft-prefs {
+  margin: 1.5rem auto 0;
+  max-width: 420px;
+  padding: 1rem 1.1rem;
+  border-radius: 10px;
+  border: 1px solid var(--lol-border);
+  background: rgba(255, 255, 255, 0.03);
+  text-align: left;
+}
+
+.match-intro__draft-prefs h2 {
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--lol-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.match-intro__pref-group + .match-intro__pref-group {
+  margin-top: 0.85rem;
+}
+
+.match-intro__pref-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.match-intro__pref-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.match-intro__pref-btn {
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--lol-border);
+  background: rgba(0, 0, 0, 0.25);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.match-intro__pref-btn--active {
+  border-color: var(--lol-gold);
+  background: rgba(200, 155, 60, 0.12);
+  color: var(--lol-gold);
+}
+
+.match-intro__pref-btn--blue.match-intro__pref-btn--active {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+}
+
+.match-intro__pref-btn--red.match-intro__pref-btn--active {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+}
+
 .match-intro__roster {
   list-style: none;
   padding: 0;
-  margin: 0 auto 1.5rem;
+  margin: 1.25rem auto 1.5rem;
   max-width: 420px;
   display: grid;
   gap: 0.35rem;
@@ -5338,5 +5403,343 @@ button {
   .worlds-brand--lg .worlds-brand__logo,
   .worlds-brand--hero .worlds-brand__logo {
     height: 72px;
+  }
+}
+
+/* ========== LEC CAREER ========== */
+
+.home-card--lec {
+  border-color: rgba(0, 102, 255, 0.35);
+  background:
+    linear-gradient(145deg, rgba(0, 102, 255, 0.12), rgba(10, 14, 24, 0.92)),
+    rgba(255, 255, 255, 0.03);
+}
+
+.lec-brand__eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6ea8ff;
+}
+
+.lec-brand__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.lec-brand__subtitle {
+  margin: 0.45rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.lec-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--lec-team-color, #888) 70%, transparent);
+  background: color-mix(in srgb, var(--lec-team-color, #888) 22%, transparent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.lec-badge--lg {
+  min-width: 3rem;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.85rem;
+}
+
+.lec-badge--active {
+  box-shadow: 0 0 0 1px var(--lec-team-color, #888);
+}
+
+.lec-setup__intro,
+.lec-setup__replace {
+  margin-bottom: 1.25rem;
+}
+
+.lec-setup__team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.65rem;
+}
+
+.lec-setup__team-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--lol-border);
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lec-setup__team-card--active {
+  border-color: #6ea8ff;
+  background: rgba(0, 102, 255, 0.12);
+}
+
+.lec-setup__replace-note {
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.lec-hub__layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr;
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.lec-hub__hero,
+.lec-hub__side {
+  padding: 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--lol-border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lec-hub__team-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.lec-hub__record {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.lec-hub__next-match {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--lol-border);
+}
+
+.lec-hub__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.lec-hub__matchup {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.lec-hub__progress {
+  margin: 0 0 1rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.lec-standings table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.lec-standings th,
+.lec-standings td {
+  padding: 0.45rem 0.35rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+}
+
+.lec-standings__team {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.lec-standings__row--player {
+  background: rgba(155, 89, 182, 0.12);
+}
+
+.lec-standings__row--playoffs td:first-child {
+  color: #93c5fd;
+}
+
+.lec-standings__row--worlds td:first-child {
+  color: var(--lol-gold);
+}
+
+.lec-standings__legend {
+  margin: 0.65rem 0 0;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.lec-hub__recent ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+.lec-hub__recent li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.85rem;
+}
+
+.lec-hub__recent--win {
+  color: #86efac;
+}
+
+.lec-hub__recent--loss {
+  color: #fca5a5;
+}
+
+.lec-story__panel {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  border-radius: 14px;
+  border: 1px solid var(--lol-border);
+  background: rgba(8, 12, 22, 0.92);
+}
+
+.lec-story__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.lec-story__chapter {
+  color: var(--lol-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+
+.lec-story__stage {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.lec-story__portrait img,
+.lec-story__portrait-fallback {
+  width: 112px;
+  height: 112px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.lec-story__portrait-fallback {
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lec-story__speaker {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #6ea8ff;
+}
+
+.lec-story__text {
+  margin: 0;
+  line-height: 1.6;
+  min-height: 4.5rem;
+}
+
+.lec-playoffs__grid {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 760px;
+  margin: 1rem auto 1.25rem;
+}
+
+.lec-playoffs__match {
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--lol-border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lec-playoffs__match--player {
+  border-color: #6ea8ff;
+  box-shadow: 0 0 0 1px rgba(110, 168, 255, 0.25);
+}
+
+.lec-playoffs__teams {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.lec-playoffs__teams > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lec-playoffs__winner {
+  color: var(--lol-gold);
+}
+
+.lec-season-end__banner {
+  max-width: 560px;
+  margin: 1.25rem auto;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--lol-border);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.lec-season-end__banner--worlds {
+  border-color: var(--lol-gold);
+  background: rgba(200, 155, 60, 0.12);
+}
+
+.lec-season-end__actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.lec-season-end-screen {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.lec-season-end__standings {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .lec-hub__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .lec-story__stage {
+    grid-template-columns: 1fr;
   }
 }

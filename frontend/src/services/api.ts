@@ -6,6 +6,7 @@ import type {
   WorldsRoster,
   WorldsStartResponse,
 } from "../types/worlds";
+import type { LecRecordResultResponse, LecSeasonState } from "../types/lec";
 import type { PredictionMode, PredictResponse, SuggestBanResponse, SuggestPickResponse, SuggestRetrospectiveBanResponse, SuggestRetrospectivePickResponse } from "../types/predict";
 import { fetchChampionPositionsFromMeraki } from "../utils/championPositions";
 
@@ -350,6 +351,52 @@ export async function askChatbotRules(
   );
 }
 
+export async function fetchLecTeams(): Promise<{
+  teams: LecSeasonState["teams"];
+  season_label: string;
+  format: Record<string, unknown>;
+}> {
+  return getJson("/lec/teams", "Impossible de charger les équipes LEC");
+}
+
+export async function startLecSeason(
+  teamName: string,
+  coachName: string,
+  roster: WorldsRoster,
+  replaceTeamId: string | null,
+): Promise<LecSeasonState> {
+  return postJson<LecSeasonState>(
+    "/lec/start-season",
+    {
+      team_name: teamName,
+      coach_name: coachName,
+      roster,
+      replace_team_id: replaceTeamId,
+    },
+    "Impossible de démarrer la saison LEC",
+  );
+}
+
+export async function recordLecMatchResult(payload: {
+  fixture_id: string;
+  winner_id: string;
+  fixtures: LecSeasonState["fixtures"];
+  teams: LecSeasonState["teams"];
+  week: number;
+}): Promise<LecRecordResultResponse> {
+  return postJson<LecRecordResultResponse>(
+    "/lec/record-result",
+    {
+      fixture_id: payload.fixture_id,
+      winner_id: payload.winner_id,
+      fixtures: payload.fixtures,
+      teams: payload.teams,
+      week: payload.week,
+    },
+    "Impossible d'enregistrer le résultat LEC",
+  );
+}
+
 export async function fetchWorldsTeams(): Promise<{ teams: WorldsStartResponse["opponent_teams"] }> {
   return getJson("/worlds/teams", "Impossible de charger les équipes Worlds");
 }
@@ -406,11 +453,13 @@ function buildSimulationPredictionSnapshot(prediction: PredictResponse) {
       score_final: prediction.blue.score_final,
       score_synergie: prediction.blue.score_synergie,
       champions: prediction.blue.champions,
+      attribute_profile: prediction.blue.attribute_profile,
     },
     red: {
       score_final: prediction.red.score_final,
       score_synergie: prediction.red.score_synergie,
       champions: prediction.red.champions,
+      attribute_profile: prediction.red.attribute_profile,
     },
   };
 }

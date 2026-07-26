@@ -10,6 +10,7 @@ import perkzPortrait from "../assets/coaches/perkz.jpg";
 import poppyPortrait from "../assets/coaches/poppy.jpg";
 import ryuPortrait from "../assets/coaches/ryu.webp";
 import tomPortrait from "../assets/coaches/tom.jpg";
+import easyhoonPortrait from "../assets/coaches/easyhoon.jpg";
 
 function coachSlug(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -26,6 +27,7 @@ export const COACH_PORTRAIT_BY_COACH: Record<string, string> = {
   cvmax: cvmaxPortrait,
   ggoong: ggoongPortrait,
   bubbling: bubblingPortrait,
+  easyhoon: easyhoonPortrait,
 };
 
 /** IDs équipes Worlds → URL résolue au build (dist/assets/…). */
@@ -37,6 +39,9 @@ export const COACH_PORTRAIT_BY_TEAM_ID: Record<string, string> = {
   hle: hommePortrait,
   tes: poppyPortrait,
   dk: cvmaxPortrait,
+  fnatic: ggoongPortrait,
+  kc: bubblingPortrait,
+  mkoi: easyhoonPortrait,
 };
 
 export function bundledCoachPortraitUrl(teamId: string, coachName?: string): string | null {

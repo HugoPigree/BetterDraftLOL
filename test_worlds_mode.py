@@ -46,6 +46,39 @@ def _strong_bot_prediction(*, draft_blue: float = 0.35) -> dict:
     }
 
 
+def _rich_prediction(*, draft_blue: float = 0.55) -> dict:
+    prediction = _strong_bot_prediction(draft_blue=draft_blue)
+    prediction["blue"]["champions"] = [
+        {"champion": "Gnar", "role": "TOP"},
+        {"champion": "LeeSin", "role": "JUNGLE"},
+        {"champion": "Ahri", "role": "MIDDLE"},
+        {"champion": "Jinx", "role": "BOTTOM"},
+        {"champion": "Lulu", "role": "UTILITY"},
+    ]
+    prediction["red"]["champions"] = [
+        {"champion": "Renekton", "role": "TOP"},
+        {"champion": "Vi", "role": "JUNGLE"},
+        {"champion": "Syndra", "role": "MIDDLE"},
+        {"champion": "Caitlyn", "role": "BOTTOM"},
+        {"champion": "Lux", "role": "UTILITY"},
+    ]
+    prediction["blue"]["attribute_profile"] = {
+        "damage_mean": 2.0,
+        "toughness_mean": 1.8,
+        "control_mean": 2.2,
+        "mobility_mean": 2.1,
+        "utility_mean": 2.0,
+    }
+    prediction["red"]["attribute_profile"] = {
+        "damage_mean": 1.9,
+        "toughness_mean": 2.0,
+        "control_mean": 1.7,
+        "mobility_mean": 1.8,
+        "utility_mean": 1.6,
+    }
+    return prediction
+
+
 def test_load_pro_teams_has_seven_entries():
     teams = load_pro_teams()
     assert len(teams) >= 7
@@ -245,6 +278,32 @@ def test_compute_phase_advantages_uses_bot_lane():
     prediction = _strong_bot_prediction()
     advantages = compute_phase_advantages(prediction, player_side="blue")
     assert advantages["early"] > 0.05
+
+
+def test_dilemma_type_and_text_diversity() -> None:
+    prediction = _rich_prediction()
+    type_pairs: set[tuple[str, str]] = set()
+    contexts: list[str] = []
+
+    for seed in range(20):
+        started = start_simulation(
+            player_side="blue",
+            player_team_name="Player",
+            opponent_team_name="T1",
+            draft_blue_win_prob=0.55,
+            prediction=prediction,
+            seed=seed,
+        )
+        types = tuple(started["decision_types"])
+        assert len(types) == 2
+        assert types[0] != types[1]
+        type_pairs.add(types)
+        contexts.append(started["early_context"])
+        assert 10 <= started["decision_minutes"][0] <= 15
+        assert 23 <= started["decision_minutes"][1] <= 28
+
+    assert len(type_pairs) >= 3
+    assert len(set(contexts)) >= 3
 
 
 def test_resolve_soloq_patch_fallback():

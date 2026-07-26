@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { DRAFT_SEQUENCE } from "../draft/sequence";
 import type { DraftContext, Team } from "../types/draft";
 import type { BotLastMove } from "./useDraftBot";
 import {
@@ -135,7 +134,7 @@ export function useBotDialogue({
     }
 
     for (let index = prevIndex; index < draft.actionIndex; index += 1) {
-      const step = DRAFT_SEQUENCE[index];
+      const step = draft.sequence[index];
       if (!step) {
         continue;
       }
@@ -160,7 +159,7 @@ export function useBotDialogue({
     if (draft.isDraftComplete) {
       speak({ type: "draft_complete" });
     }
-  }, [enabled, draft.actionIndex, draft.isDraftComplete, draft.blueBans, draft.redBans, draft.bluePicks, draft.redPicks, playerSide]);
+  }, [enabled, draft.actionIndex, draft.isDraftComplete, draft.blueBans, draft.redBans, draft.bluePicks, draft.redPicks, draft.sequence, playerSide]);
 
   useEffect(() => {
     if (!enabled || draft.isDraftComplete) {

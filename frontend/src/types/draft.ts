@@ -1,4 +1,11 @@
 export type Team = "blue" | "red";
+export type PickOrder = "first" | "last";
+
+export interface DraftPreferences {
+  playerSide: Team;
+  pickOrder: PickOrder;
+}
+
 export type ActionType = "ban" | "pick";
 export type Phase = "ban1" | "pick1" | "ban2" | "pick2" | "complete";
 export type Role = "TOP" | "JUNGLE" | "MIDDLE" | "BOTTOM" | "UTILITY";
@@ -39,6 +46,7 @@ export interface DraftContext {
   usedChampions: string[];
   selectChampion: (champion: string, role?: Role) => void;
   resetDraft: () => void;
+  sequence: SequenceStep[];
 }
 
 export type DraftReducerAction =

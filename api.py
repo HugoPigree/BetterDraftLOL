@@ -36,6 +36,16 @@ from bot_speech_builder import build_bot_explanation_steps
 from match_simulator import resolve_simulation_phase, simulate_match, start_simulation
 from player_signatures import get_player_signatures
 from team_draft_bot import choose_team_bot_action
+from lec_season import (
+    build_playoff_bracket,
+    build_standings,
+    get_next_player_fixture,
+    load_lec_meta,
+    load_lec_teams,
+    record_fixture_result,
+    resolve_week_npc_matches,
+    start_lec_season,
+)
 from worlds_teams import build_player_team, create_bracket, load_pro_teams, pick_opponent_teams
 
 logger = logging.getLogger(__name__)
@@ -389,6 +399,22 @@ class WorldsStartRequest(BaseModel):
     coach_name: str = Field(min_length=1)
     roster: WorldsRosterInput
     seed: int | None = None
+
+
+class LecStartRequest(BaseModel):
+    team_name: str = Field(min_length=1)
+    coach_name: str = Field(min_length=1)
+    roster: WorldsRosterInput
+    replace_team_id: str | None = None
+    seed: int | None = None
+
+
+class LecRecordResultRequest(BaseModel):
+    fixture_id: str = Field(min_length=1)
+    winner_id: str = Field(min_length=1)
+    fixtures: list[dict[str, Any]] = Field(min_length=1)
+    teams: list[dict[str, Any]] = Field(min_length=1)
+    week: int = Field(ge=1, le=9)
 
 
 class WorldsTeamDraftBotRequest(DraftBotMoveRequest):
@@ -800,6 +826,7 @@ def create_app() -> FastAPI:
         opponent_power = 0.55
         opponent_roster: dict[str, str] | None = None
         player_roster: dict[str, str] | None = None
+        opponent: dict[str, Any] | None = None
         if request.player_roster:
             player_roster = request.player_roster.model_dump()
         if request.opponent_roster:
@@ -815,6 +842,16 @@ def create_app() -> FastAPI:
                         opponent_roster = opponent.get("roster")
             except FileNotFoundError:
                 pass
+            if opponent is None:
+                try:
+                    lec_pool = {team["id"]: team for team in load_lec_teams()}
+                    lec_opponent = lec_pool.get(request.opponent_team_id)
+                    if lec_opponent:
+                        opponent_power = float(lec_opponent.get("power_rating", 0.5))
+                        if opponent_roster is None:
+                            opponent_roster = lec_opponent.get("roster")
+                except (FileNotFoundError, ValueError):
+                    pass
 
         prediction_payload = (
             request.prediction.model_dump()
@@ -843,6 +880,53 @@ def create_app() -> FastAPI:
         except Exception as exc:
             logger.exception("Erreur interne pendant worlds/simulate-match start")
             raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+    @app.get("/lec/teams")
+    async def lec_teams() -> dict[str, Any]:
+        try:
+            teams = load_lec_teams()
+            meta = load_lec_meta()
+        except (FileNotFoundError, ValueError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return {"teams": teams, **meta}
+
+    @app.post("/lec/start-season")
+    async def lec_start_season(request: LecStartRequest) -> dict[str, Any]:
+        try:
+            return start_lec_season(
+                team_name=request.team_name,
+                coach_name=request.coach_name,
+                roster=request.roster.model_dump(),
+                replace_team_id=request.replace_team_id,
+                seed=request.seed,
+            )
+        except (FileNotFoundError, ValueError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post("/lec/record-result")
+    async def lec_record_result(request: LecRecordResultRequest) -> dict[str, Any]:
+        try:
+            fixtures = [dict(fixture) for fixture in request.fixtures]
+            teams = [dict(team) for team in request.teams]
+            record_fixture_result(fixtures, request.fixture_id, request.winner_id)
+            resolve_week_npc_matches(fixtures, teams, request.week, seed=None)
+            standings = build_standings(fixtures, teams)
+            next_fixture = get_next_player_fixture(fixtures, "player")
+            regular_complete = next_fixture is None
+            playoffs = build_playoff_bracket(standings, teams) if regular_complete else None
+            player_row = next((row for row in standings if row.get("is_player_team")), None)
+            return {
+                "fixtures": fixtures,
+                "standings": standings,
+                "next_fixture": next_fixture,
+                "regular_complete": regular_complete,
+                "playoffs": playoffs,
+                "player_rank": player_row["rank"] if player_row else None,
+                "player_playoffs": bool(player_row and player_row["rank"] <= 6),
+                "player_worlds": bool(player_row and player_row["rank"] <= 3),
+            }
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     @app.post("/ask-chatbot-rules", response_model=AskChatbotRulesResponse)
     async def ask_chatbot_rules_endpoint(

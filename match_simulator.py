@@ -10,6 +10,14 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
+from match_dilemmas import (
+    LATE_DECISION_MINUTE,
+    build_decision_plan,
+    build_explanation_text,
+    compute_late_advantage,
+    pick_context_text,
+)
+
 Side = Literal["blue", "red"]
 PhaseName = Literal["early", "mid", "late"]
 Choice = Literal["engage", "temporize"]
@@ -100,34 +108,14 @@ def compute_phase_advantages(
     *,
     player_side: Side,
 ) -> dict[PhaseName, float]:
-    bot = prediction.get("bot_lane_matchup")
-    js = prediction.get("jungle_support_matchup")
-    ours = _our_team_detail(prediction, player_side=player_side)
-    theirs = _their_team_detail(prediction, player_side=player_side)
+    """Conservé pour les tests — early/mid reflètent les types historiques par défaut."""
+    from match_dilemmas import compute_dilemma_advantage
 
-    early = _matchup_player_advantage(bot, player_side=player_side)
-    if abs(early) < 1e-6:
-        early = _matchup_player_advantage(js, player_side=player_side)
-
-    mid_js = _matchup_player_advantage(js, player_side=player_side)
-    mid_syn = _score_delta_advantage(
-        float(ours.get("score_synergie", 0.5)),
-        float(theirs.get("score_synergie", 0.5)),
-    )
-    mid = mid_js if abs(mid_js) >= abs(mid_syn) else mid_syn
-
-    late = _score_delta_advantage(
-        float(ours.get("score_final", 0.0)),
-        float(theirs.get("score_final", 0.0)),
-    )
-    if abs(late) < 1e-6:
-        player_draft = _player_side_prob(
-            prediction.get("blue_win_probability", 0.5),
-            player_side=player_side,
-        )
-        late = pts_to_phase_advantage(((player_draft or 0.5) - 0.5) * 100.0)
-
-    return {"early": early, "mid": mid, "late": late}
+    return {
+        "early": compute_dilemma_advantage("bot_lane", prediction, player_side=player_side)[0],
+        "mid": compute_dilemma_advantage("jungle_support", prediction, player_side=player_side)[0],
+        "late": compute_late_advantage(prediction, player_side=player_side),
+    }
 
 
 def adjust_phase_probability(
@@ -179,73 +167,11 @@ def determine_match_winner(
     return rng.random() < base
 
 
-def _phase_context_text(phase: PhaseName, *, player_roster: Roster, opponent_roster: Roster) -> str:
-    p_adc = _player(player_roster, "BOTTOM")
-    p_sup = _player(player_roster, "UTILITY")
-    p_jgl = _player(player_roster, "JUNGLE")
-    o_adc = _player(opponent_roster, "BOTTOM")
-    o_jgl = _player(opponent_roster, "JUNGLE")
-
-    if phase == "early":
-        return (
-            f"Minute 8 — la wave bot se stack. {p_jgl} est en position de gank "
-            f"pendant que {p_adc}/{p_sup} jouent la lane contre {o_adc}. "
-            f"Engager maintenant ou temporiser et farm safe ?"
-        )
-    return (
-        f"Minute 22 — tempo mid et objectif en jeu. {p_jgl} peut forcer une "
-        f"skirmish pendant que {o_jgl} cherche une ouverture. "
-        f"Forcer le fight ou reset et jouer la vision ?"
-    )
-
-
-def _phase_explanation_text(
-    phase: PhaseName,
-    *,
-    phase_advantage: float,
-    choice: Choice,
-    phase_won: bool,
-    prediction: dict[str, Any],
-    player_side: Side,
-) -> str:
-    ours = _our_team_detail(prediction, player_side=player_side)
-    theirs = _their_team_detail(prediction, player_side=player_side)
-    adv_pts = phase_advantage * 100.0
-    direction = "en ta faveur" if phase_advantage > 0.02 else "contre toi" if phase_advantage < -0.02 else "serré"
-
-    if phase == "early":
-        bot = prediction.get("bot_lane_matchup") or {}
-        blue_champs = bot.get("blue_champions") or []
-        red_champs = bot.get("red_champions") or []
-        if player_side == "blue":
-            duo = " / ".join(blue_champs) if blue_champs else "ton duo bot"
-        else:
-            duo = " / ".join(red_champs) if red_champs else "ton duo bot"
-        signal = f"Le duo bot ({duo}) partait avec un avantage estimé de {adv_pts:+.0f} pts ({direction})."
-    elif phase == "mid":
-        js = prediction.get("jungle_support_matchup") or {}
-        syn_delta = (
-            float(ours.get("score_synergie", 0.5)) - float(theirs.get("score_synergie", 0.5))
-        ) * 100.0
-        signal = (
-            f"Jungle/support et cohérence mid game : avantage phase {adv_pts:+.0f} pts "
-            f"(Δ synergie {syn_delta:+.1f} pts)."
-        )
-    else:
-        final_delta = float(ours.get("score_final", 0.0)) - float(theirs.get("score_final", 0.0))
-        signal = f"Scaling late : Δ score final {final_delta:+.1f} pts ({direction})."
-
-    outcome = "Phase remportée" if phase_won else "Phase perdue"
-    choice_hint = (
-        "Engager capitalisait sur l'avantage."
-        if choice == "engage" and phase_advantage > 0
-        else "Temporiser limitait le risque."
-        if choice == "temporize"
-        else "Engager était agressif compte tenu du contexte."
-        if choice == "engage"
-        else "Temporiser visait un tempo neutre."
-    )
-    return f"{signal} {outcome}. {choice_hint}"
+def _slot_for_phase(decision_plan: list[dict[str, Any]], phase: PhaseName) -> dict[str, Any]:
+    for slot in decision_plan:
+        if slot["phase_key"] == phase:
+            return slot
+    raise ValueError(f"Aucun créneau de décision pour la phase {phase}.")
 
 
 def _player(roster: Roster, role: str, fallback: str = "Joueur") -> str:
@@ -261,6 +187,7 @@ def _build_timeline(
     winner_roster: Roster,
     loser_roster: Roster,
     rng: random.Random,
+    decision_minutes: tuple[int, int],
 ) -> list[dict[str, Any]]:
     w_top = _player(winner_roster, "TOP")
     w_jgl = _player(winner_roster, "JUNGLE")
@@ -308,7 +235,7 @@ def _build_timeline(
     rng.shuffle(loser_early)
     rng.shuffle(loser_mid)
 
-    minutes = [4, 8, 13, 17, 22, 26, 31, 35]
+    minutes = [4, 8, decision_minutes[0], 17, 22, decision_minutes[1], LATE_DECISION_MINUTE, 35]
     scripted: list[tuple[str, str, Side]] = [
         (early_pool[0][0], early_pool[0][1], winner_side),
         (loser_early[0][0], loser_early[0][1], loser_side),
@@ -347,17 +274,16 @@ def _build_timeline(
     return timeline
 
 
-def _decision_minute(phase: PhaseName) -> int:
-    return 13 if phase == "early" else 26
-
-
 def _inject_decision_nodes(
     timeline: list[dict[str, Any]],
     *,
     phase_meta: dict[PhaseName, dict[str, Any]],
+    decision_plan: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
-    decision_minutes = {_decision_minute(phase) for phase in DECISION_PHASES}
-    late_minute = 31
+    decision_minutes = {
+        int(slot["decision_minute"]): slot["phase_key"] for slot in decision_plan
+    }
+    late_minute = LATE_DECISION_MINUTE
     merged: list[dict[str, Any]] = []
 
     for event in timeline:
@@ -376,12 +302,13 @@ def _inject_decision_nodes(
                 }
             )
         if minute in decision_minutes:
-            phase = "early" if minute == 13 else "mid"
+            phase = decision_minutes[minute]
             meta = phase_meta[phase]
             merged.append(
                 {
                     "type": "decision",
                     "phase": phase,
+                    "dilemma_type": meta.get("dilemma_type"),
                     "minute": minute,
                     "choices": ["engage", "temporize"],
                     "context_text": meta["context_text"],
@@ -420,7 +347,8 @@ class SimulationState:
     opponent_roster_power: float
     prediction: dict[str, Any]
     base: float
-    phase_advantages: dict[PhaseName, float]
+    decision_plan: list[dict[str, Any]]
+    late_advantage: float
     rng: random.Random
     phase_results: dict[PhaseName, dict[str, Any]] = field(default_factory=dict)
     pending_phase: PhaseName | None = "early"
@@ -451,7 +379,8 @@ def _state_to_payload(state: SimulationState) -> dict[str, Any]:
         "opponent_roster_power": state.opponent_roster_power,
         "prediction": state.prediction,
         "base": state.base,
-        "phase_advantages": state.phase_advantages,
+        "decision_plan": state.decision_plan,
+        "late_advantage": state.late_advantage,
         "rng_state": _serialize_rng(state.rng),
         "phase_results": state.phase_results,
         "pending_phase": state.pending_phase,
@@ -471,12 +400,43 @@ def _state_from_payload(payload: dict[str, Any]) -> SimulationState:
         opponent_roster_power=float(payload["opponent_roster_power"]),
         prediction=dict(payload["prediction"]),
         base=float(payload["base"]),
-        phase_advantages=dict(payload["phase_advantages"]),
+        decision_plan=list(
+            payload.get("decision_plan")
+            or _legacy_decision_plan(payload, player_side=payload["player_side"])
+        ),
+        late_advantage=float(
+            payload.get("late_advantage")
+            if payload.get("late_advantage") is not None
+            else (payload.get("phase_advantages") or {}).get("late", 0.0)
+        ),
         rng=_deserialize_rng(payload["rng_state"]),
         phase_results=dict(payload.get("phase_results") or {}),
         pending_phase=payload.get("pending_phase"),
         completed=bool(payload.get("completed")),
     )
+
+
+def _legacy_decision_plan(payload: dict[str, Any], *, player_side: Side) -> list[dict[str, Any]]:
+    """Compatibilité tokens émis avant la variété de dilemmes."""
+    phase_advantages = payload.get("phase_advantages") or {}
+    return [
+        {
+            "phase_key": "early",
+            "dilemma_type": "bot_lane",
+            "phase_advantage": float(phase_advantages.get("early", 0.0)),
+            "decision_minute": 13,
+            "context_variant": 0,
+            "explanation_variant": 0,
+        },
+        {
+            "phase_key": "mid",
+            "dilemma_type": "jungle_support",
+            "phase_advantage": float(phase_advantages.get("mid", 0.0)),
+            "decision_minute": 26,
+            "context_variant": 0,
+            "explanation_variant": 0,
+        },
+    ]
 
 
 def encode_simulation_token(state: SimulationState) -> str:
@@ -533,7 +493,9 @@ def start_simulation(
     default_roster = {role: role.title() for role in ROLE_ORDER}
     player_roster = player_roster or default_roster
     opponent_roster = opponent_roster or default_roster
-    phase_advantages = compute_phase_advantages(prediction, player_side=player_side)
+    decision_plan = build_decision_plan(prediction, player_side=player_side, rng=rng)
+    late_advantage = compute_late_advantage(prediction, player_side=player_side)
+    early_slot = _slot_for_phase(decision_plan, "early")
 
     simulation_id = uuid.uuid4().hex
     state = SimulationState(
@@ -547,24 +509,29 @@ def start_simulation(
         opponent_roster_power=opponent_roster_power,
         prediction=prediction,
         base=base,
-        phase_advantages=phase_advantages,
+        decision_plan=decision_plan,
+        late_advantage=late_advantage,
         rng=rng,
     )
     _store[simulation_id] = state
+
+    early_context = pick_context_text(
+        early_slot["dilemma_type"],
+        player_roster=player_roster,
+        opponent_roster=opponent_roster,
+        variant_index=int(early_slot["context_variant"]),
+    )
 
     return {
         "simulation_id": simulation_id,
         "simulation_token": encode_simulation_token(state),
         "status": "awaiting_decision",
         "pending_phase": "early",
-        "early_context": _phase_context_text(
-            "early",
-            player_roster=player_roster,
-            opponent_roster=opponent_roster,
-        ),
+        "early_context": early_context,
         "player_win_probability": round(base, 4),
         "draft_blue_win_probability": round(draft_blue_win_prob, 4),
-        "phase_advantages": {k: round(v, 4) for k, v in phase_advantages.items()},
+        "decision_types": [slot["dilemma_type"] for slot in decision_plan],
+        "decision_minutes": [int(slot["decision_minute"]) for slot in decision_plan],
     }
 
 
@@ -593,17 +560,28 @@ def _build_final_result(state: SimulationState) -> dict[str, Any]:
     phase_meta: dict[PhaseName, dict[str, Any]] = {}
     for phase_name in ("early", "mid", "late"):
         data = state.phase_results[phase_name]
+        slot = _slot_for_phase(state.decision_plan, phase_name) if phase_name in DECISION_PHASES else None
         phase_meta[phase_name] = {
             **data,
+            "dilemma_type": slot["dilemma_type"] if slot else None,
             "context_text": data.get("context_text")
-            or _phase_context_text(
-                phase_name,
-                player_roster=state.player_roster,
-                opponent_roster=state.opponent_roster,
+            or (
+                pick_context_text(
+                    slot["dilemma_type"],
+                    player_roster=state.player_roster,
+                    opponent_roster=state.opponent_roster,
+                    variant_index=int(slot["context_variant"]),
+                )
+                if slot
+                else ""
             ),
             "resolved": phase_name in DECISION_PHASES,
         }
 
+    decision_minutes = (
+        int(state.decision_plan[0]["decision_minute"]),
+        int(state.decision_plan[1]["decision_minute"]),
+    )
     flavor = _build_timeline(
         winner_side=winner_side,
         loser_side=loser_side,
@@ -612,8 +590,11 @@ def _build_final_result(state: SimulationState) -> dict[str, Any]:
         winner_roster=winner_roster,
         loser_roster=loser_roster,
         rng=state.rng,
+        decision_minutes=decision_minutes,
     )
-    events = _inject_decision_nodes(flavor, phase_meta=phase_meta)
+    events = _inject_decision_nodes(
+        flavor, phase_meta=phase_meta, decision_plan=state.decision_plan
+    )
     blue_win_prob = state.base if state.player_side == "blue" else 1.0 - state.base
 
     return {
@@ -648,32 +629,39 @@ def resolve_simulation_phase(
         raise ValueError(f"Phase attendue : {state.pending_phase}, reçue : {phase}.")
 
     active_simulation_id = simulation_id or uuid.uuid4().hex
+    slot = _slot_for_phase(state.decision_plan, phase)
 
-    phase_advantage = state.phase_advantages[phase]
+    phase_advantage = float(slot["phase_advantage"])
     phase_won, phase_prob = resolve_phase_outcome(
         base=state.base,
         phase_advantage=phase_advantage,
         choice=choice,
         rng=state.rng,
     )
-    explanation = _phase_explanation_text(
-        phase,
+    explanation = build_explanation_text(
+        slot["dilemma_type"],
         phase_advantage=phase_advantage,
         choice=choice,
         phase_won=phase_won,
         prediction=state.prediction,
         player_side=state.player_side,
+        player_roster=state.player_roster,
+        opponent_roster=state.opponent_roster,
+        variant_index=int(slot["explanation_variant"]),
+    )
+    context_text = pick_context_text(
+        slot["dilemma_type"],
+        player_roster=state.player_roster,
+        opponent_roster=state.opponent_roster,
+        variant_index=int(slot["context_variant"]),
     )
     state.phase_results[phase] = {
         "phase_won": phase_won,
         "phase_probability": round(phase_prob, 4),
         "player_choice": choice,
         "explanation_text": explanation,
-        "context_text": _phase_context_text(
-            phase,
-            player_roster=state.player_roster,
-            opponent_roster=state.opponent_roster,
-        ),
+        "context_text": context_text,
+        "dilemma_type": slot["dilemma_type"],
         "resolved": True,
     }
 
@@ -681,6 +669,7 @@ def resolve_simulation_phase(
         state.pending_phase = "mid"
         if simulation_id:
             _store[simulation_id] = state
+        mid_slot = _slot_for_phase(state.decision_plan, "mid")
         return {
             "simulation_id": active_simulation_id,
             "simulation_token": encode_simulation_token(state),
@@ -690,17 +679,18 @@ def resolve_simulation_phase(
             "phase_won": phase_won,
             "phase_probability": round(phase_prob, 4),
             "explanation_text": explanation,
-            "mid_context": _phase_context_text(
-                "mid",
+            "mid_context": pick_context_text(
+                mid_slot["dilemma_type"],
                 player_roster=state.player_roster,
                 opponent_roster=state.opponent_roster,
+                variant_index=int(mid_slot["context_variant"]),
             ),
         }
 
     if phase == "mid":
         late_won, late_prob = resolve_phase_outcome(
             base=state.base,
-            phase_advantage=state.phase_advantages["late"],
+            phase_advantage=state.late_advantage,
             choice="engage",
             rng=state.rng,
         )
@@ -708,15 +698,12 @@ def resolve_simulation_phase(
             "phase_won": late_won,
             "phase_probability": round(late_prob, 4),
             "player_choice": None,
-            "explanation_text": _phase_explanation_text(
-                "late",
-                phase_advantage=state.phase_advantages["late"],
-                choice="engage",
-                phase_won=late_won,
-                prediction=state.prediction,
-                player_side=state.player_side,
+            "explanation_text": (
+                f"Scaling late : avantage {state.late_advantage * 100:+.0f} pts. "
+                f"{'Phase remportée' if late_won else 'Phase perdue'}."
             ),
             "context_text": "",
+            "dilemma_type": None,
             "resolved": True,
         }
         state.pending_phase = None

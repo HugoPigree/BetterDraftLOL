@@ -3,16 +3,18 @@ import worldsLogo from "../assets/worlds-logo.png";
 interface HomeScreenProps {
   onSelectDraft: () => void;
   onSelectWorlds: () => void;
+  onSelectLec: () => void;
 }
 
-export function HomeScreen({ onSelectDraft, onSelectWorlds }: HomeScreenProps) {  return (
+export function HomeScreen({ onSelectDraft, onSelectWorlds, onSelectLec }: HomeScreenProps) {
+  return (
     <div className="home-screen">
       <div className="home-screen__backdrop" aria-hidden="true" />
       <div className="home-screen__content">
         <p className="home-screen__eyebrow">League of Legends</p>
         <h1 className="home-screen__title">Better Draft LOL</h1>
         <p className="home-screen__subtitle">
-          Entraîne ta draft ou mène ton équipe au titre des Worlds.
+          Entraîne ta draft, mène une carrière LEC ou vise le titre des Worlds.
         </p>
 
         <div className="home-screen__modes">
@@ -21,6 +23,14 @@ export function HomeScreen({ onSelectDraft, onSelectWorlds }: HomeScreenProps) {
             <strong className="home-card__title">Draft vs Bot</strong>
             <span className="home-card__desc">
               Draft solo contre le bot PRO, analyse ML et suggestions en direct.
+            </span>
+          </button>
+
+          <button type="button" className="home-card home-card--lec" onClick={onSelectLec}>
+            <span className="home-card__label">Mode carrière</span>
+            <strong className="home-card__title">LEC Career</strong>
+            <span className="home-card__desc">
+              Crée ton équipe, joue la saison régulière Bo1, vise les playoffs et la qualification Worlds.
             </span>
           </button>
 

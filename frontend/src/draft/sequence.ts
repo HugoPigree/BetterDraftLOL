@@ -1,4 +1,4 @@
-import type { Phase, SequenceStep } from "../types/draft";
+import type { DraftPreferences, Phase, SequenceStep } from "../types/draft";
 
 export const DRAFT_SEQUENCE: SequenceStep[] = [
   // Ban phase 1: Blue, Red, Blue, Red, Blue, Red
@@ -30,9 +30,32 @@ export const DRAFT_SEQUENCE: SequenceStep[] = [
   { team: "red", actionType: "pick", phase: "pick2" },
 ];
 
-export function getPhaseForIndex(actionIndex: number): Phase {
-  if (actionIndex >= DRAFT_SEQUENCE.length) {
+export function firstPickIsBlue(preferences: DraftPreferences): boolean {
+  return preferences.pickOrder === "first"
+    ? preferences.playerSide === "blue"
+    : preferences.playerSide === "red";
+}
+
+export function buildDraftSequence(preferences: DraftPreferences): SequenceStep[] {
+  return buildDraftSequenceForFirstPick(firstPickIsBlue(preferences));
+}
+
+export function buildDraftSequenceForFirstPick(firstPickIsBlueSide: boolean): SequenceStep[] {
+  if (firstPickIsBlueSide) {
+    return DRAFT_SEQUENCE;
+  }
+  return DRAFT_SEQUENCE.map((step) => ({
+    ...step,
+    team: step.team === "blue" ? "red" : "blue",
+  }));
+}
+
+export function getPhaseForIndex(
+  actionIndex: number,
+  sequence: SequenceStep[] = DRAFT_SEQUENCE,
+): Phase {
+  if (actionIndex >= sequence.length) {
     return "complete";
   }
-  return DRAFT_SEQUENCE[actionIndex].phase;
+  return sequence[actionIndex].phase;
 }
