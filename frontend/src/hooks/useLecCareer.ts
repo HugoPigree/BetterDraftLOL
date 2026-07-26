@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { DraftPreferences } from "../types/draft";
 import type {
   LecCareerSnapshot,
+  LecLastMatchSummary,
   LecPhase,
   LecSeasonState,
 } from "../types/lec";
@@ -64,6 +65,15 @@ export function useLecCareer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastPlayerWon, setLastPlayerWon] = useState<boolean | null>(null);
+  const [lastMatchSummary, setLastMatchSummary] = useState<LecLastMatchSummary | null>(
+    restored?.lastMatchSummary ?? null,
+  );
+
+  useEffect(() => {
+    if (phase === "matchResult" && !lastMatchSummary) {
+      setPhase("seasonHub");
+    }
+  }, [phase, lastMatchSummary]);
 
   const playerTeam = useMemo(
     () => season?.teams.find((team) => team.is_player_team) ?? null,
@@ -112,6 +122,7 @@ export function useLecCareer() {
       currentPlayoffMatchId,
       storyChapterSeen,
       pendingStoryChapterId,
+      lastMatchSummary,
     });
   }, [
     phase,
@@ -121,6 +132,7 @@ export function useLecCareer() {
     currentPlayoffMatchId,
     storyChapterSeen,
     pendingStoryChapterId,
+    lastMatchSummary,
   ]);
 
   const queueStoryIfNeeded = useCallback(
@@ -294,6 +306,11 @@ export function useLecCareer() {
           playoffs: response.playoffs,
           current_week: currentFixture.week + 1,
         });
+        setLastMatchSummary({
+          round_label: currentFixture.round_label,
+          opponent_name: currentOpponent?.name ?? "Adversaire",
+          context: "regular",
+        });
         setCurrentFixtureId(null);
         setPhase("matchResult");
       } catch (recordError) {
@@ -306,10 +323,12 @@ export function useLecCareer() {
         setLoading(false);
       }
     },
-    [season, currentFixture, playerTeam],
+    [season, currentFixture, playerTeam, currentOpponent],
   );
 
   const continueAfterMatch = useCallback(() => {
+    setLastMatchSummary(null);
+    setCurrentFixtureId(null);
     if (!season) {
       return;
     }
@@ -400,6 +419,14 @@ export function useLecCareer() {
       let updated = recordPlayoffWinner(season.playoffs, currentPlayoffMatch.id, winnerId);
       updated = resolveNpcPlayoffMatches(updated);
       setSeason({ ...season, playoffs: updated });
+      setLastMatchSummary({
+        round_label: currentPlayoffMatch.round_label,
+        opponent_name:
+          (currentPlayoffMatch.team_a.team?.id === playerTeam.id
+            ? currentPlayoffMatch.team_b.team?.name
+            : currentPlayoffMatch.team_a.team?.name) ?? "Adversaire",
+        context: "playoffs",
+      });
       setCurrentPlayoffMatchId(null);
       setPhase("matchResult");
     },
@@ -407,6 +434,8 @@ export function useLecCareer() {
   );
 
   const continueAfterPlayoff = useCallback(() => {
+    setLastMatchSummary(null);
+    setCurrentPlayoffMatchId(null);
     setPhase("playoffsHub");
   }, []);
 
@@ -420,6 +449,7 @@ export function useLecCareer() {
     setPendingStoryChapterId(null);
     setError(null);
     setLastPlayerWon(null);
+    setLastMatchSummary(null);
   }, []);
 
   const returnToHub = useCallback(() => {
@@ -467,6 +497,7 @@ export function useLecCareer() {
     loading,
     error,
     lastPlayerWon,
+    lastMatchSummary,
     pendingStoryChapterId,
     startSeason,
     completeStoryChapter,

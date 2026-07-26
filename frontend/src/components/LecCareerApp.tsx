@@ -172,6 +172,20 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     simulationStartedRef.current = false;
   }
 
+  function handleReturnToHub() {
+    resetMatchState();
+    lec.returnToHub();
+  }
+
+  function handleMatchOutcomeContinue() {
+    resetMatchState();
+    if (lec.lastMatchSummary?.context === "playoffs") {
+      lec.continueAfterPlayoff();
+      return;
+    }
+    lec.continueAfterMatch();
+  }
+
   function handleBeginDraft() {
     resetMatchState();
     if (isPlayoffFlow) {
@@ -286,7 +300,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
         <LecPlayoffsHub
           bracket={lec.hydratedPlayoffs}
           playerTeam={lec.playerTeam}
-          onBack={lec.returnToHub}
+          onBack={handleReturnToHub}
           onPlayNext={lec.openPlayoffMatch}
         />
       </>
@@ -336,7 +350,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
           opponentName={activeOpponent.name}
           phaseLabel="ANALYSE DE LA DRAFT"
           playerSide={playerSide}
-          onBack={lec.returnToHub}
+          onBack={handleReturnToHub}
         />
         <main className="app worlds-cs-main">
           <DraftBoard
@@ -464,18 +478,16 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     );
   }
 
-  if (lec.phase === "matchResult" && introMatch) {
+  if (lec.phase === "matchResult" && lec.lastMatchSummary) {
     return (
       <>
         {muteButton}
         <WorldsMatchOutcome
           playerWon={Boolean(lec.lastPlayerWon)}
-          opponentName={activeOpponent?.name ?? "Adversaire"}
-          roundLabel={introMatch.round_label}
+          opponentName={lec.lastMatchSummary.opponent_name}
+          roundLabel={lec.lastMatchSummary.round_label}
           matchHistory={lastMatchHistory}
-          onContinue={
-            isPlayoffFlow ? lec.continueAfterPlayoff : lec.continueAfterMatch
-          }
+          onContinue={handleMatchOutcomeContinue}
         />
       </>
     );
@@ -537,7 +549,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
         opponentName={activeOpponent?.name ?? "…"}
         phaseLabel={draftPhaseLabel()}
         playerSide={playerSide}
-        onBack={lec.returnToHub}
+        onBack={handleReturnToHub}
       />
       <main className="app worlds-cs-main">
         <DraftBoard

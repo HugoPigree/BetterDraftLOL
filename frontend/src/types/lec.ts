@@ -97,6 +97,13 @@ export interface LecCareerSnapshot {
   currentPlayoffMatchId: string | null;
   storyChapterSeen: string[];
   pendingStoryChapterId: string | null;
+  lastMatchSummary: LecLastMatchSummary | null;
+}
+
+export interface LecLastMatchSummary {
+  round_label: string;
+  opponent_name: string;
+  context: "regular" | "playoffs";
 }
 
 export const LEC_ROLES = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"] as const;
