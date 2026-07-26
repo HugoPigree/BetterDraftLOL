@@ -94,6 +94,14 @@ def build_pro_winrate_lookup(
             meraki_aliases[alias_key] = stats
     lookup.update(meraki_aliases)
 
+    logger.info("Winrates pro chargés: %d paires champion/rôle", len(lookup))
+    return lookup
+
+
+def _enrich_pro_winrate_lookup_with_meraki_resolved(
+    lookup: dict[tuple[str, str], tuple[float, int]],
+) -> None:
+    """Ajoute les alias Meraki résolus une fois le lookup de base en cache."""
     try:
         from predict_draft import get_meraki_context
 
@@ -113,9 +121,6 @@ def build_pro_winrate_lookup(
     except Exception as exc:
         logger.debug("Alias Meraki non ajoutés au lookup pro: %s", exc)
 
-    logger.info("Winrates pro chargés: %d paires champion/rôle", len(lookup))
-    return lookup
-
 
 def get_pro_winrate_lookup(oracle_csv: Path = DEFAULT_ORACLE_CSV) -> dict[tuple[str, str], tuple[float, int]]:
     global _pro_winrate_lookup, _pro_oracle_path
@@ -126,8 +131,10 @@ def get_pro_winrate_lookup(oracle_csv: Path = DEFAULT_ORACLE_CSV) -> dict[tuple[
         record_data_load("oracle_pro_winrate_lookup", hit=True)
         return _pro_winrate_lookup
     record_data_load("oracle_pro_winrate_lookup", hit=False, detail="build_pro_winrate_lookup")
-    _pro_winrate_lookup = build_pro_winrate_lookup(oracle_csv)
+    lookup = build_pro_winrate_lookup(oracle_csv)
+    _pro_winrate_lookup = lookup
     _pro_oracle_path = oracle_csv
+    _enrich_pro_winrate_lookup_with_meraki_resolved(_pro_winrate_lookup)
     return _pro_winrate_lookup
 
 
