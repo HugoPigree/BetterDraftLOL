@@ -305,6 +305,10 @@ def warmup_all_server_caches(patch: str = "16.13") -> float:
     load_duo_table("jungle_support")
     get_champion_role_catalog()
 
+    from team_draft_bot import warmup_worlds_draft_bot
+
+    warmup_worlds_draft_bot()
+
     from match_simulator import simulate_match
 
     simulate_match(

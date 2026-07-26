@@ -31,7 +31,9 @@ SIGNATURE_PICK_CHANCE = 0.38
 
 def warmup_worlds_draft_bot() -> None:
     """Pré-charge les caches lourds avant la première draft Worlds."""
-    build_signature_lookup()
+    from player_signatures import warmup_signature_lookup
+
+    warmup_signature_lookup()
     get_champion_role_catalog()
 
 

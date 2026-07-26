@@ -35,7 +35,7 @@ from meta_status import get_meta_status
 from bot_speech_builder import build_bot_explanation_steps
 from match_simulator import resolve_simulation_phase, simulate_match, start_simulation
 from player_signatures import get_player_signatures
-from team_draft_bot import choose_team_bot_action, warmup_worlds_draft_bot
+from team_draft_bot import choose_team_bot_action
 from worlds_teams import build_player_team, create_bracket, load_pro_teams, pick_opponent_teams
 
 logger = logging.getLogger(__name__)
@@ -714,7 +714,6 @@ def create_app() -> FastAPI:
                 roster=request.roster.model_dump(),
             )
             bracket = create_bracket(player_team, opponents, seed=request.seed)
-            warmup_worlds_draft_bot()
         except (FileNotFoundError, ValueError) as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         return {

@@ -85,6 +85,11 @@ def _get_lookup(oracle_csv: Path = DEFAULT_ORACLE_CSV) -> dict[tuple[str, str, s
     return _signature_lookup
 
 
+def warmup_signature_lookup(oracle_csv: Path = DEFAULT_ORACLE_CSV) -> None:
+    """Pré-charge et met en cache le lookup signatures (Oracle)."""
+    _get_lookup(oracle_csv)
+
+
 def signature_score(pick_rate: float, winrate: float, games: int) -> float:
     volume = min(1.0, games / 40.0)
     return pick_rate * 100.0 * volume + winrate * 20.0
