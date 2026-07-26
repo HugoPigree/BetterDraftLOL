@@ -407,6 +407,7 @@ class WorldsPredictionSnapshot(BaseModel):
 class WorldsSimulateMatchRequest(BaseModel):
     action: Literal["start", "resolve"] = "start"
     simulation_id: str | None = None
+    simulation_token: str | None = None
     phase: Literal["early", "mid"] | None = None
     choice: Literal["engage", "temporize"] | None = None
     player_side: Literal["blue", "red"] = "blue"
@@ -772,14 +773,15 @@ def create_app() -> FastAPI:
         request: WorldsSimulateMatchRequest,
     ) -> dict[str, Any]:
         if request.action == "resolve":
-            if not request.simulation_id or not request.phase or not request.choice:
+            if (not request.simulation_id and not request.simulation_token) or not request.phase or not request.choice:
                 raise HTTPException(
                     status_code=400,
-                    detail="simulation_id, phase et choice sont requis pour action=resolve.",
+                    detail="simulation_token (ou simulation_id), phase et choice sont requis pour action=resolve.",
                 )
             try:
                 return resolve_simulation_phase(
                     simulation_id=request.simulation_id,
+                    simulation_token=request.simulation_token,
                     phase=request.phase,
                     choice=request.choice,
                 )

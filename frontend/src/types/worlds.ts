@@ -58,6 +58,7 @@ export interface MatchSimulationEvent {
 
 export interface MatchSimulationStartResponse {
   simulation_id: string;
+  simulation_token: string;
   status: "awaiting_decision";
   pending_phase: "early" | "mid";
   early_context: string;
@@ -68,6 +69,7 @@ export interface MatchSimulationStartResponse {
 
 export interface MatchSimulationResolveResponse {
   simulation_id: string;
+  simulation_token?: string;
   status: "awaiting_decision" | "complete";
   pending_phase?: "mid";
   resolved_phase: "early" | "mid" | "late";

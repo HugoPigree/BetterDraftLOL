@@ -442,7 +442,7 @@ export async function startWorldsSimulation(
 }
 
 export async function resolveWorldsSimulationPhase(
-  simulationId: string,
+  simulationToken: string,
   phase: "early" | "mid",
   choice: "engage" | "temporize",
 ): Promise<MatchSimulationResolveResponse> {
@@ -450,7 +450,7 @@ export async function resolveWorldsSimulationPhase(
     "/worlds/simulate-match",
     {
       action: "resolve",
-      simulation_id: simulationId,
+      simulation_token: simulationToken,
       phase,
       choice,
     },
@@ -528,8 +528,12 @@ export async function simulateWorldsMatch(
     playerRoster,
     opponentRoster,
   );
-  await resolveWorldsSimulationPhase(started.simulation_id, "early", "engage");
-  const final = await resolveWorldsSimulationPhase(started.simulation_id, "mid", "engage");
+  const early = await resolveWorldsSimulationPhase(started.simulation_token, "early", "engage");
+  const final = await resolveWorldsSimulationPhase(
+    early.simulation_token ?? started.simulation_token,
+    "mid",
+    "engage",
+  );
   return {
     player_wins: Boolean(final.player_wins),
     player_win_probability: final.player_win_probability ?? started.player_win_probability,

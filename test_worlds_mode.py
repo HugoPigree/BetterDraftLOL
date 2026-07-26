@@ -222,13 +222,15 @@ def test_sequential_simulation_returns_decision_events():
         prediction=prediction,
         seed=123,
     )
-    resolve_simulation_phase(
-        simulation_id=started["simulation_id"],
+    token = started["simulation_token"]
+    mid = resolve_simulation_phase(
+        simulation_token=token,
         phase="early",
         choice="temporize",
     )
+    assert mid["simulation_token"]
     final = resolve_simulation_phase(
-        simulation_id=started["simulation_id"],
+        simulation_token=mid["simulation_token"],
         phase="mid",
         choice="engage",
     )

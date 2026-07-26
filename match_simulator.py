@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import base64
+import json
 import random
 import time
 import uuid
@@ -426,6 +428,86 @@ class SimulationState:
     created_at: float = field(default_factory=time.time)
 
 
+def _serialize_rng(rng: random.Random) -> list[Any]:
+    version, internal, gauss = rng.getstate()
+    return [version, list(internal), gauss]
+
+
+def _deserialize_rng(payload: list[Any]) -> random.Random:
+    rng = random.Random()
+    rng.setstate((payload[0], tuple(payload[1]), payload[2]))
+    return rng
+
+
+def _state_to_payload(state: SimulationState) -> dict[str, Any]:
+    return {
+        "player_side": state.player_side,
+        "player_team_name": state.player_team_name,
+        "opponent_team_name": state.opponent_team_name,
+        "draft_blue_win_prob": state.draft_blue_win_prob,
+        "player_roster": state.player_roster,
+        "opponent_roster": state.opponent_roster,
+        "player_roster_power": state.player_roster_power,
+        "opponent_roster_power": state.opponent_roster_power,
+        "prediction": state.prediction,
+        "base": state.base,
+        "phase_advantages": state.phase_advantages,
+        "rng_state": _serialize_rng(state.rng),
+        "phase_results": state.phase_results,
+        "pending_phase": state.pending_phase,
+        "completed": state.completed,
+    }
+
+
+def _state_from_payload(payload: dict[str, Any]) -> SimulationState:
+    return SimulationState(
+        player_side=payload["player_side"],
+        player_team_name=payload["player_team_name"],
+        opponent_team_name=payload["opponent_team_name"],
+        draft_blue_win_prob=float(payload["draft_blue_win_prob"]),
+        player_roster=dict(payload["player_roster"]),
+        opponent_roster=dict(payload["opponent_roster"]),
+        player_roster_power=float(payload["player_roster_power"]),
+        opponent_roster_power=float(payload["opponent_roster_power"]),
+        prediction=dict(payload["prediction"]),
+        base=float(payload["base"]),
+        phase_advantages=dict(payload["phase_advantages"]),
+        rng=_deserialize_rng(payload["rng_state"]),
+        phase_results=dict(payload.get("phase_results") or {}),
+        pending_phase=payload.get("pending_phase"),
+        completed=bool(payload.get("completed")),
+    )
+
+
+def encode_simulation_token(state: SimulationState) -> str:
+    raw = json.dumps(_state_to_payload(state), separators=(",", ":")).encode("utf-8")
+    return base64.urlsafe_b64encode(raw).decode("ascii")
+
+
+def decode_simulation_token(token: str) -> SimulationState:
+    try:
+        raw = base64.urlsafe_b64decode(token.encode("ascii"))
+        payload = json.loads(raw.decode("utf-8"))
+    except (ValueError, json.JSONDecodeError, KeyError, TypeError) as exc:
+        raise ValueError("Simulation introuvable ou expirée.") from exc
+    return _state_from_payload(payload)
+
+
+def _load_simulation_state(
+    *,
+    simulation_id: str | None,
+    simulation_token: str | None,
+) -> SimulationState:
+    if simulation_token:
+        return decode_simulation_token(simulation_token)
+    if simulation_id:
+        _purge_expired_states()
+        state = _store.get(simulation_id)
+        if state is not None:
+            return state
+    raise ValueError("Simulation introuvable ou expirée.")
+
+
 def start_simulation(
     *,
     player_side: Side,
@@ -472,6 +554,7 @@ def start_simulation(
 
     return {
         "simulation_id": simulation_id,
+        "simulation_token": encode_simulation_token(state),
         "status": "awaiting_decision",
         "pending_phase": "early",
         "early_context": _phase_context_text(
@@ -550,18 +633,21 @@ def _build_final_result(state: SimulationState) -> dict[str, Any]:
 
 def resolve_simulation_phase(
     *,
-    simulation_id: str,
+    simulation_id: str | None = None,
+    simulation_token: str | None = None,
     phase: PhaseName,
     choice: Choice,
 ) -> dict[str, Any]:
-    _purge_expired_states()
-    state = _store.get(simulation_id)
-    if state is None:
-        raise ValueError("Simulation introuvable ou expirée.")
+    state = _load_simulation_state(
+        simulation_id=simulation_id,
+        simulation_token=simulation_token,
+    )
     if state.completed:
         raise ValueError("Simulation déjà terminée.")
     if state.pending_phase != phase:
         raise ValueError(f"Phase attendue : {state.pending_phase}, reçue : {phase}.")
+
+    active_simulation_id = simulation_id or uuid.uuid4().hex
 
     phase_advantage = state.phase_advantages[phase]
     phase_won, phase_prob = resolve_phase_outcome(
@@ -593,8 +679,11 @@ def resolve_simulation_phase(
 
     if phase == "early":
         state.pending_phase = "mid"
+        if simulation_id:
+            _store[simulation_id] = state
         return {
-            "simulation_id": simulation_id,
+            "simulation_id": active_simulation_id,
+            "simulation_token": encode_simulation_token(state),
             "status": "awaiting_decision",
             "pending_phase": "mid",
             "resolved_phase": phase,
@@ -633,12 +722,13 @@ def resolve_simulation_phase(
         state.pending_phase = None
         state.completed = True
         result = _build_final_result(state)
-        result["simulation_id"] = simulation_id
+        result["simulation_id"] = active_simulation_id
         result["resolved_phase"] = phase
         result["phase_won"] = phase_won
         result["phase_probability"] = round(phase_prob, 4)
         result["explanation_text"] = explanation
-        _store.pop(simulation_id, None)
+        if simulation_id:
+            _store.pop(simulation_id, None)
         return result
 
     raise ValueError(f"Phase interactive invalide : {phase}")

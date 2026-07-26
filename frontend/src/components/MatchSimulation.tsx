@@ -88,7 +88,7 @@ export function MatchSimulation({
 }: MatchSimulationProps) {
   const [mode, setMode] = useState<SimMode>("booting");
   const [error, setError] = useState<string | null>(null);
-  const [simulationId, setSimulationId] = useState<string | null>(null);
+  const [simulationToken, setSimulationToken] = useState<string | null>(null);
   const [earlyContext, setEarlyContext] = useState("");
   const [midContext, setMidContext] = useState("");
   const [feedbackText, setFeedbackText] = useState("");
@@ -119,7 +119,7 @@ export function MatchSimulation({
           playerRoster,
           opponentRoster,
         );
-        setSimulationId(started.simulation_id);
+        setSimulationToken(started.simulation_token);
         setEarlyContext(started.early_context);
         setMode("early_decision");
       } catch (bootError) {
@@ -140,13 +140,16 @@ export function MatchSimulation({
 
   const handleChoice = useCallback(
     async (phase: "early" | "mid", choice: "engage" | "temporize") => {
-      if (!simulationId || resolving) {
+      if (!simulationToken || resolving) {
         return;
       }
       setResolving(true);
       setError(null);
       try {
-        const response = await resolveWorldsSimulationPhase(simulationId, phase, choice);
+        const response = await resolveWorldsSimulationPhase(simulationToken, phase, choice);
+        if (response.simulation_token) {
+          setSimulationToken(response.simulation_token);
+        }
         setPhaseWon(response.phase_won);
         setFeedbackText(response.explanation_text);
 
@@ -170,7 +173,7 @@ export function MatchSimulation({
         setResolving(false);
       }
     },
-    [resolving, simulationId],
+    [resolving, simulationToken],
   );
 
   useEffect(() => {
