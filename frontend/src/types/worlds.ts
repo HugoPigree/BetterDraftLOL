@@ -41,10 +41,50 @@ export interface WorldsStartResponse {
 }
 
 export interface MatchSimulationEvent {
+  type?: "flavor" | "decision" | "phase_result";
   minute: number;
   phase: "early" | "mid" | "late";
-  side: "blue" | "red";
-  text: string;
+  side?: "blue" | "red";
+  text?: string;
+  choices?: Array<"engage" | "temporize">;
+  context_text?: string;
+  resolved?: boolean;
+  player_choice?: "engage" | "temporize" | null;
+  phase_won?: boolean;
+  explanation_text?: string | null;
+  phase_probability?: number;
+  auto_resolved?: boolean;
+}
+
+export interface MatchSimulationStartResponse {
+  simulation_id: string;
+  status: "awaiting_decision";
+  pending_phase: "early" | "mid";
+  early_context: string;
+  player_win_probability: number;
+  draft_blue_win_probability: number;
+  phase_advantages: Record<"early" | "mid" | "late", number>;
+}
+
+export interface MatchSimulationResolveResponse {
+  simulation_id: string;
+  status: "awaiting_decision" | "complete";
+  pending_phase?: "mid";
+  resolved_phase: "early" | "mid" | "late";
+  phase_won: boolean;
+  phase_probability: number;
+  explanation_text: string;
+  mid_context?: string;
+  player_wins?: boolean;
+  player_win_probability?: number;
+  draft_blue_win_probability?: number;
+  winner_side?: "blue" | "red";
+  winner_team_name?: string;
+  loser_team_name?: string;
+  blue_win_probability?: number;
+  events?: MatchSimulationEvent[];
+  game_length_minutes?: number;
+  phases_won?: number;
 }
 
 export interface MatchSimulationResult {
@@ -57,6 +97,7 @@ export interface MatchSimulationResult {
   blue_win_probability: number;
   events: MatchSimulationEvent[];
   game_length_minutes: number;
+  phases_won?: number;
 }
 
 export type WorldsPhase =

@@ -17,6 +17,7 @@ export const COACH_PORTRAIT_BY_TEAM_ID: Record<string, string> = {
   hle: hommePortrait,
   tes: coachFallback,
   dk: cvmaxPortrait,
+  player: coachFallback,
 };
 
 export function bundledCoachPortraitUrl(teamId: string): string | null {

@@ -3612,8 +3612,47 @@ button {
     min-height: 0;
   }
 
-  .bot-vn__sprite {
+  /* Rival sprite only — Worlds coach portraits stay visible on phone */
+  .bot-vn:not(.worlds-coach) .bot-vn__sprite {
     display: none !important;
+  }
+
+  .app-shell--bot-vn .bot-vn.worlds-coach {
+    max-height: none;
+    padding: 0.35rem 0.5rem calc(0.35rem + env(safe-area-inset-bottom, 0));
+  }
+
+  .worlds-coach .bot-vn__stage {
+    min-height: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .worlds-coach .worlds-coach__sprite-wrap {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+  }
+
+  .worlds-coach .bot-vn__sprite,
+  .worlds-coach .worlds-coach__sprite {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    display: block !important;
+    max-height: min(100px, 16vh);
+    width: auto;
+    border-radius: 8px;
+  }
+
+  .worlds-coach .worlds-coach__sprite-fallback {
+    width: 72px;
+    height: 88px;
+    min-height: 0;
+    font-size: 2rem;
   }
 
   .bot-vn__box {
@@ -3621,6 +3660,10 @@ button {
     max-height: 10vh;
     overflow: auto;
     width: 100%;
+  }
+
+  .worlds-coach .bot-vn__box {
+    max-height: none;
   }
 
   .bot-vn__text {
@@ -4148,7 +4191,7 @@ button {
 }
 
 @media (max-width: 720px) {
-  .bot-vn__sprite {
+  .bot-vn:not(.worlds-coach) .bot-vn__sprite {
     display: none;
   }
 
@@ -4725,6 +4768,54 @@ button {
   color: var(--lol-text);
 }
 
+.match-simulation__decision {
+  margin: 1.25rem 0 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(200, 170, 110, 0.28);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.45);
+  text-align: left;
+}
+
+.match-simulation__decision-context {
+  margin: 0 0 0.85rem;
+  line-height: 1.55;
+}
+
+.match-simulation__decision-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.match-simulation__phase-result {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.match-simulation__phase-result--win {
+  border: 1px solid rgba(200, 170, 110, 0.35);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.match-simulation__phase-result--loss {
+  border: 1px solid rgba(200, 75, 75, 0.35);
+  background: rgba(200, 75, 75, 0.08);
+}
+
+.match-simulation__decision-choice {
+  font-weight: 600;
+  color: var(--lol-gold);
+}
+
+.match-simulation__event--decision,
+.match-simulation__event--phase-result {
+  border-left: 3px solid rgba(200, 170, 110, 0.55);
+  padding-left: 0.75rem;
+}
+
 @keyframes worlds-event-in {
   from {
     opacity: 0;
@@ -4764,6 +4855,18 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.match-intro__coach-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--lol-gold);
+  background: linear-gradient(180deg, #1a2744, #0d1528);
 }
 
 /* ========== WORLDS BRAND & CHAMP SELECT THEME ========== */
@@ -5172,18 +5275,6 @@ button {
   .worlds-cs-header__matchup {
     font-size: 0.68rem;
     text-align: center;
-  }
-
-  .worlds-coach .bot-vn__sprite,
-  .worlds-coach .worlds-coach__sprite {
-    display: block !important;
-    max-height: min(160px, 24vh);
-    transform: translateX(-50%);
-    left: 50%;
-  }
-
-  .worlds-coach .bot-vn__stage {
-    min-height: 160px;
   }
 
   .worlds-coach .bot-vn__box {

@@ -1,5 +1,11 @@
 import type { DraftPick, Role } from "../types/draft";
-import type { MatchSimulationResult, WorldsRoster, WorldsStartResponse } from "../types/worlds";
+import type {
+  MatchSimulationResolveResponse,
+  MatchSimulationResult,
+  MatchSimulationStartResponse,
+  WorldsRoster,
+  WorldsStartResponse,
+} from "../types/worlds";
 import type { PredictionMode, PredictResponse, SuggestBanResponse, SuggestPickResponse, SuggestRetrospectiveBanResponse, SuggestRetrospectivePickResponse } from "../types/predict";
 import { fetchChampionPositionsFromMeraki } from "../utils/championPositions";
 
@@ -391,6 +397,68 @@ export async function worldsDraftBotMove(
   );
 }
 
+function buildSimulationPredictionSnapshot(prediction: PredictResponse) {
+  return {
+    blue_win_probability: prediction.blue_win_probability,
+    bot_lane_matchup: prediction.bot_lane_matchup ?? null,
+    jungle_support_matchup: prediction.jungle_support_matchup ?? null,
+    blue: {
+      score_final: prediction.blue.score_final,
+      score_synergie: prediction.blue.score_synergie,
+      champions: prediction.blue.champions,
+    },
+    red: {
+      score_final: prediction.red.score_final,
+      score_synergie: prediction.red.score_synergie,
+      champions: prediction.red.champions,
+    },
+  };
+}
+
+export async function startWorldsSimulation(
+  playerSide: "blue" | "red",
+  playerTeamName: string,
+  opponentTeamName: string,
+  prediction: PredictResponse,
+  opponentTeamId?: string,
+  playerRoster?: WorldsRoster,
+  opponentRoster?: WorldsRoster,
+): Promise<MatchSimulationStartResponse> {
+  return postJson<MatchSimulationStartResponse>(
+    "/worlds/simulate-match",
+    {
+      action: "start",
+      player_side: playerSide,
+      player_team_name: playerTeamName,
+      opponent_team_name: opponentTeamName,
+      draft_blue_win_probability: prediction.blue_win_probability,
+      prediction: buildSimulationPredictionSnapshot(prediction),
+      opponent_team_id: opponentTeamId,
+      player_roster: playerRoster,
+      opponent_roster: opponentRoster,
+    },
+    "Impossible de démarrer la simulation",
+  );
+}
+
+export async function resolveWorldsSimulationPhase(
+  simulationId: string,
+  phase: "early" | "mid",
+  choice: "engage" | "temporize",
+): Promise<MatchSimulationResolveResponse> {
+  return postJson<MatchSimulationResolveResponse>(
+    "/worlds/simulate-match",
+    {
+      action: "resolve",
+      simulation_id: simulationId,
+      phase,
+      choice,
+    },
+    "Impossible de résoudre la phase de simulation",
+  );
+}
+
+/** @deprecated Utiliser startWorldsSimulation + resolveWorldsSimulationPhase. */
 export async function simulateWorldsMatch(
   playerSide: "blue" | "red",
   playerTeamName: string,
@@ -400,17 +468,79 @@ export async function simulateWorldsMatch(
   playerRoster?: WorldsRoster,
   opponentRoster?: WorldsRoster,
 ): Promise<MatchSimulationResult> {
-  return postJson<MatchSimulationResult>(
-    "/worlds/simulate-match",
+  const started = await startWorldsSimulation(
+    playerSide,
+    playerTeamName,
+    opponentTeamName,
     {
-      player_side: playerSide,
-      player_team_name: playerTeamName,
-      opponent_team_name: opponentTeamName,
-      draft_blue_win_probability: draftBlueWinProbability,
-      opponent_team_id: opponentTeamId,
-      player_roster: playerRoster,
-      opponent_roster: opponentRoster,
+      blue_win_probability: draftBlueWinProbability,
+      red_win_probability: 1 - draftBlueWinProbability,
+      blue: {
+        score_final: 0,
+        score_synergie: 0.5,
+        score_synergie_brut: 0.5,
+        score_force: null,
+        champions: [],
+        attribute_profile: {
+          damage_mean: 0,
+          toughness_mean: 0,
+          control_mean: 0,
+          mobility_mean: 0,
+          utility_mean: 0,
+        },
+        meraki_roles: [],
+        synergy_insight: {
+          contributions: [],
+          top_contributor: { champion: "", role: "TOP", marginal_points: 0 },
+          least_contributor: { champion: "", role: "TOP", marginal_points: 0 },
+        },
+      },
+      red: {
+        score_final: 0,
+        score_synergie: 0.5,
+        score_synergie_brut: 0.5,
+        score_force: null,
+        champions: [],
+        attribute_profile: {
+          damage_mean: 0,
+          toughness_mean: 0,
+          control_mean: 0,
+          mobility_mean: 0,
+          utility_mean: 0,
+        },
+        meraki_roles: [],
+        synergy_insight: {
+          contributions: [],
+          top_contributor: { champion: "", role: "TOP", marginal_points: 0 },
+          least_contributor: { champion: "", role: "TOP", marginal_points: 0 },
+        },
+      },
+      differential: {
+        damage_mean: 0,
+        toughness_mean: 0,
+        control_mean: 0,
+        mobility_mean: 0,
+        utility_mean: 0,
+      },
+      warnings: [],
     },
-    "Simulation de match impossible",
+    opponentTeamId,
+    playerRoster,
+    opponentRoster,
   );
+  await resolveWorldsSimulationPhase(started.simulation_id, "early", "engage");
+  const final = await resolveWorldsSimulationPhase(started.simulation_id, "mid", "engage");
+  return {
+    player_wins: Boolean(final.player_wins),
+    player_win_probability: final.player_win_probability ?? started.player_win_probability,
+    draft_blue_win_probability:
+      final.draft_blue_win_probability ?? started.draft_blue_win_probability,
+    winner_side: final.winner_side ?? "blue",
+    winner_team_name: final.winner_team_name ?? playerTeamName,
+    loser_team_name: final.loser_team_name ?? opponentTeamName,
+    blue_win_probability: final.blue_win_probability ?? draftBlueWinProbability,
+    events: final.events ?? [],
+    game_length_minutes: final.game_length_minutes ?? 38,
+    phases_won: final.phases_won,
+  };
 }

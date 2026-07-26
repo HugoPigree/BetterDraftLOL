@@ -33,7 +33,7 @@ from suggest_draft import (
 )
 from meta_status import get_meta_status
 from bot_speech_builder import build_bot_explanation_steps
-from match_simulator import simulate_match
+from match_simulator import resolve_simulation_phase, simulate_match, start_simulation
 from player_signatures import get_player_signatures
 from team_draft_bot import choose_team_bot_action, warmup_worlds_draft_bot
 from worlds_teams import build_player_team, create_bracket, load_pro_teams, pick_opponent_teams
@@ -396,11 +396,24 @@ class WorldsTeamDraftBotRequest(DraftBotMoveRequest):
     team_roster: WorldsRosterInput
 
 
+class WorldsPredictionSnapshot(BaseModel):
+    blue_win_probability: float = Field(ge=0.0, le=1.0)
+    bot_lane_matchup: dict[str, Any] | None = None
+    jungle_support_matchup: dict[str, Any] | None = None
+    blue: dict[str, Any] = Field(default_factory=dict)
+    red: dict[str, Any] = Field(default_factory=dict)
+
+
 class WorldsSimulateMatchRequest(BaseModel):
-    player_side: Literal["blue", "red"]
-    player_team_name: str = Field(min_length=1)
-    opponent_team_name: str = Field(min_length=1)
-    draft_blue_win_probability: float = Field(ge=0.0, le=1.0)
+    action: Literal["start", "resolve"] = "start"
+    simulation_id: str | None = None
+    phase: Literal["early", "mid"] | None = None
+    choice: Literal["engage", "temporize"] | None = None
+    player_side: Literal["blue", "red"] = "blue"
+    player_team_name: str = Field(default="", min_length=0)
+    opponent_team_name: str = Field(default="", min_length=0)
+    draft_blue_win_probability: float = Field(default=0.5, ge=0.0, le=1.0)
+    prediction: WorldsPredictionSnapshot | None = None
     opponent_team_id: str | None = None
     player_roster: WorldsRosterInput | None = None
     opponent_roster: WorldsRosterInput | None = None
@@ -759,6 +772,30 @@ def create_app() -> FastAPI:
     async def worlds_simulate_match_endpoint(
         request: WorldsSimulateMatchRequest,
     ) -> dict[str, Any]:
+        if request.action == "resolve":
+            if not request.simulation_id or not request.phase or not request.choice:
+                raise HTTPException(
+                    status_code=400,
+                    detail="simulation_id, phase et choice sont requis pour action=resolve.",
+                )
+            try:
+                return resolve_simulation_phase(
+                    simulation_id=request.simulation_id,
+                    phase=request.phase,
+                    choice=request.choice,
+                )
+            except ValueError as exc:
+                raise HTTPException(status_code=400, detail=str(exc)) from exc
+            except Exception as exc:
+                logger.exception("Erreur interne pendant worlds/simulate-match resolve")
+                raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+        if not request.player_team_name.strip() or not request.opponent_team_name.strip():
+            raise HTTPException(
+                status_code=400,
+                detail="player_team_name et opponent_team_name sont requis pour action=start.",
+            )
+
         opponent_power = 0.55
         opponent_roster: dict[str, str] | None = None
         player_roster: dict[str, str] | None = None
@@ -777,12 +814,25 @@ def create_app() -> FastAPI:
                         opponent_roster = opponent.get("roster")
             except FileNotFoundError:
                 pass
+
+        prediction_payload = (
+            request.prediction.model_dump()
+            if request.prediction
+            else {
+                "blue_win_probability": request.draft_blue_win_probability,
+                "bot_lane_matchup": None,
+                "jungle_support_matchup": None,
+                "blue": {"score_final": 0.0, "score_synergie": 0.5},
+                "red": {"score_final": 0.0, "score_synergie": 0.5},
+            }
+        )
         try:
-            return simulate_match(
+            return start_simulation(
                 player_side=request.player_side,
-                player_team_name=request.player_team_name,
-                opponent_team_name=request.opponent_team_name,
+                player_team_name=request.player_team_name.strip(),
+                opponent_team_name=request.opponent_team_name.strip(),
                 draft_blue_win_prob=request.draft_blue_win_probability,
+                prediction=prediction_payload,
                 player_roster=player_roster,
                 opponent_roster=opponent_roster,
                 player_roster_power=0.5,
@@ -790,7 +840,7 @@ def create_app() -> FastAPI:
                 seed=request.seed,
             )
         except Exception as exc:
-            logger.exception("Erreur interne pendant worlds/simulate-match")
+            logger.exception("Erreur interne pendant worlds/simulate-match start")
             raise HTTPException(status_code=500, detail=str(exc)) from exc
 
     @app.post("/ask-chatbot-rules", response_model=AskChatbotRulesResponse)

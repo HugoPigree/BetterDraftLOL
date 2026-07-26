@@ -106,7 +106,14 @@ export function WorldsMatchOutcome({
                     {matchHistory.simulation.events.map((event, index) => (
                       <li key={`${event.minute}-${index}`}>
                         <span>{event.minute}:00</span>
-                        <p>{event.text}</p>
+                        <p>
+                          {event.text ??
+                            event.explanation_text ??
+                            event.context_text ??
+                            (event.type === "decision"
+                              ? `Décision : ${event.player_choice ?? "?"}`
+                              : "")}
+                        </p>
                       </li>
                     ))}
                   </ol>

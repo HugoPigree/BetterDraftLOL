@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTypewriter } from "../hooks/useTypewriter";
 import type { Team } from "../types/draft";
 import type { WorldsTeam } from "../types/worlds";
@@ -18,6 +19,12 @@ export function WorldsCoachPanel({
 }: WorldsCoachPanelProps) {
   const { displayed, isComplete, skip } = useTypewriter(line, 22);
   const portrait = coachPortraitUrl(opponent);
+  const [imageFailed, setImageFailed] = useState(false);
+  const showPortrait = portrait && !imageFailed;
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [opponent.id, portrait]);
 
   if (!visible || !line) {
     return null;
@@ -31,12 +38,13 @@ export function WorldsCoachPanel({
     >
       <div className="bot-vn__stage">
         <div className="worlds-coach__sprite-wrap">
-          {portrait ? (
+          {showPortrait ? (
             <img
               className="bot-vn__sprite worlds-coach__sprite"
               src={portrait}
               alt={`Coach ${opponent.coach}`}
               draggable={false}
+              onError={() => setImageFailed(true)}
             />
           ) : (
             <div className="worlds-coach__sprite-fallback" aria-hidden="true">

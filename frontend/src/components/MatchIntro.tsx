@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { BracketMatch, WorldsTeam } from "../types/worlds";
 import { coachPortraitUrl } from "../utils/worldsCoachDialogue";
 import { WorldsBrand } from "./WorldsBrand";
@@ -12,10 +13,17 @@ interface MatchIntroProps {
 
 function CoachPortrait({ team }: { team: WorldsTeam }) {
   const portrait = coachPortraitUrl(team);
+  const [imageFailed, setImageFailed] = useState(false);
+  const showPortrait = portrait && !imageFailed;
+
   return (
     <div className="match-intro__coach-portrait">
-      {portrait ? (
-        <img src={portrait} alt={`Coach ${team.coach}`} />
+      {showPortrait ? (
+        <img
+          src={portrait}
+          alt={`Coach ${team.coach}`}
+          onError={() => setImageFailed(true)}
+        />
       ) : (
         <div className="match-intro__coach-fallback">{team.coach.slice(0, 1)}</div>
       )}

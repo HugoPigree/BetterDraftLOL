@@ -23,8 +23,14 @@ describe("mobile layout CSS contract", () => {
     expect(mobile).not.toMatch(/\.app-shell--bot-vn \.bot-vn\s*\{[^}]*position:\s*fixed/s);
   });
 
-  it("hides the Rival sprite on phone", () => {
-    expect(media860()).toMatch(/\.bot-vn__sprite\s*\{[^}]*display:\s*none/s);
+  it("hides the Rival sprite on phone but keeps Worlds coach portraits", () => {
+    const mobile = media860();
+    expect(mobile).toMatch(
+      /\.bot-vn:not\(\.worlds-coach\) \.bot-vn__sprite\s*\{[^}]*display:\s*none/s,
+    );
+    expect(mobile).toMatch(
+      /\.worlds-coach \.bot-vn__sprite[\s\S]*?display:\s*block !important/s,
+    );
   });
 
   it("gives the champion pool the flexible row in draft mode", () => {
