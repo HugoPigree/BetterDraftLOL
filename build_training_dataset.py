@@ -47,6 +47,8 @@ NAME_MAPPING: dict[str, str] = {
     "Bel'Veth": "Belveth",
     "Kog'Maw": "KogMaw",
     "Tahm Kench": "TahmKench",
+    "K'Sante": "KSante",
+    "KSante": "KSante",
 }
 
 

@@ -21,6 +21,7 @@ from suggest_draft import (
     PredictionMode,
     TeamSide,
     get_champion_role_catalog,
+    is_champion_in_meta_pool_for_role,
     soft_assign_roles,
 )
 
@@ -54,8 +55,11 @@ def _maybe_signature_pick(
     player: str,
     available_champions: list[str],
     reserved: set[str],
+    patch: str,
+    catalog: dict[str, list[str]],
     rng: random.Random,
 ) -> dict[str, Any] | None:
+    """Signature pick optionnelle — uniquement si le champion est dans le pool meta pro."""
     signatures = get_player_signatures(player, role, top_n=6)
     for signature in signatures:
         if signature.pick_rate < SIGNATURE_PICK_RATE_THRESHOLD:
@@ -64,6 +68,8 @@ def _maybe_signature_pick(
         if champion.casefold() in reserved:
             continue
         if champion not in available_champions:
+            continue
+        if not is_champion_in_meta_pool_for_role(champion, role, catalog, patch):
             continue
         if rng.random() > SIGNATURE_PICK_CHANCE:
             continue
@@ -132,9 +138,17 @@ def choose_team_bot_action(
     seed: int | None = None,
     fast: bool = True,
 ) -> dict[str, Any]:
-    """Draft bot Worlds : signatures + fallback rapide (sans ML lourde)."""
+    """Draft bot Worlds — même pipeline ML que Draft vs Bot (suggest_bot_pick / suggest_ban).
+
+    ``fast=True`` (défaut prod) n'active plus de chemin alphabétique : il garde le flag
+    pour compatibilité API. Seule exception : signature pick joueur (~38%) si le champion
+    est dans le pool meta pro filtré (>= MIN_GAMES_EXCLUSION).
+    """
+    del fast  # conservé pour compat API ; le pipeline ML complet est toujours utilisé
+
     if action_type == "pick" and team_roster:
         rng = random.Random(seed)
+        catalog = get_champion_role_catalog()
         reserved = {
             str(slot.get("champion", "")).strip().casefold()
             for slot in bot_picks + opponent_picks
@@ -152,16 +166,12 @@ def choose_team_bot_action(
                 player=player,
                 available_champions=pool,
                 reserved=reserved,
+                patch=patch.strip(),
+                catalog=catalog,
                 rng=rng,
             )
             if signature_move:
                 return signature_move
-
-    if fast:
-        if action_type == "ban":
-            return _fast_bot_ban(bot_picks, opponent_picks, available_champions)
-        if action_type == "pick":
-            return _fast_bot_pick(bot_picks, opponent_picks, available_champions)
 
     return choose_bot_action(
         action_type=action_type,

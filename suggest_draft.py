@@ -20,6 +20,7 @@ from predict_draft import (
     get_meraki_context,
     get_side_bonuses,
     predict_draft,
+    predict_matchup_win_probability,
     resolve_soloq_champion_name,
     score_diff_to_probabilities,
     warmup_predict_caches,
@@ -32,7 +33,7 @@ from pro_force import (
     get_meta_pool_for_role,
     pro_meta_score,
 )
-from build_duo_dataset import get_duo_score
+from build_duo_dataset import get_duo_score, lookup_solo_lane_matchup, SEUIL_MIN_GAMES
 from composition_archetype import compute_composition_archetype, score_archetype_coherence
 from bot_speech_builder import generate_bot_ban_reason, generate_bot_pick_reason
 from draft_profiling import (
@@ -160,16 +161,29 @@ def soft_assign_roles(
     ]
 
 
+_champion_role_catalog_cache: dict[str, list[str]] | None = None
+
+
+def reset_suggest_draft_caches() -> None:
+    global _champion_role_catalog_cache
+    _champion_role_catalog_cache = None
+
+
 def get_champion_role_catalog() -> dict[str, list[str]]:
+    global _champion_role_catalog_cache
+    if _champion_role_catalog_cache is not None:
+        return _champion_role_catalog_cache
+
     from champion_catalog import build_api_position_catalog, load_unified_champions
 
     with profile_step("get_champion_role_catalog"):
         champions = load_unified_champions()
         catalog = build_api_position_catalog(champions)
-    return {
+    _champion_role_catalog_cache = {
         name: [role for role in positions if role in VALID_ROLES]
         for name, positions in catalog.items()
     }
+    return _champion_role_catalog_cache
 
 
 def champions_playable_on_role(
@@ -691,8 +705,20 @@ BOT_CANDIDATES_PER_ROLE = 16
 # Softmax pick diversity : plus bas = proche du deterministe, plus haut = plus de variety.
 # 0.3 laissait Ashe ~75% / Nocturne ~91% (scores serrés ~90-100 => exp(score/T) trop peaked).
 # 1.0 retenu apres 90 sims (3 seeds) : Ashe ~40%, Bard ~47%, Nocturne ~70%, 4-10 champs/rôle.
-# 1.25 + two-stage + pénalités présence/duo pour limiter le spam meta (#1 systématique).
+# 1.25 + pénalités présence/duo pour limiter le spam meta (#1 systématique).
 TEMPERATURE_BOT_PICK = 1.25
+# Troncature avant softmax : écart max vs #1 (fraction du score du meilleur).
+SOFTMAX_MAX_SCORE_GAP_FRACTION = 0.08
+# Probabilité softmax minimale pour rester dans le pool tiré.
+SOFTMAX_MIN_CANDIDATE_PROB = 0.05
+# Bonus matchups 2v2 déjà calculés dans predict_draft (affichage → décision).
+MATCHUP_SELECTION_SCALE = 40.0
+# Bonus anti-dive quand l'adversaire est engage fort / peel faible.
+OPPONENT_DIVE_ENGAGE_THRESHOLD = 0.32
+OPPONENT_LOW_PEEL_THRESHOLD = 0.24
+OPPONENT_STYLE_COUNTER_SCALE = 18.0
+# Greedy adversaire simulé dès que l'adversaire a locké au moins 1 pick.
+OPPONENT_GREEDY_MIN_DRAFT_DEPTH = 3
 PRO_BOT_SYNERGY_WEIGHT = 0.38
 PRO_BOT_DUO_WEIGHT = 0.22
 PRO_BOT_META_WEIGHT = 0.18
@@ -711,11 +737,15 @@ DUO_DENIAL_BAN_WEIGHT = 5.0
 PAIR_PLANNING_PARTNERS = 4
 PAIR_PLANNING_SCALE = 2.8
 COMP_DIRECTION_SCALE = 22.0
-META_DIVERSITY_THRESHOLD = 0.68
-META_DIVERSITY_PENALTY = 16.0
-META_DIVERSITY_SCORE_WINDOW = 8.0
-PRESENCE_SPAM_THRESHOLD = 0.06
-PRESENCE_SPAM_PENALTY = 18.0
+META_DIVERSITY_THRESHOLD = 0.62
+META_DIVERSITY_PENALTY = 22.0
+META_DIVERSITY_SCORE_WINDOW = 10.0
+PRESENCE_SPAM_THRESHOLD = 0.05
+PRESENCE_SPAM_PENALTY = 26.0
+META_POOL_LEADER_PENALTY = 14.0
+SOLO_LANE_COUNTER_SCALE = 35.0
+SOLO_LANE_MIN_GAMES = SEUIL_MIN_GAMES
+OPPONENT_POKE_ENGAGE_THRESHOLD = 0.28
 MAX_COMBINED_DUO_BONUS = 18.0
 OPPONENT_GREEDY_CANDIDATES = 3
 BAN_BOT_WIN_BLEND = 0.40
@@ -864,7 +894,11 @@ def build_opponent_simulation_team(
         return team if len(team) == 5 else None
 
     opponent_locked = len(slots_to_team(opponent_partial))
-    if mode != "pro" or opponent_locked < 1 or draft_depth < 5:
+    if (
+        mode != "pro"
+        or opponent_locked < 1
+        or draft_depth < OPPONENT_GREEDY_MIN_DRAFT_DEPTH
+    ):
         return build_team_with_meta_fillers(
             partial_picks=opponent_partial,
             remaining_roles=remaining,
@@ -873,6 +907,7 @@ def build_opponent_simulation_team(
             reserved=reserved,
             patch=patch,
             mode=mode,
+            archetype_context=[slot["champion"] for slot in bot_full],
         )
 
     greedy_role = _opponent_priority_role(bot_full, remaining)
@@ -1213,6 +1248,8 @@ def build_team_with_meta_fillers(
     reserved: set[str],
     patch: str,
     mode: PredictionMode,
+    *,
+    archetype_context: list[str] | None = None,
 ) -> list[dict[str, str]] | None:
     """Complète une draft partielle avec des champions meta plutôt qu'alphabétiques."""
     team = slots_to_team(partial_picks)
@@ -1221,7 +1258,9 @@ def build_team_with_meta_fillers(
     used = set(reserved)
     used.update(name.casefold() for name in picked.values())
 
-    team_champions = [picked[r] for r in ROLES_ORDER if r in picked]
+    team_champions = list(archetype_context or [])
+    if not team_champions:
+        team_champions = [picked[r] for r in ROLES_ORDER if r in picked]
     for role in roles_to_fill:
         if role in picked:
             continue
@@ -1358,26 +1397,28 @@ def _simulate_bot_team_win_probability(
     mode: PredictionMode,
     *,
     draft_depth: int = 0,
+    opponent_full: list[dict[str, str]] | None = None,
 ) -> float | None:
-    used_for_opp = reserved | {slot["champion"].casefold() for slot in bot_full}
-    opponent_full = build_opponent_simulation_team(
-        bot_full=bot_full,
-        opponent_partial=opponent_partial,
-        opponent_remaining=opponent_remaining,
-        catalog=catalog,
-        available_champions=pool,
-        reserved=used_for_opp,
-        team_side=team_side,
-        patch=patch,
-        mode=mode,
-        draft_depth=draft_depth,
-    )
     if opponent_full is None:
-        return None
+        used_for_opp = reserved | {slot["champion"].casefold() for slot in bot_full}
+        opponent_full = build_opponent_simulation_team(
+            bot_full=bot_full,
+            opponent_partial=opponent_partial,
+            opponent_remaining=opponent_remaining,
+            catalog=catalog,
+            available_champions=pool,
+            reserved=used_for_opp,
+            team_side=team_side,
+            patch=patch,
+            mode=mode,
+            draft_depth=draft_depth,
+        )
+        if opponent_full is None:
+            return None
 
     mod_blue, mod_red = build_matchup_teams(bot_full, opponent_full, team_side)
-    result = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
-    return team_side_win_probability(result, team_side)
+    blue_prob, red_prob = predict_matchup_win_probability(mod_blue, mod_red, patch=patch, mode=mode)
+    return blue_prob if team_side == "blue" else red_prob
 
 
 def _duo_pair_planning_bonus(
@@ -1393,6 +1434,9 @@ def _duo_pair_planning_bonus(
     team_side: TeamSide,
     patch: str,
     mode: PredictionMode,
+    *,
+    baseline_win_prob: float | None = None,
+    draft_depth: int = 0,
 ) -> float:
     """Bonus si le candidat s'inscrit dans la meilleure paire duo planifiée (2 picks)."""
     if mode != "pro" or len(bot_partial) < 1:
@@ -1431,21 +1475,24 @@ def _duo_pair_planning_bonus(
     )
     if single_full is None:
         return 0.0
-    draft_depth = len(bot_partial) + len(opponent_partial)
-    single_win = _simulate_bot_team_win_probability(
-        single_full,
-        opponent_partial,
-        opponent_remaining,
-        pool,
-        catalog,
-        single_reserved,
-        team_side,
-        patch,
-        mode,
-        draft_depth=draft_depth,
-    )
-    if single_win is None:
-        return 0.0
+
+    if baseline_win_prob is not None:
+        single_win = baseline_win_prob
+    else:
+        single_win = _simulate_bot_team_win_probability(
+            single_full,
+            opponent_partial,
+            opponent_remaining,
+            pool,
+            catalog,
+            single_reserved,
+            team_side,
+            patch,
+            mode,
+            draft_depth=draft_depth,
+        )
+        if single_win is None:
+            return 0.0
 
     for partner_role in pair_roles:
         partners = _bot_meta_pool_for_role(
@@ -1487,43 +1534,148 @@ def _duo_pair_planning_bonus(
     return max(0.0, best_margin * 100.0 * PAIR_PLANNING_SCALE)
 
 
-def _comp_direction_alignment_bonus(team_champions: list[str], candidate: str) -> float:
-    """Renforce les picks qui prolongent la direction de compo déjà amorcée."""
-    if len(team_champions) < 2:
-        return 0.0
-
-    base = compute_composition_archetype(team_champions)
-    updated = compute_composition_archetype(team_champions + [candidate])
+def _comp_direction_alignment_bonus(
+    team_champions: list[str],
+    candidate: str,
+    opponent_champions: list[str] | None = None,
+) -> float:
+    """Renforce les picks qui prolongent la direction de compo ou counter le style adverse."""
     bonus = 0.0
+    team_so_far = list(team_champions)
+    if len(team_so_far) >= 2:
+        base = compute_composition_archetype(team_so_far)
+        updated = compute_composition_archetype(team_so_far + [candidate])
 
-    if base["engage_score"] >= 0.32:
-        bonus += max(0.0, updated["engage_score"] - base["engage_score"]) * COMP_DIRECTION_SCALE
-        if base["peel_score"] < 0.24:
+        if base["engage_score"] >= 0.32:
+            bonus += max(0.0, updated["engage_score"] - base["engage_score"]) * COMP_DIRECTION_SCALE
+            if base["peel_score"] < 0.24:
+                bonus += (
+                    max(0.0, updated["peel_score"] - base["peel_score"])
+                    * COMP_DIRECTION_SCALE
+                    * 1.15
+                )
+
+        if base["power_curve"] >= 0.06:
             bonus += (
-                max(0.0, updated["peel_score"] - base["peel_score"])
+                max(0.0, updated["power_curve"] - base["power_curve"])
                 * COMP_DIRECTION_SCALE
-                * 1.15
+                * 0.9
             )
 
-    if base["power_curve"] >= 0.06:
-        bonus += (
-            max(0.0, updated["power_curve"] - base["power_curve"])
-            * COMP_DIRECTION_SCALE
-            * 0.9
-        )
-
-    if float(base["damage_profile"]["damage_balance"]) < 0.52:
-        bonus += (
-            max(
-                0.0,
-                float(updated["damage_profile"]["damage_balance"])
-                - float(base["damage_profile"]["damage_balance"]),
+        if float(base["damage_profile"]["damage_balance"]) < 0.52:
+            bonus += (
+                max(
+                    0.0,
+                    float(updated["damage_profile"]["damage_balance"])
+                    - float(base["damage_profile"]["damage_balance"]),
+                )
+                * COMP_DIRECTION_SCALE
+                * 0.85
             )
-            * COMP_DIRECTION_SCALE
-            * 0.85
-        )
+
+    if opponent_champions:
+        opp = compute_composition_archetype(opponent_champions)
+        updated_team = compute_composition_archetype(team_so_far + [candidate])
+        base_team = compute_composition_archetype(team_so_far) if team_so_far else None
+
+        if (
+            opp["engage_score"] >= OPPONENT_DIVE_ENGAGE_THRESHOLD
+            and opp["peel_score"] < OPPONENT_LOW_PEEL_THRESHOLD
+        ):
+            peel_gain = (
+                updated_team["peel_score"] - (base_team["peel_score"] if base_team else 0.0)
+            )
+            bonus += max(0.0, peel_gain) * COMP_DIRECTION_SCALE * 1.25
+
+        if opp["engage_score"] >= OPPONENT_POKE_ENGAGE_THRESHOLD and opp["power_curve"] > 0.05:
+            control_gain = updated_team["engage_score"] - (
+                base_team["engage_score"] if base_team else 0.0
+            )
+            bonus += max(0.0, control_gain) * COMP_DIRECTION_SCALE * 0.75
 
     return bonus
+
+
+def _opponent_style_counter_bonus(
+    opponent_partial: list[dict[str, str]],
+    candidate: str,
+    mode: PredictionMode,
+) -> float:
+    """Bonus peel/disengage/zone quand l'adversaire est clairement dive/engage."""
+    if mode != "pro" or not opponent_partial:
+        return 0.0
+
+    opp_names = [slot["champion"] for slot in opponent_partial]
+    opp_arch = compute_composition_archetype(opp_names)
+    if opp_arch["engage_score"] < OPPONENT_DIVE_ENGAGE_THRESHOLD:
+        return 0.0
+    if opp_arch["peel_score"] >= OPPONENT_LOW_PEEL_THRESHOLD:
+        return 0.0
+
+    cand_arch = compute_composition_archetype([candidate])
+    peel = float(cand_arch["peel_score"])
+    control = float(cand_arch.get("engage_score", 0.0))
+    # Zone/disengage : peel élevé ou control élevé avec peel non nul.
+    disengage = max(peel, peel * 0.6 + min(control, 0.5))
+    if disengage < 0.18:
+        return 0.0
+    return disengage * OPPONENT_STYLE_COUNTER_SCALE
+
+
+def _matchup_selection_bonus(result: dict[str, Any], team_side: TeamSide) -> float:
+    """Intègre les deltas bot_lane / jungle_support (déjà dans predict_draft) au score bot."""
+    bonus = 0.0
+    for key in ("bot_lane_matchup", "jungle_support_matchup"):
+        matchup = result.get(key) or {}
+        if matchup.get("insufficient_data"):
+            continue
+        blue_prob = matchup.get("blue_win_probability")
+        if blue_prob is None:
+            continue
+        our_prob = float(blue_prob) if team_side == "blue" else 1.0 - float(blue_prob)
+        bonus += (our_prob - 0.5) * MATCHUP_SELECTION_SCALE
+    return bonus
+
+
+def _filter_softmax_candidates(
+    candidates: list[dict[str, Any]],
+    temperature: float,
+) -> list[dict[str, Any]]:
+    """Retire du pool de tirage les candidats trop loin du #1 (avant softmax)."""
+    if len(candidates) <= 1:
+        return candidates
+
+    max_score = max(float(item["selection_score"]) for item in candidates)
+    min_score = max_score * (1.0 - SOFTMAX_MAX_SCORE_GAP_FRACTION)
+    trimmed = [
+        item
+        for item in candidates
+        if float(item["selection_score"]) >= min_score - 1e-9
+    ]
+    if not trimmed:
+        best = max(candidates, key=lambda item: float(item["selection_score"]))
+        return [best]
+
+    if len(trimmed) <= 1:
+        return trimmed
+
+    temp = max(temperature, 1e-6)
+    weights = [
+        math.exp((float(item["selection_score"]) - max_score) / temp)
+        for item in trimmed
+    ]
+    total = sum(weights)
+    if total <= 0:
+        return trimmed
+
+    kept: list[dict[str, Any]] = []
+    for item, weight in zip(trimmed, weights, strict=True):
+        prob = weight / total
+        if prob >= SOFTMAX_MIN_CANDIDATE_PROB:
+            kept.append(item)
+    if kept:
+        return kept
+    return [trimmed[0]]
 
 
 def _opponent_lane_counter_bonus(
@@ -1532,13 +1684,19 @@ def _opponent_lane_counter_bonus(
     candidate_role: str,
     mode: PredictionMode,
 ) -> float:
-    """Favorise les picks qui counter le même rôle adverse en winrate pro."""
+    """Favorise les counters lane (Oracle solo) puis repli sur delta meta pro."""
     if mode != "pro":
         return 0.0
 
     opponent = _champion_for_role(opponent_partial, candidate_role)
     if not opponent:
         return 0.0
+
+    games, lane_wr = lookup_solo_lane_matchup(candidate, opponent, candidate_role)
+    if games >= SOLO_LANE_MIN_GAMES and lane_wr is not None:
+        margin = float(lane_wr) - 0.5
+        if margin > 0:
+            return margin * SOLO_LANE_COUNTER_SCALE
 
     ours = _pro_meta_score_for(candidate, candidate_role)
     theirs = _pro_meta_score_for(opponent, candidate_role)
@@ -1549,6 +1707,34 @@ def _opponent_lane_counter_bonus(
     if margin <= 0:
         return 0.0
     return margin * OPPONENT_COUNTER_SCALE
+
+
+def _meta_pool_leader_penalty(
+    champion: str,
+    role: str,
+    candidate_meta: float | None,
+    role_meta_scores: dict[str, float | None],
+    role_candidate_scores: list[float],
+) -> float:
+    """Pénalise le #1 meta du rôle quand plusieurs candidats sont proches en score total."""
+    if candidate_meta is None or len(role_candidate_scores) < 2:
+        return 0.0
+    if max(role_candidate_scores) - min(role_candidate_scores) > META_DIVERSITY_SCORE_WINDOW:
+        return 0.0
+
+    best_meta = max(
+        (score for score in role_meta_scores.values() if score is not None),
+        default=-1.0,
+    )
+    if candidate_meta < best_meta - 1e-9:
+        return 0.0
+    if candidate_meta < META_DIVERSITY_THRESHOLD:
+        return 0.0
+
+    row = lookup_meta_tierlist_row(champion, role)
+    presence = float(row.presence_score) if row is not None else 0.0
+    presence_factor = 1.0 + max(0.0, presence - PRESENCE_SPAM_THRESHOLD) * 4.0
+    return META_POOL_LEADER_PENALTY * presence_factor
 
 
 def _meta_diversity_penalty(
@@ -1642,6 +1828,8 @@ def _bot_pick_selection_score(
     archetype_score: float | None = None,
     *,
     weight_archetype: float | None = None,
+    matchup_bonus: float = 0.0,
+    opponent_style_bonus: float = 0.0,
 ) -> float:
     """Score de sélection : winrate + synergie ML + duos pro + meta + archétype."""
     win_prob = team_side_win_probability(result, team_side)
@@ -1665,6 +1853,8 @@ def _bot_pick_selection_score(
         score += locked_duo_bonus
         if archetype_score is not None:
             score += archetype_score * 100.0 * archetype_weight
+        score += matchup_bonus
+        score += opponent_style_bonus
 
         min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
         if locked_picks >= 1 and synergy < min_synergy:
@@ -1832,11 +2022,20 @@ def decompose_bot_candidate_score(
         if mode == "pro"
         else 0.0
     )
+    opp_names = [slot["champion"] for slot in opponent_partial]
     comp_direction_bonus = (
-        _comp_direction_alignment_bonus(team_so_far, candidate) if mode == "pro" else 0.0
+        _comp_direction_alignment_bonus(team_so_far, candidate, opp_names)
+        if mode == "pro"
+        else 0.0
     )
     opponent_counter_bonus = (
         _opponent_lane_counter_bonus(opponent_partial, candidate, candidate_role, mode)
+        if mode == "pro"
+        else 0.0
+    )
+    matchup_bonus = _matchup_selection_bonus(result, team_side) if mode == "pro" else 0.0
+    opponent_style_bonus = (
+        _opponent_style_counter_bonus(opponent_partial, candidate, mode)
         if mode == "pro"
         else 0.0
     )
@@ -1845,6 +2044,8 @@ def decompose_bot_candidate_score(
     selection_score += pair_planning_bonus
     selection_score += comp_direction_bonus
     selection_score += opponent_counter_bonus
+    selection_score += matchup_bonus
+    selection_score += opponent_style_bonus
 
     meta_diversity_penalty = 0.0
     presence_penalty = 0.0
@@ -1878,6 +2079,8 @@ def decompose_bot_candidate_score(
         "score_pair_planning": round(pair_planning_bonus, 2),
         "score_comp_direction": round(comp_direction_bonus, 2),
         "score_opponent_counter": round(opponent_counter_bonus, 2),
+        "score_matchup": round(matchup_bonus, 2),
+        "score_opponent_style": round(opponent_style_bonus, 2),
         "score_meta_diversity_penalty": round(meta_diversity_penalty, 2),
         "score_presence_penalty": round(presence_penalty, 2),
         "selection_score": round(selection_score, 2),
@@ -2077,32 +2280,6 @@ def _suggest_bot_pick_impl(
                         if mode == "pro"
                         else 0.0
                     )
-                    pair_planning_bonus = (
-                        _duo_pair_planning_bonus(
-                            bot_partial,
-                            candidate,
-                            role,
-                            bot_remaining,
-                            opponent_partial,
-                            opponent_remaining,
-                            pool,
-                            catalog,
-                            reserved,
-                            team_side,
-                            patch,
-                            mode,
-                        )
-                        if mode == "pro"
-                        else 0.0
-                    )
-                    if mode == "pro":
-                        locked_duo_bonus, lookahead_duo_bonus, pair_planning_bonus = (
-                            _cap_combined_duo_bonuses(
-                                locked_duo_bonus,
-                                lookahead_duo_bonus,
-                                pair_planning_bonus,
-                            )
-                        )
 
                 trial_reserved = reserved | {candidate.casefold()}
                 with profile_step("team_simulation"):
@@ -2142,9 +2319,47 @@ def _suggest_bot_pick_impl(
 
                 result = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
                 win_prob = team_side_win_probability(result, team_side)
+
+                with profile_step("pair_planning_bonus"):
+                    pair_planning_bonus = (
+                        _duo_pair_planning_bonus(
+                            bot_partial,
+                            candidate,
+                            role,
+                            bot_remaining,
+                            opponent_partial,
+                            opponent_remaining,
+                            pool,
+                            catalog,
+                            reserved,
+                            team_side,
+                            patch,
+                            mode,
+                            baseline_win_prob=win_prob,
+                            draft_depth=draft_depth,
+                        )
+                        if mode == "pro"
+                        else 0.0
+                    )
+                    if mode == "pro":
+                        locked_duo_bonus, lookahead_duo_bonus, pair_planning_bonus = (
+                            _cap_combined_duo_bonuses(
+                                locked_duo_bonus,
+                                lookahead_duo_bonus,
+                                pair_planning_bonus,
+                            )
+                        )
+
                 team_so_far = [slot["champion"] for slot in bot_partial]
                 with profile_step("archetype_scoring"):
                     archetype_score = score_archetype_coherence(team_so_far, candidate)
+                matchup_bonus = 0.0
+                opponent_style_bonus = 0.0
+                if mode == "pro":
+                    matchup_bonus = _matchup_selection_bonus(result, team_side)
+                    opponent_style_bonus = _opponent_style_counter_bonus(
+                        opponent_partial, candidate, mode
+                    )
                 selection_score = _bot_pick_selection_score(
                     result,
                     team_side,
@@ -2153,16 +2368,21 @@ def _suggest_bot_pick_impl(
                     candidate_meta=candidate_meta,
                     locked_duo_bonus=locked_duo_bonus,
                     archetype_score=archetype_score,
+                    matchup_bonus=matchup_bonus,
+                    opponent_style_bonus=opponent_style_bonus,
                 )
                 comp_direction_bonus = 0.0
                 opponent_counter_bonus = 0.0
+                opp_names = [slot["champion"] for slot in opponent_partial]
                 if mode == "pro":
                     selection_score += _bot_role_priority_bonus(
                         bot_partial, role, bot_remaining
                     )
                     selection_score += lookahead_duo_bonus
                     selection_score += pair_planning_bonus
-                    comp_direction_bonus = _comp_direction_alignment_bonus(team_so_far, candidate)
+                    comp_direction_bonus = _comp_direction_alignment_bonus(
+                        team_so_far, candidate, opp_names
+                    )
                     opponent_counter_bonus = _opponent_lane_counter_bonus(
                         opponent_partial, candidate, role, mode
                     )
@@ -2187,6 +2407,10 @@ def _suggest_bot_pick_impl(
                     if mode == "pro"
                     else 0.0,
                     "opponent_counter_bonus": round(opponent_counter_bonus, 2)
+                    if mode == "pro"
+                    else 0.0,
+                    "matchup_bonus": round(matchup_bonus, 2) if mode == "pro" else 0.0,
+                    "opponent_style_bonus": round(opponent_style_bonus, 2)
                     if mode == "pro"
                     else 0.0,
                 }
@@ -2214,6 +2438,9 @@ def _suggest_bot_pick_impl(
 
             if mode == "pro" and role_entries:
                 role_scores = [float(item["selection_score"]) for item in role_entries]
+                role_meta_scores = {
+                    str(item["champion"]): item.get("meta_score") for item in role_entries
+                }
                 for entry in role_entries:
                     entry["selection_score"] -= _meta_diversity_penalty(
                         entry.get("meta_score"),
@@ -2224,10 +2451,21 @@ def _suggest_bot_pick_impl(
                         entry["role"],
                         role_scores,
                     )
+                    entry["selection_score"] -= _meta_pool_leader_penalty(
+                        entry["champion"],
+                        entry["role"],
+                        entry.get("meta_score"),
+                        role_meta_scores,
+                        role_scores,
+                    )
             elif mode == "pro" and role_fallback_entries:
                 role_scores = [
                     float(item["selection_score"]) for item in role_fallback_entries
                 ]
+                role_meta_scores = {
+                    str(item["champion"]): item.get("meta_score")
+                    for item in role_fallback_entries
+                }
                 for entry in role_fallback_entries:
                     entry["selection_score"] -= _meta_diversity_penalty(
                         entry.get("meta_score"),
@@ -2236,6 +2474,13 @@ def _suggest_bot_pick_impl(
                     entry["selection_score"] -= _presence_repetition_penalty(
                         entry["champion"],
                         entry["role"],
+                        role_scores,
+                    )
+                    entry["selection_score"] -= _meta_pool_leader_penalty(
+                        entry["champion"],
+                        entry["role"],
+                        entry.get("meta_score"),
+                        role_meta_scores,
                         role_scores,
                     )
 
@@ -2247,7 +2492,8 @@ def _suggest_bot_pick_impl(
         return {"champion": None, "role": None, "win_probability": None}
 
     if mode == "pro":
-        chosen = _two_stage_weighted_bot_pick(pick_pool, TEMPERATURE_BOT_PICK, pick_rng)
+        filtered_pool = _filter_softmax_candidates(pick_pool, TEMPERATURE_BOT_PICK)
+        chosen = _weighted_bot_pick(filtered_pool, TEMPERATURE_BOT_PICK, pick_rng)
     else:
         chosen = max(pick_pool, key=lambda item: item["selection_score"])
 

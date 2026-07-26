@@ -23,6 +23,13 @@ DUO_JUNGLE_SUPPORT_CSV = DATA_DIR / "duo_jungle_support.csv"
 DUO_BOT_LANE_CSV = DATA_DIR / "duo_bot_lane.csv"
 BOT_LANE_MATCHUP_CSV = DATA_DIR / "bot_lane_matchup.csv"
 JUNGLE_SUPPORT_MATCHUP_CSV = DATA_DIR / "jungle_support_matchup.csv"
+SOLO_LANE_MATCHUP_CSV = DATA_DIR / "solo_lane_matchup.csv"
+
+SOLO_LANE_POSITIONS = {
+    "top": "TOP",
+    "jng": "JUNGLE",
+    "mid": "MIDDLE",
+}
 
 PLAYER_POSITIONS = {"top", "jng", "mid", "bot", "sup"}
 DuoType = Literal["jungle_support", "bot_lane"]
@@ -38,9 +45,12 @@ _duo_tables: dict[DuoType, pd.DataFrame | None] = {
 }
 _matchup_table: pd.DataFrame | None = None
 _js_matchup_table: pd.DataFrame | None = None
+_solo_lane_matchup_table: pd.DataFrame | None = None
 _champion_features: dict[str, dict[str, Any]] | None = None
 _champion_positions: dict[str, set[str]] | None = None
 _lookup_by_norm: dict[str, str] | None = None
+_oracle_players_df: pd.DataFrame | None = None
+_oracle_players_path: Path | None = None
 
 
 @dataclass(frozen=True)
@@ -76,25 +86,37 @@ def normalize_duo_pair(champion_a: str, champion_b: str) -> tuple[str, str]:
 
 
 def load_player_rows(oracle_csv: Path) -> pd.DataFrame:
-    from draft_profiling import current_profile, profile_step, record_data_load
+    from draft_profiling import profile_step, record_data_load
+
+    global _oracle_players_df, _oracle_players_path
+    if _oracle_players_df is not None and _oracle_players_path == oracle_csv:
+        record_data_load("oracle_csv_players", hit=True)
+        return _oracle_players_df
 
     logging.info("Chargement Oracle's Elixir: %s", oracle_csv)
     start = time.perf_counter()
     with profile_step("load_oracle_csv_players"):
         df = pd.read_csv(oracle_csv, low_memory=False)
-    if current_profile() is not None:
-        record_data_load(
-            "oracle_csv_players",
-            hit=False,
-            duration_ms=(time.perf_counter() - start) * 1000,
-            detail=str(oracle_csv),
-        )
+    record_data_load(
+        "oracle_csv_players",
+        hit=False,
+        duration_ms=(time.perf_counter() - start) * 1000,
+        detail=str(oracle_csv),
+    )
     players = df[
         (df["datacompleteness"] == "complete")
         & (df["position"].isin(PLAYER_POSITIONS))
     ].copy()
     logging.info("%d lignes joueur (complete)", len(players))
+    _oracle_players_df = players
+    _oracle_players_path = oracle_csv
     return players
+
+
+def reset_oracle_player_rows_cache() -> None:
+    global _oracle_players_df, _oracle_players_path
+    _oracle_players_df = None
+    _oracle_players_path = None
 
 
 def build_duo_records(players: pd.DataFrame) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -243,6 +265,62 @@ def aggregate_bot_lane_matchups(records: list[dict[str, Any]]) -> pd.DataFrame:
         ["games", "blue_adc", "blue_sup", "red_adc", "red_sup"],
         ascending=[False, True, True, True, True],
     )
+
+
+def build_solo_lane_matchup_records(players: pd.DataFrame) -> list[dict[str, Any]]:
+    pivot = players.pivot_table(
+        index=["gameid", "side"],
+        columns="position",
+        values="champion",
+        aggfunc="first",
+    )
+    results = players.groupby(["gameid", "side"], sort=False)["result"].first()
+    records: list[dict[str, Any]] = []
+
+    for gameid in pivot.index.get_level_values("gameid").unique():
+        try:
+            blue_row = pivot.loc[(gameid, "Blue")]
+            red_row = pivot.loc[(gameid, "Red")]
+            blue_win = int(results.loc[(gameid, "Blue")])
+        except KeyError:
+            continue
+
+        if len(blue_row.dropna()) != 5 or len(red_row.dropna()) != 5:
+            continue
+
+        for position, role in SOLO_LANE_POSITIONS.items():
+            blue_champion = str(blue_row.get(position, "")).strip()
+            red_champion = str(red_row.get(position, "")).strip()
+            if not blue_champion or not red_champion:
+                continue
+            records.append(
+                {
+                    "blue_champion": blue_champion,
+                    "red_champion": red_champion,
+                    "role": role,
+                    "blue_win": blue_win,
+                }
+            )
+
+    logging.info("Matchups solo lane extraits: %d lignes", len(records))
+    return records
+
+
+def aggregate_solo_lane_matchups(records: list[dict[str, Any]]) -> pd.DataFrame:
+    if not records:
+        return pd.DataFrame(
+            columns=["blue_champion", "red_champion", "role", "games", "blue_winrate"]
+        )
+
+    df = pd.DataFrame(records)
+    grouped = df.groupby(
+        ["blue_champion", "red_champion", "role"],
+        as_index=False,
+    ).agg(
+        games=("blue_win", "count"),
+        blue_winrate=("blue_win", "mean"),
+    )
+    return grouped
 
 
 def aggregate_jungle_support_matchups(records: list[dict[str, Any]]) -> pd.DataFrame:
@@ -487,6 +565,54 @@ def lookup_jungle_support_matchup(
     return 0, None
 
 
+def load_solo_lane_matchup_table(csv_path: Path | None = None) -> pd.DataFrame:
+    global _solo_lane_matchup_table
+    if _solo_lane_matchup_table is not None:
+        return _solo_lane_matchup_table
+
+    path = csv_path or SOLO_LANE_MATCHUP_CSV
+    columns = ["blue_champion", "red_champion", "role", "games", "blue_winrate"]
+    if not path.exists():
+        _solo_lane_matchup_table = pd.DataFrame(columns=columns)
+        return _solo_lane_matchup_table
+
+    df = pd.read_csv(path)
+    _solo_lane_matchup_table = df
+    return df
+
+
+def lookup_solo_lane_matchup(
+    our_champion: str,
+    opponent_champion: str,
+    role: str,
+) -> tuple[int, float | None]:
+    """Winrate de notre champion quand il est côté blue vs l'adversaire (proxy lane)."""
+    df = load_solo_lane_matchup_table()
+    if df.empty:
+        return 0, None
+
+    role_upper = role.strip().upper()
+    exact = df[
+        (df["blue_champion"] == our_champion)
+        & (df["red_champion"] == opponent_champion)
+        & (df["role"] == role_upper)
+    ]
+    if not exact.empty:
+        row = exact.iloc[0]
+        return int(row["games"]), float(row["blue_winrate"])
+
+    flipped = df[
+        (df["blue_champion"] == opponent_champion)
+        & (df["red_champion"] == our_champion)
+        & (df["role"] == role_upper)
+    ]
+    if not flipped.empty:
+        row = flipped.iloc[0]
+        return int(row["games"]), round(1.0 - float(row["blue_winrate"]), 4)
+
+    return 0, None
+
+
 def _rating(champion: str, attribute: str) -> float:
     champion_features, lookup_by_norm = _ensure_meraki_context()
     meraki_key = btd.resolve_champion_name(champion, champion_features, lookup_by_norm)
@@ -622,11 +748,13 @@ def build_datasets(
     jungle_support_records, bot_lane_records = build_duo_records(players)
     bot_matchup_records = build_bot_lane_matchup_records(players)
     js_matchup_records = build_jungle_support_matchup_records(players)
+    solo_lane_records = build_solo_lane_matchup_records(players)
     jungle_support_df = aggregate_duos(jungle_support_records)
     bot_lane_df = aggregate_duos(bot_lane_records)
     bot_matchup_df = aggregate_bot_lane_matchups(bot_matchup_records)
     js_matchup_df = aggregate_jungle_support_matchups(js_matchup_records)
-    return jungle_support_df, bot_lane_df, bot_matchup_df, js_matchup_df
+    solo_lane_df = aggregate_solo_lane_matchups(solo_lane_records)
+    return jungle_support_df, bot_lane_df, bot_matchup_df, js_matchup_df, solo_lane_df
 
 
 def parse_args() -> argparse.Namespace:
@@ -660,7 +788,13 @@ def main() -> None:
         logging.error("Fichier Oracle introuvable: %s", args.oracle_csv)
         sys.exit(1)
 
-    jungle_support_df, bot_lane_df, bot_matchup_df, js_matchup_df = build_datasets(args.oracle_csv)
+    (
+        jungle_support_df,
+        bot_lane_df,
+        bot_matchup_df,
+        js_matchup_df,
+        solo_lane_df,
+    ) = build_datasets(args.oracle_csv)
     export_duo_table(jungle_support_df, DUO_JUNGLE_SUPPORT_CSV)
     export_duo_table(bot_lane_df, DUO_BOT_LANE_CSV)
     BOT_LANE_MATCHUP_CSV.parent.mkdir(parents=True, exist_ok=True)
@@ -671,6 +805,12 @@ def main() -> None:
         "Exporté: %s (%d matchups uniques)",
         JUNGLE_SUPPORT_MATCHUP_CSV,
         len(js_matchup_df),
+    )
+    solo_lane_df.to_csv(SOLO_LANE_MATCHUP_CSV, index=False)
+    logging.info(
+        "Exporté: %s (%d matchups solo lane uniques)",
+        SOLO_LANE_MATCHUP_CSV,
+        len(solo_lane_df),
     )
 
     js_reliable, js_fallback = log_duo_coverage(jungle_support_df, "Jungle-support")

@@ -178,6 +178,7 @@ def log_batch_summary(reports: list[ProfileReport], *, title: str) -> None:
     min_t = min(totals)
     max_t = max(totals)
     predict_calls = [r.counters.get("predict_draft_calls", 0) for r in reports]
+    matchup_calls = [r.counters.get("predict_matchup_calls", 0) for r in reports]
     miss_counts = [
         sum(value for key, value in r.counters.items() if key.startswith("cache_miss_"))
         for r in reports
@@ -192,6 +193,7 @@ def log_batch_summary(reports: list[ProfileReport], *, title: str) -> None:
         f"Temps total (ms) : min={min_t:.1f}  avg={avg:.1f}  max={max_t:.1f}  "
         f"écart={max_t - min_t:.1f}",
         f"predict_draft() / appel : min={min(predict_calls)}  avg={sum(predict_calls)/len(predict_calls):.1f}  max={max(predict_calls)}",
+        f"predict_matchup() / appel : min={min(matchup_calls)}  avg={sum(matchup_calls)/len(matchup_calls):.1f}  max={max(matchup_calls)}",
         f"Cache misses / appel : min={min(miss_counts)}  avg={sum(miss_counts)/len(miss_counts):.1f}  max={max(miss_counts)}",
         "",
         "Détail par appel :",
@@ -201,10 +203,11 @@ def log_batch_summary(reports: list[ProfileReport], *, title: str) -> None:
             value for key, value in report.counters.items() if key.startswith("cache_miss_")
         )
         pd_calls = report.counters.get("predict_draft_calls", 0)
+        matchup = report.counters.get("predict_matchup_calls", 0)
         pd_ms = report.steps_ms.get("predict_draft_inner", 0)
         lines.append(
             f"  #{index}: {total:7.1f} ms | predict_draft x{pd_calls} ({pd_ms:.1f} ms) | "
-            f"cache_miss={misses} | {report.label}"
+            f"matchup x{matchup} | cache_miss={misses} | {report.label}"
         )
     lines.append("#" * 72)
     block = "\n".join(lines)

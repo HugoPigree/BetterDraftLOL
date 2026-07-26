@@ -12,7 +12,12 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from draft_profiling import begin_profile, end_profile, log_batch_summary, log_report
-from predict_draft import reset_predict_state, setup_logging, warmup_predict_caches
+from predict_draft import (
+    initialize_blue_side_winrate,
+    reset_predict_state,
+    setup_logging,
+    warmup_all_server_caches,
+)
 from suggest_draft import get_champion_role_catalog, suggest_bot_pick
 
 PATCH = "16.13"
@@ -29,6 +34,14 @@ OPPONENT_PARTIAL = [
 ]
 
 
+def simulate_api_startup() -> None:
+    """Reproduit le lifespan FastAPI : reset + blue side WR + warmup complet."""
+    reset_predict_state()
+    initialize_blue_side_winrate()
+    warmup_ms = warmup_all_server_caches(PATCH)
+    print(f"Warmup serveur simulé : {warmup_ms:.1f} ms\n")
+
+
 def main() -> None:
     setup_logging(verbose=False)
     logging.getLogger("draft_profiling").setLevel(logging.INFO)
@@ -36,11 +49,10 @@ def main() -> None:
     logging.getLogger("champion_catalog").setLevel(logging.WARNING)
 
     print("\n=== Profiling bot pick — 5 appels consécutifs ===")
-    print("Simulation d'un état serveur frais (reset_predict_state) puis 5 picks bot.\n")
+    print("Simulation lifespan FastAPI (reset + warmup complet) puis 5 picks bot.\n")
 
-    reset_predict_state()
+    simulate_api_startup()
     available = sorted(get_champion_role_catalog().keys(), key=str.casefold)
-    reset_predict_state()
 
     reports = []
     picks = []
@@ -74,23 +86,6 @@ def main() -> None:
         champion = choice.get("champion")
         role = choice.get("role")
         print(f"  #{index}: {champion} ({role})")
-
-    print("\n--- État cache après 5 appels (warmup manuel) ---")
-    reset_predict_state()
-    warmup_predict_caches(PATCH)
-    begin_profile("warmup_post_reset")
-    suggest_bot_pick(
-        bot_partial_picks=BOT_PARTIAL,
-        opponent_partial_picks=OPPONENT_PARTIAL,
-        patch=PATCH,
-        available_champions=available,
-        team_side="red",
-        mode="pro",
-        rng_seed=9999,
-    )
-    warmup_report = end_profile()
-    if warmup_report:
-        log_report(warmup_report, header="Appel #6 après reset + warmup (référence cache chaud)")
 
 
 if __name__ == "__main__":

@@ -109,6 +109,49 @@ def resolve_pro_champion_name(
     return btd.resolve_champion_name(champion_name, champion_features, lookup_by_norm)
 
 
+def _oracle_name_aliases(
+    resolved: str,
+    input_name: str,
+    champion_features: dict[str, dict[str, Any]],
+) -> set[str]:
+    """Noms Oracle's Elixir équivalents à une clé Meraki (ex. K'Sante ↔ KSante)."""
+    aliases = {resolved, input_name.strip()}
+    payload = champion_features.get(resolved, {})
+    display_name = payload.get("name")
+    if display_name:
+        aliases.add(str(display_name))
+
+    for oracle_name, meraki_key in btd.NAME_MAPPING.items():
+        if meraki_key == resolved:
+            aliases.add(oracle_name)
+
+    normalized_aliases = {btd.normalize_name(name) for name in aliases}
+    for alias in list(aliases):
+        normalized_aliases.add(btd.normalize_name(alias))
+
+    expanded = set(aliases)
+    for (name, role), (_, games) in get_pro_winrate_lookup().items():
+        _ = role, games
+        if btd.normalize_name(name) in normalized_aliases:
+            expanded.add(name)
+    return expanded
+
+
+def _lookup_pro_entry(
+    pro_lookup: dict[tuple[str, str], tuple[float, int]],
+    aliases: set[str],
+    role: str,
+) -> tuple[float, int] | None:
+    best: tuple[float, int] | None = None
+    for name in aliases:
+        entry = pro_lookup.get((name, role))
+        if entry is None:
+            continue
+        if best is None or entry[1] > best[1]:
+            best = entry
+    return best
+
+
 def compute_pro_winrate_by_champion(
     champion: str,
     role: str,
@@ -127,9 +170,8 @@ def compute_pro_winrate_by_champion(
         return None
 
     pro_lookup = get_pro_winrate_lookup(oracle_csv)
-    entry = pro_lookup.get((resolved, role_upper))
-    if entry is None:
-        entry = pro_lookup.get((champion.strip(), role_upper))
+    aliases = _oracle_name_aliases(resolved, champion, champion_features)
+    entry = _lookup_pro_entry(pro_lookup, aliases, role_upper)
     if entry is None:
         return None
 
@@ -159,11 +201,12 @@ def get_champion_pro_games_by_role(
         return cached
 
     pro_lookup = get_pro_winrate_lookup(oracle_csv)
+    aliases = _oracle_name_aliases(resolved, champion, champion_features)
     by_role: dict[str, int] = {}
     for (name, role), (_, games) in pro_lookup.items():
-        if name != resolved or games < MIN_GAMES_PRO_FORCE:
+        if name not in aliases or games < MIN_GAMES_PRO_FORCE:
             continue
-        by_role[role] = games
+        by_role[role] = by_role.get(role, 0) + games
 
     _champion_pro_roles_cache[resolved] = by_role
     return by_role

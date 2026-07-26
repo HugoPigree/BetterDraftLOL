@@ -29,6 +29,7 @@ from suggest_draft import (
     _pro_winrate_entry,
     _top_candidates_for_role,
     build_matchup_teams,
+    build_opponent_simulation_team,
     build_simulated_team_with_pick,
     build_team_with_meta_fillers,
     champions_playable_on_role,
@@ -161,14 +162,23 @@ def _evaluate_role_candidates(
         used_for_opp = trial_reserved | {
             slot["champion"].casefold() for slot in bot_full
         }
-        opponent_full = build_team_with_meta_fillers(
-            partial_picks=opponent_partial,
-            remaining_roles=opponent_remaining,
+        opponent_remaining = [
+            r
+            for r in ROLES_ORDER
+            if r not in {normalize_role(s["role"]) for s in opponent_partial}
+        ] or ROLES_ORDER.copy()
+        draft_depth = len(bot_partial) + len(opponent_partial)
+        opponent_full = build_opponent_simulation_team(
+            bot_full=bot_full,
+            opponent_partial=opponent_partial,
+            opponent_remaining=opponent_remaining,
             catalog=catalog,
             available_champions=pool,
             reserved=used_for_opp,
+            team_side=team_side,
             patch=patch,
             mode="pro",
+            draft_depth=draft_depth,
         )
         if opponent_full is None:
             continue

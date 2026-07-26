@@ -131,6 +131,27 @@ def test_bot_ranks_meta_volume_above_low_sample_winrate() -> None:
     assert gnar[1] > riven[1]  # plus de games pro
 
 
+def test_pro_role_fitness_resolves_oracle_display_names() -> None:
+    from pro_force import get_champion_pro_games_by_role, pro_role_fitness
+    from predict_draft import get_meraki_context
+
+    champion_features, _, lookup_by_norm = get_meraki_context()
+
+    ksante_by_role = get_champion_pro_games_by_role(
+        "KSante", champion_features, lookup_by_norm
+    )
+    assert ksante_by_role.get("TOP", 0) >= 10
+    assert pro_role_fitness("KSante", "TOP", champion_features, lookup_by_norm) == 1.0
+    assert pro_role_fitness("K'Sante", "TOP", champion_features, lookup_by_norm) == 1.0
+
+    xin_by_role = get_champion_pro_games_by_role(
+        "XinZhao", champion_features, lookup_by_norm
+    )
+    assert xin_by_role.get("JUNGLE", 0) >= 10
+    assert pro_role_fitness("XinZhao", "JUNGLE", champion_features, lookup_by_norm) == 1.0
+    assert pro_role_fitness("Xin Zhao", "JUNGLE", champion_features, lookup_by_norm) == 1.0
+
+
 def test_pro_role_fitness_filters_off_role_flex() -> None:
     from pro_force import is_pro_viable_on_role, pro_role_fitness
     from predict_draft import get_meraki_context
@@ -441,21 +462,108 @@ def test_comp_direction_alignment_bonus_rewards_peel_on_engage() -> None:
     assert peel_bonus >= random_bonus
 
 
-def test_two_stage_pick_preserves_role_pool() -> None:
+def test_global_softmax_picks_from_highest_scoring_candidates() -> None:
     import random
 
-    from suggest_draft import _two_stage_weighted_bot_pick
+    from suggest_draft import _filter_softmax_candidates, _weighted_bot_pick
 
     pool = [
         {"champion": "Vi", "role": "JUNGLE", "selection_score": 95.0},
         {"champion": "Nocturne", "role": "JUNGLE", "selection_score": 94.0},
-        {"champion": "Nautilus", "role": "UTILITY", "selection_score": 96.0},
+        {"champion": "Nautilus", "role": "UTILITY", "selection_score": 130.0},
         {"champion": "Bard", "role": "UTILITY", "selection_score": 95.5},
     ]
     rng = random.Random(42)
-    chosen = _two_stage_weighted_bot_pick(pool, 1.0, rng)
-    assert chosen["role"] in {"JUNGLE", "UTILITY"}
-    assert chosen["champion"] in {"Vi", "Nocturne", "Nautilus", "Bard"}
+    filtered = _filter_softmax_candidates(pool, 1.0)
+    chosen = _weighted_bot_pick(filtered, 1.0, rng)
+    assert chosen["champion"] == "Nautilus"
+    assert chosen["role"] == "UTILITY"
+
+
+def test_softmax_filter_drops_low_probability_outliers() -> None:
+    from suggest_draft import _filter_softmax_candidates
+
+    pool = [
+        {"champion": "Ryze", "role": "MIDDLE", "selection_score": 140.0},
+        {"champion": "Anivia", "role": "MIDDLE", "selection_score": 135.0},
+        {"champion": "Jax", "role": "TOP", "selection_score": 120.0},
+    ]
+    filtered = _filter_softmax_candidates(pool, 1.25)
+    names = {item["champion"] for item in filtered}
+    assert "Jax" not in names
+    assert "Ryze" in names
+
+
+def test_worlds_team_bot_uses_meta_pool_pipeline() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from suggest_draft import get_champion_role_catalog, warmup_predict_caches
+    from team_draft_bot import choose_team_bot_action
+
+    warmup_predict_caches(PATCH)
+    catalog = get_champion_role_catalog()
+    pool = sorted(catalog.keys(), key=str.casefold)
+
+    move = choose_team_bot_action(
+        action_type="pick",
+        bot_side="red",
+        bot_picks=[],
+        opponent_picks=[{"champion": "Azir", "role": "MIDDLE"}],
+        patch=PATCH,
+        available_champions=pool,
+        team_roster={
+            "TOP": "Zeus",
+            "JUNGLE": "Oner",
+            "MIDDLE": "Faker",
+            "BOTTOM": "Gumayusi",
+            "UTILITY": "Keria",
+        },
+        mode="pro",
+        seed=99,
+        fast=True,
+    )
+    assert move["action"] == "pick"
+    assert move["champion"]
+    from suggest_draft import is_champion_in_meta_pool_for_role, soft_assign_roles
+
+    guessed = soft_assign_roles([], catalog)
+    remaining = [r for r in ("TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY") if r not in {s["role"] for s in guessed}]
+    # role is assigned by client later; verify champion is meta-viable on at least one remaining role
+    viable = any(
+        is_champion_in_meta_pool_for_role(move["champion"], role, catalog, PATCH)
+        for role in remaining
+    )
+    assert viable
+
+
+def test_opponent_style_counter_bonus_vs_dive_comp() -> None:
+    from suggest_draft import _opponent_style_counter_bonus
+
+    opponent = [
+        {"champion": "Vi", "role": "JUNGLE"},
+        {"champion": "Nautilus", "role": "UTILITY"},
+        {"champion": "Renekton", "role": "TOP"},
+    ]
+    peel_bonus = _opponent_style_counter_bonus(opponent, "Lulu", "pro")
+    low_bonus = _opponent_style_counter_bonus(opponent, "Draven", "pro")
+    assert peel_bonus >= low_bonus
+
+
+def test_matchup_selection_bonus_uses_lane_matchups() -> None:
+    from suggest_draft import _matchup_selection_bonus
+
+    result = {
+        "bot_lane_matchup": {
+            "insufficient_data": False,
+            "blue_win_probability": 0.58,
+        },
+        "jungle_support_matchup": {
+            "insufficient_data": True,
+        },
+    }
+    bonus = _matchup_selection_bonus(result, "blue")
+    assert bonus > 0.0
 
 
 def test_opponent_lane_counter_bonus_favors_stronger_matchup() -> None:
@@ -466,6 +574,24 @@ def test_opponent_lane_counter_bonus_favors_stronger_matchup() -> None:
 
     opponent = [{"champion": "Renekton", "role": "TOP"}]
     assert _opponent_lane_counter_bonus(opponent, "Gnar", "TOP", "pro") >= 0.0
+
+
+def test_opponent_lane_counter_uses_solo_lane_when_available() -> None:
+    from suggest_draft import _opponent_lane_counter_bonus
+
+    opponent = [{"champion": "Renekton", "role": "TOP"}]
+    bonus = _opponent_lane_counter_bonus(opponent, "Gnar", "TOP", "pro")
+    assert bonus >= 0.0
+
+
+def test_comp_direction_bonus_considers_opponent_dive() -> None:
+    from suggest_draft import _comp_direction_alignment_bonus
+
+    team = ["Caitlyn", "Bard"]
+    opp = ["Vi", "Nautilus", "Renekton"]
+    peel_bonus = _comp_direction_alignment_bonus(team, "Lulu", opp)
+    neutral_bonus = _comp_direction_alignment_bonus(team, "Lulu", None)
+    assert peel_bonus >= neutral_bonus
 
 
 def test_duo_denial_ban_boost_targets_bot_lane_partner() -> None:

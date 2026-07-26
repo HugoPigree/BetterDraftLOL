@@ -108,56 +108,62 @@ def synthesize_attribute_ratings(dd_champion: dict[str, Any]) -> dict[str, int |
     }
 
 
+_oracle_positions_cache: dict[str, list[str]] | None = None
+_unified_champions_cache: dict[str, Any] | None = None
+
+
+def reset_champion_catalog_cache() -> None:
+    global _oracle_positions_cache, _unified_champions_cache
+    _oracle_positions_cache = None
+    _unified_champions_cache = None
+
+
 def infer_oracle_positions(
     oracle_csv: Path = DEFAULT_ORACLE_CSV,
     *,
     min_games: int = 1,
 ) -> dict[str, list[str]]:
-    """Infère les lanes pro jouées depuis Oracle (positions triées par volume)."""
-    from draft_profiling import current_profile, profile_step, record_data_load
-    import time
+    """Infère les lanes pro depuis le lookup Oracle déjà agrégé (pas de relecture CSV)."""
+    from draft_profiling import profile_step, record_data_load
+    from pro_force import get_pro_winrate_lookup
 
-    if not oracle_csv.exists():
-        return {}
+    global _oracle_positions_cache
+    if _oracle_positions_cache is not None:
+        record_data_load("oracle_csv_catalog_positions", hit=True)
+        return _oracle_positions_cache
 
-    start = time.perf_counter()
-    with profile_step("load_oracle_csv_catalog_positions"):
-        df = pd.read_csv(oracle_csv, low_memory=False)
-    if current_profile() is not None:
-        record_data_load(
-            "oracle_csv_catalog_positions",
-            hit=False,
-            duration_ms=(time.perf_counter() - start) * 1000,
-            detail=str(oracle_csv),
-        )
-    player_rows = df[
-        (df["datacompleteness"] == "complete")
-        & (df["position"] != "team")
-        & df["champion"].notna()
-    ].copy()
-    if player_rows.empty:
-        return {}
+    with profile_step("infer_oracle_positions_from_lookup"):
+        lookup = get_pro_winrate_lookup(oracle_csv)
+        pro_to_meraki = {
+            "TOP": "TOP",
+            "JUNGLE": "JUNGLE",
+            "MIDDLE": "MIDDLE",
+            "BOTTOM": "BOTTOM",
+            "UTILITY": "SUPPORT",
+        }
+        by_champion: dict[str, list[tuple[str, int]]] = {}
+        for (champion, role), (_winrate, games) in lookup.items():
+            if games < min_games:
+                continue
+            meraki_role = pro_to_meraki.get(role.upper())
+            if not meraki_role:
+                continue
+            by_champion.setdefault(champion, []).append((meraki_role, games))
 
-    player_rows["position_key"] = player_rows["position"].astype(str).str.lower()
-    grouped = (
-        player_rows.groupby(["champion", "position_key"])
-        .size()
-        .reset_index(name="games")
+        _oracle_positions_cache = {
+            champion: [
+                position
+                for position, _games in sorted(entries, key=lambda item: item[1], reverse=True)
+            ]
+            for champion, entries in by_champion.items()
+        }
+
+    record_data_load(
+        "oracle_csv_catalog_positions",
+        hit=False,
+        detail="derived_from_pro_winrate_lookup",
     )
-    grouped = grouped[grouped["games"] >= min_games]
-
-    catalog: dict[str, list[tuple[str, int]]] = {}
-    for _, row in grouped.iterrows():
-        champion = str(row["champion"])
-        mapped = ORACLE_POSITION_MAP.get(str(row["position_key"]))
-        if not mapped:
-            continue
-        catalog.setdefault(champion, []).append((mapped, int(row["games"])))
-
-    return {
-        champion: [position for position, _ in sorted(entries, key=lambda item: item[1], reverse=True)]
-        for champion, entries in catalog.items()
-    }
+    return _oracle_positions_cache
 
 
 def _meraki_match_keys(meraki: dict[str, Any]) -> set[str]:
@@ -275,6 +281,10 @@ def load_unified_champions(
     ensure_ddragon: bool = True,
 ) -> dict[str, Any]:
     """Catalogue complet : Meraki + nouveaux champions Data Dragon + rôles Oracle."""
+    global _unified_champions_cache
+    if _unified_champions_cache is not None:
+        return _unified_champions_cache
+
     from draft_profiling import profile_step
 
     with profile_step("load_unified_champions"):
@@ -296,7 +306,8 @@ def load_unified_champions(
             oracle_positions,
             ddragon_version=ddragon_version,
         )
-    return merged
+        _unified_champions_cache = merged
+        return merged
 
 
 def list_estimated_champion_names(champions: dict[str, Any]) -> list[str]:

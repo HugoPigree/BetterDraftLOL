@@ -31,7 +31,9 @@ from build_duo_dataset import (
 )
 from build_duo_dataset import SEUIL_MIN_GAMES as DUO_MIN_GAMES
 from pro_force import (
+    MIN_GAMES_PRO_FORCE,
     compute_pro_winrate_by_champion,
+    get_champion_pro_games_by_role,
     pro_meta_score,
     reset_pro_force_state,
 )
@@ -76,15 +78,28 @@ _synergy_model: xgb.XGBClassifier | None = None
 _soloq_cache: dict[str, pd.DataFrame] = {}
 
 
+_team_details_cache: dict[tuple[Any, ...], tuple[dict[str, Any], list[str]]] = {}
+
+
 def reset_predict_state() -> None:
     """Vide le cache d'inférence. Appelé au startup API (incl. uvicorn --reload)."""
     global BLUE_SIDE_WINRATE, _meraki_context, _feature_order, _synergy_model, _soloq_cache
+    global _team_details_cache
     BLUE_SIDE_WINRATE = None
     _meraki_context = None
     _feature_order = None
     _synergy_model = None
     _soloq_cache = {}
+    _team_details_cache = {}
     reset_pro_force_state()
+    from champion_catalog import reset_champion_catalog_cache
+    from suggest_draft import reset_suggest_draft_caches
+
+    reset_champion_catalog_cache()
+    reset_suggest_draft_caches()
+    from build_duo_dataset import reset_oracle_player_rows_cache
+
+    reset_oracle_player_rows_cache()
 
 
 def _parse_meraki_features(
@@ -272,6 +287,42 @@ def warmup_predict_caches(patch: str) -> None:
     load_soloq_scores(patch)
     if BLUE_SIDE_WINRATE is None:
         initialize_blue_side_winrate()
+
+
+def warmup_all_server_caches(patch: str = "16.13") -> float:
+    """Précharge tous les caches inference au démarrage serveur (une seule fois)."""
+    from build_duo_dataset import load_duo_table
+    from pro_force import get_pro_winrate_lookup, load_presence_lookup
+    from suggest_draft import get_champion_role_catalog
+
+    started = time.perf_counter()
+    patch = parse_patch(patch)
+
+    warmup_predict_caches(patch)
+    get_pro_winrate_lookup()
+    load_presence_lookup()
+    load_duo_table("bot_lane")
+    load_duo_table("jungle_support")
+    get_champion_role_catalog()
+
+    from match_simulator import simulate_match
+
+    simulate_match(
+        player_side="blue",
+        player_team_name="Warmup",
+        opponent_team_name="Warmup",
+        draft_blue_win_prob=0.5,
+        seed=0,
+    )
+
+    elapsed_ms = (time.perf_counter() - started) * 1000
+    logger.info(
+        "Warmup serveur terminé en %.1f ms (patch=%s) — Meraki, XGBoost, Oracle pro, "
+        "meta tierlist, duos et catalogue positions",
+        elapsed_ms,
+        patch,
+    )
+    return elapsed_ms
 
 
 def compute_actual_blue_side_winrate(oracle_csv: Path = DEFAULT_ORACLE_CSV) -> float:
@@ -480,10 +531,16 @@ def compute_pro_force_score(
             }
         )
         if fitness < 0.5:
-            warnings.append(
-                f"{resolved_name} est surtout joué ailleurs en pro "
-                f"(adéquation rôle {role}: {fitness:.0%})"
+            by_role = get_champion_pro_games_by_role(
+                champion, champion_features, lookup_by_norm
             )
+            if by_role.get(role, 0) >= MIN_GAMES_PRO_FORCE:
+                primary_role = max(by_role, key=by_role.get)  # type: ignore[arg-type]
+                if role != primary_role:
+                    warnings.append(
+                        f"{resolved_name} est surtout joué en {primary_role} en pro "
+                        f"(adéquation {role}: {fitness:.0%}, {by_role.get(role, 0)} games)"
+                    )
 
     if not meta_scores:
         warnings.append(
@@ -765,6 +822,50 @@ def score_diff_to_probabilities(score_blue: float, score_red: float) -> tuple[fl
     blue_prob = 1.0 / (1.0 + math.exp(-SIGMOID_SCALE * diff))
     red_prob = 1.0 - blue_prob
     return blue_prob, red_prob
+
+
+def _team_details_cache_key(
+    team: list[dict[str, str]],
+    side: int,
+    patch: str,
+    mode: PredictionMode,
+) -> tuple[Any, ...]:
+    ordered = tuple(
+        (slot["champion"], slot["role"].upper())
+        for slot in sorted(team, key=lambda item: item["role"].upper())
+    )
+    return (ordered, side, parse_patch(patch), mode)
+
+
+def build_team_prediction_details_cached(
+    team: list[dict[str, str]],
+    side: int,
+    patch: str,
+    soloq_df: pd.DataFrame | None,
+    champion_features: dict[str, dict[str, Any]],
+    lookup_by_norm: dict[str, str],
+    role_tags: list[str],
+    mode: PredictionMode = "mixed",
+) -> tuple[dict[str, Any], list[str]]:
+    cache_key = _team_details_cache_key(team, side, patch, mode)
+    cached = _team_details_cache.get(cache_key)
+    if cached is not None:
+        increment_counter("team_details_cache_hits")
+        return cached
+
+    increment_counter("team_details_cache_misses")
+    details = build_team_prediction_details(
+        team,
+        side=side,
+        patch=patch,
+        soloq_df=soloq_df,
+        champion_features=champion_features,
+        lookup_by_norm=lookup_by_norm,
+        role_tags=role_tags,
+        mode=mode,
+    )
+    _team_details_cache[cache_key] = details
+    return details
 
 
 def build_team_prediction_details(
@@ -1312,7 +1413,7 @@ def predict_draft(
         get_synergy_model()
 
     with profile_step("predict_blue_team"):
-        blue_details, warnings_blue = build_team_prediction_details(
+        blue_details, warnings_blue = build_team_prediction_details_cached(
             blue_team,
             side=0,
             patch=patch,
@@ -1323,7 +1424,7 @@ def predict_draft(
             mode=mode,
         )
     with profile_step("predict_red_team"):
-        red_details, warnings_red = build_team_prediction_details(
+        red_details, warnings_red = build_team_prediction_details_cached(
             red_team,
             side=1,
             patch=patch,
@@ -1395,6 +1496,48 @@ def predict_draft(
         "duo_differential": duo_differential,
         "warnings": warnings_blue + warnings_red + warnings_blue_duos + warnings_red_duos,
     }
+
+
+def predict_matchup_win_probability(
+    blue_team: list[dict[str, str]],
+    red_team: list[dict[str, str]],
+    patch: str,
+    mode: PredictionMode = "mixed",
+) -> tuple[float, float]:
+    """Probabilités blue/red sans duos ni differential (identique au softmax de predict_draft)."""
+    if len(blue_team) != 5 or len(red_team) != 5:
+        raise ValueError("Chaque équipe doit contenir exactement 5 champions")
+
+    increment_counter("predict_matchup_calls")
+    patch = parse_patch(patch)
+
+    if mode == "pro":
+        soloq_df = None
+    else:
+        soloq_df = load_soloq_scores(patch)
+    champion_features, role_tags, lookup_by_norm = get_meraki_context()
+
+    blue_details, _ = build_team_prediction_details_cached(
+        blue_team,
+        side=0,
+        patch=patch,
+        soloq_df=soloq_df,
+        champion_features=champion_features,
+        lookup_by_norm=lookup_by_norm,
+        role_tags=role_tags,
+        mode=mode,
+    )
+    red_details, _ = build_team_prediction_details_cached(
+        red_team,
+        side=1,
+        patch=patch,
+        soloq_df=soloq_df,
+        champion_features=champion_features,
+        lookup_by_norm=lookup_by_norm,
+        role_tags=role_tags,
+        mode=mode,
+    )
+    return score_diff_to_probabilities(blue_details["score_final"], red_details["score_final"])
 
 
 def build_random_team(

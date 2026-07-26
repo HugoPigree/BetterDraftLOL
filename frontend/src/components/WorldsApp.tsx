@@ -50,6 +50,10 @@ export function WorldsApp({ onBack }: WorldsAppProps) {
   const [lastPlayerWon, setLastPlayerWon] = useState<boolean | null>(null);
   const [lastMatchHistory, setLastMatchHistory] = useState<MatchHistorySummary | null>(null);
   const simulationStartedRef = useRef(false);
+  const prefetchedSimulationRef = useRef<{
+    key: string;
+    promise: Promise<MatchSimulationResult>;
+  } | null>(null);
 
   const postDraft = usePostDraftFlow(draft, championPositions);
   const playerSide = worlds.playerSide;
@@ -160,6 +164,58 @@ export function WorldsApp({ onBack }: WorldsAppProps) {
     worlds.showDraftResult();
   }, [worlds.phase, postDraft.phase, worlds.showDraftResult]);
 
+  function buildSimulationPrefetchKey(prediction: PredictResult): string | null {
+    if (!worlds.currentOpponent) {
+      return null;
+    }
+    return [
+      playerSide,
+      worlds.currentOpponent.id,
+      prediction.blue_win_probability.toFixed(4),
+    ].join(":");
+  }
+
+  function prefetchSimulation(prediction: PredictResult) {
+    if (!worlds.playerTeam || !worlds.currentOpponent) {
+      return;
+    }
+    const key = buildSimulationPrefetchKey(prediction);
+    if (!key || prefetchedSimulationRef.current?.key === key) {
+      return;
+    }
+    prefetchedSimulationRef.current = {
+      key,
+      promise: simulateWorldsMatch(
+        playerSide,
+        worlds.playerTeam.name,
+        worlds.currentOpponent.name,
+        prediction.blue_win_probability,
+        worlds.currentOpponent.id,
+        worlds.playerTeam.roster,
+        worlds.currentOpponent.roster,
+      ),
+    };
+  }
+
+  useEffect(() => {
+    if (
+      worlds.phase !== "draftResult" ||
+      !draftPrediction ||
+      postDraft.isEditing ||
+      simulationStartedRef.current
+    ) {
+      return;
+    }
+    prefetchSimulation(draftPrediction);
+  }, [
+    worlds.phase,
+    draftPrediction,
+    postDraft.isEditing,
+    playerSide,
+    worlds.playerTeam,
+    worlds.currentOpponent,
+  ]);
+
   async function handleLaunchSimulation(prediction?: PredictResult) {
     const activePrediction = prediction ?? draftPrediction;
     if (!worlds.playerTeam || !worlds.currentOpponent || !activePrediction) {
@@ -178,15 +234,20 @@ export function WorldsApp({ onBack }: WorldsAppProps) {
     worlds.beginSimulation();
 
     try {
-      const simulation = await simulateWorldsMatch(
-        playerSide,
-        worlds.playerTeam.name,
-        worlds.currentOpponent.name,
-        activePrediction.blue_win_probability,
-        worlds.currentOpponent.id,
-        worlds.playerTeam.roster,
-        worlds.currentOpponent.roster,
-      );
+      const prefetchKey = buildSimulationPrefetchKey(activePrediction);
+      const prefetched =
+        prefetchKey && prefetchedSimulationRef.current?.key === prefetchKey
+          ? prefetchedSimulationRef.current.promise
+          : simulateWorldsMatch(
+              playerSide,
+              worlds.playerTeam.name,
+              worlds.currentOpponent.name,
+              activePrediction.blue_win_probability,
+              worlds.currentOpponent.id,
+              worlds.playerTeam.roster,
+              worlds.currentOpponent.roster,
+            );
+      const simulation = await prefetched;
       setSimulationResult(simulation);
     } catch (simError) {
       simulationStartedRef.current = false;
@@ -208,6 +269,7 @@ export function WorldsApp({ onBack }: WorldsAppProps) {
     setSimulationResult(null);
     setLastPlayerWon(null);
     setLastMatchHistory(null);
+    prefetchedSimulationRef.current = null;
     simulationStartedRef.current = false;
   }
 

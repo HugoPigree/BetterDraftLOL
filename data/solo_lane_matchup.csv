@@ -1,0 +1,2601 @@
+blue_champion,red_champion,role,games,blue_winrate
+Aatrox,Akali,TOP,1,0.0
+Aatrox,Ambessa,JUNGLE,2,1.0
+Aatrox,Ambessa,TOP,21,0.7142857142857143
+Aatrox,Aurora,TOP,1,0.0
+Aatrox,Camille,TOP,4,0.75
+Aatrox,Darius,TOP,1,1.0
+Aatrox,Diana,JUNGLE,1,0.0
+Aatrox,Dr. Mundo,JUNGLE,15,0.5333333333333333
+Aatrox,Dr. Mundo,TOP,1,0.0
+Aatrox,Gangplank,TOP,1,1.0
+Aatrox,Gnar,TOP,7,0.42857142857142855
+Aatrox,Gragas,TOP,2,0.5
+Aatrox,Gwen,TOP,6,0.3333333333333333
+Aatrox,Hecarim,JUNGLE,1,1.0
+Aatrox,Jarvan IV,JUNGLE,23,0.6086956521739131
+Aatrox,Jax,TOP,1,1.0
+Aatrox,Jayce,TOP,3,0.6666666666666666
+Aatrox,K'Sante,TOP,13,0.46153846153846156
+Aatrox,Kennen,TOP,2,0.5
+Aatrox,Kindred,JUNGLE,1,1.0
+Aatrox,Lee Sin,JUNGLE,5,0.2
+Aatrox,Malphite,TOP,1,1.0
+Aatrox,Master Yi,JUNGLE,1,1.0
+Aatrox,Naafiri,JUNGLE,7,0.7142857142857143
+Aatrox,Nocturne,JUNGLE,16,0.5625
+Aatrox,Ornn,TOP,6,0.6666666666666666
+Aatrox,Pantheon,JUNGLE,14,0.42857142857142855
+Aatrox,Poppy,JUNGLE,1,0.0
+Aatrox,Poppy,TOP,1,0.0
+Aatrox,Qiyana,JUNGLE,1,0.0
+Aatrox,Renekton,TOP,19,0.42105263157894735
+Aatrox,Rumble,TOP,10,0.7
+Aatrox,Ryze,TOP,1,1.0
+Aatrox,Sejuani,JUNGLE,4,0.0
+Aatrox,Shen,TOP,1,1.0
+Aatrox,Singed,TOP,1,1.0
+Aatrox,Sion,TOP,27,0.5185185185185185
+Aatrox,Skarner,JUNGLE,7,0.5714285714285714
+Aatrox,Skarner,TOP,1,0.0
+Aatrox,Sylas,MIDDLE,1,1.0
+Aatrox,Talon,JUNGLE,1,1.0
+Aatrox,Trundle,JUNGLE,2,0.5
+Aatrox,Vayne,TOP,3,0.3333333333333333
+Aatrox,Vi,JUNGLE,7,0.42857142857142855
+Aatrox,Viego,JUNGLE,2,1.0
+Aatrox,Volibear,TOP,2,0.5
+Aatrox,Wukong,JUNGLE,21,0.6666666666666666
+Aatrox,Xin Zhao,JUNGLE,23,0.6086956521739131
+Aatrox,Yone,TOP,2,0.5
+Aatrox,Yorick,TOP,4,0.5
+Aatrox,Zaahen,JUNGLE,7,0.42857142857142855
+Aatrox,Zaahen,TOP,4,0.5
+Ahri,Akali,MIDDLE,15,0.7333333333333333
+Ahri,Anivia,MIDDLE,8,0.5
+Ahri,Annie,MIDDLE,15,0.5333333333333333
+Ahri,Aurora,MIDDLE,81,0.5185185185185185
+Ahri,Azir,MIDDLE,17,0.5882352941176471
+Ahri,Brand,MIDDLE,1,1.0
+Ahri,Cassiopeia,MIDDLE,13,0.46153846153846156
+Ahri,Corki,MIDDLE,1,1.0
+Ahri,Fiora,TOP,1,0.0
+Ahri,Galio,MIDDLE,22,0.6818181818181818
+Ahri,Hwei,MIDDLE,5,0.2
+Ahri,Jayce,MIDDLE,3,0.6666666666666666
+Ahri,Kog'Maw,MIDDLE,1,1.0
+Ahri,LeBlanc,MIDDLE,15,0.6
+Ahri,Lissandra,MIDDLE,13,0.6923076923076923
+Ahri,Mel,MIDDLE,29,0.6206896551724138
+Ahri,Neeko,MIDDLE,1,1.0
+Ahri,Orianna,MIDDLE,25,0.52
+Ahri,Ryze,MIDDLE,41,0.5121951219512195
+Ahri,Seraphine,MIDDLE,1,0.0
+Ahri,Sion,MIDDLE,3,0.3333333333333333
+Ahri,Swain,MIDDLE,2,0.0
+Ahri,Sylas,MIDDLE,38,0.631578947368421
+Ahri,Syndra,MIDDLE,19,0.5263157894736842
+Ahri,Taliyah,MIDDLE,39,0.6923076923076923
+Ahri,Tristana,MIDDLE,2,0.5
+Ahri,Twisted Fate,MIDDLE,6,0.5
+Ahri,Veigar,MIDDLE,7,0.5714285714285714
+Ahri,Vex,MIDDLE,1,1.0
+Ahri,Viktor,MIDDLE,13,0.23076923076923078
+Ahri,Vladimir,MIDDLE,1,1.0
+Ahri,Yasuo,MIDDLE,1,0.0
+Ahri,Yone,MIDDLE,10,0.7
+Ahri,Zed,MIDDLE,1,1.0
+Ahri,Ziggs,MIDDLE,1,0.0
+Ahri,Zoe,MIDDLE,5,0.8
+Akali,Ahri,MIDDLE,15,0.26666666666666666
+Akali,Ambessa,TOP,1,1.0
+Akali,Anivia,MIDDLE,10,0.6
+Akali,Annie,MIDDLE,14,0.5714285714285714
+Akali,Aurora,MIDDLE,14,0.9285714285714286
+Akali,Azir,MIDDLE,29,0.5517241379310345
+Akali,Brand,MIDDLE,1,0.0
+Akali,Cassiopeia,MIDDLE,11,0.45454545454545453
+Akali,Cassiopeia,TOP,1,0.0
+Akali,Galio,MIDDLE,12,0.75
+Akali,Galio,TOP,1,1.0
+Akali,Gnar,TOP,4,0.5
+Akali,Gragas,MIDDLE,1,0.0
+Akali,Hwei,MIDDLE,3,0.6666666666666666
+Akali,Irelia,MIDDLE,1,1.0
+Akali,Irelia,TOP,1,1.0
+Akali,Jax,TOP,1,0.0
+Akali,Jayce,MIDDLE,1,1.0
+Akali,K'Sante,TOP,2,0.5
+Akali,Kassadin,MIDDLE,1,0.0
+Akali,Kled,TOP,1,0.0
+Akali,LeBlanc,MIDDLE,4,0.75
+Akali,Lissandra,MIDDLE,1,1.0
+Akali,Lux,MIDDLE,2,0.5
+Akali,Malzahar,MIDDLE,2,1.0
+Akali,Mel,MIDDLE,3,0.6666666666666666
+Akali,Olaf,TOP,1,0.0
+Akali,Orianna,MIDDLE,69,0.4782608695652174
+Akali,Ornn,TOP,3,0.6666666666666666
+Akali,Rek'Sai,TOP,1,1.0
+Akali,Renekton,MIDDLE,1,1.0
+Akali,Rumble,TOP,1,0.0
+Akali,Ryze,MIDDLE,16,0.625
+Akali,Sion,TOP,2,1.0
+Akali,Swain,MIDDLE,1,0.0
+Akali,Sylas,MIDDLE,5,0.6
+Akali,Syndra,MIDDLE,7,0.5714285714285714
+Akali,Taliyah,MIDDLE,9,0.5555555555555556
+Akali,Twisted Fate,MIDDLE,1,1.0
+Akali,Vex,MIDDLE,3,0.3333333333333333
+Akali,Viktor,MIDDLE,22,0.6363636363636364
+Akali,Xerath,MIDDLE,2,0.5
+Akali,Xin Zhao,MIDDLE,1,1.0
+Akali,Yasuo,MIDDLE,1,1.0
+Akali,Yone,MIDDLE,2,1.0
+Akali,Zaahen,TOP,1,1.0
+Akali,Ziggs,MIDDLE,1,1.0
+Akshan,Gangplank,TOP,1,1.0
+Akshan,LeBlanc,MIDDLE,1,0.0
+Ambessa,Aatrox,JUNGLE,7,0.8571428571428571
+Ambessa,Aatrox,TOP,10,0.6
+Ambessa,Akali,TOP,1,0.0
+Ambessa,Anivia,TOP,1,0.0
+Ambessa,Aurora,TOP,4,1.0
+Ambessa,Camille,TOP,5,0.8
+Ambessa,Cho'Gath,TOP,1,1.0
+Ambessa,Darius,TOP,2,0.5
+Ambessa,Diana,JUNGLE,3,1.0
+Ambessa,Dr. Mundo,JUNGLE,4,0.5
+Ambessa,Fiora,TOP,2,0.5
+Ambessa,Garen,TOP,2,1.0
+Ambessa,Gnar,TOP,51,0.47058823529411764
+Ambessa,Graves,JUNGLE,1,0.0
+Ambessa,Gwen,JUNGLE,1,0.0
+Ambessa,Gwen,TOP,19,0.10526315789473684
+Ambessa,Illaoi,TOP,2,0.5
+Ambessa,Irelia,TOP,4,0.0
+Ambessa,Jarvan IV,JUNGLE,10,0.2
+Ambessa,Jax,TOP,17,0.5294117647058824
+Ambessa,Jayce,JUNGLE,1,0.0
+Ambessa,Jayce,TOP,9,0.3333333333333333
+Ambessa,K'Sante,TOP,43,0.6744186046511628
+Ambessa,Kennen,TOP,5,0.4
+Ambessa,Kha'Zix,JUNGLE,1,1.0
+Ambessa,Kled,TOP,1,1.0
+Ambessa,Lee Sin,JUNGLE,4,0.25
+Ambessa,Malphite,JUNGLE,2,0.0
+Ambessa,Malphite,TOP,1,1.0
+Ambessa,Malzahar,MIDDLE,1,1.0
+Ambessa,Maokai,JUNGLE,3,0.3333333333333333
+Ambessa,Maokai,TOP,1,0.0
+Ambessa,Naafiri,JUNGLE,4,0.0
+Ambessa,Nautilus,JUNGLE,1,1.0
+Ambessa,Nidalee,JUNGLE,1,0.0
+Ambessa,Nocturne,JUNGLE,9,0.5555555555555556
+Ambessa,Olaf,TOP,4,0.5
+Ambessa,Ornn,TOP,7,0.5714285714285714
+Ambessa,Pantheon,JUNGLE,14,0.5714285714285714
+Ambessa,Pantheon,TOP,1,1.0
+Ambessa,Poppy,JUNGLE,2,1.0
+Ambessa,Poppy,TOP,5,0.8
+Ambessa,Qiyana,JUNGLE,4,0.75
+Ambessa,Rek'Sai,JUNGLE,1,0.0
+Ambessa,Rek'Sai,TOP,11,0.5454545454545454
+Ambessa,Renekton,TOP,37,0.4864864864864865
+Ambessa,Rengar,JUNGLE,2,0.5
+Ambessa,Rumble,TOP,66,0.5606060606060606
+Ambessa,Sejuani,JUNGLE,2,0.5
+Ambessa,Shen,TOP,4,0.75
+Ambessa,Shyvana,JUNGLE,1,0.0
+Ambessa,Shyvana,TOP,2,0.5
+Ambessa,Sion,TOP,47,0.5319148936170213
+Ambessa,Skarner,JUNGLE,3,0.6666666666666666
+Ambessa,Taliyah,JUNGLE,1,1.0
+Ambessa,Tryndamere,TOP,2,0.5
+Ambessa,Udyr,TOP,1,0.0
+Ambessa,Varus,TOP,5,0.6
+Ambessa,Vayne,TOP,10,0.2
+Ambessa,Vex,TOP,2,0.5
+Ambessa,Vi,JUNGLE,10,0.4
+Ambessa,Viego,JUNGLE,5,0.8
+Ambessa,Vladimir,TOP,1,1.0
+Ambessa,Volibear,JUNGLE,1,1.0
+Ambessa,Volibear,TOP,15,0.3333333333333333
+Ambessa,Warwick,TOP,2,0.5
+Ambessa,Wukong,JUNGLE,20,0.6
+Ambessa,Wukong,TOP,1,1.0
+Ambessa,Xin Zhao,JUNGLE,18,0.7222222222222222
+Ambessa,Yorick,TOP,10,0.5
+Ambessa,Zaahen,JUNGLE,4,0.5
+Ambessa,Zaahen,TOP,25,0.36
+Ambessa,Zac,TOP,1,1.0
+Ambessa,Zyra,JUNGLE,1,1.0
+Amumu,Ambessa,JUNGLE,1,0.0
+Amumu,Wukong,JUNGLE,2,0.5
+Amumu,Xin Zhao,JUNGLE,1,0.0
+Anivia,Ahri,MIDDLE,9,0.7777777777777778
+Anivia,Akali,MIDDLE,6,0.6666666666666666
+Anivia,Ambessa,TOP,2,0.5
+Anivia,Annie,MIDDLE,10,0.7
+Anivia,Aurora,MIDDLE,11,0.8181818181818182
+Anivia,Azir,MIDDLE,3,1.0
+Anivia,Cassiopeia,MIDDLE,22,0.5909090909090909
+Anivia,Cassiopeia,TOP,1,0.0
+Anivia,Diana,TOP,1,0.0
+Anivia,Galio,MIDDLE,3,1.0
+Anivia,Gnar,TOP,4,0.5
+Anivia,Gragas,TOP,1,0.0
+Anivia,Gwen,TOP,1,1.0
+Anivia,Hwei,MIDDLE,5,0.4
+Anivia,Irelia,MIDDLE,1,0.0
+Anivia,Irelia,TOP,1,0.0
+Anivia,Jax,TOP,1,0.0
+Anivia,Jayce,TOP,4,0.75
+Anivia,K'Sante,TOP,1,1.0
+Anivia,Kog'Maw,MIDDLE,1,1.0
+Anivia,Mel,MIDDLE,2,1.0
+Anivia,Nidalee,TOP,1,1.0
+Anivia,Orianna,MIDDLE,3,0.3333333333333333
+Anivia,Ornn,TOP,1,1.0
+Anivia,Renekton,TOP,4,0.25
+Anivia,Rumble,TOP,6,0.5
+Anivia,Ryze,MIDDLE,103,0.5631067961165048
+Anivia,Sett,TOP,1,1.0
+Anivia,Sion,TOP,1,0.0
+Anivia,Syndra,MIDDLE,2,1.0
+Anivia,Taliyah,MIDDLE,5,0.6
+Anivia,Tristana,MIDDLE,1,1.0
+Anivia,Twisted Fate,MIDDLE,4,0.75
+Anivia,Varus,TOP,3,0.6666666666666666
+Anivia,Vayne,TOP,2,0.5
+Anivia,Viktor,MIDDLE,6,0.6666666666666666
+Anivia,Yasuo,MIDDLE,1,0.0
+Anivia,Yasuo,TOP,1,1.0
+Anivia,Yone,MIDDLE,1,0.0
+Anivia,Yone,TOP,2,0.5
+Anivia,Zed,MIDDLE,3,0.6666666666666666
+Anivia,Ziggs,MIDDLE,1,1.0
+Annie,Ahri,MIDDLE,27,0.4444444444444444
+Annie,Akali,MIDDLE,18,0.6111111111111112
+Annie,Anivia,MIDDLE,11,0.36363636363636365
+Annie,Aurora,MIDDLE,39,0.5897435897435898
+Annie,Azir,MIDDLE,8,0.75
+Annie,Cassiopeia,MIDDLE,7,0.42857142857142855
+Annie,Diana,MIDDLE,1,0.0
+Annie,Galio,MIDDLE,21,0.47619047619047616
+Annie,Gnar,TOP,1,1.0
+Annie,Hwei,MIDDLE,17,0.5294117647058824
+Annie,Jayce,MIDDLE,2,1.0
+Annie,K'Sante,MIDDLE,1,0.0
+Annie,K'Sante,TOP,1,0.0
+Annie,Karma,MIDDLE,1,1.0
+Annie,Kassadin,MIDDLE,1,0.0
+Annie,LeBlanc,MIDDLE,3,0.3333333333333333
+Annie,Lissandra,MIDDLE,2,0.0
+Annie,Lux,MIDDLE,1,1.0
+Annie,Mel,MIDDLE,12,0.6666666666666666
+Annie,Orianna,MIDDLE,5,0.6
+Annie,Ryze,MIDDLE,47,0.48936170212765956
+Annie,Sion,MIDDLE,1,0.0
+Annie,Sylas,MIDDLE,5,0.6
+Annie,Syndra,MIDDLE,6,0.6666666666666666
+Annie,Taliyah,MIDDLE,16,0.625
+Annie,Tristana,MIDDLE,1,0.0
+Annie,Twisted Fate,MIDDLE,3,0.3333333333333333
+Annie,Vel'Koz,MIDDLE,1,0.0
+Annie,Viktor,MIDDLE,20,0.55
+Annie,Vladimir,MIDDLE,1,1.0
+Annie,Xerath,MIDDLE,1,1.0
+Annie,Yasuo,MIDDLE,1,1.0
+Annie,Ziggs,MIDDLE,1,0.0
+Annie,Zoe,MIDDLE,2,0.0
+Aurelion Sol,Ahri,MIDDLE,1,1.0
+Aurelion Sol,Anivia,MIDDLE,1,0.0
+Aurelion Sol,Aurora,MIDDLE,2,0.5
+Aurelion Sol,Azir,MIDDLE,1,1.0
+Aurelion Sol,Hwei,MIDDLE,1,1.0
+Aurelion Sol,LeBlanc,MIDDLE,1,1.0
+Aurelion Sol,Mel,MIDDLE,1,1.0
+Aurelion Sol,Orianna,MIDDLE,3,0.6666666666666666
+Aurelion Sol,Ryze,MIDDLE,4,0.5
+Aurelion Sol,Viktor,MIDDLE,3,0.3333333333333333
+Aurora,Aatrox,TOP,1,1.0
+Aurora,Ahri,MIDDLE,91,0.45054945054945056
+Aurora,Akali,MIDDLE,18,0.3888888888888889
+Aurora,Akali,TOP,1,1.0
+Aurora,Ambessa,TOP,4,0.5
+Aurora,Anivia,MIDDLE,11,0.5454545454545454
+Aurora,Annie,MIDDLE,42,0.3333333333333333
+Aurora,Aurelion Sol,MIDDLE,1,1.0
+Aurora,Azir,MIDDLE,28,0.4642857142857143
+Aurora,Cassiopeia,MIDDLE,10,0.2
+Aurora,Dr. Mundo,TOP,2,1.0
+Aurora,Ezreal,MIDDLE,1,1.0
+Aurora,Galio,MIDDLE,18,0.4444444444444444
+Aurora,Gnar,TOP,7,0.14285714285714285
+Aurora,Gwen,MIDDLE,1,1.0
+Aurora,Hwei,MIDDLE,10,0.6
+Aurora,Irelia,MIDDLE,2,1.0
+Aurora,Irelia,TOP,2,0.0
+Aurora,Jayce,MIDDLE,2,0.5
+Aurora,Jayce,TOP,2,0.0
+Aurora,K'Sante,TOP,3,0.3333333333333333
+Aurora,Kassadin,MIDDLE,1,1.0
+Aurora,LeBlanc,MIDDLE,16,0.5
+Aurora,Lee Sin,TOP,1,1.0
+Aurora,Lissandra,MIDDLE,2,0.0
+Aurora,Lux,MIDDLE,2,0.0
+Aurora,Mel,MIDDLE,13,0.5384615384615384
+Aurora,Naafiri,MIDDLE,1,1.0
+Aurora,Orianna,MIDDLE,13,0.3076923076923077
+Aurora,Ornn,TOP,4,0.75
+Aurora,Renekton,TOP,5,0.6
+Aurora,Rumble,TOP,18,0.7222222222222222
+Aurora,Ryze,MIDDLE,40,0.575
+Aurora,Sion,TOP,5,0.4
+Aurora,Sylas,MIDDLE,8,0.25
+Aurora,Syndra,MIDDLE,15,0.5333333333333333
+Aurora,Taliyah,MIDDLE,26,0.4230769230769231
+Aurora,Tristana,MIDDLE,1,0.0
+Aurora,Tryndamere,TOP,2,1.0
+Aurora,Twisted Fate,MIDDLE,16,0.3125
+Aurora,Vayne,TOP,2,0.5
+Aurora,Veigar,MIDDLE,1,1.0
+Aurora,Viktor,MIDDLE,45,0.6
+Aurora,Vladimir,MIDDLE,2,1.0
+Aurora,Yasuo,MIDDLE,1,0.0
+Aurora,Yasuo,TOP,2,0.5
+Aurora,Yone,MIDDLE,3,0.3333333333333333
+Aurora,Yone,TOP,1,0.0
+Aurora,Yorick,TOP,5,0.6
+Aurora,Zaahen,TOP,2,0.5
+Aurora,Zed,MIDDLE,2,0.5
+Aurora,Ziggs,MIDDLE,1,1.0
+Aurora,Zoe,MIDDLE,6,0.8333333333333334
+Azir,Ahri,MIDDLE,20,0.55
+Azir,Akali,MIDDLE,26,0.5
+Azir,Anivia,MIDDLE,2,0.5
+Azir,Annie,MIDDLE,12,0.5
+Azir,Aurelion Sol,MIDDLE,1,0.0
+Azir,Aurora,MIDDLE,20,0.6
+Azir,Cassiopeia,MIDDLE,2,0.5
+Azir,Corki,MIDDLE,1,1.0
+Azir,Ekko,MIDDLE,4,0.25
+Azir,Galio,MIDDLE,4,0.5
+Azir,Hwei,MIDDLE,2,1.0
+Azir,Irelia,MIDDLE,1,0.0
+Azir,Kog'Maw,MIDDLE,8,0.25
+Azir,LeBlanc,MIDDLE,17,0.47058823529411764
+Azir,Lissandra,MIDDLE,1,1.0
+Azir,Mel,MIDDLE,9,0.6666666666666666
+Azir,Orianna,MIDDLE,76,0.4605263157894737
+Azir,Ryze,MIDDLE,54,0.5555555555555556
+Azir,Seraphine,MIDDLE,1,1.0
+Azir,Sion,MIDDLE,1,0.0
+Azir,Swain,MIDDLE,1,0.0
+Azir,Sylas,MIDDLE,5,0.6
+Azir,Syndra,MIDDLE,10,0.4
+Azir,Taliyah,MIDDLE,53,0.49056603773584906
+Azir,Tristana,MIDDLE,3,0.3333333333333333
+Azir,Twisted Fate,MIDDLE,2,0.5
+Azir,Vayne,TOP,1,0.0
+Azir,Veigar,MIDDLE,1,1.0
+Azir,Vel'Koz,MIDDLE,1,1.0
+Azir,Viego,MIDDLE,2,0.5
+Azir,Viktor,MIDDLE,12,0.3333333333333333
+Azir,Vladimir,MIDDLE,1,1.0
+Azir,Xerath,MIDDLE,2,0.5
+Azir,Yone,MIDDLE,28,0.6785714285714286
+Azir,Zed,MIDDLE,1,1.0
+Azir,Ziggs,MIDDLE,5,0.2
+Azir,Zoe,MIDDLE,3,0.0
+Bel'Veth,Naafiri,JUNGLE,1,1.0
+Bel'Veth,Vi,JUNGLE,1,1.0
+Bel'Veth,Viego,JUNGLE,1,0.0
+Bel'Veth,Wukong,JUNGLE,1,0.0
+Brand,Anivia,TOP,1,0.0
+Brand,Annie,MIDDLE,1,0.0
+Brand,Jax,TOP,1,0.0
+Brand,Skarner,JUNGLE,1,1.0
+Brand,Yone,MIDDLE,1,1.0
+Camille,Aatrox,TOP,1,1.0
+Camille,Ambessa,TOP,6,0.3333333333333333
+Camille,Anivia,TOP,1,1.0
+Camille,Cho'Gath,TOP,1,1.0
+Camille,Gnar,TOP,1,0.0
+Camille,Gragas,TOP,1,0.0
+Camille,Gwen,TOP,3,0.0
+Camille,Jayce,TOP,2,0.5
+Camille,K'Sante,TOP,6,0.5
+Camille,Kennen,TOP,1,1.0
+Camille,Nidalee,JUNGLE,1,0.0
+Camille,Ornn,TOP,1,1.0
+Camille,Renekton,TOP,1,0.0
+Camille,Shen,TOP,1,1.0
+Camille,Sion,TOP,1,1.0
+Camille,Xayah,MIDDLE,1,1.0
+Camille,Zaahen,TOP,2,0.5
+Cassiopeia,Ahri,MIDDLE,11,0.6363636363636364
+Cassiopeia,Akali,MIDDLE,18,0.4444444444444444
+Cassiopeia,Ambessa,TOP,1,1.0
+Cassiopeia,Anivia,MIDDLE,21,0.5714285714285714
+Cassiopeia,Anivia,TOP,1,0.0
+Cassiopeia,Annie,MIDDLE,10,0.6
+Cassiopeia,Aurora,MIDDLE,16,0.6875
+Cassiopeia,Azir,MIDDLE,5,0.8
+Cassiopeia,Galio,MIDDLE,10,0.5
+Cassiopeia,Gnar,TOP,1,0.0
+Cassiopeia,Gragas,TOP,1,1.0
+Cassiopeia,Gwen,TOP,1,1.0
+Cassiopeia,Hwei,MIDDLE,7,0.42857142857142855
+Cassiopeia,Jayce,MIDDLE,1,0.0
+Cassiopeia,Kassadin,MIDDLE,1,0.0
+Cassiopeia,Kog'Maw,MIDDLE,4,1.0
+Cassiopeia,LeBlanc,MIDDLE,7,0.8571428571428571
+Cassiopeia,Mel,MIDDLE,4,0.75
+Cassiopeia,Orianna,MIDDLE,18,0.5
+Cassiopeia,Rumble,TOP,1,1.0
+Cassiopeia,Ryze,MIDDLE,56,0.4642857142857143
+Cassiopeia,Sett,TOP,1,1.0
+Cassiopeia,Sion,MIDDLE,1,1.0
+Cassiopeia,Sylas,MIDDLE,2,1.0
+Cassiopeia,Syndra,MIDDLE,17,0.5882352941176471
+Cassiopeia,Taliyah,MIDDLE,8,0.75
+Cassiopeia,Tristana,MIDDLE,1,1.0
+Cassiopeia,Twisted Fate,MIDDLE,3,1.0
+Cassiopeia,Vex,MIDDLE,1,0.0
+Cassiopeia,Viktor,MIDDLE,27,0.7037037037037037
+Cassiopeia,Xerath,MIDDLE,2,1.0
+Cassiopeia,Yone,MIDDLE,2,0.0
+Cassiopeia,Yone,TOP,2,0.0
+Cassiopeia,Yorick,TOP,3,0.6666666666666666
+Cassiopeia,Zoe,MIDDLE,4,0.75
+Cho'Gath,Aurora,TOP,1,0.0
+Cho'Gath,Camille,TOP,1,0.0
+Cho'Gath,Jayce,JUNGLE,1,0.0
+Cho'Gath,Jayce,TOP,1,1.0
+Cho'Gath,K'Sante,TOP,2,0.5
+Cho'Gath,Olaf,TOP,1,1.0
+Cho'Gath,Ornn,TOP,1,0.0
+Cho'Gath,Pantheon,JUNGLE,1,0.0
+Cho'Gath,Renekton,TOP,1,0.0
+Cho'Gath,Sion,TOP,9,0.4444444444444444
+Cho'Gath,Skarner,JUNGLE,1,1.0
+Cho'Gath,Urgot,TOP,1,1.0
+Cho'Gath,Yorick,TOP,3,1.0
+Cho'Gath,Zaahen,JUNGLE,1,1.0
+Corki,Azir,MIDDLE,1,0.0
+Corki,Orianna,MIDDLE,1,0.0
+Corki,Ryze,MIDDLE,1,0.0
+Corki,Syndra,MIDDLE,1,1.0
+Darius,Aatrox,TOP,1,1.0
+Darius,Ambessa,TOP,1,0.0
+Darius,Bel'Veth,JUNGLE,1,1.0
+Darius,Gangplank,TOP,1,0.0
+Darius,Gwen,TOP,1,0.0
+Darius,Jarvan IV,JUNGLE,1,0.0
+Darius,Malphite,TOP,1,1.0
+Darius,Naafiri,JUNGLE,1,1.0
+Darius,Ornn,TOP,1,1.0
+Darius,Qiyana,JUNGLE,1,1.0
+Darius,Renekton,TOP,2,0.5
+Darius,Rumble,TOP,1,1.0
+Darius,Sion,TOP,2,1.0
+Darius,Volibear,TOP,1,0.0
+Darius,Wukong,JUNGLE,1,1.0
+Darius,Yorick,TOP,1,0.0
+Darius,Zac,TOP,1,0.0
+Diana,Aatrox,JUNGLE,1,0.0
+Diana,Annie,MIDDLE,1,0.0
+Diana,Malphite,JUNGLE,2,0.5
+Diana,Naafiri,JUNGLE,2,1.0
+Diana,Orianna,MIDDLE,1,0.0
+Diana,Pantheon,JUNGLE,1,1.0
+Diana,Taliyah,JUNGLE,1,0.0
+Diana,Vi,JUNGLE,1,0.0
+Diana,Wukong,JUNGLE,2,0.5
+Dr. Mundo,Aatrox,JUNGLE,9,0.1111111111111111
+Dr. Mundo,Aatrox,TOP,1,0.0
+Dr. Mundo,Ambessa,JUNGLE,3,0.6666666666666666
+Dr. Mundo,Ambessa,TOP,2,0.5
+Dr. Mundo,Darius,JUNGLE,3,0.3333333333333333
+Dr. Mundo,Darius,TOP,1,1.0
+Dr. Mundo,Diana,JUNGLE,2,1.0
+Dr. Mundo,Hecarim,JUNGLE,1,1.0
+Dr. Mundo,Jarvan IV,JUNGLE,16,0.4375
+Dr. Mundo,Jax,TOP,3,0.0
+Dr. Mundo,Jayce,JUNGLE,2,0.5
+Dr. Mundo,K'Sante,TOP,3,0.0
+Dr. Mundo,Kindred,JUNGLE,1,0.0
+Dr. Mundo,Lee Sin,JUNGLE,4,0.75
+Dr. Mundo,Lillia,JUNGLE,1,1.0
+Dr. Mundo,Malphite,JUNGLE,6,0.6666666666666666
+Dr. Mundo,Maokai,JUNGLE,5,0.8
+Dr. Mundo,Mordekaiser,TOP,1,0.0
+Dr. Mundo,Naafiri,JUNGLE,6,0.5
+Dr. Mundo,Nasus,JUNGLE,2,0.5
+Dr. Mundo,Nocturne,JUNGLE,17,0.5294117647058824
+Dr. Mundo,Nunu & Willump,JUNGLE,3,0.0
+Dr. Mundo,Olaf,JUNGLE,1,1.0
+Dr. Mundo,Ornn,TOP,1,1.0
+Dr. Mundo,Pantheon,JUNGLE,12,0.4166666666666667
+Dr. Mundo,Qiyana,JUNGLE,3,1.0
+Dr. Mundo,Rek'Sai,JUNGLE,2,0.5
+Dr. Mundo,Renekton,TOP,5,0.8
+Dr. Mundo,Rengar,JUNGLE,1,0.0
+Dr. Mundo,Sejuani,JUNGLE,6,0.5
+Dr. Mundo,Sion,TOP,5,0.4
+Dr. Mundo,Skarner,JUNGLE,3,0.0
+Dr. Mundo,Sylas,JUNGLE,3,0.3333333333333333
+Dr. Mundo,Taliyah,JUNGLE,1,1.0
+Dr. Mundo,Trundle,JUNGLE,9,0.6666666666666666
+Dr. Mundo,Trundle,TOP,1,0.0
+Dr. Mundo,Varus,TOP,1,0.0
+Dr. Mundo,Vi,JUNGLE,21,0.5238095238095238
+Dr. Mundo,Viego,JUNGLE,4,1.0
+Dr. Mundo,Volibear,JUNGLE,1,1.0
+Dr. Mundo,Volibear,TOP,1,0.0
+Dr. Mundo,Wukong,JUNGLE,27,0.6296296296296297
+Dr. Mundo,Xin Zhao,JUNGLE,14,0.6428571428571429
+Dr. Mundo,Zaahen,JUNGLE,10,0.7
+Dr. Mundo,Zac,JUNGLE,1,1.0
+Dr. Mundo,Zed,JUNGLE,1,1.0
+Ekko,Azir,MIDDLE,3,0.3333333333333333
+Ekko,Galio,MIDDLE,1,1.0
+Ekko,Gnar,TOP,1,0.0
+Ekko,Orianna,MIDDLE,1,0.0
+Ekko,Syndra,MIDDLE,2,0.5
+Ekko,Taliyah,MIDDLE,1,0.0
+Ekko,Viktor,MIDDLE,1,0.0
+Ekko,Zed,JUNGLE,1,1.0
+Ezreal,Aurelion Sol,MIDDLE,1,1.0
+Fiddlesticks,Dr. Mundo,JUNGLE,1,0.0
+Fiddlesticks,Wukong,JUNGLE,1,0.0
+Fiora,Aatrox,TOP,1,0.0
+Fiora,Ambessa,TOP,1,1.0
+Fiora,Gnar,TOP,1,0.0
+Fiora,Jax,TOP,2,1.0
+Fiora,Jayce,TOP,1,1.0
+Fiora,K'Sante,TOP,6,0.6666666666666666
+Fiora,Malphite,TOP,4,0.5
+Fiora,Ornn,TOP,1,0.0
+Fiora,Renekton,TOP,1,1.0
+Fiora,Sion,TOP,4,0.0
+Fiora,Zaahen,TOP,1,1.0
+Fizz,Orianna,MIDDLE,1,1.0
+Fizz,Twisted Fate,MIDDLE,1,1.0
+Galio,Aatrox,MIDDLE,1,0.0
+Galio,Ahri,MIDDLE,21,0.5714285714285714
+Galio,Akali,MIDDLE,11,0.7272727272727273
+Galio,Anivia,MIDDLE,1,0.0
+Galio,Annie,MIDDLE,19,0.5789473684210527
+Galio,Aurora,MIDDLE,20,0.5
+Galio,Azir,MIDDLE,2,0.5
+Galio,Cassiopeia,MIDDLE,8,0.25
+Galio,Corki,MIDDLE,2,0.5
+Galio,Hwei,MIDDLE,3,1.0
+Galio,LeBlanc,MIDDLE,9,0.5555555555555556
+Galio,Mel,MIDDLE,3,0.6666666666666666
+Galio,Orianna,MIDDLE,50,0.58
+Galio,Qiyana,MIDDLE,1,1.0
+Galio,Rumble,TOP,26,0.5384615384615384
+Galio,Ryze,MIDDLE,10,0.4
+Galio,Sett,MIDDLE,1,0.0
+Galio,Smolder,MIDDLE,3,1.0
+Galio,Swain,MIDDLE,4,0.25
+Galio,Sylas,MIDDLE,2,1.0
+Galio,Syndra,MIDDLE,6,0.6666666666666666
+Galio,Taliyah,MIDDLE,7,0.5714285714285714
+Galio,Twisted Fate,MIDDLE,2,1.0
+Galio,Vayne,MIDDLE,2,0.5
+Galio,Viktor,MIDDLE,15,0.5333333333333333
+Galio,Yone,MIDDLE,5,0.4
+Galio,Zoe,MIDDLE,1,1.0
+Gangplank,Aatrox,TOP,1,1.0
+Gangplank,Ambessa,TOP,1,1.0
+Gangplank,Aurora,TOP,3,1.0
+Gangplank,Gnar,TOP,1,0.0
+Gangplank,K'Sante,TOP,1,0.0
+Gangplank,Sion,TOP,2,0.5
+Gangplank,Vladimir,TOP,1,1.0
+Gangplank,Yorick,TOP,1,1.0
+Garen,Jax,TOP,2,1.0
+Garen,K'Sante,TOP,2,1.0
+Garen,Ornn,TOP,1,1.0
+Gnar,Aatrox,TOP,4,1.0
+Gnar,Akali,TOP,4,0.5
+Gnar,Ambessa,TOP,51,0.5686274509803921
+Gnar,Anivia,TOP,4,0.75
+Gnar,Aurora,TOP,12,0.75
+Gnar,Camille,TOP,6,0.6666666666666666
+Gnar,Cho'Gath,TOP,1,1.0
+Gnar,Dr. Mundo,TOP,1,1.0
+Gnar,Fiora,TOP,2,0.5
+Gnar,Gangplank,TOP,4,0.0
+Gnar,Garen,TOP,1,1.0
+Gnar,Gragas,TOP,1,1.0
+Gnar,Gwen,TOP,5,0.4
+Gnar,Irelia,TOP,11,0.5454545454545454
+Gnar,Jarvan IV,JUNGLE,1,0.0
+Gnar,Jax,TOP,22,0.7727272727272727
+Gnar,Jayce,TOP,19,0.631578947368421
+Gnar,K'Sante,TOP,39,0.48717948717948717
+Gnar,Kennen,TOP,17,0.47058823529411764
+Gnar,Malphite,TOP,23,0.43478260869565216
+Gnar,Nasus,TOP,2,0.0
+Gnar,Olaf,TOP,8,0.75
+Gnar,Ornn,TOP,8,0.5
+Gnar,Quinn,TOP,1,1.0
+Gnar,Renekton,TOP,71,0.6056338028169014
+Gnar,Rumble,TOP,15,0.6
+Gnar,Sejuani,TOP,1,1.0
+Gnar,Shen,TOP,1,1.0
+Gnar,Shyvana,TOP,4,0.75
+Gnar,Sion,TOP,44,0.5909090909090909
+Gnar,Swain,TOP,1,1.0
+Gnar,Sylas,TOP,17,0.5294117647058824
+Gnar,Teemo,TOP,1,0.0
+Gnar,Tristana,TOP,4,1.0
+Gnar,Twisted Fate,TOP,8,0.625
+Gnar,Urgot,TOP,2,0.5
+Gnar,Varus,TOP,5,0.4
+Gnar,Vayne,TOP,31,0.41935483870967744
+Gnar,Vladimir,TOP,2,1.0
+Gnar,Volibear,TOP,2,1.0
+Gnar,Wukong,TOP,1,1.0
+Gnar,Xin Zhao,JUNGLE,1,0.0
+Gnar,Yasuo,TOP,9,0.6666666666666666
+Gnar,Yone,TOP,1,1.0
+Gnar,Yorick,TOP,28,0.6071428571428571
+Gnar,Zaahen,TOP,4,0.5
+Gnar,Zac,TOP,1,1.0
+Gragas,Aatrox,TOP,4,0.5
+Gragas,Ahri,TOP,1,0.0
+Gragas,Akali,MIDDLE,1,1.0
+Gragas,Ambessa,TOP,4,0.75
+Gragas,Anivia,TOP,1,0.0
+Gragas,Azir,MIDDLE,1,1.0
+Gragas,Gnar,TOP,9,0.5555555555555556
+Gragas,Gwen,TOP,3,0.0
+Gragas,Jax,TOP,3,1.0
+Gragas,Jayce,TOP,8,0.25
+Gragas,K'Sante,TOP,1,0.0
+Gragas,Kassadin,TOP,1,1.0
+Gragas,Kayle,TOP,1,1.0
+Gragas,Kennen,TOP,1,0.0
+Gragas,Kled,TOP,1,1.0
+Gragas,Olaf,TOP,2,0.0
+Gragas,Orianna,MIDDLE,1,0.0
+Gragas,Ornn,TOP,3,1.0
+Gragas,Poppy,TOP,1,1.0
+Gragas,Renekton,TOP,7,0.5714285714285714
+Gragas,Rumble,TOP,3,0.6666666666666666
+Gragas,Shyvana,TOP,1,0.0
+Gragas,Sion,TOP,3,0.3333333333333333
+Gragas,Yone,TOP,1,1.0
+Gragas,Yorick,TOP,3,0.0
+Gragas,Zaahen,TOP,3,0.3333333333333333
+Graves,Jarvan IV,JUNGLE,1,0.0
+Graves,Jayce,JUNGLE,1,1.0
+Graves,Karthus,JUNGLE,1,0.0
+Graves,Kindred,JUNGLE,1,1.0
+Graves,Malphite,TOP,1,0.0
+Graves,Trundle,JUNGLE,1,0.0
+Graves,Vi,JUNGLE,1,0.0
+Graves,Wukong,JUNGLE,1,0.0
+Graves,Xin Zhao,JUNGLE,2,0.5
+Gwen,Aatrox,TOP,5,0.8
+Gwen,Akali,TOP,3,0.3333333333333333
+Gwen,Ambessa,TOP,18,0.5
+Gwen,Aurora,TOP,2,0.0
+Gwen,Camille,TOP,3,0.6666666666666666
+Gwen,Cassiopeia,TOP,1,1.0
+Gwen,Cho'Gath,TOP,1,0.0
+Gwen,Darius,TOP,1,1.0
+Gwen,Fiora,TOP,1,0.0
+Gwen,Galio,TOP,1,1.0
+Gwen,Gangplank,TOP,1,0.0
+Gwen,Gnar,TOP,8,0.375
+Gwen,Gragas,TOP,1,0.0
+Gwen,Illaoi,TOP,2,1.0
+Gwen,Jarvan IV,JUNGLE,2,0.5
+Gwen,Jax,TOP,6,0.5
+Gwen,Jayce,TOP,1,1.0
+Gwen,K'Sante,TOP,22,0.5
+Gwen,Kassadin,TOP,1,1.0
+Gwen,Kennen,TOP,8,0.375
+Gwen,Kha'Zix,JUNGLE,1,0.0
+Gwen,Lee Sin,JUNGLE,1,1.0
+Gwen,Malphite,JUNGLE,1,0.0
+Gwen,Ornn,TOP,4,0.75
+Gwen,Renekton,TOP,7,0.42857142857142855
+Gwen,Rumble,TOP,4,1.0
+Gwen,Sejuani,JUNGLE,1,0.0
+Gwen,Sejuani,TOP,1,1.0
+Gwen,Shen,TOP,2,0.5
+Gwen,Singed,TOP,1,1.0
+Gwen,Sion,TOP,52,0.6730769230769231
+Gwen,Skarner,JUNGLE,1,0.0
+Gwen,Syndra,MIDDLE,1,1.0
+Gwen,Varus,TOP,1,1.0
+Gwen,Vayne,TOP,1,0.0
+Gwen,Vi,JUNGLE,1,1.0
+Gwen,Viego,JUNGLE,1,1.0
+Gwen,Xin Zhao,JUNGLE,2,0.5
+Gwen,Yone,TOP,1,0.0
+Gwen,Yorick,TOP,2,0.0
+Gwen,Zaahen,TOP,2,0.0
+Hecarim,Jarvan IV,JUNGLE,1,0.0
+Hecarim,Kha'Zix,JUNGLE,1,0.0
+Hecarim,Lee Sin,JUNGLE,2,1.0
+Hecarim,Nasus,JUNGLE,1,0.0
+Hecarim,Nocturne,JUNGLE,1,1.0
+Hecarim,Skarner,JUNGLE,1,0.0
+Hecarim,Trundle,JUNGLE,1,0.0
+Hecarim,Vi,JUNGLE,1,0.0
+Hecarim,Xin Zhao,JUNGLE,1,0.0
+Hwei,Ahri,MIDDLE,5,0.4
+Hwei,Akali,MIDDLE,8,0.625
+Hwei,Ambessa,MIDDLE,1,1.0
+Hwei,Anivia,MIDDLE,2,0.5
+Hwei,Annie,MIDDLE,13,0.46153846153846156
+Hwei,Aurora,MIDDLE,6,0.5
+Hwei,Azir,MIDDLE,4,1.0
+Hwei,Cassiopeia,MIDDLE,8,0.375
+Hwei,Galio,MIDDLE,1,1.0
+Hwei,LeBlanc,MIDDLE,5,0.2
+Hwei,Lissandra,MIDDLE,1,1.0
+Hwei,Mel,MIDDLE,3,0.6666666666666666
+Hwei,Orianna,MIDDLE,6,0.5
+Hwei,Ryze,MIDDLE,8,0.5
+Hwei,Sylas,MIDDLE,2,0.0
+Hwei,Syndra,MIDDLE,8,0.125
+Hwei,Taliyah,MIDDLE,2,0.5
+Hwei,Tristana,MIDDLE,1,1.0
+Hwei,Viktor,MIDDLE,8,0.25
+Hwei,Yone,MIDDLE,3,0.6666666666666666
+Hwei,Zed,MIDDLE,1,1.0
+Hwei,Zoe,MIDDLE,2,0.5
+Illaoi,Ambessa,TOP,1,1.0
+Illaoi,Ornn,TOP,1,1.0
+Illaoi,Renekton,TOP,1,1.0
+Illaoi,Sion,TOP,1,1.0
+Irelia,Ambessa,TOP,1,1.0
+Irelia,Anivia,TOP,1,0.0
+Irelia,Annie,MIDDLE,1,0.0
+Irelia,Aurora,MIDDLE,1,1.0
+Irelia,Aurora,TOP,1,1.0
+Irelia,Cho'Gath,TOP,1,1.0
+Irelia,Gnar,TOP,7,0.5714285714285714
+Irelia,Jax,TOP,2,1.0
+Irelia,Jayce,TOP,3,1.0
+Irelia,K'Sante,TOP,1,1.0
+Irelia,Maokai,TOP,1,0.0
+Irelia,Orianna,MIDDLE,1,0.0
+Irelia,Renekton,TOP,1,0.0
+Irelia,Rumble,TOP,4,0.75
+Irelia,Ryze,MIDDLE,1,0.0
+Irelia,Shen,TOP,1,1.0
+Irelia,Syndra,MIDDLE,3,1.0
+Irelia,Varus,TOP,1,0.0
+Irelia,Viktor,MIDDLE,1,1.0
+Ivern,Dr. Mundo,JUNGLE,1,1.0
+Ivern,Jarvan IV,JUNGLE,1,0.0
+Ivern,Jayce,JUNGLE,1,1.0
+Ivern,Nasus,JUNGLE,1,1.0
+Ivern,Nocturne,JUNGLE,1,0.0
+Ivern,Nunu & Willump,JUNGLE,1,0.0
+Ivern,Pantheon,JUNGLE,1,1.0
+Ivern,Trundle,JUNGLE,2,0.0
+Ivern,Vi,JUNGLE,2,0.0
+Ivern,Wukong,JUNGLE,1,1.0
+Ivern,Xin Zhao,JUNGLE,1,1.0
+Jarvan IV,Aatrox,JUNGLE,26,0.5
+Jarvan IV,Ambessa,JUNGLE,15,0.8666666666666667
+Jarvan IV,Camille,JUNGLE,1,1.0
+Jarvan IV,Dr. Mundo,JUNGLE,13,0.6923076923076923
+Jarvan IV,Elise,JUNGLE,1,1.0
+Jarvan IV,Fizz,JUNGLE,1,1.0
+Jarvan IV,Graves,JUNGLE,3,0.6666666666666666
+Jarvan IV,Gwen,JUNGLE,1,1.0
+Jarvan IV,Jayce,JUNGLE,6,0.6666666666666666
+Jarvan IV,Kayn,JUNGLE,1,1.0
+Jarvan IV,Kha'Zix,JUNGLE,1,0.0
+Jarvan IV,Lee Sin,JUNGLE,67,0.5223880597014925
+Jarvan IV,Lillia,JUNGLE,1,0.0
+Jarvan IV,Malphite,JUNGLE,4,0.25
+Jarvan IV,Maokai,JUNGLE,3,0.3333333333333333
+Jarvan IV,Master Yi,JUNGLE,1,0.0
+Jarvan IV,Naafiri,JUNGLE,45,0.6
+Jarvan IV,Neeko,JUNGLE,1,0.0
+Jarvan IV,Nidalee,JUNGLE,6,0.6666666666666666
+Jarvan IV,Nocturne,JUNGLE,51,0.5882352941176471
+Jarvan IV,Pantheon,JUNGLE,86,0.6162790697674418
+Jarvan IV,Poppy,JUNGLE,14,0.5714285714285714
+Jarvan IV,Qiyana,JUNGLE,8,0.375
+Jarvan IV,Rek'Sai,JUNGLE,3,0.3333333333333333
+Jarvan IV,Rumble,JUNGLE,1,1.0
+Jarvan IV,Sejuani,JUNGLE,13,0.38461538461538464
+Jarvan IV,Shen,JUNGLE,2,0.5
+Jarvan IV,Skarner,JUNGLE,8,0.625
+Jarvan IV,Sylas,JUNGLE,3,0.3333333333333333
+Jarvan IV,Taliyah,JUNGLE,1,0.0
+Jarvan IV,Trundle,JUNGLE,3,0.3333333333333333
+Jarvan IV,Vi,JUNGLE,73,0.5205479452054794
+Jarvan IV,Viego,JUNGLE,6,0.5
+Jarvan IV,Volibear,JUNGLE,2,0.0
+Jarvan IV,Wukong,JUNGLE,81,0.6049382716049383
+Jarvan IV,Xin Zhao,JUNGLE,147,0.5578231292517006
+Jarvan IV,Zaahen,JUNGLE,12,0.75
+Jarvan IV,Zyra,JUNGLE,1,1.0
+Jax,Aatrox,TOP,6,0.8333333333333334
+Jax,Ambessa,TOP,9,0.3333333333333333
+Jax,Anivia,TOP,1,0.0
+Jax,Aurora,TOP,1,0.0
+Jax,Briar,JUNGLE,1,1.0
+Jax,Camille,TOP,2,0.0
+Jax,Cho'Gath,TOP,1,1.0
+Jax,Darius,TOP,1,1.0
+Jax,Dr. Mundo,TOP,3,1.0
+Jax,Garen,TOP,5,0.4
+Jax,Gnar,TOP,12,0.5833333333333334
+Jax,Gragas,TOP,7,0.42857142857142855
+Jax,Gwen,TOP,6,0.5
+Jax,Hecarim,JUNGLE,1,0.0
+Jax,Jarvan IV,JUNGLE,5,0.4
+Jax,Jayce,TOP,1,0.0
+Jax,K'Sante,TOP,13,0.6923076923076923
+Jax,Kayle,TOP,1,0.0
+Jax,Kennen,TOP,7,0.42857142857142855
+Jax,Kha'Zix,JUNGLE,1,0.0
+Jax,Nocturne,JUNGLE,1,1.0
+Jax,Olaf,TOP,2,0.5
+Jax,Ornn,TOP,2,0.5
+Jax,Pantheon,TOP,1,0.0
+Jax,Poppy,TOP,6,0.16666666666666666
+Jax,Rek'Sai,TOP,1,1.0
+Jax,Renekton,TOP,14,0.42857142857142855
+Jax,Riven,TOP,1,0.0
+Jax,Rumble,TOP,2,0.0
+Jax,Shen,TOP,2,0.5
+Jax,Sion,TOP,10,0.7
+Jax,Skarner,JUNGLE,1,1.0
+Jax,Trundle,JUNGLE,1,1.0
+Jax,Varus,TOP,3,1.0
+Jax,Vex,TOP,1,0.0
+Jax,Vi,JUNGLE,1,0.0
+Jax,Viego,JUNGLE,1,1.0
+Jax,Volibear,JUNGLE,1,1.0
+Jax,Wukong,JUNGLE,2,0.5
+Jax,Xin Zhao,JUNGLE,17,0.5294117647058824
+Jax,Yorick,TOP,2,1.0
+Jax,Zaahen,JUNGLE,1,1.0
+Jax,Zaahen,TOP,4,0.5
+Jax,Zilean,TOP,1,0.0
+Jayce,Aatrox,TOP,2,1.0
+Jayce,Akali,MIDDLE,3,0.3333333333333333
+Jayce,Akali,TOP,1,1.0
+Jayce,Ambessa,JUNGLE,4,1.0
+Jayce,Ambessa,TOP,13,0.5384615384615384
+Jayce,Anivia,TOP,7,0.42857142857142855
+Jayce,Aurora,MIDDLE,2,0.5
+Jayce,Aurora,TOP,1,1.0
+Jayce,Azir,MIDDLE,2,0.5
+Jayce,Bel'Veth,JUNGLE,1,1.0
+Jayce,Camille,TOP,1,0.0
+Jayce,Cassiopeia,MIDDLE,1,0.0
+Jayce,Dr. Mundo,JUNGLE,7,0.2857142857142857
+Jayce,Dr. Mundo,TOP,2,1.0
+Jayce,Galio,MIDDLE,1,0.0
+Jayce,Gnar,TOP,6,1.0
+Jayce,Gragas,TOP,1,1.0
+Jayce,Gwen,JUNGLE,2,0.5
+Jayce,Gwen,TOP,4,0.5
+Jayce,Hwei,MIDDLE,1,0.0
+Jayce,Irelia,TOP,7,0.42857142857142855
+Jayce,Ivern,JUNGLE,1,0.0
+Jayce,Jarvan IV,JUNGLE,12,0.3333333333333333
+Jayce,Jax,TOP,1,1.0
+Jayce,K'Sante,TOP,48,0.5208333333333334
+Jayce,Kennen,TOP,4,0.75
+Jayce,Kindred,JUNGLE,1,0.0
+Jayce,Lee Sin,JUNGLE,4,0.25
+Jayce,Malphite,JUNGLE,8,0.125
+Jayce,Malphite,TOP,9,0.5555555555555556
+Jayce,Mel,MIDDLE,1,0.0
+Jayce,Naafiri,JUNGLE,1,1.0
+Jayce,Nocturne,JUNGLE,7,0.5714285714285714
+Jayce,Olaf,TOP,4,0.0
+Jayce,Orianna,MIDDLE,1,1.0
+Jayce,Ornn,TOP,7,0.2857142857142857
+Jayce,Pantheon,JUNGLE,5,0.4
+Jayce,Poppy,TOP,1,0.0
+Jayce,Qiyana,JUNGLE,2,0.0
+Jayce,Renekton,TOP,14,0.42857142857142855
+Jayce,Rengar,JUNGLE,1,0.0
+Jayce,Rumble,TOP,8,0.375
+Jayce,Ryze,MIDDLE,1,1.0
+Jayce,Ryze,TOP,1,1.0
+Jayce,Sejuani,JUNGLE,1,1.0
+Jayce,Sett,TOP,1,0.0
+Jayce,Shen,TOP,4,0.75
+Jayce,Shyvana,TOP,1,1.0
+Jayce,Sion,TOP,69,0.6231884057971014
+Jayce,Skarner,JUNGLE,1,0.0
+Jayce,Skarner,TOP,2,0.0
+Jayce,Swain,TOP,2,0.5
+Jayce,Syndra,MIDDLE,2,1.0
+Jayce,Taliyah,JUNGLE,3,0.3333333333333333
+Jayce,Trundle,JUNGLE,2,0.5
+Jayce,Varus,TOP,5,0.4
+Jayce,Vayne,TOP,10,0.3
+Jayce,Vi,JUNGLE,10,0.6
+Jayce,Viktor,MIDDLE,2,0.0
+Jayce,Vladimir,TOP,2,1.0
+Jayce,Wukong,JUNGLE,13,0.8461538461538461
+Jayce,Xin Zhao,JUNGLE,11,0.36363636363636365
+Jayce,Xin Zhao,TOP,1,1.0
+Jayce,Yorick,TOP,63,0.6349206349206349
+Jayce,Ziggs,MIDDLE,1,1.0
+Jayce,Zyra,JUNGLE,2,0.5
+K'Sante,Aatrox,TOP,11,0.7272727272727273
+K'Sante,Akali,TOP,1,0.0
+K'Sante,Ambessa,TOP,42,0.5
+K'Sante,Anivia,TOP,3,0.0
+K'Sante,Annie,MIDDLE,1,1.0
+K'Sante,Aurora,TOP,7,0.5714285714285714
+K'Sante,Bard,TOP,1,0.0
+K'Sante,Camille,TOP,4,0.5
+K'Sante,Cho'Gath,TOP,2,0.5
+K'Sante,Darius,TOP,1,0.0
+K'Sante,Dr. Mundo,TOP,2,0.0
+K'Sante,Fiora,TOP,4,0.25
+K'Sante,Gangplank,TOP,1,0.0
+K'Sante,Garen,TOP,11,0.7272727272727273
+K'Sante,Gnar,TOP,96,0.4166666666666667
+K'Sante,Gragas,TOP,1,1.0
+K'Sante,Graves,TOP,1,1.0
+K'Sante,Gwen,TOP,44,0.22727272727272727
+K'Sante,Irelia,TOP,1,1.0
+K'Sante,Jax,TOP,8,0.75
+K'Sante,Jayce,TOP,47,0.40425531914893614
+K'Sante,Kayle,TOP,7,0.8571428571428571
+K'Sante,Kennen,TOP,1,1.0
+K'Sante,Kled,TOP,3,0.3333333333333333
+K'Sante,Malphite,TOP,2,0.5
+K'Sante,Mordekaiser,TOP,1,1.0
+K'Sante,Olaf,TOP,5,0.4
+K'Sante,Ornn,TOP,6,0.5
+K'Sante,Poppy,TOP,7,0.42857142857142855
+K'Sante,Rek'Sai,TOP,7,0.14285714285714285
+K'Sante,Renekton,TOP,44,0.5681818181818182
+K'Sante,Rumble,TOP,172,0.5232558139534884
+K'Sante,Shen,TOP,2,0.5
+K'Sante,Sion,TOP,32,0.4375
+K'Sante,Smolder,TOP,3,0.6666666666666666
+K'Sante,Swain,TOP,3,0.3333333333333333
+K'Sante,Twisted Fate,TOP,8,0.125
+K'Sante,Varus,TOP,6,0.16666666666666666
+K'Sante,Vayne,TOP,27,0.4074074074074074
+K'Sante,Volibear,TOP,1,1.0
+K'Sante,Warwick,TOP,1,0.0
+K'Sante,Yasuo,TOP,1,1.0
+K'Sante,Yorick,TOP,7,0.2857142857142857
+K'Sante,Zaahen,TOP,21,0.38095238095238093
+Karma,Ahri,MIDDLE,1,0.0
+Karma,Rumble,TOP,1,0.0
+Karma,Syndra,MIDDLE,1,0.0
+Karthus,Naafiri,JUNGLE,1,0.0
+Karthus,Wukong,JUNGLE,1,0.0
+Kassadin,Cho'Gath,MIDDLE,1,1.0
+Kassadin,Orianna,MIDDLE,2,0.5
+Katarina,Aurora,MIDDLE,1,1.0
+Katarina,Syndra,MIDDLE,1,0.0
+Kayle,Akali,TOP,1,1.0
+Kayle,Gragas,TOP,1,0.0
+Kayle,Hwei,MIDDLE,1,1.0
+Kayle,K'Sante,TOP,2,0.5
+Kayle,Renekton,TOP,1,0.0
+Kayn,Xin Zhao,JUNGLE,1,1.0
+Kennen,Aatrox,TOP,1,0.0
+Kennen,Ambessa,TOP,4,0.75
+Kennen,Annie,TOP,1,1.0
+Kennen,Cassiopeia,TOP,1,0.0
+Kennen,Fiora,TOP,1,1.0
+Kennen,Gnar,TOP,10,0.5
+Kennen,Gragas,TOP,1,0.0
+Kennen,Gwen,TOP,2,0.0
+Kennen,Jax,TOP,4,0.5
+Kennen,Jayce,TOP,3,0.3333333333333333
+Kennen,K'Sante,TOP,2,0.0
+Kennen,Malphite,TOP,3,0.0
+Kennen,Nasus,TOP,1,0.0
+Kennen,Ornn,TOP,1,0.0
+Kennen,Renekton,TOP,13,0.3076923076923077
+Kennen,Rumble,TOP,3,0.6666666666666666
+Kennen,Ryze,TOP,2,0.0
+Kennen,Sion,TOP,2,0.5
+Kennen,Varus,TOP,2,0.5
+Kennen,Vladimir,TOP,1,0.0
+Kennen,Yorick,TOP,3,0.6666666666666666
+Kennen,Zaahen,TOP,2,1.0
+Kha'Zix,Ambessa,JUNGLE,2,0.5
+Kha'Zix,Ivern,JUNGLE,1,1.0
+Kha'Zix,Jayce,JUNGLE,1,1.0
+Kha'Zix,Lee Sin,JUNGLE,2,0.5
+Kha'Zix,Nidalee,JUNGLE,1,1.0
+Kha'Zix,Nocturne,JUNGLE,4,0.75
+Kha'Zix,Pantheon,JUNGLE,1,1.0
+Kha'Zix,Poppy,JUNGLE,1,1.0
+Kha'Zix,Skarner,JUNGLE,1,0.0
+Kha'Zix,Sylas,JUNGLE,1,1.0
+Kha'Zix,Trundle,JUNGLE,1,1.0
+Kha'Zix,Vi,JUNGLE,2,0.5
+Kha'Zix,Viego,JUNGLE,1,0.0
+Kha'Zix,Wukong,JUNGLE,1,0.0
+Kha'Zix,Xin Zhao,JUNGLE,9,0.6666666666666666
+Kha'Zix,Zaahen,JUNGLE,2,0.0
+Kha'Zix,Zed,JUNGLE,1,1.0
+Kindred,Ambessa,JUNGLE,1,0.0
+Kindred,Dr. Mundo,JUNGLE,1,1.0
+Kindred,Jarvan IV,JUNGLE,2,0.0
+Kindred,Lee Sin,JUNGLE,1,0.0
+Kindred,Lillia,JUNGLE,1,0.0
+Kindred,Nocturne,JUNGLE,1,0.0
+Kindred,Trundle,JUNGLE,1,0.0
+Kindred,Vi,JUNGLE,2,0.0
+Kindred,Wukong,JUNGLE,2,0.0
+Kindred,Xin Zhao,JUNGLE,3,0.6666666666666666
+Kled,Ambessa,TOP,2,1.0
+Kled,Jax,TOP,1,1.0
+Kled,K'Sante,TOP,1,1.0
+Kled,Nidalee,TOP,1,1.0
+Kled,Olaf,TOP,2,1.0
+Kled,Sion,TOP,8,0.375
+Kog'Maw,Cassiopeia,MIDDLE,1,1.0
+Kog'Maw,Orianna,MIDDLE,2,1.0
+Kog'Maw,Ryze,MIDDLE,1,0.0
+Kog'Maw,Taliyah,MIDDLE,1,1.0
+Kog'Maw,Viktor,MIDDLE,1,0.0
+Kog'Maw,Yone,MIDDLE,1,0.0
+Kog'Maw,Zoe,MIDDLE,1,0.0
+LeBlanc,Ahri,MIDDLE,20,0.45
+LeBlanc,Akali,MIDDLE,5,0.6
+LeBlanc,Anivia,MIDDLE,1,0.0
+LeBlanc,Annie,MIDDLE,2,0.0
+LeBlanc,Aurelion Sol,MIDDLE,1,0.0
+LeBlanc,Aurora,MIDDLE,16,0.5625
+LeBlanc,Azir,MIDDLE,19,0.6842105263157895
+LeBlanc,Cassiopeia,MIDDLE,6,0.6666666666666666
+LeBlanc,Corki,MIDDLE,1,0.0
+LeBlanc,Ezreal,MIDDLE,1,1.0
+LeBlanc,Galio,MIDDLE,11,0.36363636363636365
+LeBlanc,Hwei,MIDDLE,1,1.0
+LeBlanc,Irelia,MIDDLE,1,1.0
+LeBlanc,Lissandra,MIDDLE,2,1.0
+LeBlanc,Orianna,MIDDLE,8,0.5
+LeBlanc,Ryze,MIDDLE,2,0.0
+LeBlanc,Sylas,MIDDLE,2,1.0
+LeBlanc,Syndra,MIDDLE,6,0.6666666666666666
+LeBlanc,Taliyah,MIDDLE,4,1.0
+LeBlanc,Twisted Fate,MIDDLE,1,0.0
+LeBlanc,Vex,MIDDLE,1,0.0
+LeBlanc,Viktor,MIDDLE,8,0.5
+LeBlanc,Vladimir,MIDDLE,2,0.5
+LeBlanc,Xerath,MIDDLE,1,0.0
+LeBlanc,Yasuo,MIDDLE,1,0.0
+LeBlanc,Yone,MIDDLE,1,1.0
+LeBlanc,Zoe,MIDDLE,1,0.0
+Lee Sin,Aatrox,JUNGLE,5,0.8
+Lee Sin,Ambessa,JUNGLE,5,0.6
+Lee Sin,Dr. Mundo,JUNGLE,5,1.0
+Lee Sin,Gwen,JUNGLE,1,1.0
+Lee Sin,Jarvan IV,JUNGLE,44,0.5454545454545454
+Lee Sin,Jax,JUNGLE,2,0.5
+Lee Sin,Jayce,JUNGLE,5,0.6
+Lee Sin,Maokai,JUNGLE,2,0.5
+Lee Sin,Naafiri,JUNGLE,19,0.6842105263157895
+Lee Sin,Nidalee,JUNGLE,1,0.0
+Lee Sin,Nocturne,JUNGLE,12,0.6666666666666666
+Lee Sin,Olaf,JUNGLE,2,1.0
+Lee Sin,Ornn,TOP,1,1.0
+Lee Sin,Pantheon,JUNGLE,17,0.47058823529411764
+Lee Sin,Poppy,JUNGLE,1,0.0
+Lee Sin,Qiyana,JUNGLE,3,1.0
+Lee Sin,Rek'Sai,JUNGLE,4,0.5
+Lee Sin,Rumble,TOP,1,0.0
+Lee Sin,Sejuani,JUNGLE,4,1.0
+Lee Sin,Shen,JUNGLE,1,0.0
+Lee Sin,Shyvana,JUNGLE,2,1.0
+Lee Sin,Skarner,JUNGLE,20,0.55
+Lee Sin,Sylas,JUNGLE,1,1.0
+Lee Sin,Trundle,JUNGLE,4,1.0
+Lee Sin,Vi,JUNGLE,25,0.4
+Lee Sin,Viego,JUNGLE,1,0.0
+Lee Sin,Volibear,JUNGLE,1,1.0
+Lee Sin,Wukong,JUNGLE,29,0.5517241379310345
+Lee Sin,Xin Zhao,JUNGLE,25,0.68
+Lee Sin,Zaahen,JUNGLE,3,0.6666666666666666
+Lee Sin,Zed,JUNGLE,1,0.0
+Lillia,Dr. Mundo,JUNGLE,1,0.0
+Lillia,Jarvan IV,JUNGLE,1,1.0
+Lillia,Kindred,JUNGLE,1,1.0
+Lillia,Maokai,JUNGLE,1,1.0
+Lillia,Nunu & Willump,JUNGLE,1,0.0
+Lillia,Wukong,JUNGLE,2,0.5
+Lissandra,Ahri,MIDDLE,25,0.4
+Lissandra,Akali,MIDDLE,1,0.0
+Lissandra,Aurora,MIDDLE,2,0.5
+Lissandra,LeBlanc,MIDDLE,6,0.5
+Lissandra,Sylas,MIDDLE,2,0.0
+Lissandra,Twisted Fate,MIDDLE,1,1.0
+Lissandra,Viktor,MIDDLE,2,0.5
+Lissandra,Yone,MIDDLE,1,1.0
+Lissandra,Zoe,MIDDLE,1,0.0
+Locke,Galio,MIDDLE,1,1.0
+Locke,Zed,MIDDLE,1,1.0
+Lucian,Ahri,MIDDLE,1,0.0
+Lux,Aurora,MIDDLE,1,0.0
+Lux,Azir,MIDDLE,1,1.0
+Lux,LeBlanc,MIDDLE,1,1.0
+Lux,Orianna,MIDDLE,1,1.0
+Lux,Vex,MIDDLE,1,0.0
+Malphite,Aatrox,JUNGLE,2,0.0
+Malphite,Ahri,TOP,1,0.0
+Malphite,Ambessa,TOP,1,0.0
+Malphite,Aurora,TOP,1,1.0
+Malphite,Dr. Mundo,JUNGLE,8,0.375
+Malphite,Gnar,TOP,12,0.5833333333333334
+Malphite,Gwen,TOP,1,0.0
+Malphite,Jarvan IV,JUNGLE,3,0.3333333333333333
+Malphite,Jax,TOP,4,0.75
+Malphite,Jayce,JUNGLE,4,0.25
+Malphite,Jayce,TOP,7,0.42857142857142855
+Malphite,Karthus,JUNGLE,1,1.0
+Malphite,Lee Sin,JUNGLE,1,0.0
+Malphite,Mordekaiser,TOP,1,0.0
+Malphite,Nautilus,JUNGLE,1,0.0
+Malphite,Neeko,JUNGLE,1,0.0
+Malphite,Nocturne,JUNGLE,3,0.3333333333333333
+Malphite,Ornn,TOP,1,0.0
+Malphite,Pantheon,JUNGLE,5,0.2
+Malphite,Qiyana,JUNGLE,1,0.0
+Malphite,Rumble,TOP,1,0.0
+Malphite,Sejuani,JUNGLE,1,1.0
+Malphite,Sion,TOP,1,1.0
+Malphite,Skarner,TOP,1,1.0
+Malphite,Sylas,JUNGLE,2,0.0
+Malphite,Sylas,TOP,1,1.0
+Malphite,Trundle,JUNGLE,2,0.5
+Malphite,Urgot,TOP,1,0.0
+Malphite,Vi,JUNGLE,5,0.6
+Malphite,Viego,JUNGLE,1,1.0
+Malphite,Wukong,JUNGLE,5,0.4
+Malphite,Xin Zhao,JUNGLE,5,0.8
+Malphite,Zaahen,JUNGLE,1,0.0
+Malphite,Zaahen,TOP,2,0.5
+Malzahar,Azir,MIDDLE,1,1.0
+Malzahar,Cassiopeia,MIDDLE,1,0.0
+Malzahar,Jayce,MIDDLE,1,1.0
+Malzahar,LeBlanc,MIDDLE,3,0.6666666666666666
+Malzahar,Poppy,TOP,1,0.0
+Malzahar,Ryze,MIDDLE,2,0.5
+Malzahar,Zoe,MIDDLE,1,0.0
+Maokai,Aatrox,JUNGLE,1,1.0
+Maokai,Dr. Mundo,JUNGLE,2,1.0
+Maokai,Gnar,TOP,1,0.0
+Maokai,Gwen,TOP,1,1.0
+Maokai,Jarvan IV,JUNGLE,2,0.5
+Maokai,K'Sante,TOP,1,1.0
+Maokai,Lee Sin,JUNGLE,3,1.0
+Maokai,Naafiri,JUNGLE,4,0.5
+Maokai,Nasus,JUNGLE,1,0.0
+Maokai,Nocturne,JUNGLE,4,0.5
+Maokai,Pantheon,JUNGLE,3,0.3333333333333333
+Maokai,Poppy,JUNGLE,1,1.0
+Maokai,Qiyana,JUNGLE,1,1.0
+Maokai,Sejuani,JUNGLE,1,0.0
+Maokai,Sion,TOP,1,0.0
+Maokai,Skarner,JUNGLE,4,0.5
+Maokai,Sylas,JUNGLE,1,1.0
+Maokai,Trundle,JUNGLE,3,0.6666666666666666
+Maokai,Vi,JUNGLE,3,0.0
+Maokai,Viego,JUNGLE,1,1.0
+Maokai,Wukong,JUNGLE,9,0.7777777777777778
+Maokai,Xin Zhao,JUNGLE,2,0.5
+Maokai,Yorick,TOP,1,0.0
+Master Yi,Vi,JUNGLE,1,0.0
+Mel,Ahri,MIDDLE,29,0.41379310344827586
+Mel,Akali,MIDDLE,7,0.42857142857142855
+Mel,Anivia,MIDDLE,1,1.0
+Mel,Annie,MIDDLE,9,0.3333333333333333
+Mel,Aurora,MIDDLE,12,0.5
+Mel,Azir,MIDDLE,4,0.75
+Mel,Cassiopeia,MIDDLE,2,0.0
+Mel,Galio,MIDDLE,4,0.5
+Mel,Hwei,MIDDLE,5,0.6
+Mel,LeBlanc,MIDDLE,3,0.6666666666666666
+Mel,Lissandra,MIDDLE,1,1.0
+Mel,Lux,MIDDLE,1,1.0
+Mel,Orianna,MIDDLE,1,0.0
+Mel,Rumble,MIDDLE,1,1.0
+Mel,Ryze,MIDDLE,12,0.25
+Mel,Seraphine,MIDDLE,1,1.0
+Mel,Sion,MIDDLE,1,0.0
+Mel,Sylas,MIDDLE,2,0.5
+Mel,Syndra,MIDDLE,3,0.6666666666666666
+Mel,Taliyah,MIDDLE,4,0.75
+Mel,Twisted Fate,MIDDLE,7,0.2857142857142857
+Mel,Vex,MIDDLE,1,1.0
+Mel,Viktor,MIDDLE,10,0.4
+Mel,Xerath,MIDDLE,1,1.0
+Mel,Yone,MIDDLE,3,0.3333333333333333
+Mel,Zoe,MIDDLE,2,0.0
+Mordekaiser,Ambessa,TOP,1,0.0
+Mordekaiser,Gnar,TOP,1,0.0
+Mordekaiser,Jax,TOP,1,0.0
+Mordekaiser,Jayce,TOP,1,0.0
+Mordekaiser,K'Sante,TOP,1,1.0
+Mordekaiser,Ornn,TOP,3,0.0
+Mordekaiser,Rumble,TOP,2,0.5
+Mordekaiser,Shen,TOP,2,1.0
+Mordekaiser,Sion,TOP,4,1.0
+Mordekaiser,Viktor,MIDDLE,1,0.0
+Mordekaiser,Yorick,TOP,1,1.0
+Morgana,Ahri,MIDDLE,2,0.5
+Morgana,Aurora,MIDDLE,1,1.0
+Morgana,Hwei,MIDDLE,1,0.0
+Morgana,Sejuani,JUNGLE,1,1.0
+Morgana,Vi,JUNGLE,1,0.0
+Morgana,Zoe,MIDDLE,1,1.0
+Naafiri,Aatrox,JUNGLE,6,0.6666666666666666
+Naafiri,Ambessa,JUNGLE,5,0.4
+Naafiri,Aurora,MIDDLE,1,0.0
+Naafiri,Brand,JUNGLE,1,0.0
+Naafiri,Diana,JUNGLE,1,1.0
+Naafiri,Dr. Mundo,JUNGLE,5,0.6
+Naafiri,Fiddlesticks,JUNGLE,1,1.0
+Naafiri,Hecarim,JUNGLE,2,0.0
+Naafiri,Jarvan IV,JUNGLE,39,0.6153846153846154
+Naafiri,Kindred,JUNGLE,1,1.0
+Naafiri,Lee Sin,JUNGLE,21,0.6190476190476191
+Naafiri,Lillia,JUNGLE,2,1.0
+Naafiri,Maokai,JUNGLE,3,1.0
+Naafiri,Nidalee,JUNGLE,1,0.0
+Naafiri,Nocturne,JUNGLE,19,0.42105263157894735
+Naafiri,Olaf,JUNGLE,3,1.0
+Naafiri,Pantheon,JUNGLE,15,0.6
+Naafiri,Poppy,JUNGLE,2,0.5
+Naafiri,Qiyana,JUNGLE,2,0.5
+Naafiri,Rek'Sai,JUNGLE,2,1.0
+Naafiri,Rengar,JUNGLE,2,0.0
+Naafiri,Sejuani,JUNGLE,4,0.75
+Naafiri,Skarner,JUNGLE,9,0.6666666666666666
+Naafiri,Sylas,JUNGLE,1,0.0
+Naafiri,Taliyah,JUNGLE,1,0.0
+Naafiri,Trundle,JUNGLE,10,0.3
+Naafiri,Varus,TOP,3,1.0
+Naafiri,Vi,JUNGLE,47,0.3617021276595745
+Naafiri,Viego,JUNGLE,2,0.5
+Naafiri,Wukong,JUNGLE,16,0.375
+Naafiri,Xin Zhao,JUNGLE,22,0.4090909090909091
+Naafiri,Zaahen,JUNGLE,2,1.0
+Naafiri,Zed,JUNGLE,1,1.0
+Naafiri,Zed,MIDDLE,1,1.0
+Naafiri,Zyra,JUNGLE,1,1.0
+Nami,Azir,MIDDLE,1,1.0
+Nasus,Aatrox,JUNGLE,2,1.0
+Nasus,Malphite,JUNGLE,1,0.0
+Nasus,Swain,MIDDLE,1,0.0
+Nasus,Vi,JUNGLE,1,1.0
+Nasus,Vladimir,TOP,1,1.0
+Nasus,Wukong,JUNGLE,2,0.5
+Nasus,Xin Zhao,JUNGLE,3,1.0
+Nasus,Zaahen,TOP,1,0.0
+Nasus,Zyra,JUNGLE,1,1.0
+Nautilus,Ambessa,JUNGLE,1,1.0
+Neeko,Aurelion Sol,MIDDLE,1,0.0
+Neeko,Nocturne,JUNGLE,1,0.0
+Neeko,Sylas,MIDDLE,1,1.0
+Neeko,Syndra,MIDDLE,1,0.0
+Neeko,Taliyah,MIDDLE,1,1.0
+Neeko,Xin Zhao,JUNGLE,1,1.0
+Nidalee,Aatrox,JUNGLE,1,0.0
+Nidalee,Ambessa,JUNGLE,1,1.0
+Nidalee,Gragas,TOP,1,0.0
+Nidalee,Jarvan IV,JUNGLE,2,0.5
+Nidalee,Naafiri,JUNGLE,1,0.0
+Nidalee,Skarner,JUNGLE,1,1.0
+Nidalee,Trundle,JUNGLE,2,0.5
+Nidalee,Vi,JUNGLE,3,0.6666666666666666
+Nidalee,Viego,JUNGLE,2,0.5
+Nidalee,Wukong,JUNGLE,2,1.0
+Nidalee,Xin Zhao,JUNGLE,2,1.0
+Nidalee,Zaahen,JUNGLE,1,0.0
+Nidalee,Zyra,JUNGLE,2,1.0
+Nocturne,Aatrox,JUNGLE,10,0.6
+Nocturne,Ambessa,JUNGLE,5,0.6
+Nocturne,Amumu,JUNGLE,1,1.0
+Nocturne,Brand,JUNGLE,1,1.0
+Nocturne,Darius,JUNGLE,2,0.5
+Nocturne,Dr. Mundo,JUNGLE,8,0.5
+Nocturne,Gwen,JUNGLE,1,1.0
+Nocturne,Ivern,JUNGLE,2,1.0
+Nocturne,Jarvan IV,JUNGLE,57,0.45614035087719296
+Nocturne,Jax,JUNGLE,1,1.0
+Nocturne,Jayce,JUNGLE,1,1.0
+Nocturne,Kayn,JUNGLE,1,1.0
+Nocturne,Kha'Zix,JUNGLE,4,0.5
+Nocturne,Kindred,JUNGLE,1,1.0
+Nocturne,Lee Sin,JUNGLE,14,0.35714285714285715
+Nocturne,Malphite,JUNGLE,2,0.0
+Nocturne,Maokai,JUNGLE,2,1.0
+Nocturne,Naafiri,JUNGLE,15,0.6
+Nocturne,Nidalee,JUNGLE,1,0.0
+Nocturne,Olaf,JUNGLE,4,0.75
+Nocturne,Pantheon,JUNGLE,67,0.5970149253731343
+Nocturne,Qiyana,JUNGLE,4,1.0
+Nocturne,Rek'Sai,JUNGLE,3,1.0
+Nocturne,Sejuani,JUNGLE,4,0.25
+Nocturne,Shen,JUNGLE,1,1.0
+Nocturne,Shyvana,JUNGLE,3,0.3333333333333333
+Nocturne,Skarner,JUNGLE,17,0.7647058823529411
+Nocturne,Sylas,JUNGLE,1,0.0
+Nocturne,Trundle,JUNGLE,8,0.375
+Nocturne,Vi,JUNGLE,46,0.6304347826086957
+Nocturne,Viego,JUNGLE,2,1.0
+Nocturne,Wukong,JUNGLE,44,0.5909090909090909
+Nocturne,Xin Zhao,JUNGLE,49,0.5306122448979592
+Nocturne,Zaahen,JUNGLE,9,0.1111111111111111
+Nunu & Willump,Dr. Mundo,JUNGLE,1,0.0
+Nunu & Willump,Naafiri,JUNGLE,1,1.0
+Nunu & Willump,Pantheon,JUNGLE,1,0.0
+Nunu & Willump,Xin Zhao,JUNGLE,1,0.0
+Olaf,Akali,TOP,1,1.0
+Olaf,Ambessa,JUNGLE,1,0.0
+Olaf,Ambessa,TOP,1,1.0
+Olaf,Camille,TOP,1,1.0
+Olaf,Dr. Mundo,JUNGLE,1,0.0
+Olaf,Gnar,TOP,6,0.5
+Olaf,Gragas,TOP,1,1.0
+Olaf,Jax,TOP,3,0.6666666666666666
+Olaf,Jayce,JUNGLE,1,1.0
+Olaf,Jayce,TOP,4,1.0
+Olaf,K'Sante,TOP,2,1.0
+Olaf,Kha'Zix,JUNGLE,1,1.0
+Olaf,Lee Sin,JUNGLE,4,0.75
+Olaf,Naafiri,JUNGLE,1,0.0
+Olaf,Nocturne,JUNGLE,2,0.0
+Olaf,Ornn,JUNGLE,1,1.0
+Olaf,Pantheon,JUNGLE,1,1.0
+Olaf,Qiyana,JUNGLE,1,1.0
+Olaf,Renekton,TOP,9,0.3333333333333333
+Olaf,Rumble,TOP,3,0.3333333333333333
+Olaf,Sejuani,JUNGLE,1,1.0
+Olaf,Sion,TOP,2,0.0
+Olaf,Skarner,JUNGLE,2,1.0
+Olaf,Trundle,JUNGLE,1,0.0
+Olaf,Twisted Fate,TOP,1,1.0
+Olaf,Varus,TOP,1,0.0
+Olaf,Vayne,TOP,1,1.0
+Olaf,Vi,JUNGLE,3,0.3333333333333333
+Olaf,Wukong,JUNGLE,3,0.6666666666666666
+Olaf,Xin Zhao,JUNGLE,9,0.6666666666666666
+Olaf,Yone,TOP,1,0.0
+Olaf,Zaahen,JUNGLE,2,1.0
+Olaf,Zaahen,TOP,2,1.0
+Orianna,Ahri,MIDDLE,29,0.5862068965517241
+Orianna,Akali,MIDDLE,86,0.38372093023255816
+Orianna,Anivia,MIDDLE,3,1.0
+Orianna,Annie,MIDDLE,7,0.2857142857142857
+Orianna,Aurelion Sol,MIDDLE,9,0.3333333333333333
+Orianna,Aurora,MIDDLE,12,0.3333333333333333
+Orianna,Azir,MIDDLE,89,0.5280898876404494
+Orianna,Cassiopeia,MIDDLE,7,0.5714285714285714
+Orianna,Diana,MIDDLE,1,0.0
+Orianna,Ekko,MIDDLE,1,1.0
+Orianna,Galio,MIDDLE,71,0.5774647887323944
+Orianna,Hwei,MIDDLE,4,0.75
+Orianna,Irelia,MIDDLE,1,1.0
+Orianna,K'Sante,MIDDLE,1,1.0
+Orianna,Kassadin,MIDDLE,5,0.6
+Orianna,LeBlanc,MIDDLE,19,0.47368421052631576
+Orianna,Lissandra,MIDDLE,1,1.0
+Orianna,Lux,MIDDLE,1,1.0
+Orianna,Mel,MIDDLE,2,1.0
+Orianna,Morgana,MIDDLE,1,0.0
+Orianna,Neeko,MIDDLE,1,0.0
+Orianna,Rumble,TOP,1,1.0
+Orianna,Ryze,MIDDLE,88,0.5909090909090909
+Orianna,Sion,MIDDLE,3,0.3333333333333333
+Orianna,Swain,MIDDLE,1,0.0
+Orianna,Sylas,MIDDLE,13,0.6153846153846154
+Orianna,Syndra,MIDDLE,47,0.5957446808510638
+Orianna,Taliyah,MIDDLE,6,0.6666666666666666
+Orianna,Tristana,MIDDLE,1,0.0
+Orianna,Twisted Fate,MIDDLE,1,1.0
+Orianna,Veigar,MIDDLE,2,1.0
+Orianna,Viktor,MIDDLE,47,0.46808510638297873
+Orianna,Xerath,MIDDLE,2,0.5
+Orianna,Yasuo,MIDDLE,1,0.0
+Orianna,Yone,MIDDLE,4,0.75
+Orianna,Zed,MIDDLE,3,0.3333333333333333
+Orianna,Ziggs,MIDDLE,3,0.6666666666666666
+Orianna,Zoe,MIDDLE,2,0.5
+Orianna,Zyra,MIDDLE,1,1.0
+Ornn,Aatrox,TOP,11,0.45454545454545453
+Ornn,Ambessa,TOP,9,0.5555555555555556
+Ornn,Aurora,TOP,5,0.8
+Ornn,Camille,TOP,3,0.3333333333333333
+Ornn,Cho'Gath,TOP,1,1.0
+Ornn,Darius,TOP,1,0.0
+Ornn,Dr. Mundo,JUNGLE,1,1.0
+Ornn,Dr. Mundo,TOP,2,0.5
+Ornn,Fiora,TOP,5,0.6
+Ornn,Garen,TOP,1,1.0
+Ornn,Gnar,TOP,13,0.23076923076923078
+Ornn,Gragas,TOP,5,0.4
+Ornn,Gwen,TOP,8,0.125
+Ornn,Jax,TOP,5,0.2
+Ornn,Jayce,TOP,5,1.0
+Ornn,K'Sante,TOP,9,0.4444444444444444
+Ornn,Kayle,TOP,1,0.0
+Ornn,Kled,TOP,2,0.5
+Ornn,Malphite,TOP,1,1.0
+Ornn,Mordekaiser,TOP,2,0.0
+Ornn,Naafiri,JUNGLE,1,0.0
+Ornn,Nasus,TOP,1,1.0
+Ornn,Olaf,TOP,4,0.0
+Ornn,Qiyana,TOP,1,1.0
+Ornn,Renekton,TOP,18,0.6111111111111112
+Ornn,Rumble,TOP,80,0.5625
+Ornn,Shen,TOP,3,0.6666666666666666
+Ornn,Shyvana,TOP,1,1.0
+Ornn,Singed,TOP,1,0.0
+Ornn,Sion,TOP,9,0.3333333333333333
+Ornn,Smolder,TOP,1,1.0
+Ornn,Vayne,TOP,1,0.0
+Ornn,Vladimir,TOP,2,1.0
+Ornn,Yasuo,TOP,1,0.0
+Ornn,Yorick,TOP,1,1.0
+Ornn,Zaahen,TOP,9,0.7777777777777778
+Pantheon,Aatrox,JUNGLE,27,0.48148148148148145
+Pantheon,Ambessa,JUNGLE,9,0.5555555555555556
+Pantheon,Amumu,JUNGLE,1,1.0
+Pantheon,Brand,JUNGLE,1,0.0
+Pantheon,Dr. Mundo,JUNGLE,22,0.45454545454545453
+Pantheon,Gnar,TOP,1,1.0
+Pantheon,Gwen,JUNGLE,1,1.0
+Pantheon,Hecarim,JUNGLE,2,0.5
+Pantheon,Ivern,JUNGLE,3,0.0
+Pantheon,Jarvan IV,JUNGLE,96,0.4791666666666667
+Pantheon,Jax,JUNGLE,2,1.0
+Pantheon,Jax,TOP,1,0.0
+Pantheon,Jayce,JUNGLE,5,0.2
+Pantheon,Kha'Zix,JUNGLE,1,1.0
+Pantheon,Lee Sin,JUNGLE,25,0.4
+Pantheon,Lillia,JUNGLE,1,0.0
+Pantheon,Malphite,JUNGLE,5,0.2
+Pantheon,Maokai,JUNGLE,4,0.75
+Pantheon,Master Yi,JUNGLE,1,1.0
+Pantheon,Naafiri,JUNGLE,22,0.5
+Pantheon,Nautilus,JUNGLE,1,1.0
+Pantheon,Nidalee,JUNGLE,1,1.0
+Pantheon,Nocturne,JUNGLE,55,0.5818181818181818
+Pantheon,Olaf,JUNGLE,4,0.75
+Pantheon,Poppy,JUNGLE,1,0.0
+Pantheon,Qiyana,JUNGLE,6,0.5
+Pantheon,Sejuani,JUNGLE,9,0.4444444444444444
+Pantheon,Shaco,JUNGLE,1,1.0
+Pantheon,Shen,JUNGLE,1,1.0
+Pantheon,Skarner,JUNGLE,40,0.45
+Pantheon,Sylas,JUNGLE,1,1.0
+Pantheon,Trundle,JUNGLE,14,0.6428571428571429
+Pantheon,Trundle,TOP,1,1.0
+Pantheon,Vi,JUNGLE,52,0.5576923076923077
+Pantheon,Viego,JUNGLE,3,0.3333333333333333
+Pantheon,Volibear,JUNGLE,2,1.0
+Pantheon,Wukong,JUNGLE,59,0.5084745762711864
+Pantheon,Xin Zhao,JUNGLE,99,0.494949494949495
+Pantheon,Yorick,TOP,1,0.0
+Pantheon,Zaahen,JUNGLE,9,0.4444444444444444
+Pantheon,Zaahen,TOP,1,0.0
+Pantheon,Zyra,JUNGLE,1,1.0
+Poppy,Aatrox,TOP,3,0.3333333333333333
+Poppy,Ambessa,JUNGLE,1,1.0
+Poppy,Ambessa,TOP,7,0.5714285714285714
+Poppy,Anivia,TOP,1,0.0
+Poppy,Gnar,TOP,6,0.5
+Poppy,Gwen,TOP,2,0.5
+Poppy,Jarvan IV,JUNGLE,11,0.45454545454545453
+Poppy,Jayce,JUNGLE,1,0.0
+Poppy,K'Sante,TOP,6,0.8333333333333334
+Poppy,Lee Sin,JUNGLE,4,1.0
+Poppy,Maokai,JUNGLE,2,1.0
+Poppy,Naafiri,JUNGLE,4,0.25
+Poppy,Pantheon,JUNGLE,4,0.75
+Poppy,Pantheon,TOP,1,0.0
+Poppy,Renekton,TOP,1,1.0
+Poppy,Rengar,JUNGLE,1,1.0
+Poppy,Sejuani,JUNGLE,1,1.0
+Poppy,Sion,TOP,1,1.0
+Poppy,Sylas,JUNGLE,1,1.0
+Poppy,Varus,TOP,1,1.0
+Poppy,Vi,JUNGLE,9,0.4444444444444444
+Poppy,Viego,JUNGLE,1,1.0
+Poppy,Wukong,JUNGLE,5,0.4
+Poppy,Xin Zhao,JUNGLE,1,0.0
+Poppy,Zaahen,JUNGLE,1,1.0
+Qiyana,Aatrox,JUNGLE,7,0.7142857142857143
+Qiyana,Ambessa,JUNGLE,1,1.0
+Qiyana,Anivia,MIDDLE,1,0.0
+Qiyana,Dr. Mundo,JUNGLE,3,0.6666666666666666
+Qiyana,Jarvan IV,JUNGLE,24,0.5833333333333334
+Qiyana,Karthus,JUNGLE,1,1.0
+Qiyana,Lee Sin,JUNGLE,3,1.0
+Qiyana,Malphite,JUNGLE,1,1.0
+Qiyana,Naafiri,JUNGLE,4,0.75
+Qiyana,Nocturne,JUNGLE,3,0.0
+Qiyana,Pantheon,JUNGLE,5,0.8
+Qiyana,Poppy,JUNGLE,1,1.0
+Qiyana,Sejuani,JUNGLE,2,1.0
+Qiyana,Skarner,JUNGLE,1,1.0
+Qiyana,Sylas,JUNGLE,1,1.0
+Qiyana,Trundle,JUNGLE,4,0.75
+Qiyana,Vi,JUNGLE,2,0.0
+Qiyana,Wukong,JUNGLE,9,0.5555555555555556
+Qiyana,Xin Zhao,JUNGLE,9,0.3333333333333333
+Qiyana,Zaahen,JUNGLE,1,1.0
+Quinn,Hwei,MIDDLE,1,1.0
+Quinn,Renekton,TOP,2,1.0
+Rammus,Udyr,JUNGLE,1,1.0
+Rammus,Zac,JUNGLE,1,0.0
+Rek'Sai,Aatrox,JUNGLE,1,0.0
+Rek'Sai,Ambessa,TOP,10,0.6
+Rek'Sai,Gangplank,TOP,1,0.0
+Rek'Sai,Gragas,TOP,1,1.0
+Rek'Sai,Jarvan IV,JUNGLE,7,0.5714285714285714
+Rek'Sai,Jax,TOP,3,0.3333333333333333
+Rek'Sai,K'Sante,TOP,6,0.5
+Rek'Sai,Karthus,JUNGLE,1,0.0
+Rek'Sai,Lee Sin,JUNGLE,4,0.75
+Rek'Sai,Naafiri,TOP,1,1.0
+Rek'Sai,Nocturne,JUNGLE,4,0.5
+Rek'Sai,Pantheon,JUNGLE,1,1.0
+Rek'Sai,Qiyana,JUNGLE,2,1.0
+Rek'Sai,Renekton,TOP,7,0.2857142857142857
+Rek'Sai,Sett,TOP,1,0.0
+Rek'Sai,Sion,TOP,8,0.75
+Rek'Sai,Taliyah,JUNGLE,1,0.0
+Rek'Sai,Trundle,JUNGLE,1,0.0
+Rek'Sai,Vi,JUNGLE,4,1.0
+Rek'Sai,Wukong,JUNGLE,3,0.6666666666666666
+Rek'Sai,Xin Zhao,JUNGLE,3,0.3333333333333333
+Rek'Sai,Yorick,TOP,1,0.0
+Rek'Sai,Zaahen,TOP,3,0.3333333333333333
+Renekton,Aatrox,TOP,13,0.6923076923076923
+Renekton,Akali,MIDDLE,1,1.0
+Renekton,Akali,TOP,1,0.0
+Renekton,Ambessa,TOP,22,0.5909090909090909
+Renekton,Anivia,TOP,1,1.0
+Renekton,Aurora,TOP,18,0.4444444444444444
+Renekton,Camille,TOP,1,1.0
+Renekton,Cho'Gath,TOP,3,1.0
+Renekton,Darius,TOP,3,1.0
+Renekton,Dr. Mundo,TOP,10,0.5
+Renekton,Fiora,TOP,1,1.0
+Renekton,Gangplank,TOP,1,1.0
+Renekton,Garen,TOP,2,0.5
+Renekton,Gnar,TOP,109,0.5321100917431193
+Renekton,Gragas,TOP,5,0.8
+Renekton,Gwen,TOP,9,0.3333333333333333
+Renekton,Illaoi,TOP,2,0.0
+Renekton,Irelia,MIDDLE,1,0.0
+Renekton,Jax,TOP,29,0.6896551724137931
+Renekton,Jayce,TOP,22,0.4090909090909091
+Renekton,K'Sante,TOP,64,0.625
+Renekton,Kennen,TOP,24,0.5
+Renekton,Kled,TOP,1,1.0
+Renekton,Malphite,TOP,5,1.0
+Renekton,Mordekaiser,TOP,6,1.0
+Renekton,Nasus,TOP,1,0.0
+Renekton,Nidalee,TOP,1,0.0
+Renekton,Olaf,TOP,10,0.7
+Renekton,Ornn,TOP,45,0.5777777777777777
+Renekton,Pantheon,TOP,1,0.0
+Renekton,Poppy,TOP,3,0.6666666666666666
+Renekton,Quinn,TOP,1,0.0
+Renekton,Rek'Sai,TOP,2,0.5
+Renekton,Rumble,TOP,8,0.375
+Renekton,Sett,TOP,1,0.0
+Renekton,Shen,TOP,5,0.6
+Renekton,Shyvana,TOP,1,1.0
+Renekton,Sion,TOP,34,0.5294117647058824
+Renekton,Skarner,TOP,2,1.0
+Renekton,Swain,TOP,1,0.0
+Renekton,Syndra,MIDDLE,1,0.0
+Renekton,Twisted Fate,TOP,1,1.0
+Renekton,Udyr,TOP,1,1.0
+Renekton,Urgot,TOP,1,0.0
+Renekton,Varus,TOP,5,0.4
+Renekton,Vayne,TOP,16,0.4375
+Renekton,Volibear,TOP,8,0.375
+Renekton,Yasuo,MIDDLE,1,0.0
+Renekton,Yorick,TOP,6,0.16666666666666666
+Renekton,Zaahen,TOP,25,0.48
+Renekton,Ziggs,MIDDLE,1,1.0
+Rengar,Dr. Mundo,JUNGLE,1,0.0
+Rengar,Jarvan IV,JUNGLE,1,0.0
+Rengar,Vi,JUNGLE,1,1.0
+Rengar,Viego,JUNGLE,2,1.0
+Rengar,Xin Zhao,JUNGLE,2,0.5
+Rengar,Zaahen,JUNGLE,1,0.0
+Riven,Jax,TOP,1,1.0
+Riven,K'Sante,TOP,2,1.0
+Riven,Shen,TOP,1,1.0
+Riven,Sion,TOP,2,1.0
+Riven,Zaahen,TOP,1,1.0
+Riven,Zac,TOP,1,1.0
+Rumble,Aatrox,TOP,20,0.6
+Rumble,Ambessa,TOP,95,0.5157894736842106
+Rumble,Anivia,TOP,13,0.3076923076923077
+Rumble,Aurora,TOP,34,0.6176470588235294
+Rumble,Brand,TOP,1,1.0
+Rumble,Cassiopeia,TOP,3,0.0
+Rumble,Cho'Gath,TOP,1,1.0
+Rumble,Dr. Mundo,TOP,2,0.0
+Rumble,Fiora,TOP,1,0.0
+Rumble,Galio,TOP,41,0.5853658536585366
+Rumble,Gnar,TOP,14,0.7142857142857143
+Rumble,Gragas,TOP,5,0.6
+Rumble,Gwen,TOP,8,0.875
+Rumble,Illaoi,TOP,1,1.0
+Rumble,Irelia,TOP,3,0.6666666666666666
+Rumble,Jarvan IV,TOP,1,1.0
+Rumble,Jayce,JUNGLE,1,1.0
+Rumble,Jayce,TOP,12,0.5
+Rumble,K'Sante,TOP,220,0.5681818181818182
+Rumble,Karma,TOP,1,1.0
+Rumble,Kennen,TOP,4,0.75
+Rumble,Kled,TOP,3,0.6666666666666666
+Rumble,Malphite,TOP,1,0.0
+Rumble,Mordekaiser,TOP,2,0.0
+Rumble,Naafiri,TOP,2,0.5
+Rumble,Olaf,TOP,3,0.3333333333333333
+Rumble,Ornn,TOP,106,0.5471698113207547
+Rumble,Quinn,TOP,1,1.0
+Rumble,Renekton,TOP,9,0.5555555555555556
+Rumble,Riven,TOP,1,1.0
+Rumble,Ryze,MIDDLE,1,1.0
+Rumble,Ryze,TOP,3,0.3333333333333333
+Rumble,Shen,TOP,3,0.6666666666666666
+Rumble,Sion,TOP,81,0.4691358024691358
+Rumble,Swain,TOP,2,1.0
+Rumble,Tahm Kench,TOP,1,1.0
+Rumble,Tryndamere,TOP,2,1.0
+Rumble,Twisted Fate,MIDDLE,1,1.0
+Rumble,Twisted Fate,TOP,2,0.5
+Rumble,Udyr,TOP,2,0.5
+Rumble,Varus,TOP,18,0.6666666666666666
+Rumble,Vayne,TOP,5,0.4
+Rumble,Wukong,JUNGLE,1,0.0
+Rumble,Yasuo,TOP,1,1.0
+Rumble,Yone,TOP,1,1.0
+Rumble,Yorick,TOP,21,0.7619047619047619
+Rumble,Zaahen,TOP,1,1.0
+Ryze,Ahri,MIDDLE,39,0.6153846153846154
+Ryze,Akali,MIDDLE,17,0.5294117647058824
+Ryze,Ambessa,MIDDLE,1,0.0
+Ryze,Anivia,MIDDLE,132,0.48484848484848486
+Ryze,Annie,MIDDLE,35,0.4
+Ryze,Aurelion Sol,MIDDLE,7,0.42857142857142855
+Ryze,Aurora,MIDDLE,47,0.48936170212765956
+Ryze,Azir,MIDDLE,67,0.6119402985074627
+Ryze,Camille,TOP,1,0.0
+Ryze,Cassiopeia,MIDDLE,57,0.45614035087719296
+Ryze,Corki,MIDDLE,1,1.0
+Ryze,Diana,MIDDLE,1,1.0
+Ryze,Galio,MIDDLE,13,0.6153846153846154
+Ryze,Hwei,MIDDLE,14,0.7857142857142857
+Ryze,Jayce,MIDDLE,2,0.0
+Ryze,Kai'Sa,MIDDLE,1,0.0
+Ryze,Kassadin,MIDDLE,2,1.0
+Ryze,Kog'Maw,MIDDLE,4,0.5
+Ryze,LeBlanc,MIDDLE,2,0.5
+Ryze,Lissandra,MIDDLE,1,0.0
+Ryze,Malzahar,MIDDLE,3,0.3333333333333333
+Ryze,Mel,MIDDLE,7,0.7142857142857143
+Ryze,Mordekaiser,TOP,1,1.0
+Ryze,Neeko,MIDDLE,1,1.0
+Ryze,Orianna,MIDDLE,60,0.5
+Ryze,Rumble,TOP,6,0.16666666666666666
+Ryze,Sion,MIDDLE,2,0.5
+Ryze,Swain,MIDDLE,1,0.0
+Ryze,Sylas,MIDDLE,1,1.0
+Ryze,Syndra,MIDDLE,67,0.47761194029850745
+Ryze,Taliyah,MIDDLE,111,0.5675675675675675
+Ryze,Tristana,MIDDLE,2,0.5
+Ryze,Twisted Fate,MIDDLE,14,0.5714285714285714
+Ryze,Veigar,MIDDLE,5,0.8
+Ryze,Vel'Koz,MIDDLE,2,1.0
+Ryze,Viktor,MIDDLE,40,0.625
+Ryze,Viktor,TOP,1,1.0
+Ryze,Vladimir,MIDDLE,1,0.0
+Ryze,Xin Zhao,MIDDLE,1,0.0
+Ryze,Yasuo,MIDDLE,1,1.0
+Ryze,Yone,MIDDLE,26,0.6538461538461539
+Ryze,Ziggs,MIDDLE,3,0.6666666666666666
+Ryze,Zoe,MIDDLE,9,0.5555555555555556
+Sejuani,Aatrox,JUNGLE,1,0.0
+Sejuani,Ambessa,JUNGLE,1,0.0
+Sejuani,Diana,JUNGLE,2,0.5
+Sejuani,Dr. Mundo,JUNGLE,2,0.5
+Sejuani,Gnar,TOP,1,0.0
+Sejuani,Jarvan IV,JUNGLE,6,0.6666666666666666
+Sejuani,Jayce,JUNGLE,1,0.0
+Sejuani,K'Sante,TOP,1,1.0
+Sejuani,Kha'Zix,JUNGLE,2,1.0
+Sejuani,Lee Sin,JUNGLE,3,0.0
+Sejuani,Lillia,JUNGLE,1,0.0
+Sejuani,Malphite,JUNGLE,1,0.0
+Sejuani,Malphite,TOP,1,1.0
+Sejuani,Maokai,JUNGLE,4,0.5
+Sejuani,Naafiri,JUNGLE,3,0.6666666666666666
+Sejuani,Nidalee,JUNGLE,2,0.5
+Sejuani,Nocturne,JUNGLE,3,0.3333333333333333
+Sejuani,Pantheon,JUNGLE,3,0.6666666666666666
+Sejuani,Qiyana,JUNGLE,1,0.0
+Sejuani,Skarner,JUNGLE,2,0.0
+Sejuani,Trundle,JUNGLE,5,0.2
+Sejuani,Vi,JUNGLE,7,0.5714285714285714
+Sejuani,Viego,JUNGLE,1,0.0
+Sejuani,Wukong,JUNGLE,10,0.7
+Sejuani,Xin Zhao,JUNGLE,5,0.8
+Sejuani,Yorick,TOP,1,0.0
+Sejuani,Zaahen,JUNGLE,2,0.5
+Seraphine,Viktor,MIDDLE,1,0.0
+Sett,Ambessa,TOP,1,1.0
+Sett,Jax,TOP,1,0.0
+Sett,K'Sante,TOP,1,0.0
+Sett,Kled,TOP,1,0.0
+Sett,Rumble,TOP,1,1.0
+Sett,Sion,TOP,2,0.5
+Shaco,Vi,JUNGLE,1,1.0
+Shen,Aatrox,TOP,3,0.0
+Shen,Ambessa,TOP,8,0.75
+Shen,Anivia,TOP,1,1.0
+Shen,Dr. Mundo,JUNGLE,1,1.0
+Shen,Fiora,TOP,1,1.0
+Shen,Gnar,TOP,1,0.0
+Shen,Gragas,TOP,2,0.5
+Shen,Gwen,TOP,3,0.3333333333333333
+Shen,Jax,TOP,2,1.0
+Shen,Jayce,TOP,1,0.0
+Shen,K'Sante,TOP,7,0.5714285714285714
+Shen,Kennen,TOP,1,1.0
+Shen,Lee Sin,JUNGLE,1,1.0
+Shen,Naafiri,JUNGLE,1,1.0
+Shen,Nocturne,JUNGLE,1,0.0
+Shen,Olaf,TOP,1,0.0
+Shen,Ornn,TOP,2,0.5
+Shen,Pantheon,JUNGLE,3,0.6666666666666666
+Shen,Renekton,TOP,8,0.75
+Shen,Sion,TOP,14,0.42857142857142855
+Shen,Vi,JUNGLE,4,0.5
+Shen,Viktor,MIDDLE,1,1.0
+Shen,Wukong,JUNGLE,1,0.0
+Shen,Xin Zhao,JUNGLE,3,0.3333333333333333
+Shen,Zaahen,TOP,2,0.5
+Shyvana,Ambessa,TOP,1,0.0
+Shyvana,Cassiopeia,TOP,1,1.0
+Shyvana,Gnar,TOP,2,1.0
+Shyvana,Jarvan IV,JUNGLE,1,1.0
+Shyvana,Jayce,TOP,1,0.0
+Shyvana,Naafiri,JUNGLE,1,1.0
+Shyvana,Nasus,JUNGLE,2,0.0
+Shyvana,Nocturne,JUNGLE,1,0.0
+Shyvana,Pantheon,JUNGLE,1,1.0
+Shyvana,Qiyana,JUNGLE,1,1.0
+Shyvana,Renekton,TOP,1,1.0
+Shyvana,Wukong,JUNGLE,2,0.5
+Singed,Ambessa,TOP,3,0.3333333333333333
+Singed,Gnar,TOP,2,0.5
+Singed,K'Sante,TOP,1,0.0
+Sion,Aatrox,TOP,53,0.4716981132075472
+Sion,Ahri,MIDDLE,2,0.5
+Sion,Akali,MIDDLE,1,1.0
+Sion,Akali,TOP,2,0.5
+Sion,Ambessa,TOP,47,0.5531914893617021
+Sion,Anivia,MIDDLE,1,0.0
+Sion,Anivia,TOP,3,0.0
+Sion,Annie,MIDDLE,2,1.0
+Sion,Aurora,MIDDLE,3,0.6666666666666666
+Sion,Aurora,TOP,3,0.6666666666666666
+Sion,Camille,TOP,5,0.8
+Sion,Cho'Gath,TOP,11,0.6363636363636364
+Sion,Darius,TOP,3,0.6666666666666666
+Sion,Dr. Mundo,TOP,7,0.5714285714285714
+Sion,Fiora,TOP,9,0.5555555555555556
+Sion,Gangplank,TOP,1,1.0
+Sion,Garen,TOP,1,1.0
+Sion,Gnar,TOP,74,0.5
+Sion,Gragas,TOP,1,0.0
+Sion,Gwen,TOP,82,0.4878048780487805
+Sion,Hwei,MIDDLE,1,0.0
+Sion,Illaoi,TOP,2,0.5
+Sion,Irelia,TOP,6,0.3333333333333333
+Sion,Jax,TOP,6,0.6666666666666666
+Sion,Jayce,TOP,63,0.5396825396825397
+Sion,K'Sante,TOP,35,0.6
+Sion,Kayle,TOP,2,0.5
+Sion,Kled,TOP,7,0.2857142857142857
+Sion,LeBlanc,MIDDLE,1,1.0
+Sion,Maokai,TOP,1,1.0
+Sion,Mordekaiser,TOP,6,0.8333333333333334
+Sion,Nasus,TOP,1,1.0
+Sion,Olaf,TOP,7,0.42857142857142855
+Sion,Orianna,MIDDLE,3,0.3333333333333333
+Sion,Orianna,TOP,1,0.0
+Sion,Ornn,TOP,11,0.5454545454545454
+Sion,Poppy,TOP,1,1.0
+Sion,Rek'Sai,TOP,15,0.3333333333333333
+Sion,Renekton,TOP,46,0.5652173913043478
+Sion,Riven,TOP,3,1.0
+Sion,Rumble,TOP,66,0.4393939393939394
+Sion,Ryze,MIDDLE,1,0.0
+Sion,Sett,TOP,6,0.3333333333333333
+Sion,Shen,TOP,15,0.6
+Sion,Shyvana,TOP,1,0.0
+Sion,Smolder,TOP,1,1.0
+Sion,Swain,TOP,2,0.5
+Sion,Sylas,TOP,1,1.0
+Sion,Syndra,MIDDLE,1,1.0
+Sion,Taliyah,MIDDLE,1,0.0
+Sion,Trundle,TOP,1,1.0
+Sion,Twisted Fate,TOP,1,1.0
+Sion,Udyr,TOP,1,1.0
+Sion,Varus,TOP,8,0.375
+Sion,Vayne,TOP,6,0.3333333333333333
+Sion,Viktor,MIDDLE,4,0.75
+Sion,Volibear,TOP,2,1.0
+Sion,Wukong,JUNGLE,2,0.5
+Sion,Xin Zhao,TOP,1,1.0
+Sion,Yone,TOP,11,0.45454545454545453
+Sion,Yorick,TOP,6,0.6666666666666666
+Sion,Zaahen,JUNGLE,1,0.0
+Sion,Zaahen,TOP,45,0.4222222222222222
+Sion,Zac,TOP,1,0.0
+Skarner,Aatrox,JUNGLE,2,0.0
+Skarner,Ambessa,JUNGLE,1,0.0
+Skarner,Ambessa,TOP,1,0.0
+Skarner,Cassiopeia,TOP,1,1.0
+Skarner,Dr. Mundo,JUNGLE,5,0.6
+Skarner,Gragas,TOP,1,1.0
+Skarner,Jarvan IV,JUNGLE,10,0.4
+Skarner,Jayce,JUNGLE,2,0.5
+Skarner,K'Sante,TOP,1,0.0
+Skarner,Kindred,JUNGLE,1,1.0
+Skarner,Lee Sin,JUNGLE,18,0.6666666666666666
+Skarner,Lillia,JUNGLE,1,1.0
+Skarner,Maokai,JUNGLE,5,1.0
+Skarner,Naafiri,JUNGLE,5,0.4
+Skarner,Nocturne,JUNGLE,10,0.5
+Skarner,Olaf,JUNGLE,1,0.0
+Skarner,Pantheon,JUNGLE,43,0.5813953488372093
+Skarner,Qiyana,JUNGLE,1,0.0
+Skarner,Rek'Sai,JUNGLE,1,0.0
+Skarner,Renekton,TOP,6,0.8333333333333334
+Skarner,Rumble,TOP,1,0.0
+Skarner,Sejuani,JUNGLE,6,0.5
+Skarner,Shyvana,JUNGLE,1,0.0
+Skarner,Sylas,JUNGLE,1,0.0
+Skarner,Trundle,JUNGLE,9,0.6666666666666666
+Skarner,Vi,JUNGLE,15,0.6666666666666666
+Skarner,Wukong,JUNGLE,18,0.4444444444444444
+Skarner,Xin Zhao,JUNGLE,24,0.6666666666666666
+Skarner,Zaahen,JUNGLE,1,0.0
+Skarner,Zyra,JUNGLE,3,0.0
+Smolder,Anivia,MIDDLE,1,0.0
+Smolder,Galio,MIDDLE,3,0.6666666666666666
+Smolder,Hwei,MIDDLE,1,1.0
+Smolder,K'Sante,TOP,1,0.0
+Smolder,Malzahar,MIDDLE,1,1.0
+Smolder,Tristana,MIDDLE,1,1.0
+Swain,Ahri,MIDDLE,3,0.3333333333333333
+Swain,Galio,MIDDLE,4,1.0
+Swain,Gnar,TOP,1,0.0
+Swain,Jayce,TOP,1,0.0
+Swain,Ornn,TOP,1,0.0
+Swain,Ryze,MIDDLE,1,0.0
+Swain,Shen,TOP,1,1.0
+Swain,Sion,TOP,1,1.0
+Swain,Taliyah,MIDDLE,2,0.5
+Sylas,Ahri,MIDDLE,39,0.5641025641025641
+Sylas,Akali,MIDDLE,1,0.0
+Sylas,Ambessa,JUNGLE,1,0.0
+Sylas,Anivia,MIDDLE,3,0.6666666666666666
+Sylas,Annie,MIDDLE,5,0.6
+Sylas,Aurelion Sol,MIDDLE,1,1.0
+Sylas,Aurora,MIDDLE,11,0.5454545454545454
+Sylas,Azir,MIDDLE,4,1.0
+Sylas,Cassiopeia,MIDDLE,1,0.0
+Sylas,Galio,MIDDLE,1,1.0
+Sylas,Gnar,MIDDLE,1,1.0
+Sylas,Gnar,TOP,7,0.2857142857142857
+Sylas,Gwen,MIDDLE,1,0.0
+Sylas,Hwei,MIDDLE,3,0.6666666666666666
+Sylas,Jarvan IV,JUNGLE,2,0.0
+Sylas,Jayce,JUNGLE,1,1.0
+Sylas,Kassadin,MIDDLE,1,0.0
+Sylas,LeBlanc,MIDDLE,1,0.0
+Sylas,Lissandra,MIDDLE,2,0.5
+Sylas,Locke,MIDDLE,1,1.0
+Sylas,Mel,MIDDLE,2,1.0
+Sylas,Nocturne,JUNGLE,3,0.3333333333333333
+Sylas,Orianna,MIDDLE,12,0.6666666666666666
+Sylas,Pantheon,JUNGLE,1,0.0
+Sylas,Pantheon,MIDDLE,1,0.0
+Sylas,Ryze,MIDDLE,4,0.25
+Sylas,Swain,MIDDLE,1,0.0
+Sylas,Syndra,MIDDLE,10,0.7
+Sylas,Taliyah,MIDDLE,2,0.5
+Sylas,Trundle,JUNGLE,1,0.0
+Sylas,Twisted Fate,MIDDLE,3,0.6666666666666666
+Sylas,Viktor,MIDDLE,13,0.46153846153846156
+Sylas,Vladimir,MIDDLE,2,0.5
+Sylas,Xin Zhao,JUNGLE,4,0.5
+Sylas,Yasuo,MIDDLE,2,0.0
+Sylas,Yone,MIDDLE,2,1.0
+Sylas,Zyra,JUNGLE,1,0.0
+Syndra,Ahri,MIDDLE,8,0.125
+Syndra,Akali,MIDDLE,14,0.5
+Syndra,Anivia,MIDDLE,3,0.3333333333333333
+Syndra,Annie,MIDDLE,8,0.5
+Syndra,Aurelion Sol,MIDDLE,1,0.0
+Syndra,Aurora,MIDDLE,26,0.46153846153846156
+Syndra,Azir,MIDDLE,8,0.75
+Syndra,Cassiopeia,MIDDLE,14,0.2857142857142857
+Syndra,Ekko,MIDDLE,2,0.5
+Syndra,Fizz,MIDDLE,2,1.0
+Syndra,Galio,MIDDLE,5,0.4
+Syndra,Gwen,MIDDLE,1,0.0
+Syndra,Hwei,MIDDLE,6,0.3333333333333333
+Syndra,Irelia,MIDDLE,2,0.5
+Syndra,Jayce,MIDDLE,1,1.0
+Syndra,Karthus,MIDDLE,1,1.0
+Syndra,LeBlanc,MIDDLE,6,0.3333333333333333
+Syndra,Lux,MIDDLE,1,1.0
+Syndra,Mel,MIDDLE,9,0.7777777777777778
+Syndra,Orianna,MIDDLE,26,0.38461538461538464
+Syndra,Rell,JUNGLE,1,1.0
+Syndra,Ryze,MIDDLE,39,0.5128205128205128
+Syndra,Sion,MIDDLE,1,0.0
+Syndra,Sylas,MIDDLE,3,0.6666666666666666
+Syndra,Taliyah,MIDDLE,10,0.7
+Syndra,Tristana,MIDDLE,1,1.0
+Syndra,Twisted Fate,MIDDLE,1,0.0
+Syndra,Varus,MIDDLE,2,1.0
+Syndra,Viktor,MIDDLE,23,0.4782608695652174
+Syndra,Vladimir,MIDDLE,1,1.0
+Syndra,Yasuo,MIDDLE,1,0.0
+Syndra,Yone,MIDDLE,3,0.6666666666666666
+Syndra,Zoe,MIDDLE,4,0.75
+Tahm Kench,Renekton,TOP,1,0.0
+Taliyah,Aatrox,JUNGLE,1,1.0
+Taliyah,Ahri,MIDDLE,41,0.4146341463414634
+Taliyah,Akali,MIDDLE,4,0.5
+Taliyah,Ambessa,JUNGLE,1,1.0
+Taliyah,Anivia,MIDDLE,7,0.2857142857142857
+Taliyah,Annie,MIDDLE,5,0.6
+Taliyah,Aurelion Sol,MIDDLE,1,0.0
+Taliyah,Aurora,MIDDLE,26,0.38461538461538464
+Taliyah,Azir,MIDDLE,46,0.5434782608695652
+Taliyah,Cassiopeia,MIDDLE,4,0.75
+Taliyah,Corki,MIDDLE,1,0.0
+Taliyah,Galio,MIDDLE,11,0.9090909090909091
+Taliyah,Hwei,MIDDLE,8,0.5
+Taliyah,Jarvan IV,JUNGLE,1,1.0
+Taliyah,Jayce,JUNGLE,1,0.0
+Taliyah,Jayce,MIDDLE,3,0.3333333333333333
+Taliyah,Kassadin,MIDDLE,1,1.0
+Taliyah,Kha'Zix,JUNGLE,1,1.0
+Taliyah,Kog'Maw,MIDDLE,1,1.0
+Taliyah,LeBlanc,MIDDLE,5,0.4
+Taliyah,Lee Sin,JUNGLE,1,0.0
+Taliyah,Lissandra,MIDDLE,2,0.0
+Taliyah,Malphite,JUNGLE,1,1.0
+Taliyah,Mel,MIDDLE,2,1.0
+Taliyah,Orianna,MIDDLE,9,0.4444444444444444
+Taliyah,Pantheon,JUNGLE,1,0.0
+Taliyah,Rumble,MIDDLE,1,1.0
+Taliyah,Ryze,MIDDLE,101,0.5544554455445545
+Taliyah,Sylas,MIDDLE,4,1.0
+Taliyah,Syndra,MIDDLE,14,0.5
+Taliyah,Twisted Fate,MIDDLE,4,0.75
+Taliyah,Veigar,MIDDLE,2,0.0
+Taliyah,Vi,JUNGLE,2,1.0
+Taliyah,Viktor,MIDDLE,21,0.42857142857142855
+Taliyah,Wukong,JUNGLE,2,1.0
+Taliyah,Yone,MIDDLE,6,0.6666666666666666
+Taliyah,Zac,JUNGLE,1,1.0
+Taliyah,Zoe,MIDDLE,4,0.0
+Talon,Dr. Mundo,JUNGLE,1,1.0
+Talon,Kindred,JUNGLE,1,1.0
+Talon,Naafiri,JUNGLE,1,0.0
+Talon,Nocturne,JUNGLE,1,1.0
+Talon,Viego,JUNGLE,1,1.0
+Tristana,Anivia,MIDDLE,1,1.0
+Tristana,Aurora,MIDDLE,1,1.0
+Tristana,Azir,MIDDLE,1,1.0
+Tristana,Gnar,TOP,6,0.5
+Tristana,Ryze,MIDDLE,4,0.75
+Tristana,Taliyah,MIDDLE,1,0.0
+Tristana,Thresh,JUNGLE,1,1.0
+Tristana,Veigar,MIDDLE,1,1.0
+Tristana,Viktor,MIDDLE,1,1.0
+Tristana,Yone,MIDDLE,1,0.0
+Trundle,Aatrox,JUNGLE,4,0.75
+Trundle,Ambessa,JUNGLE,2,1.0
+Trundle,Dr. Mundo,JUNGLE,10,0.6
+Trundle,Jarvan IV,JUNGLE,4,0.75
+Trundle,Kha'Zix,JUNGLE,1,0.0
+Trundle,Kindred,JUNGLE,5,0.6
+Trundle,Lee Sin,JUNGLE,8,0.5
+Trundle,Lillia,JUNGLE,1,1.0
+Trundle,Malphite,JUNGLE,3,0.3333333333333333
+Trundle,Maokai,JUNGLE,2,0.5
+Trundle,Naafiri,JUNGLE,9,0.2222222222222222
+Trundle,Nidalee,JUNGLE,1,1.0
+Trundle,Nocturne,JUNGLE,6,0.5
+Trundle,Olaf,JUNGLE,3,0.3333333333333333
+Trundle,Pantheon,JUNGLE,13,0.6923076923076923
+Trundle,Poppy,JUNGLE,2,0.0
+Trundle,Qiyana,JUNGLE,4,0.75
+Trundle,Rek'Sai,JUNGLE,1,0.0
+Trundle,Sejuani,JUNGLE,2,0.5
+Trundle,Skarner,JUNGLE,9,0.8888888888888888
+Trundle,Sylas,JUNGLE,1,0.0
+Trundle,Taliyah,JUNGLE,1,0.0
+Trundle,Vi,JUNGLE,10,0.5
+Trundle,Viego,JUNGLE,2,0.0
+Trundle,Wukong,JUNGLE,13,0.7692307692307693
+Trundle,Xin Zhao,JUNGLE,33,0.5454545454545454
+Trundle,Zaahen,JUNGLE,2,1.0
+Trundle,Zac,JUNGLE,1,1.0
+Trundle,Zyra,JUNGLE,2,0.5
+Tryndamere,Ambessa,TOP,1,0.0
+Tryndamere,Darius,TOP,1,1.0
+Tryndamere,Jax,TOP,1,1.0
+Tryndamere,Ornn,TOP,1,1.0
+Tryndamere,Xin Zhao,JUNGLE,2,0.5
+Twisted Fate,Ahri,MIDDLE,5,0.4
+Twisted Fate,Akali,MIDDLE,11,0.7272727272727273
+Twisted Fate,Anivia,MIDDLE,3,0.3333333333333333
+Twisted Fate,Annie,MIDDLE,2,0.5
+Twisted Fate,Aurora,MIDDLE,16,0.6875
+Twisted Fate,Cassiopeia,MIDDLE,3,0.3333333333333333
+Twisted Fate,Galio,MIDDLE,5,0.6
+Twisted Fate,Gnar,TOP,6,0.8333333333333334
+Twisted Fate,Gwen,TOP,1,1.0
+Twisted Fate,Hwei,MIDDLE,3,1.0
+Twisted Fate,Irelia,TOP,1,1.0
+Twisted Fate,K'Sante,TOP,4,0.75
+Twisted Fate,LeBlanc,MIDDLE,4,0.75
+Twisted Fate,Mel,MIDDLE,2,1.0
+Twisted Fate,Morgana,MIDDLE,1,1.0
+Twisted Fate,Olaf,TOP,1,1.0
+Twisted Fate,Orianna,MIDDLE,2,1.0
+Twisted Fate,Rumble,TOP,1,1.0
+Twisted Fate,Ryze,MIDDLE,13,0.6153846153846154
+Twisted Fate,Shen,TOP,1,1.0
+Twisted Fate,Sion,TOP,1,1.0
+Twisted Fate,Sylas,MIDDLE,2,0.5
+Twisted Fate,Syndra,MIDDLE,3,0.6666666666666666
+Twisted Fate,Taliyah,MIDDLE,5,0.4
+Twisted Fate,Tristana,MIDDLE,1,1.0
+Twisted Fate,Vayne,TOP,1,1.0
+Twisted Fate,Viktor,MIDDLE,2,0.0
+Twisted Fate,Vladimir,MIDDLE,1,1.0
+Twisted Fate,Yasuo,MIDDLE,1,1.0
+Twisted Fate,Yone,MIDDLE,2,0.5
+Twisted Fate,Ziggs,MIDDLE,2,0.5
+Twisted Fate,Zoe,MIDDLE,2,1.0
+Udyr,Aatrox,JUNGLE,1,0.0
+Udyr,Aatrox,TOP,1,0.0
+Udyr,Hecarim,JUNGLE,1,1.0
+Udyr,Jax,JUNGLE,1,0.0
+Udyr,Rumble,TOP,1,1.0
+Udyr,Vayne,TOP,1,0.0
+Udyr,Volibear,JUNGLE,1,1.0
+Udyr,Wukong,JUNGLE,1,1.0
+Udyr,Zaahen,TOP,1,1.0
+Urgot,Aatrox,TOP,1,1.0
+Urgot,Fiora,TOP,1,1.0
+Urgot,Gnar,TOP,2,1.0
+Urgot,Jax,TOP,1,1.0
+Urgot,K'Sante,TOP,2,0.5
+Urgot,Nocturne,JUNGLE,1,0.0
+Urgot,Vi,JUNGLE,1,0.0
+Urgot,Xin Zhao,JUNGLE,1,1.0
+Urgot,Yorick,TOP,1,0.0
+Urgot,Zaahen,TOP,1,1.0
+Varus,Ambessa,TOP,3,1.0
+Varus,Anivia,MIDDLE,1,0.0
+Varus,Anivia,TOP,1,1.0
+Varus,Aurora,TOP,1,1.0
+Varus,Azir,MIDDLE,1,1.0
+Varus,Gnar,TOP,7,0.5714285714285714
+Varus,Gragas,TOP,1,0.0
+Varus,Hwei,MIDDLE,1,1.0
+Varus,Jax,TOP,5,0.4
+Varus,Jayce,TOP,2,1.0
+Varus,K'Sante,TOP,2,0.0
+Varus,Malphite,TOP,1,0.0
+Varus,Naafiri,TOP,4,0.5
+Varus,Olaf,TOP,4,0.75
+Varus,Ornn,TOP,1,0.0
+Varus,Renekton,TOP,4,0.5
+Varus,Rumble,TOP,8,0.875
+Varus,Ryze,MIDDLE,2,0.0
+Varus,Sion,TOP,4,0.25
+Varus,Sylas,TOP,1,1.0
+Varus,Twisted Fate,TOP,1,0.0
+Varus,Urgot,TOP,1,1.0
+Varus,Viktor,MIDDLE,1,1.0
+Varus,Yasuo,TOP,7,0.5714285714285714
+Varus,Yorick,TOP,3,1.0
+Vayne,Ambessa,TOP,7,0.7142857142857143
+Vayne,Aurora,MIDDLE,1,0.0
+Vayne,Camille,TOP,1,1.0
+Vayne,Darius,TOP,1,1.0
+Vayne,Galio,MIDDLE,2,1.0
+Vayne,Gnar,TOP,20,0.75
+Vayne,Illaoi,TOP,1,1.0
+Vayne,Jayce,TOP,4,0.5
+Vayne,K'Sante,TOP,13,0.6923076923076923
+Vayne,Kennen,TOP,1,1.0
+Vayne,Malphite,TOP,1,0.0
+Vayne,Ornn,TOP,2,0.5
+Vayne,Renekton,TOP,12,0.6666666666666666
+Vayne,Rumble,TOP,2,0.5
+Vayne,Shen,TOP,2,1.0
+Vayne,Shyvana,TOP,1,1.0
+Vayne,Sion,TOP,7,0.2857142857142857
+Vayne,Sylas,MIDDLE,1,0.0
+Vayne,Teemo,TOP,1,1.0
+Vayne,Tristana,TOP,1,0.0
+Vayne,Yorick,TOP,1,1.0
+Vayne,Zaahen,TOP,2,0.5
+Veigar,Ahri,MIDDLE,3,0.6666666666666666
+Veigar,Akali,MIDDLE,1,1.0
+Veigar,Kassadin,MIDDLE,1,0.0
+Veigar,Mel,MIDDLE,2,0.5
+Veigar,Ryze,MIDDLE,2,0.0
+Vel'Koz,Cassiopeia,MIDDLE,1,1.0
+Vex,Akali,MIDDLE,1,1.0
+Vex,LeBlanc,MIDDLE,2,0.0
+Vex,Twisted Fate,MIDDLE,1,1.0
+Vex,Yasuo,MIDDLE,1,1.0
+Vi,Aatrox,JUNGLE,10,0.3
+Vi,Ambessa,JUNGLE,7,0.7142857142857143
+Vi,Dr. Mundo,JUNGLE,12,0.4166666666666667
+Vi,Gnar,TOP,1,0.0
+Vi,Gwen,JUNGLE,2,1.0
+Vi,Hecarim,JUNGLE,1,1.0
+Vi,Ivern,JUNGLE,1,1.0
+Vi,Jarvan IV,JUNGLE,95,0.49473684210526314
+Vi,Jayce,JUNGLE,10,0.6
+Vi,Kha'Zix,JUNGLE,1,0.0
+Vi,Kindred,JUNGLE,1,1.0
+Vi,Lee Sin,JUNGLE,19,0.5789473684210527
+Vi,Lillia,JUNGLE,1,1.0
+Vi,Malphite,JUNGLE,2,0.5
+Vi,Maokai,JUNGLE,2,0.5
+Vi,Morgana,JUNGLE,1,0.0
+Vi,Naafiri,JUNGLE,25,0.44
+Vi,Nasus,JUNGLE,8,0.625
+Vi,Neeko,JUNGLE,2,0.5
+Vi,Nocturne,JUNGLE,36,0.6111111111111112
+Vi,Olaf,JUNGLE,6,0.5
+Vi,Pantheon,JUNGLE,49,0.5102040816326531
+Vi,Poppy,JUNGLE,5,0.6
+Vi,Qiyana,JUNGLE,8,0.625
+Vi,Rek'Sai,JUNGLE,3,0.3333333333333333
+Vi,Sejuani,JUNGLE,10,0.4
+Vi,Shen,JUNGLE,3,0.6666666666666666
+Vi,Shyvana,JUNGLE,2,0.5
+Vi,Skarner,JUNGLE,13,0.46153846153846156
+Vi,Sylas,JUNGLE,1,1.0
+Vi,Taliyah,JUNGLE,1,1.0
+Vi,Trundle,JUNGLE,11,0.7272727272727273
+Vi,Viego,JUNGLE,6,0.8333333333333334
+Vi,Volibear,JUNGLE,1,0.0
+Vi,Wukong,JUNGLE,67,0.6119402985074627
+Vi,Xin Zhao,JUNGLE,106,0.5283018867924528
+Vi,Zaahen,JUNGLE,16,0.625
+Vi,Zyra,JUNGLE,4,0.5
+Viego,Aatrox,JUNGLE,1,0.0
+Viego,Ambessa,JUNGLE,1,1.0
+Viego,Amumu,JUNGLE,1,0.0
+Viego,Dr. Mundo,JUNGLE,4,0.75
+Viego,Graves,JUNGLE,1,0.0
+Viego,Ivern,JUNGLE,1,0.0
+Viego,Jarvan IV,JUNGLE,5,0.6
+Viego,Jayce,JUNGLE,2,0.5
+Viego,Karthus,JUNGLE,1,0.0
+Viego,Kindred,JUNGLE,1,1.0
+Viego,Lee Sin,JUNGLE,3,0.3333333333333333
+Viego,Naafiri,JUNGLE,2,0.0
+Viego,Nocturne,JUNGLE,1,0.0
+Viego,Pantheon,JUNGLE,1,1.0
+Viego,Qiyana,JUNGLE,1,0.0
+Viego,Sejuani,JUNGLE,1,0.0
+Viego,Skarner,JUNGLE,1,0.0
+Viego,Vi,JUNGLE,5,0.4
+Viego,Wukong,JUNGLE,4,0.5
+Viego,Xin Zhao,JUNGLE,3,0.6666666666666666
+Viktor,Ahri,MIDDLE,25,0.64
+Viktor,Akali,MIDDLE,17,0.29411764705882354
+Viktor,Ambessa,MIDDLE,1,1.0
+Viktor,Anivia,MIDDLE,9,0.3333333333333333
+Viktor,Annie,MIDDLE,22,0.36363636363636365
+Viktor,Aurelion Sol,MIDDLE,5,0.0
+Viktor,Aurora,MIDDLE,32,0.5
+Viktor,Azir,MIDDLE,13,0.38461538461538464
+Viktor,Cassiopeia,MIDDLE,24,0.5833333333333334
+Viktor,Corki,MIDDLE,1,0.0
+Viktor,Diana,MIDDLE,2,0.0
+Viktor,Ezreal,MIDDLE,3,0.6666666666666666
+Viktor,Galio,MIDDLE,7,0.7142857142857143
+Viktor,Hwei,MIDDLE,16,0.4375
+Viktor,Irelia,MIDDLE,1,0.0
+Viktor,Jayce,MIDDLE,3,0.3333333333333333
+Viktor,Kassadin,MIDDLE,3,0.6666666666666666
+Viktor,Kog'Maw,MIDDLE,1,1.0
+Viktor,LeBlanc,MIDDLE,2,0.5
+Viktor,Lux,MIDDLE,1,0.0
+Viktor,Mel,MIDDLE,16,0.625
+Viktor,Naafiri,MIDDLE,2,0.5
+Viktor,Orianna,MIDDLE,32,0.5
+Viktor,Qiyana,MIDDLE,1,1.0
+Viktor,Rumble,TOP,1,0.0
+Viktor,Ryze,MIDDLE,29,0.5517241379310345
+Viktor,Swain,MIDDLE,1,0.0
+Viktor,Sylas,MIDDLE,17,0.5294117647058824
+Viktor,Syndra,MIDDLE,26,0.3076923076923077
+Viktor,Taliyah,MIDDLE,7,0.5714285714285714
+Viktor,Twisted Fate,MIDDLE,3,1.0
+Viktor,Veigar,MIDDLE,1,0.0
+Viktor,Vex,MIDDLE,1,1.0
+Viktor,Vladimir,MIDDLE,3,0.6666666666666666
+Viktor,Xerath,MIDDLE,2,1.0
+Viktor,Yasuo,MIDDLE,2,0.5
+Viktor,Yone,MIDDLE,15,0.6666666666666666
+Viktor,Zed,MIDDLE,1,0.0
+Viktor,Zoe,MIDDLE,3,0.6666666666666666
+Vladimir,Aatrox,TOP,1,0.0
+Vladimir,Ahri,MIDDLE,2,0.5
+Vladimir,Azir,MIDDLE,1,0.0
+Vladimir,Galio,MIDDLE,1,0.0
+Vladimir,Gnar,TOP,1,0.0
+Vladimir,Hwei,MIDDLE,1,0.0
+Vladimir,Jax,TOP,1,1.0
+Vladimir,Jayce,TOP,1,1.0
+Vladimir,Orianna,MIDDLE,1,1.0
+Vladimir,Riven,TOP,1,0.0
+Vladimir,Taliyah,MIDDLE,1,0.0
+Vladimir,Yasuo,TOP,1,1.0
+Vladimir,Yone,TOP,1,0.0
+Vladimir,Yorick,TOP,1,1.0
+Volibear,Ambessa,JUNGLE,1,1.0
+Volibear,Ambessa,TOP,8,0.375
+Volibear,Dr. Mundo,JUNGLE,1,1.0
+Volibear,Gnar,TOP,1,0.0
+Volibear,Gragas,TOP,1,0.0
+Volibear,Gwen,JUNGLE,1,0.0
+Volibear,Jarvan IV,JUNGLE,2,0.5
+Volibear,Jayce,JUNGLE,1,0.0
+Volibear,K'Sante,TOP,1,1.0
+Volibear,Pantheon,JUNGLE,1,1.0
+Volibear,Renekton,TOP,5,0.8
+Volibear,Sion,TOP,1,0.0
+Volibear,Vi,JUNGLE,2,0.5
+Volibear,Viego,JUNGLE,1,0.0
+Volibear,Wukong,JUNGLE,3,0.0
+Volibear,Xin Zhao,JUNGLE,2,1.0
+Volibear,Zaahen,TOP,1,0.0
+Warwick,K'Sante,TOP,2,0.5
+Wukong,Aatrox,JUNGLE,15,0.4666666666666667
+Wukong,Ambessa,JUNGLE,11,0.5454545454545454
+Wukong,Bel'Veth,JUNGLE,1,1.0
+Wukong,Brand,JUNGLE,1,1.0
+Wukong,Cho'Gath,JUNGLE,1,1.0
+Wukong,Darius,JUNGLE,1,1.0
+Wukong,Diana,JUNGLE,1,0.0
+Wukong,Dr. Mundo,JUNGLE,19,0.631578947368421
+Wukong,Gnar,TOP,1,1.0
+Wukong,Ivern,JUNGLE,2,0.5
+Wukong,Jarvan IV,JUNGLE,87,0.4482758620689655
+Wukong,Jax,JUNGLE,1,1.0
+Wukong,Jax,TOP,1,0.0
+Wukong,Jayce,JUNGLE,7,0.2857142857142857
+Wukong,Kha'Zix,JUNGLE,1,1.0
+Wukong,Kindred,JUNGLE,1,0.0
+Wukong,Lee Sin,JUNGLE,32,0.125
+Wukong,Malphite,JUNGLE,8,0.375
+Wukong,Maokai,JUNGLE,6,0.5
+Wukong,Morgana,JUNGLE,2,0.5
+Wukong,Naafiri,JUNGLE,19,0.5789473684210527
+Wukong,Nasus,JUNGLE,3,0.3333333333333333
+Wukong,Nidalee,JUNGLE,2,1.0
+Wukong,Nocturne,JUNGLE,44,0.45454545454545453
+Wukong,Nunu & Willump,JUNGLE,1,1.0
+Wukong,Olaf,JUNGLE,1,0.0
+Wukong,Pantheon,JUNGLE,46,0.5
+Wukong,Poppy,JUNGLE,1,1.0
+Wukong,Qiyana,JUNGLE,11,0.6363636363636364
+Wukong,Rek'Sai,JUNGLE,1,0.0
+Wukong,Sejuani,JUNGLE,2,0.5
+Wukong,Shyvana,JUNGLE,1,1.0
+Wukong,Sion,JUNGLE,1,0.0
+Wukong,Skarner,JUNGLE,15,0.3333333333333333
+Wukong,Sylas,JUNGLE,1,1.0
+Wukong,Trundle,JUNGLE,9,0.5555555555555556
+Wukong,Udyr,JUNGLE,1,1.0
+Wukong,Vi,JUNGLE,61,0.4426229508196721
+Wukong,Viego,JUNGLE,6,0.6666666666666666
+Wukong,Volibear,JUNGLE,1,0.0
+Wukong,Xin Zhao,JUNGLE,97,0.41237113402061853
+Wukong,Zaahen,JUNGLE,14,0.5
+Wukong,Zyra,JUNGLE,3,0.3333333333333333
+Xerath,Ahri,MIDDLE,1,1.0
+Xerath,Anivia,MIDDLE,2,1.0
+Xerath,Azir,MIDDLE,2,0.5
+Xerath,Cassiopeia,MIDDLE,2,0.5
+Xerath,Hwei,MIDDLE,2,0.0
+Xerath,Mel,MIDDLE,3,0.3333333333333333
+Xerath,Ryze,MIDDLE,1,0.0
+Xerath,Syndra,MIDDLE,1,1.0
+Xerath,Viktor,MIDDLE,1,0.0
+Xin Zhao,Aatrox,JUNGLE,25,0.6
+Xin Zhao,Ambessa,JUNGLE,10,0.3
+Xin Zhao,Aurora,MIDDLE,1,1.0
+Xin Zhao,Camille,JUNGLE,1,0.0
+Xin Zhao,Darius,JUNGLE,1,1.0
+Xin Zhao,Diana,JUNGLE,1,0.0
+Xin Zhao,Dr. Mundo,JUNGLE,32,0.5625
+Xin Zhao,Fiora,TOP,1,1.0
+Xin Zhao,Graves,JUNGLE,1,0.0
+Xin Zhao,Gwen,JUNGLE,2,1.0
+Xin Zhao,Hecarim,JUNGLE,2,0.5
+Xin Zhao,Ivern,JUNGLE,3,1.0
+Xin Zhao,Jarvan IV,JUNGLE,154,0.5454545454545454
+Xin Zhao,Jax,JUNGLE,12,0.4166666666666667
+Xin Zhao,Jayce,JUNGLE,11,0.6363636363636364
+Xin Zhao,Kayn,JUNGLE,1,1.0
+Xin Zhao,Kha'Zix,JUNGLE,5,0.2
+Xin Zhao,Kindred,JUNGLE,1,0.0
+Xin Zhao,Lee Sin,JUNGLE,33,0.45454545454545453
+Xin Zhao,Malphite,JUNGLE,3,0.0
+Xin Zhao,Maokai,JUNGLE,6,0.6666666666666666
+Xin Zhao,Naafiri,JUNGLE,16,0.3125
+Xin Zhao,Nasus,JUNGLE,2,0.0
+Xin Zhao,Nidalee,JUNGLE,3,0.3333333333333333
+Xin Zhao,Nocturne,JUNGLE,54,0.46296296296296297
+Xin Zhao,Nunu & Willump,JUNGLE,1,0.0
+Xin Zhao,Olaf,JUNGLE,8,0.625
+Xin Zhao,Olaf,TOP,1,0.0
+Xin Zhao,Orianna,MIDDLE,2,0.5
+Xin Zhao,Pantheon,JUNGLE,91,0.4175824175824176
+Xin Zhao,Poppy,JUNGLE,2,0.5
+Xin Zhao,Qiyana,JUNGLE,11,0.2727272727272727
+Xin Zhao,Rek'Sai,JUNGLE,4,0.25
+Xin Zhao,Sejuani,JUNGLE,9,0.7777777777777778
+Xin Zhao,Sett,JUNGLE,1,1.0
+Xin Zhao,Shen,JUNGLE,2,0.5
+Xin Zhao,Shyvana,JUNGLE,1,1.0
+Xin Zhao,Skarner,JUNGLE,15,0.4
+Xin Zhao,Sylas,JUNGLE,2,0.0
+Xin Zhao,Taliyah,JUNGLE,2,0.5
+Xin Zhao,Trundle,JUNGLE,46,0.5869565217391305
+Xin Zhao,Tryndamere,JUNGLE,1,1.0
+Xin Zhao,Vi,JUNGLE,94,0.5319148936170213
+Xin Zhao,Viego,JUNGLE,2,0.5
+Xin Zhao,Volibear,JUNGLE,2,0.5
+Xin Zhao,Wukong,JUNGLE,97,0.5463917525773195
+Xin Zhao,Zaahen,JUNGLE,15,0.8
+Xin Zhao,Zed,JUNGLE,1,0.0
+Xin Zhao,Zyra,JUNGLE,2,1.0
+Yasuo,Ahri,MIDDLE,3,1.0
+Yasuo,Akali,MIDDLE,1,1.0
+Yasuo,Anivia,MIDDLE,1,1.0
+Yasuo,Aurora,MIDDLE,3,0.0
+Yasuo,Aurora,TOP,1,0.0
+Yasuo,Gangplank,TOP,1,1.0
+Yasuo,Gnar,TOP,6,0.3333333333333333
+Yasuo,Gwen,TOP,1,1.0
+Yasuo,Hwei,MIDDLE,1,1.0
+Yasuo,K'Sante,TOP,1,1.0
+Yasuo,LeBlanc,MIDDLE,1,1.0
+Yasuo,Malphite,TOP,1,0.0
+Yasuo,Orianna,MIDDLE,2,1.0
+Yasuo,Ryze,MIDDLE,2,0.5
+Yasuo,Syndra,MIDDLE,1,1.0
+Yasuo,Twisted Fate,MIDDLE,1,0.0
+Yasuo,Vex,MIDDLE,1,0.0
+Yone,Ahri,MIDDLE,10,0.3
+Yone,Akali,MIDDLE,7,0.5714285714285714
+Yone,Ambessa,TOP,1,0.0
+Yone,Anivia,MIDDLE,1,1.0
+Yone,Anivia,TOP,2,1.0
+Yone,Annie,MIDDLE,2,0.0
+Yone,Aurora,MIDDLE,2,0.0
+Yone,Azir,MIDDLE,30,0.6333333333333333
+Yone,Cassiopeia,MIDDLE,4,0.25
+Yone,Diana,MIDDLE,1,1.0
+Yone,Galio,MIDDLE,3,0.6666666666666666
+Yone,Hwei,MIDDLE,3,0.6666666666666666
+Yone,Jayce,MIDDLE,1,0.0
+Yone,Jayce,TOP,1,0.0
+Yone,K'Sante,TOP,1,0.0
+Yone,LeBlanc,MIDDLE,1,1.0
+Yone,Lissandra,MIDDLE,1,0.0
+Yone,Mel,MIDDLE,1,0.0
+Yone,Orianna,MIDDLE,1,1.0
+Yone,Ornn,TOP,1,0.0
+Yone,Ryze,MIDDLE,13,0.6923076923076923
+Yone,Sion,MIDDLE,1,0.0
+Yone,Sion,TOP,5,0.4
+Yone,Smolder,MIDDLE,1,1.0
+Yone,Swain,MIDDLE,1,0.0
+Yone,Sylas,MIDDLE,2,1.0
+Yone,Syndra,MIDDLE,10,0.7
+Yone,Taliyah,MIDDLE,4,0.75
+Yone,Twisted Fate,MIDDLE,4,0.25
+Yone,Viktor,MIDDLE,8,0.625
+Yone,Vladimir,MIDDLE,1,1.0
+Yone,Yasuo,MIDDLE,2,0.5
+Yone,Ziggs,MIDDLE,1,1.0
+Yone,Zoe,MIDDLE,3,0.6666666666666666
+Yorick,Aatrox,TOP,1,1.0
+Yorick,Ambessa,TOP,11,0.45454545454545453
+Yorick,Anivia,TOP,1,0.0
+Yorick,Cho'Gath,TOP,1,1.0
+Yorick,Fiora,TOP,1,1.0
+Yorick,Gnar,TOP,22,0.5454545454545454
+Yorick,Gragas,TOP,1,0.0
+Yorick,Gwen,TOP,3,0.6666666666666666
+Yorick,Irelia,TOP,2,1.0
+Yorick,Jax,TOP,3,0.0
+Yorick,Jayce,TOP,37,0.6486486486486487
+Yorick,K'Sante,TOP,2,0.0
+Yorick,Kennen,TOP,2,0.5
+Yorick,Mordekaiser,TOP,1,1.0
+Yorick,Ornn,TOP,1,0.0
+Yorick,Renekton,TOP,6,0.16666666666666666
+Yorick,Rumble,TOP,13,0.5384615384615384
+Yorick,Shen,TOP,1,0.0
+Yorick,Shyvana,TOP,1,0.0
+Yorick,Sion,TOP,1,0.0
+Yorick,Smolder,TOP,1,0.0
+Yorick,Tryndamere,TOP,1,1.0
+Yorick,Urgot,TOP,1,1.0
+Yorick,Varus,TOP,6,0.3333333333333333
+Yorick,Volibear,TOP,2,0.0
+Yorick,Yone,TOP,2,0.0
+Yorick,Zaahen,TOP,2,0.5
+Zaahen,Aatrox,JUNGLE,4,0.25
+Zaahen,Aatrox,TOP,4,0.5
+Zaahen,Akali,TOP,2,0.5
+Zaahen,Ambessa,JUNGLE,3,0.3333333333333333
+Zaahen,Ambessa,TOP,28,0.6071428571428571
+Zaahen,Aurora,TOP,1,1.0
+Zaahen,Briar,JUNGLE,1,1.0
+Zaahen,Camille,TOP,2,1.0
+Zaahen,Dr. Mundo,JUNGLE,6,0.16666666666666666
+Zaahen,Dr. Mundo,TOP,1,1.0
+Zaahen,Fiora,TOP,1,0.0
+Zaahen,Gangplank,TOP,1,0.0
+Zaahen,Gnar,TOP,10,0.4
+Zaahen,Graves,JUNGLE,1,0.0
+Zaahen,Gwen,JUNGLE,2,0.5
+Zaahen,Gwen,TOP,6,0.6666666666666666
+Zaahen,Jarvan IV,JUNGLE,5,0.8
+Zaahen,Jax,TOP,18,0.4444444444444444
+Zaahen,Jayce,JUNGLE,3,0.3333333333333333
+Zaahen,Jayce,TOP,3,0.6666666666666666
+Zaahen,K'Sante,TOP,18,0.4444444444444444
+Zaahen,Kennen,TOP,1,1.0
+Zaahen,Kha'Zix,JUNGLE,3,0.6666666666666666
+Zaahen,Lee Sin,JUNGLE,2,1.0
+Zaahen,Malphite,TOP,3,0.3333333333333333
+Zaahen,Mordekaiser,TOP,2,1.0
+Zaahen,Naafiri,JUNGLE,2,0.0
+Zaahen,Nocturne,JUNGLE,5,0.6
+Zaahen,Olaf,TOP,4,0.25
+Zaahen,Ornn,TOP,3,0.3333333333333333
+Zaahen,Pantheon,JUNGLE,12,0.6666666666666666
+Zaahen,Qiyana,JUNGLE,1,1.0
+Zaahen,Rek'Sai,JUNGLE,1,0.0
+Zaahen,Rek'Sai,TOP,1,1.0
+Zaahen,Renekton,TOP,28,0.5357142857142857
+Zaahen,Rumble,TOP,1,1.0
+Zaahen,Sejuani,JUNGLE,1,1.0
+Zaahen,Shen,TOP,1,1.0
+Zaahen,Singed,TOP,2,0.5
+Zaahen,Sion,TOP,34,0.6176470588235294
+Zaahen,Skarner,JUNGLE,2,0.5
+Zaahen,Sylas,JUNGLE,1,0.0
+Zaahen,Trundle,JUNGLE,1,1.0
+Zaahen,Udyr,TOP,1,1.0
+Zaahen,Vayne,TOP,4,0.25
+Zaahen,Vi,JUNGLE,22,0.7272727272727273
+Zaahen,Viego,JUNGLE,3,1.0
+Zaahen,Volibear,JUNGLE,1,1.0
+Zaahen,Volibear,TOP,1,1.0
+Zaahen,Wukong,JUNGLE,17,0.7647058823529411
+Zaahen,Xin Zhao,JUNGLE,26,0.6538461538461539
+Zaahen,Yasuo,TOP,1,1.0
+Zaahen,Yorick,TOP,1,1.0
+Zaahen,Zac,JUNGLE,1,0.0
+Zaahen,Zed,JUNGLE,1,1.0
+Zaahen,Zyra,JUNGLE,1,0.0
+Zac,Garen,TOP,1,0.0
+Zac,Qiyana,JUNGLE,1,0.0
+Zac,Wukong,JUNGLE,2,0.0
+Zac,Yone,TOP,1,1.0
+Zac,Zaahen,JUNGLE,1,0.0
+Zed,Ahri,MIDDLE,1,1.0
+Zed,Annie,MIDDLE,1,1.0
+Zed,Aurora,MIDDLE,2,1.0
+Zed,Azir,MIDDLE,1,0.0
+Zed,Diana,MIDDLE,1,1.0
+Zed,Malphite,MIDDLE,1,1.0
+Zed,Mel,MIDDLE,1,0.0
+Zed,Rengar,JUNGLE,1,0.0
+Zed,Taliyah,MIDDLE,1,0.0
+Zed,Viktor,MIDDLE,1,0.0
+Zeri,Aurora,MIDDLE,1,0.0
+Zeri,Gnar,TOP,1,0.0
+Zeri,Hwei,MIDDLE,1,1.0
+Ziggs,Azir,MIDDLE,9,0.3333333333333333
+Ziggs,Hwei,MIDDLE,1,0.0
+Ziggs,Kog'Maw,MIDDLE,1,1.0
+Ziggs,LeBlanc,MIDDLE,1,1.0
+Ziggs,Orianna,MIDDLE,3,0.6666666666666666
+Ziggs,Ryze,MIDDLE,1,1.0
+Ziggs,Sylas,MIDDLE,2,1.0
+Ziggs,Twisted Fate,MIDDLE,1,1.0
+Ziggs,Viktor,MIDDLE,1,0.0
+Zilean,Ryze,MIDDLE,1,0.0
+Zoe,Ahri,MIDDLE,2,0.5
+Zoe,Akali,MIDDLE,2,0.5
+Zoe,Anivia,MIDDLE,1,0.0
+Zoe,Annie,MIDDLE,3,0.6666666666666666
+Zoe,Aurora,MIDDLE,8,0.375
+Zoe,Azir,MIDDLE,4,1.0
+Zoe,Galio,MIDDLE,1,1.0
+Zoe,Irelia,MIDDLE,1,1.0
+Zoe,Jayce,MIDDLE,1,1.0
+Zoe,Mel,MIDDLE,1,0.0
+Zoe,Ryze,MIDDLE,5,0.6
+Zoe,Swain,MIDDLE,1,1.0
+Zoe,Sylas,MIDDLE,3,0.6666666666666666
+Zoe,Syndra,MIDDLE,5,0.6
+Zoe,Taliyah,MIDDLE,2,0.5
+Zoe,Twisted Fate,MIDDLE,1,1.0
+Zoe,Viktor,MIDDLE,5,0.4
+Zoe,Ziggs,MIDDLE,1,1.0
+Zyra,Ambessa,JUNGLE,1,1.0
+Zyra,Darius,JUNGLE,1,1.0
+Zyra,Dr. Mundo,JUNGLE,1,1.0
+Zyra,Lillia,JUNGLE,1,0.0
+Zyra,Naafiri,JUNGLE,1,1.0
+Zyra,Nidalee,JUNGLE,1,0.0
+Zyra,Nocturne,JUNGLE,2,0.5
+Zyra,Pantheon,JUNGLE,1,1.0
+Zyra,Qiyana,JUNGLE,1,0.0
+Zyra,Taliyah,JUNGLE,1,0.0
+Zyra,Talon,JUNGLE,1,1.0
+Zyra,Vi,JUNGLE,3,0.6666666666666666
+Zyra,Wukong,JUNGLE,8,0.375

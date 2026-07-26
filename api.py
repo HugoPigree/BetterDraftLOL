@@ -23,6 +23,7 @@ from predict_draft import (
     predict_draft as run_predict_draft,
     reset_predict_state,
     setup_logging,
+    warmup_all_server_caches,
 )
 from suggest_draft import (
     suggest_ban,
@@ -439,12 +440,17 @@ def fetch_champion_catalog() -> tuple[dict[str, list[str]], list[str]]:
     return catalog, estimated
 
 
+DEFAULT_WARMUP_PATCH = "16.13"
+
+
 def create_app() -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         setup_logging()
         reset_predict_state()
         initialize_blue_side_winrate()
+        warmup_ms = warmup_all_server_caches(DEFAULT_WARMUP_PATCH)
+        logger.info("Caches inference préchargés en %.1f ms avant acceptation des requêtes", warmup_ms)
         logger.info(
             "API prête sur /health, /champions, /predict, /suggest-pick, "
             "/suggest-ban, /suggest-retrospective-ban, /suggest-retrospective-pick, "
