@@ -43,17 +43,35 @@ function scoreChampionForRole(
 
 /** Assign each champion to a unique role using Meraki position data. */
 export function autoAssignTeamRoles(
-  champions: string[],
+  picks: Array<{ champion: string; role?: Role }> | string[],
   championPositions: Record<string, Role[]>,
 ): DraftPick[] {
-  if (champions.length !== ROLES.length) {
-    throw new Error(`Expected ${ROLES.length} champions, got ${champions.length}`);
+  const normalizedPicks: Array<{ champion: string; role?: Role }> =
+    picks.length > 0 && typeof picks[0] === "string"
+      ? (picks as string[]).map((champion) => ({ champion }))
+      : (picks as Array<{ champion: string; role?: Role }>);
+
+  if (normalizedPicks.length !== ROLES.length) {
+    throw new Error(`Expected ${ROLES.length} champions, got ${normalizedPicks.length}`);
   }
 
   const assigned = new Map<Role, string>();
-  const remaining = new Set(champions);
+  const remaining = new Set<string>();
 
-  for (const champion of champions) {
+  for (const pick of normalizedPicks) {
+    if (
+      pick.role &&
+      ROLES.includes(pick.role) &&
+      !assigned.has(pick.role) &&
+      championCanPlayRole(pick.champion, pick.role, championPositions)
+    ) {
+      assigned.set(pick.role, pick.champion);
+    } else {
+      remaining.add(pick.champion);
+    }
+  }
+
+  for (const champion of [...remaining]) {
     const positions = (championPositions[champion] ?? []).filter((role) => ROLES.includes(role));
     const openRoles = ROLES.filter((role) => !assigned.has(role));
     const fitting = openRoles.filter((role) => positions.includes(role));

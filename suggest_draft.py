@@ -29,8 +29,10 @@ from predict_draft import (
 from pro_force import (
     MIN_GAMES_EXCLUSION,
     MIN_GAMES_PRO_FORCE,
+    PRO_OFF_ROLE_MIN_RATIO,
     compute_pro_winrate_by_champion,
     get_meta_pool_for_role,
+    is_pro_viable_on_role,
     pro_meta_score,
 )
 from build_duo_dataset import get_duo_score, lookup_solo_lane_matchup, SEUIL_MIN_GAMES
@@ -731,6 +733,8 @@ BOT_ROLE_PRIORITY_DUO = 1.35
 BOT_ROLE_PRIORITY_JG_SUP = 1.18
 BOT_ROLE_PRIORITY_LAST_SLOT = 1.25
 BOT_ROLE_PRIORITY_SCALE = 12.0
+BOT_LANE_DEFER_MIN_LOCKS = 3
+BOT_LANE_DEFER_PENALTY = 22.0
 LOOKAHEAD_DUO_PARTNERS = 4
 LOOKAHEAD_DUO_WEIGHT = 7.0
 DUO_DENIAL_BAN_WEIGHT = 5.0
@@ -1105,6 +1109,27 @@ def _bot_role_priority_bonus(
 ) -> float:
     multiplier = _bot_role_priority_multiplier(bot_partial, role, bot_remaining)
     return (multiplier - 1.0) * BOT_ROLE_PRIORITY_SCALE
+
+
+def _bot_lane_defer_penalty(
+    bot_partial: list[dict[str, str]],
+    role: str,
+) -> float:
+    """Évite d'ouvrir la botlane avant d'avoir posé les solo lanes."""
+    role = normalize_role(role)
+    if role not in {"BOTTOM", "UTILITY"}:
+        return 0.0
+
+    adc = _champion_for_role(bot_partial, "BOTTOM")
+    support = _champion_for_role(bot_partial, "UTILITY")
+    if adc or support:
+        return 0.0
+
+    locked = len(bot_partial)
+    if locked >= BOT_LANE_DEFER_MIN_LOCKS:
+        return 0.0
+
+    return BOT_LANE_DEFER_PENALTY * (BOT_LANE_DEFER_MIN_LOCKS - locked)
 
 
 def _pro_winrate_entry(champion: str, role: str) -> tuple[float, int] | None:
@@ -2249,6 +2274,7 @@ def _suggest_bot_pick_impl(
     candidate_eval_logs: list[dict[str, Any]] = []
     allowed_pool: set[str] = set()
     min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
+    pro_viability_ctx = get_meraki_context() if mode == "pro" else None
 
     with profile_step("candidate_loop_total"):
         for role in bot_remaining:
@@ -2266,6 +2292,16 @@ def _suggest_bot_pick_impl(
 
             for candidate in candidates:
                 increment_counter("candidates_evaluated")
+                if mode == "pro" and pro_viability_ctx is not None:
+                    champion_features, _, lookup_by_norm = pro_viability_ctx
+                    if not is_pro_viable_on_role(
+                        candidate,
+                        role,
+                        champion_features,
+                        lookup_by_norm,
+                        min_fitness=PRO_OFF_ROLE_MIN_RATIO,
+                    ):
+                        continue
                 with profile_step("meta_scoring"):
                     meta_scored = _pro_meta_score_for(candidate, role) if mode == "pro" else None
                     candidate_meta = meta_scored[0] if meta_scored else None
@@ -2378,6 +2414,7 @@ def _suggest_bot_pick_impl(
                     selection_score += _bot_role_priority_bonus(
                         bot_partial, role, bot_remaining
                     )
+                    selection_score -= _bot_lane_defer_penalty(bot_partial, role)
                     selection_score += lookahead_duo_bonus
                     selection_score += pair_planning_bonus
                     comp_direction_bonus = _comp_direction_alignment_bonus(
@@ -2484,10 +2521,27 @@ def _suggest_bot_pick_impl(
                         role_scores,
                     )
 
-            fallback_eligible.extend(role_fallback_entries)
-            eligible.extend(role_entries if role_entries else role_fallback_entries)
+            if mode == "pro":
+                fallback_eligible.extend(role_fallback_entries)
+                eligible.extend(role_entries)
+            else:
+                fallback_eligible.extend(role_fallback_entries)
+                eligible.extend(role_entries if role_entries else role_fallback_entries)
 
     pick_pool = eligible if eligible else fallback_eligible
+    if mode == "pro" and pick_pool and pro_viability_ctx is not None:
+        champion_features, _, lookup_by_norm = pro_viability_ctx
+        pick_pool = [
+            entry
+            for entry in pick_pool
+            if is_pro_viable_on_role(
+                entry["champion"],
+                entry["role"],
+                champion_features,
+                lookup_by_norm,
+                min_fitness=PRO_OFF_ROLE_MIN_RATIO,
+            )
+        ]
     if not pick_pool:
         return {"champion": None, "role": None, "win_probability": None}
 
@@ -2671,6 +2725,9 @@ def suggest_ban(
                 best_opponent_full = opponent_full
 
         if best_role is None or best_result is None or best_opponent_full is None:
+            continue
+
+        if baseline_opp_prob is not None and best_opponent_prob <= baseline_opp_prob:
             continue
 
         decomposition = decompose_winrate_delta(

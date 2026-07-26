@@ -89,7 +89,7 @@ export function useDraftBot({
         }
 
         if (move.action === "pick") {
-          draft.selectChampion(move.champion);
+          draft.selectChampion(move.champion, move.role ?? undefined);
           setLastMove({
             action: "pick",
             champion: move.champion,

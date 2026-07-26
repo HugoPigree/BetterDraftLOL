@@ -83,6 +83,36 @@ def build_pro_winrate_lookup(
         key = (str(row["champion"]), str(row["role"]))
         lookup[key] = (float(row["winrate"]), int(row["games"]))
 
+    meraki_aliases: dict[tuple[str, str], tuple[float, int]] = {}
+    for (oracle_name, role), stats in lookup.items():
+        meraki_key = btd.NAME_MAPPING.get(oracle_name)
+        if meraki_key is None:
+            continue
+        alias_key = (meraki_key, role)
+        existing = meraki_aliases.get(alias_key)
+        if existing is None or stats[1] > existing[1]:
+            meraki_aliases[alias_key] = stats
+    lookup.update(meraki_aliases)
+
+    try:
+        from predict_draft import get_meraki_context
+
+        champion_features, _, lookup_by_norm = get_meraki_context()
+        resolved_aliases: dict[tuple[str, str], tuple[float, int]] = {}
+        for (oracle_name, role), stats in list(lookup.items()):
+            resolved = btd.resolve_champion_name(
+                oracle_name, champion_features, lookup_by_norm
+            )
+            if resolved is None or resolved == oracle_name:
+                continue
+            alias_key = (resolved, role)
+            existing = resolved_aliases.get(alias_key)
+            if existing is None or stats[1] > existing[1]:
+                resolved_aliases[alias_key] = stats
+        lookup.update(resolved_aliases)
+    except Exception as exc:
+        logger.debug("Alias Meraki non ajoutés au lookup pro: %s", exc)
+
     logger.info("Winrates pro chargés: %d paires champion/rôle", len(lookup))
     return lookup
 

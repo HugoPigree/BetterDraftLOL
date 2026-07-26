@@ -1007,6 +1007,25 @@ body {
   box-shadow: none;
 }
 
+.drafter__action-btn--launch {
+  cursor: pointer;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: linear-gradient(180deg, rgba(58, 159, 217, 0.35), rgba(58, 159, 217, 0.15));
+  border-color: rgba(58, 159, 217, 0.45);
+}
+
+.drafter__action-btn--launch:hover:not(:disabled) {
+  background: linear-gradient(180deg, rgba(58, 159, 217, 0.5), rgba(58, 159, 217, 0.22));
+  border-color: rgba(58, 159, 217, 0.65);
+}
+
+.drafter__action-btn--launch:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
 .drafter__reset {
   padding: 0.2rem 0.5rem;
   border: none;

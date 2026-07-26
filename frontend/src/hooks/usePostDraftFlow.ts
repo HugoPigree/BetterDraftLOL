@@ -36,8 +36,8 @@ export function usePostDraftFlow(
       return;
     }
 
-    const blueChampions = draft.bluePicks.map((pick) => pick.champion);
-    const redChampions = draft.redPicks.map((pick) => pick.champion);
+    const blueChampions = draft.bluePicks;
+    const redChampions = draft.redPicks;
 
     setBluePicks(autoAssignTeamRoles(blueChampions, championPositions));
     setRedPicks(autoAssignTeamRoles(redChampions, championPositions));

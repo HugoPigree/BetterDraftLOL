@@ -185,12 +185,12 @@ def choose_bot_pick(
     )
 
     champion = choice.get("champion")
-    # Le rôle renvoyé n'est qu'une hypothèse de scoring : le client ne doit pas le figer.
+    scored_role = choice.get("role")
     if champion:
         return {
             "action": "pick",
             "champion": champion,
-            "role": None,
+            "role": scored_role if mode == "pro" and scored_role else None,
             "reason": choice.get("reason"),
         }
 

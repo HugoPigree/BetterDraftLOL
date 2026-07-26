@@ -17,6 +17,8 @@ from player_signatures import (
     build_signature_lookup,
     get_player_signatures,
 )
+from predict_draft import get_meraki_context
+from pro_force import is_pro_viable_on_role
 from suggest_draft import (
     PredictionMode,
     TeamSide,
@@ -73,12 +75,15 @@ def _maybe_signature_pick(
             continue
         if not is_champion_in_meta_pool_for_role(champion, role, catalog, patch):
             continue
+        champion_features, _, lookup_by_norm = get_meraki_context()
+        if not is_pro_viable_on_role(champion, role, champion_features, lookup_by_norm):
+            continue
         if rng.random() > SIGNATURE_PICK_CHANCE:
             continue
         return {
             "action": "pick",
             "champion": champion,
-            "role": None,
+            "role": role,
             "reason": (
                 f"Signature pick de {player} "
                 f"({signature.pick_rate * 100:.0f}% de pool, {signature.games} games pro)"

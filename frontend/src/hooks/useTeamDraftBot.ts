@@ -90,7 +90,7 @@ export function useTeamDraftBot({
           return;
         }
 
-        draft.selectChampion(move.champion);
+        draft.selectChampion(move.champion, move.role ?? undefined);
         setLastMove({
           action: move.action,
           champion: move.champion,

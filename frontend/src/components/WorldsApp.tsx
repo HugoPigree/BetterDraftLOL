@@ -322,6 +322,19 @@ export function WorldsApp({ onBack }: WorldsAppProps) {
             }
             explainLoading={botExplanation.loading}
             explainError={botExplanation.error}
+            resultPrimaryAction={
+              !postDraft.isEditing
+                ? {
+                    label: draftPrediction ? "Lancer la simulation" : "Calcul de l'analyse…",
+                    disabled: !draftPrediction,
+                    onClick: () => {
+                      if (draftPrediction) {
+                        handleLaunchSimulation(draftPrediction);
+                      }
+                    },
+                  }
+                : undefined
+            }
             editComp={
               postDraft.isEditing
                 ? {
@@ -366,12 +379,6 @@ export function WorldsApp({ onBack }: WorldsAppProps) {
                 isEditing={postDraft.isEditing}
                 hideReset
                 onResultChange={setDraftPrediction}
-                primaryAction={{
-                  label: "Lancer la simulation",
-                  onClick: (result) => {
-                    handleLaunchSimulation(result);
-                  },
-                }}
               />
             )}
           </DraftBoard>

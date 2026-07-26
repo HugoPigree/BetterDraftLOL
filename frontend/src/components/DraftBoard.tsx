@@ -53,6 +53,13 @@ interface DraftBoardProps {
   explainLoading?: boolean;
   explainError?: string | null;
   hideModeControls?: boolean;
+  resultPrimaryAction?: {
+    label: string;
+    loading?: boolean;
+    loadingLabel?: string;
+    disabled?: boolean;
+    onClick: () => void;
+  };
   children?: ReactNode;
 }
 
@@ -168,6 +175,7 @@ export function DraftBoard({
   explainLoading = false,
   explainError = null,
   hideModeControls = false,
+  resultPrimaryAction,
   children,
 }: DraftBoardProps) {
   const isEditMode = mode === "result" && Boolean(editComp);
@@ -488,27 +496,40 @@ export function DraftBoard({
         </div>
 
         <div className="drafter__action">
-          <span
-            className={[
-              "drafter__action-btn",
-              mode === "result" ? "drafter__action-btn--done" : "",
-              mode === "confirmRoles" ? "drafter__action-btn--confirm" : "",
-              mode === "draft" && isPlayerTurn ? `drafter__action-btn--${playerSide}` : "",
-              mode === "draft" && isPlayerTurn ? "drafter__action-btn--active" : "",
-              mode === "draft" && !draft.isDraftComplete && !isPlayerTurn
-                ? "drafter__action-btn--waiting"
-                : "",
-            ].join(" ")}
-          >
-            <span className="drafter__action-primary">
-              {actionHint(draft, isPlayerTurn, mode, isEditMode, botThinking, botEnabled)}
-            </span>
-            {mode === "draft" && !draft.isDraftComplete && !isPlayerTurn && (
-              <span className="drafter__action-secondary">
-                {botError ?? opponentHint(draft, playerSide)}
+          {mode === "result" && resultPrimaryAction && !isEditMode ? (
+            <button
+              type="button"
+              className="drafter__action-btn drafter__action-btn--launch"
+              disabled={resultPrimaryAction.disabled || resultPrimaryAction.loading}
+              onClick={resultPrimaryAction.onClick}
+            >
+              {resultPrimaryAction.loading
+                ? (resultPrimaryAction.loadingLabel ?? resultPrimaryAction.label)
+                : resultPrimaryAction.label}
+            </button>
+          ) : (
+            <span
+              className={[
+                "drafter__action-btn",
+                mode === "result" ? "drafter__action-btn--done" : "",
+                mode === "confirmRoles" ? "drafter__action-btn--confirm" : "",
+                mode === "draft" && isPlayerTurn ? `drafter__action-btn--${playerSide}` : "",
+                mode === "draft" && isPlayerTurn ? "drafter__action-btn--active" : "",
+                mode === "draft" && !draft.isDraftComplete && !isPlayerTurn
+                  ? "drafter__action-btn--waiting"
+                  : "",
+              ].join(" ")}
+            >
+              <span className="drafter__action-primary">
+                {actionHint(draft, isPlayerTurn, mode, isEditMode, botThinking, botEnabled)}
               </span>
-            )}
-          </span>
+              {mode === "draft" && !draft.isDraftComplete && !isPlayerTurn && (
+                <span className="drafter__action-secondary">
+                  {botError ?? opponentHint(draft, playerSide)}
+                </span>
+              )}
+            </span>
+          )}
           {mode === "result" && botEnabled && onExplainBotChoices && !isEditMode && (
             <button
               type="button"

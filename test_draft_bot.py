@@ -717,3 +717,45 @@ def test_choose_bot_pick_and_ban_return_reason() -> None:
     )
     assert pick_move["action"] == "pick"
     assert pick_move.get("reason")
+
+
+def test_bot_defers_bot_lane_on_early_pick() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from suggest_draft import suggest_bot_pick
+
+    pool = _available_excluding()
+    result = suggest_bot_pick(
+        bot_partial_picks=[],
+        opponent_partial_picks=[{"champion": "Gnar", "role": "TOP"}],
+        patch=PATCH,
+        available_champions=pool,
+        team_side="red",
+        mode="pro",
+        candidates_per_role=10,
+        rng_seed=42,
+    )
+
+    assert result["champion"]
+    assert result["role"] not in {"BOTTOM", "UTILITY"}
+
+
+def test_choose_bot_pick_returns_scored_role_in_pro_mode() -> None:
+    pd.reset_predict_state()
+    pd.initialize_blue_side_winrate()
+
+    from draft_bot import choose_bot_pick
+
+    pool = _available_excluding()
+    move = choose_bot_pick(
+        bot_side="red",
+        bot_picks=[],
+        opponent_picks=[{"champion": "Ahri", "role": "MIDDLE"}],
+        patch=PATCH,
+        available_champions=pool,
+        mode="pro",
+    )
+
+    assert move["champion"]
+    assert move["role"] in {"TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"}
