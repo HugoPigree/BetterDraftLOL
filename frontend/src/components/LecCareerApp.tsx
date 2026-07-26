@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Role } from "../types/draft";
-import type { MatchSimulationResult } from "../types/worlds";
+import type { MatchSimulationResult, WorldsPhase } from "../types/worlds";
 import { buildDraftSequence } from "../draft/sequence";
 import { useBotExplanation } from "../hooks/useBotExplanation";
 import { useDraftState } from "../hooks/useDraftState";
@@ -93,7 +93,9 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
   });
 
   const ambienceActive = !["setup", "seasonEnd"].includes(lec.phase);
-  const { muted, toggleMute } = useWorldsAmbience(ambienceActive, lec.phase);
+  const ambiencePhase: WorldsPhase =
+    lec.phase === "drafting" || lec.phase === "draftResult" ? lec.phase : "bracket";
+  const { muted, toggleMute } = useWorldsAmbience(ambienceActive, ambiencePhase);
   useWorldsDraftSfx(lec.phase === "drafting", botLastMove, muted);
 
   const coachDialogue = useWorldsCoachDialogue({

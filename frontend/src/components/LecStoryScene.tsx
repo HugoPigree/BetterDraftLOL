@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useTypewriter } from "../hooks/useTypewriter";
-import type { LecStoryChapter } from "../types/lec";
 import type { LecTeam } from "../types/lec";
 import { lecCoachPortrait } from "../utils/lecTeamBranding";
 import { storyChapterById } from "../utils/lecStory";

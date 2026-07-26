@@ -1,10 +1,7 @@
 import type { BracketMatch } from "../types/worlds";
 import type { LecTeam } from "../types/lec";
 
-export function hydrateLecPlayoffs(
-  bracket: BracketMatch[],
-  playerTeamId = "player",
-): BracketMatch[] {
+export function hydrateLecPlayoffs(bracket: BracketMatch[]): BracketMatch[] {
   const winners = new Map<string, LecTeam | null>();
   for (const match of bracket) {
     if (!match.winner_id) {
@@ -77,7 +74,7 @@ export function resolveNpcPlayoffMatches(
 
   while (changed) {
     changed = false;
-    const hydrated = hydrateLecPlayoffs(updated, playerTeamId);
+    const hydrated = hydrateLecPlayoffs(updated);
 
     for (const match of hydrated) {
       if (match.winner_id) {
@@ -92,8 +89,10 @@ export function resolveNpcPlayoffMatches(
         continue;
       }
 
-      const powerA = teamA.power_rating ?? 0.5;
-      const powerB = teamB.power_rating ?? 0.5;
+      const lecTeamA = teamA as LecTeam;
+      const lecTeamB = teamB as LecTeam;
+      const powerA = lecTeamA.power_rating ?? 0.5;
+      const powerB = lecTeamB.power_rating ?? 0.5;
       const winnerId =
         Math.random() < 0.5 + (powerA - powerB) * 0.45 ? teamA.id : teamB.id;
       updated = recordPlayoffWinner(updated, match.id, winnerId);

@@ -2,12 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { DraftPreferences } from "../types/draft";
 import type {
   LecCareerSnapshot,
-  LecFixture,
   LecPhase,
   LecSeasonState,
-  LecTeam,
 } from "../types/lec";
-import type { BracketMatch, WorldsRoster } from "../types/worlds";
+import type { WorldsRoster } from "../types/worlds";
 import {
   getPlayerPlayoffMatch,
   hydrateLecPlayoffs,
@@ -15,7 +13,7 @@ import {
   resolveNpcPlayoffMatches,
 } from "../utils/lecBracket";
 import { opponentForFixture } from "../utils/lecTeamBranding";
-import { storyChapterById, storyChapterForWeek } from "../utils/lecStory";
+import { storyChapterForWeek } from "../utils/lecStory";
 import { recordLecMatchResult, startLecSeason } from "../services/api";
 
 const STORAGE_KEY = "betterdraft-lec-career-v1";
@@ -167,6 +165,24 @@ export function useLecCareer() {
     [],
   );
 
+  const openMatchIntro = useCallback(() => {
+    if (!season) {
+      return;
+    }
+    const next = season.fixtures.find(
+      (fixture) => fixture.is_player_match && !fixture.played,
+    );
+    if (!next) {
+      return;
+    }
+    setCurrentFixtureId(next.id);
+    setDraftPreferences({
+      playerSide: next.week % 2 === 1 ? "blue" : "red",
+      pickOrder: next.week % 2 === 1 ? "first" : "last",
+    });
+    setPhase("matchIntro");
+  }, [season]);
+
   const completeStoryChapter = useCallback(() => {
     if (!pendingStoryChapterId) {
       setPhase("seasonHub");
@@ -199,24 +215,6 @@ export function useLecCareer() {
     }
     setPhase("seasonHub");
   }, [pendingStoryChapterId, afterStoryAction, openMatchIntro, season?.standings]);
-
-  const openMatchIntro = useCallback(() => {
-    if (!season) {
-      return;
-    }
-    const next = season.fixtures.find(
-      (fixture) => fixture.is_player_match && !fixture.played,
-    );
-    if (!next) {
-      return;
-    }
-    setCurrentFixtureId(next.id);
-    setDraftPreferences({
-      playerSide: next.week % 2 === 1 ? "blue" : "red",
-      pickOrder: next.week % 2 === 1 ? "first" : "last",
-    });
-    setPhase("matchIntro");
-  }, [season]);
 
   const openNextMatch = useCallback(() => {
     if (!season) {

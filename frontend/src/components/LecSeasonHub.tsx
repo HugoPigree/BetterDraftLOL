@@ -11,7 +11,7 @@ interface LecSeasonHubProps {
   onPlayNext: () => void;
 }
 
-function recentResults(season: LecSeasonState, playerTeamId: string) {
+function recentResults(season: LecSeasonState) {
   return season.fixtures
     .filter((fixture) => fixture.is_player_match && fixture.played)
     .slice(-3)
@@ -31,7 +31,7 @@ export function LecSeasonHub({ season, playerTeam, onBack, onPlayNext }: LecSeas
   const playedCount = season.fixtures.filter(
     (fixture) => fixture.is_player_match && fixture.played,
   ).length;
-  const recent = recentResults(season, playerTeam.id);
+  const recent = recentResults(season);
 
   return (
     <div className="worlds-screen lec-hub">
