@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
@@ -75,8 +76,19 @@ def normalize_duo_pair(champion_a: str, champion_b: str) -> tuple[str, str]:
 
 
 def load_player_rows(oracle_csv: Path) -> pd.DataFrame:
+    from draft_profiling import current_profile, profile_step, record_data_load
+
     logging.info("Chargement Oracle's Elixir: %s", oracle_csv)
-    df = pd.read_csv(oracle_csv, low_memory=False)
+    start = time.perf_counter()
+    with profile_step("load_oracle_csv_players"):
+        df = pd.read_csv(oracle_csv, low_memory=False)
+    if current_profile() is not None:
+        record_data_load(
+            "oracle_csv_players",
+            hit=False,
+            duration_ms=(time.perf_counter() - start) * 1000,
+            detail=str(oracle_csv),
+        )
     players = df[
         (df["datacompleteness"] == "complete")
         & (df["position"].isin(PLAYER_POSITIONS))
@@ -323,7 +335,10 @@ def reset_duo_cache() -> None:
 
 
 def load_duo_table(duo_type: DuoType, csv_path: Path | None = None) -> pd.DataFrame:
+    from draft_profiling import profile_step, record_data_load
+
     if _duo_tables[duo_type] is not None:
+        record_data_load(f"duo_csv_{duo_type}", hit=True)
         return _duo_tables[duo_type]
 
     path = csv_path or DUO_CSV_PATHS[duo_type]
@@ -333,8 +348,16 @@ def load_duo_table(duo_type: DuoType, csv_path: Path | None = None) -> pd.DataFr
             f"Lance: python build_duo_dataset.py"
         )
 
-    df = pd.read_csv(path)
-    _duo_tables[duo_type] = df
+    start = time.perf_counter()
+    with profile_step(f"load_duo_csv_{duo_type}"):
+        df = pd.read_csv(path)
+        _duo_tables[duo_type] = df
+    record_data_load(
+        f"duo_csv_{duo_type}",
+        hit=False,
+        duration_ms=(time.perf_counter() - start) * 1000,
+        detail=str(path),
+    )
     return df
 
 

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import type { WorldsRoster } from "../types/worlds";
-import { DEFAULT_WORLDS_ROSTER, WORLDS_ROLES } from "../types/worlds";
+import { EMPTY_WORLDS_ROSTER, WORLDS_ROLES } from "../types/worlds";
 import { WorldsBrand } from "./WorldsBrand";
 
 interface WorldsSetupProps {
@@ -11,9 +11,9 @@ interface WorldsSetupProps {
 }
 
 export function WorldsSetup({ loading, error, onBack, onStart }: WorldsSetupProps) {
-  const [teamName, setTeamName] = useState("Pigree Esports");
-  const [coachName, setCoachName] = useState("Hugo");
-  const [roster, setRoster] = useState<WorldsRoster>({ ...DEFAULT_WORLDS_ROSTER });
+  const [teamName, setTeamName] = useState("");
+  const [coachName, setCoachName] = useState("");
+  const [roster, setRoster] = useState<WorldsRoster>({ ...EMPTY_WORLDS_ROSTER });
 
   function updateRoster(role: keyof WorldsRoster, value: string) {
     setRoster((current) => ({ ...current, [role]: value }));
@@ -42,6 +42,8 @@ export function WorldsSetup({ loading, error, onBack, onStart }: WorldsSetupProp
             <input
               value={teamName}
               onChange={(event) => setTeamName(event.target.value)}
+              placeholder="Nom de ton équipe"
+              autoComplete="off"
               required
             />
           </label>
@@ -50,6 +52,8 @@ export function WorldsSetup({ loading, error, onBack, onStart }: WorldsSetupProp
             <input
               value={coachName}
               onChange={(event) => setCoachName(event.target.value)}
+              placeholder="Nom du coach"
+              autoComplete="off"
               required
             />
           </label>
@@ -64,6 +68,8 @@ export function WorldsSetup({ loading, error, onBack, onStart }: WorldsSetupProp
                 <input
                   value={roster[role]}
                   onChange={(event) => updateRoster(role, event.target.value)}
+                  placeholder={`Joueur ${role.toLowerCase()}`}
+                  autoComplete="off"
                   required
                 />
               </label>

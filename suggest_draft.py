@@ -6,6 +6,7 @@ from __future__ import annotations
 import logging
 import math
 import random
+import time
 from collections import defaultdict
 from typing import Any, Literal
 
@@ -34,6 +35,14 @@ from pro_force import (
 from build_duo_dataset import get_duo_score
 from composition_archetype import compute_composition_archetype, score_archetype_coherence
 from bot_speech_builder import generate_bot_ban_reason, generate_bot_pick_reason
+from draft_profiling import (
+    begin_profile,
+    current_profile,
+    end_profile,
+    increment_counter,
+    log_report,
+    profile_step,
+)
 from justification_builder import generate_pick_justification, lookup_meta_tierlist_row
 
 logger = logging.getLogger(__name__)
@@ -154,8 +163,9 @@ def soft_assign_roles(
 def get_champion_role_catalog() -> dict[str, list[str]]:
     from champion_catalog import build_api_position_catalog, load_unified_champions
 
-    champions = load_unified_champions()
-    catalog = build_api_position_catalog(champions)
+    with profile_step("get_champion_role_catalog"):
+        champions = load_unified_champions()
+        catalog = build_api_position_catalog(champions)
     return {
         name: [role for role in positions if role in VALID_ROLES]
         for name, positions in catalog.items()
@@ -1943,8 +1953,49 @@ def suggest_bot_pick(
     candidates_per_role: int = BOT_CANDIDATES_PER_ROLE,
     rng: random.Random | None = None,
     rng_seed: int | None = None,
+    *,
+    profile_label: str | None = None,
 ) -> dict[str, Any]:
     """Choisit le prochain pick du bot en simulant une compo meta + synergie ML."""
+    owned_profile = False
+    if profile_label and current_profile() is None:
+        begin_profile(profile_label)
+        owned_profile = True
+
+    wall_start = time.perf_counter()
+    try:
+        return _suggest_bot_pick_impl(
+            bot_partial_picks=bot_partial_picks,
+            opponent_partial_picks=opponent_partial_picks,
+            patch=patch,
+            available_champions=available_champions,
+            team_side=team_side,
+            mode=mode,
+            candidates_per_role=candidates_per_role,
+            rng=rng,
+            rng_seed=rng_seed,
+        )
+    finally:
+        report = current_profile()
+        if report is not None:
+            report.add_ms("_wall_total_ms", (time.perf_counter() - wall_start) * 1000)
+            if owned_profile:
+                log_report(report)
+                end_profile()
+
+
+def _suggest_bot_pick_impl(
+    bot_partial_picks: list[dict[str, str]],
+    opponent_partial_picks: list[dict[str, str]],
+    patch: str,
+    available_champions: list[str],
+    team_side: TeamSide = "blue",
+    mode: PredictionMode = "pro",
+    candidates_per_role: int = BOT_CANDIDATES_PER_ROLE,
+    rng: random.Random | None = None,
+    rng_seed: int | None = None,
+) -> dict[str, Any]:
+    """Implémentation interne de suggest_bot_pick (profiling actif si contexte ouvert)."""
     if rng_seed is not None:
         pick_rng = random.Random(rng_seed)
     elif rng is not None:
@@ -1952,7 +2003,8 @@ def suggest_bot_pick(
     else:
         pick_rng = random.Random()
     patch = patch.strip()
-    warmup_predict_caches(patch)
+    with profile_step("warmup_predict_caches"):
+        warmup_predict_caches(patch)
     catalog = get_champion_role_catalog()
 
     bot_partial = soft_assign_roles(bot_partial_picks, catalog)
@@ -1995,191 +2047,200 @@ def suggest_bot_pick(
     allowed_pool: set[str] = set()
     min_synergy = PRO_MIN_SYNERGY_AFTER_TWO_PICKS if locked_picks >= 2 else 0.40
 
-    for role in bot_remaining:
-        candidates = _top_candidates_for_role(
-            pool, role, catalog, patch, mode, per_role
-        )
-        if mode == "pro":
-            role_pools[role] = list(candidates)
-            allowed_pool.update(name.casefold() for name in candidates)
-
-        role_entries: list[dict[str, Any]] = []
-        role_fallback_entries: list[dict[str, Any]] = []
-
-        for candidate in candidates:
-            meta_scored = _pro_meta_score_for(candidate, role) if mode == "pro" else None
-            candidate_meta = meta_scored[0] if meta_scored else None
-            locked_duo_bonus = (
-                _locked_pro_duo_bonus(bot_partial, candidate, role) if mode == "pro" else 0.0
-            )
-            lookahead_duo_bonus = (
-                _lookahead_duo_bonus(
-                    bot_partial, candidate, role, pool, catalog, patch, mode
+    with profile_step("candidate_loop_total"):
+        for role in bot_remaining:
+            with profile_step("meta_pool_per_role"):
+                candidates = _top_candidates_for_role(
+                    pool, role, catalog, patch, mode, per_role
                 )
-                if mode == "pro"
-                else 0.0
-            )
-            pair_planning_bonus = (
-                _duo_pair_planning_bonus(
-                    bot_partial,
-                    candidate,
-                    role,
-                    bot_remaining,
-                    opponent_partial,
-                    opponent_remaining,
-                    pool,
-                    catalog,
-                    reserved,
-                    team_side,
-                    patch,
-                    mode,
-                )
-                if mode == "pro"
-                else 0.0
-            )
+            increment_counter("roles_evaluated")
             if mode == "pro":
-                locked_duo_bonus, lookahead_duo_bonus, pair_planning_bonus = (
-                    _cap_combined_duo_bonuses(
-                        locked_duo_bonus,
-                        lookahead_duo_bonus,
-                        pair_planning_bonus,
+                role_pools[role] = list(candidates)
+                allowed_pool.update(name.casefold() for name in candidates)
+
+            role_entries: list[dict[str, Any]] = []
+            role_fallback_entries: list[dict[str, Any]] = []
+
+            for candidate in candidates:
+                increment_counter("candidates_evaluated")
+                with profile_step("meta_scoring"):
+                    meta_scored = _pro_meta_score_for(candidate, role) if mode == "pro" else None
+                    candidate_meta = meta_scored[0] if meta_scored else None
+                with profile_step("duo_bonuses"):
+                    locked_duo_bonus = (
+                        _locked_pro_duo_bonus(bot_partial, candidate, role) if mode == "pro" else 0.0
                     )
-                )
+                    lookahead_duo_bonus = (
+                        _lookahead_duo_bonus(
+                            bot_partial, candidate, role, pool, catalog, patch, mode
+                        )
+                        if mode == "pro"
+                        else 0.0
+                    )
+                    pair_planning_bonus = (
+                        _duo_pair_planning_bonus(
+                            bot_partial,
+                            candidate,
+                            role,
+                            bot_remaining,
+                            opponent_partial,
+                            opponent_remaining,
+                            pool,
+                            catalog,
+                            reserved,
+                            team_side,
+                            patch,
+                            mode,
+                        )
+                        if mode == "pro"
+                        else 0.0
+                    )
+                    if mode == "pro":
+                        locked_duo_bonus, lookahead_duo_bonus, pair_planning_bonus = (
+                            _cap_combined_duo_bonuses(
+                                locked_duo_bonus,
+                                lookahead_duo_bonus,
+                                pair_planning_bonus,
+                            )
+                        )
 
-            trial_reserved = reserved | {candidate.casefold()}
-            bot_full = build_simulated_team_with_pick(
-                partial_picks=bot_partial,
-                candidate=candidate,
-                candidate_role=role,
-                remaining_roles=bot_remaining,
-                catalog=catalog,
-                available_champions=pool,
-                reserved=trial_reserved,
-                patch=patch,
-                mode=mode,
-            )
-            if bot_full is None:
-                continue
+                trial_reserved = reserved | {candidate.casefold()}
+                with profile_step("team_simulation"):
+                    bot_full = build_simulated_team_with_pick(
+                        partial_picks=bot_partial,
+                        candidate=candidate,
+                        candidate_role=role,
+                        remaining_roles=bot_remaining,
+                        catalog=catalog,
+                        available_champions=pool,
+                        reserved=trial_reserved,
+                        patch=patch,
+                        mode=mode,
+                    )
+                    if bot_full is None:
+                        continue
 
-            used_for_opp = trial_reserved | {
-                slot["champion"].casefold() for slot in bot_full
-            }
-            opponent_full = build_opponent_simulation_team(
-                bot_full=bot_full,
-                opponent_partial=opponent_partial,
-                opponent_remaining=opponent_remaining,
-                catalog=catalog,
-                available_champions=pool,
-                reserved=used_for_opp,
-                team_side=team_side,
-                patch=patch,
-                mode=mode,
-                draft_depth=draft_depth,
-            )
-            if opponent_full is None:
-                continue
-
-            mod_blue, mod_red = build_matchup_teams(bot_full, opponent_full, team_side)
-            result = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
-            win_prob = team_side_win_probability(result, team_side)
-            team_so_far = [slot["champion"] for slot in bot_partial]
-            archetype_score = score_archetype_coherence(team_so_far, candidate)
-            selection_score = _bot_pick_selection_score(
-                result,
-                team_side,
-                mode,
-                locked_picks,
-                candidate_meta=candidate_meta,
-                locked_duo_bonus=locked_duo_bonus,
-                archetype_score=archetype_score,
-            )
-            comp_direction_bonus = 0.0
-            opponent_counter_bonus = 0.0
-            if mode == "pro":
-                selection_score += _bot_role_priority_bonus(
-                    bot_partial, role, bot_remaining
-                )
-                selection_score += lookahead_duo_bonus
-                selection_score += pair_planning_bonus
-                comp_direction_bonus = _comp_direction_alignment_bonus(team_so_far, candidate)
-                opponent_counter_bonus = _opponent_lane_counter_bonus(
-                    opponent_partial, candidate, role, mode
-                )
-                selection_score += comp_direction_bonus
-                selection_score += opponent_counter_bonus
-            synergy = float(_detail_for_side(result, team_side)["score_synergie"])
-
-            pro_entry = _pro_winrate_entry(candidate, role)
-            entry = {
-                "champion": candidate,
-                "role": role,
-                "win_probability": round(win_prob, 4),
-                "selection_score": selection_score,
-                "synergy": synergy,
-                "pro_games": pro_entry[1] if pro_entry else None,
-                "meta_score": round(candidate_meta, 4) if candidate_meta is not None else None,
-                "role_fitness": round(meta_scored[3], 4) if meta_scored else None,
-                "archetype_score": archetype_score,
-                "lookahead_duo_bonus": round(lookahead_duo_bonus, 2),
-                "pair_planning_bonus": round(pair_planning_bonus, 2),
-                "comp_direction_bonus": round(comp_direction_bonus, 2)
-                if mode == "pro"
-                else 0.0,
-                "opponent_counter_bonus": round(opponent_counter_bonus, 2)
-                if mode == "pro"
-                else 0.0,
-            }
-
-            if mode == "pro":
-                candidate_eval_logs.append(
-                    {
-                        "role": role,
-                        "champion": candidate,
-                        "pro_games": entry["pro_games"],
-                        "meta_score": entry["meta_score"],
-                        "win_prob": entry["win_probability"],
-                        "synergy": entry["synergy"],
-                        "duo_bonus": round(locked_duo_bonus, 2),
-                        "archetype_score": archetype_score,
-                        "pair_bonus": round(pair_planning_bonus, 2),
-                        "selection_score": round(selection_score, 2),
+                    used_for_opp = trial_reserved | {
+                        slot["champion"].casefold() for slot in bot_full
                     }
-                )
+                    opponent_full = build_opponent_simulation_team(
+                        bot_full=bot_full,
+                        opponent_partial=opponent_partial,
+                        opponent_remaining=opponent_remaining,
+                        catalog=catalog,
+                        available_champions=pool,
+                        reserved=used_for_opp,
+                        team_side=team_side,
+                        patch=patch,
+                        mode=mode,
+                        draft_depth=draft_depth,
+                    )
+                    if opponent_full is None:
+                        continue
 
-            role_fallback_entries.append(entry)
-            if mode == "pro" and locked_picks >= 1 and synergy < min_synergy:
-                continue
-            role_entries.append(entry)
+                    mod_blue, mod_red = build_matchup_teams(bot_full, opponent_full, team_side)
 
-        if mode == "pro" and role_entries:
-            role_scores = [float(item["selection_score"]) for item in role_entries]
-            for entry in role_entries:
-                entry["selection_score"] -= _meta_diversity_penalty(
-                    entry.get("meta_score"),
-                    role_scores,
+                result = predict_draft(mod_blue, mod_red, patch=patch, mode=mode)
+                win_prob = team_side_win_probability(result, team_side)
+                team_so_far = [slot["champion"] for slot in bot_partial]
+                with profile_step("archetype_scoring"):
+                    archetype_score = score_archetype_coherence(team_so_far, candidate)
+                selection_score = _bot_pick_selection_score(
+                    result,
+                    team_side,
+                    mode,
+                    locked_picks,
+                    candidate_meta=candidate_meta,
+                    locked_duo_bonus=locked_duo_bonus,
+                    archetype_score=archetype_score,
                 )
-                entry["selection_score"] -= _presence_repetition_penalty(
-                    entry["champion"],
-                    entry["role"],
-                    role_scores,
-                )
-        elif mode == "pro" and role_fallback_entries:
-            role_scores = [
-                float(item["selection_score"]) for item in role_fallback_entries
-            ]
-            for entry in role_fallback_entries:
-                entry["selection_score"] -= _meta_diversity_penalty(
-                    entry.get("meta_score"),
-                    role_scores,
-                )
-                entry["selection_score"] -= _presence_repetition_penalty(
-                    entry["champion"],
-                    entry["role"],
-                    role_scores,
-                )
+                comp_direction_bonus = 0.0
+                opponent_counter_bonus = 0.0
+                if mode == "pro":
+                    selection_score += _bot_role_priority_bonus(
+                        bot_partial, role, bot_remaining
+                    )
+                    selection_score += lookahead_duo_bonus
+                    selection_score += pair_planning_bonus
+                    comp_direction_bonus = _comp_direction_alignment_bonus(team_so_far, candidate)
+                    opponent_counter_bonus = _opponent_lane_counter_bonus(
+                        opponent_partial, candidate, role, mode
+                    )
+                    selection_score += comp_direction_bonus
+                    selection_score += opponent_counter_bonus
+                synergy = float(_detail_for_side(result, team_side)["score_synergie"])
 
-        fallback_eligible.extend(role_fallback_entries)
-        eligible.extend(role_entries if role_entries else role_fallback_entries)
+                pro_entry = _pro_winrate_entry(candidate, role)
+                entry = {
+                    "champion": candidate,
+                    "role": role,
+                    "win_probability": round(win_prob, 4),
+                    "selection_score": selection_score,
+                    "synergy": synergy,
+                    "pro_games": pro_entry[1] if pro_entry else None,
+                    "meta_score": round(candidate_meta, 4) if candidate_meta is not None else None,
+                    "role_fitness": round(meta_scored[3], 4) if meta_scored else None,
+                    "archetype_score": archetype_score,
+                    "lookahead_duo_bonus": round(lookahead_duo_bonus, 2),
+                    "pair_planning_bonus": round(pair_planning_bonus, 2),
+                    "comp_direction_bonus": round(comp_direction_bonus, 2)
+                    if mode == "pro"
+                    else 0.0,
+                    "opponent_counter_bonus": round(opponent_counter_bonus, 2)
+                    if mode == "pro"
+                    else 0.0,
+                }
+
+                if mode == "pro":
+                    candidate_eval_logs.append(
+                        {
+                            "role": role,
+                            "champion": candidate,
+                            "pro_games": entry["pro_games"],
+                            "meta_score": entry["meta_score"],
+                            "win_prob": entry["win_probability"],
+                            "synergy": entry["synergy"],
+                            "duo_bonus": round(locked_duo_bonus, 2),
+                            "archetype_score": archetype_score,
+                            "pair_bonus": round(pair_planning_bonus, 2),
+                            "selection_score": round(selection_score, 2),
+                        }
+                    )
+
+                role_fallback_entries.append(entry)
+                if mode == "pro" and locked_picks >= 1 and synergy < min_synergy:
+                    continue
+                role_entries.append(entry)
+
+            if mode == "pro" and role_entries:
+                role_scores = [float(item["selection_score"]) for item in role_entries]
+                for entry in role_entries:
+                    entry["selection_score"] -= _meta_diversity_penalty(
+                        entry.get("meta_score"),
+                        role_scores,
+                    )
+                    entry["selection_score"] -= _presence_repetition_penalty(
+                        entry["champion"],
+                        entry["role"],
+                        role_scores,
+                    )
+            elif mode == "pro" and role_fallback_entries:
+                role_scores = [
+                    float(item["selection_score"]) for item in role_fallback_entries
+                ]
+                for entry in role_fallback_entries:
+                    entry["selection_score"] -= _meta_diversity_penalty(
+                        entry.get("meta_score"),
+                        role_scores,
+                    )
+                    entry["selection_score"] -= _presence_repetition_penalty(
+                        entry["champion"],
+                        entry["role"],
+                        role_scores,
+                    )
+
+            fallback_eligible.extend(role_fallback_entries)
+            eligible.extend(role_entries if role_entries else role_fallback_entries)
 
     pick_pool = eligible if eligible else fallback_eligible
     if not pick_pool:

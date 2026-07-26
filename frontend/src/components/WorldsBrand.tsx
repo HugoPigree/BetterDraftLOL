@@ -1,3 +1,5 @@
+import worldsLogo from "../assets/worlds-logo.png";
+
 interface WorldsBrandProps {
   size?: "sm" | "md" | "lg" | "hero";
   showTitle?: boolean;
@@ -21,7 +23,7 @@ export function WorldsBrand({
   return (
     <div className={["worlds-brand", SIZE_CLASS[size], className].filter(Boolean).join(" ")}>
       <img
-        src="/worlds-logo.png"
+        src={worldsLogo}
         alt="Worlds Championship"
         className="worlds-brand__logo"
         draggable={false}

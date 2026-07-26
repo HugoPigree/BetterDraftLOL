@@ -4189,6 +4189,7 @@ button {
 .match-simulation,
 .match-outcome {
   max-width: 960px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -5045,4 +5046,187 @@ button {
 
 .worlds-draft-shell .mode-toolbar {
   display: none;
+}
+
+/* ========== MOBILE — Home, Worlds, résultats ========== */
+
+@media (max-width: 860px) {
+  .home-screen,
+  .worlds-screen {
+    padding: 1rem 0.85rem calc(1rem + env(safe-area-inset-bottom, 0px));
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .home-screen__content {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .home-screen__modes {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .home-card {
+    padding: 1rem;
+    min-height: 44px;
+  }
+
+  .worlds-screen__header {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .worlds-screen__header--brand {
+    align-items: stretch;
+  }
+
+  .worlds-screen__header--brand .worlds-btn {
+    align-self: flex-start;
+    min-height: 44px;
+  }
+
+  .worlds-setup__grid,
+  .worlds-setup__roles {
+    grid-template-columns: 1fr;
+  }
+
+  .worlds-field input {
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  .worlds-btn {
+    min-height: 44px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .worlds-setup .worlds-btn--primary {
+    margin-top: 0.5rem;
+  }
+
+  .bracket-tree {
+    justify-content: flex-start;
+    margin: 1.25rem 0 1.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bracket-tree__round {
+    min-width: 168px;
+  }
+
+  .bracket-tree__connector {
+    width: 28px;
+  }
+
+  .match-intro__teams {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .match-intro__team {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .match-intro__coach-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .match-intro__coach-card {
+    width: 100%;
+  }
+
+  .match-outcome__comps {
+    grid-template-columns: 1fr;
+  }
+
+  .match-outcome__history-panel {
+    max-height: 50vh;
+  }
+
+  .worlds-cs-header {
+    grid-template-columns: auto 1fr;
+    gap: 0.35rem 0.5rem;
+    padding: 0.5rem 0.65rem calc(0.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  .worlds-cs-header__back {
+    align-self: start;
+  }
+
+  .worlds-cs-header__center {
+    min-width: 0;
+  }
+
+  .worlds-cs-header__phase {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-align: center;
+  }
+
+  .worlds-cs-header__matchup {
+    font-size: 0.68rem;
+    text-align: center;
+  }
+
+  .worlds-coach .bot-vn__sprite,
+  .worlds-coach .worlds-coach__sprite {
+    display: block !important;
+    max-height: min(160px, 24vh);
+    transform: translateX(-50%);
+    left: 50%;
+  }
+
+  .worlds-coach .bot-vn__stage {
+    min-height: 160px;
+  }
+
+  .worlds-coach .bot-vn__box {
+    width: 100%;
+    padding: 0.65rem 0.85rem 0.75rem;
+  }
+
+  .worlds-coach .bot-vn__text {
+    font-size: 0.88rem;
+    min-height: 2.6em;
+  }
+
+  .worlds-ambience-toggle {
+    top: calc(0.5rem + env(safe-area-inset-top, 0px));
+    right: 0.5rem;
+    z-index: 30;
+    min-height: 36px;
+    min-width: 36px;
+  }
+
+  .draft-result {
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .draft-result__footer-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .draft-result__footer-actions button {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-screen__title,
+  .worlds-screen__title {
+    font-size: 1.65rem;
+  }
+
+  .worlds-brand--lg .worlds-brand__logo,
+  .worlds-brand--hero .worlds-brand__logo {
+    height: 72px;
+  }
 }

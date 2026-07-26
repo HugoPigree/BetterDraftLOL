@@ -72,6 +72,15 @@ export type WorldsPhase =
 
 export const WORLDS_ROLES: Role[] = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
 
+export const EMPTY_WORLDS_ROSTER: WorldsRoster = {
+  TOP: "",
+  JUNGLE: "",
+  MIDDLE: "",
+  BOTTOM: "",
+  UTILITY: "",
+};
+
+/** Exemple T1 — tests / démo uniquement. */
 export const DEFAULT_WORLDS_ROSTER: WorldsRoster = {
   TOP: "Zeus",
   JUNGLE: "Oner",

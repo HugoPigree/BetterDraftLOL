@@ -1,3 +1,5 @@
+import worldsLogo from "../assets/worlds-logo.png";
+
 interface HomeScreenProps {
   onSelectDraft: () => void;
   onSelectWorlds: () => void;
@@ -23,7 +25,7 @@ export function HomeScreen({ onSelectDraft, onSelectWorlds }: HomeScreenProps) {
           </button>
 
           <button type="button" className="home-card home-card--worlds" onClick={onSelectWorlds}>
-            <img src="/worlds-logo.png" alt="" className="home-card__worlds-logo" aria-hidden="true" />
+            <img src={worldsLogo} alt="" className="home-card__worlds-logo" aria-hidden="true" />
             <span className="home-card__label">Mode tournoi</span>
             <strong className="home-card__title">Worlds</strong>            <span className="home-card__desc">
               Crée ton équipe, affronte 7 structures pro et remporte le bracket.

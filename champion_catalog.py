@@ -114,10 +114,22 @@ def infer_oracle_positions(
     min_games: int = 1,
 ) -> dict[str, list[str]]:
     """Infère les lanes pro jouées depuis Oracle (positions triées par volume)."""
+    from draft_profiling import current_profile, profile_step, record_data_load
+    import time
+
     if not oracle_csv.exists():
         return {}
 
-    df = pd.read_csv(oracle_csv, low_memory=False)
+    start = time.perf_counter()
+    with profile_step("load_oracle_csv_catalog_positions"):
+        df = pd.read_csv(oracle_csv, low_memory=False)
+    if current_profile() is not None:
+        record_data_load(
+            "oracle_csv_catalog_positions",
+            hit=False,
+            duration_ms=(time.perf_counter() - start) * 1000,
+            detail=str(oracle_csv),
+        )
     player_rows = df[
         (df["datacompleteness"] == "complete")
         & (df["position"] != "team")
@@ -263,24 +275,27 @@ def load_unified_champions(
     ensure_ddragon: bool = True,
 ) -> dict[str, Any]:
     """Catalogue complet : Meraki + nouveaux champions Data Dragon + rôles Oracle."""
-    meraki = load_meraki_champions(MERAKI_URL, meraki_cache)
+    from draft_profiling import profile_step
 
-    if ensure_ddragon and not ddragon_cache.exists():
-        refresh_ddragon_champions(ddragon_cache)
+    with profile_step("load_unified_champions"):
+        meraki = load_meraki_champions(MERAKI_URL, meraki_cache)
 
-    ddragon = load_ddragon_champions(ddragon_cache) if ddragon_cache.exists() else {}
-    ddragon_version = "latest"
-    if DDRAGON_META_PATH.exists():
-        meta = json.loads(DDRAGON_META_PATH.read_text(encoding="utf-8"))
-        ddragon_version = str(meta.get("version") or ddragon_version)
+        if ensure_ddragon and not ddragon_cache.exists():
+            refresh_ddragon_champions(ddragon_cache)
 
-    oracle_positions = infer_oracle_positions(oracle_csv)
-    merged, _estimated = merge_champion_catalog(
-        meraki,
-        ddragon,
-        oracle_positions,
-        ddragon_version=ddragon_version,
-    )
+        ddragon = load_ddragon_champions(ddragon_cache) if ddragon_cache.exists() else {}
+        ddragon_version = "latest"
+        if DDRAGON_META_PATH.exists():
+            meta = json.loads(DDRAGON_META_PATH.read_text(encoding="utf-8"))
+            ddragon_version = str(meta.get("version") or ddragon_version)
+
+        oracle_positions = infer_oracle_positions(oracle_csv)
+        merged, _estimated = merge_champion_catalog(
+            meraki,
+            ddragon,
+            oracle_positions,
+            ddragon_version=ddragon_version,
+        )
     return merged
 
 

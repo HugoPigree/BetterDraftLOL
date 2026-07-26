@@ -13,6 +13,7 @@ import json
 import logging
 import math
 import random
+import time
 from collections import Counter
 from pathlib import Path
 from typing import Any, Literal
@@ -41,6 +42,7 @@ from build_training_dataset import (
     normalize_name,
     resolve_champion_name,
 )
+from draft_profiling import current_profile, increment_counter, profile_step, record_data_load
 
 # --- Poids configurables ---
 WEIGHT_FORCE = 0.5
@@ -112,33 +114,63 @@ def setup_logging(verbose: bool = False) -> None:
 
 def get_meraki_context() -> MerakiContext:
     global _meraki_context
-    if _meraki_context is not None:
+    cached = _meraki_context is not None
+    start = time.perf_counter()
+    if cached:
+        record_data_load("meraki_json", hit=True, detail="get_meraki_context")
         return _meraki_context
 
-    champions = btd.load_meraki_champions(MERAKI_URL, DEFAULT_MERAKI_CACHE)
-    champion_features, role_tags = _parse_meraki_features(
-        btd.build_champion_feature_dict(champions)
+    with profile_step("load_meraki_json"):
+        champions = btd.load_meraki_champions(MERAKI_URL, DEFAULT_MERAKI_CACHE)
+        champion_features, role_tags = _parse_meraki_features(
+            btd.build_champion_feature_dict(champions)
+        )
+        lookup_by_norm = {normalize_name(key): key for key in champion_features}
+        for key, payload in champions.items():
+            lookup_by_norm[normalize_name(payload.get("name", key))] = key
+        _meraki_context = (champion_features, role_tags, lookup_by_norm)
+    record_data_load(
+        "meraki_json",
+        hit=False,
+        duration_ms=(time.perf_counter() - start) * 1000,
+        detail="get_meraki_context",
     )
-    lookup_by_norm = {normalize_name(key): key for key in champion_features}
-    for key, payload in champions.items():
-        lookup_by_norm[normalize_name(payload.get("name", key))] = key
-    _meraki_context = (champion_features, role_tags, lookup_by_norm)
     return _meraki_context
 
 
 def get_feature_order() -> list[str]:
     global _feature_order
-    if _feature_order is None:
+    cached = _feature_order is not None
+    start = time.perf_counter()
+    if cached:
+        record_data_load("features_order_json", hit=True)
+        return _feature_order
+    with profile_step("load_features_order_json"):
         _feature_order = json.loads(FEATURES_ORDER_PATH.read_text(encoding="utf-8"))
+    record_data_load(
+        "features_order_json",
+        hit=False,
+        duration_ms=(time.perf_counter() - start) * 1000,
+    )
     return _feature_order
 
 
 def get_synergy_model() -> xgb.XGBClassifier:
     global _synergy_model
-    if _synergy_model is None:
+    cached = _synergy_model is not None
+    start = time.perf_counter()
+    if cached:
+        record_data_load("xgboost_model", hit=True)
+        return _synergy_model
+    with profile_step("load_xgboost_model"):
         model = xgb.XGBClassifier()
         model.load_model(MODEL_PATH)
         _synergy_model = model
+    record_data_load(
+        "xgboost_model",
+        hit=False,
+        duration_ms=(time.perf_counter() - start) * 1000,
+    )
     return _synergy_model
 
 
@@ -214,12 +246,21 @@ def load_soloq_scores(patch: str) -> pd.DataFrame:
     patch_key = parse_patch(patch)
     cached = _soloq_cache.get(patch_key)
     if cached is not None:
+        record_data_load("soloq_csv", hit=True, detail=f"patch={patch_key}")
         return cached
 
-    path = soloq_file_for_patch(patch_key)
-    df = pd.read_csv(path)
-    _soloq_cache[patch_key] = df
-    logger.info("Solo queue chargé: %s (%d lignes)", path, len(df))
+    start = time.perf_counter()
+    with profile_step("load_soloq_csv"):
+        path = soloq_file_for_patch(patch_key)
+        df = pd.read_csv(path)
+        _soloq_cache[patch_key] = df
+        logger.info("Solo queue chargé: %s (%d lignes)", path, len(df))
+    record_data_load(
+        "soloq_csv",
+        hit=False,
+        duration_ms=(time.perf_counter() - start) * 1000,
+        detail=f"patch={patch_key}",
+    )
     return df
 
 
@@ -235,7 +276,15 @@ def warmup_predict_caches(patch: str) -> None:
 
 def compute_actual_blue_side_winrate(oracle_csv: Path = DEFAULT_ORACLE_CSV) -> float:
     """Calcule le winrate historique du côté blue sur les lignes équipe Oracle's Elixir."""
-    df = pd.read_csv(oracle_csv, low_memory=False)
+    start = time.perf_counter()
+    with profile_step("load_oracle_csv_blue_side"):
+        df = pd.read_csv(oracle_csv, low_memory=False)
+    record_data_load(
+        "oracle_csv_blue_side",
+        hit=False,
+        duration_ms=(time.perf_counter() - start) * 1000,
+        detail=str(oracle_csv),
+    )
     team_rows = df[(df["datacompleteness"] == "complete") & (df["position"] == "team")]
     blue_rows = team_rows[team_rows["side"].str.lower() == "blue"]
     if blue_rows.empty:
@@ -729,26 +778,30 @@ def build_team_prediction_details(
     mode: PredictionMode = "mixed",
 ) -> tuple[dict[str, Any], list[str]]:
     force_partial = False
-    if mode == "pro":
-        force_score, champions, warnings_force, valid_count = compute_pro_force_score(
-            team, champion_features, lookup_by_norm
-        )
-        force_partial = valid_count < 5
-    else:
-        force_score, champions, warnings_force = compute_force_score(
-            team, soloq_df, champion_features, lookup_by_norm  # type: ignore[arg-type]
-        )
+    with profile_step("force_score"):
+        if mode == "pro":
+            force_score, champions, warnings_force, valid_count = compute_pro_force_score(
+                team, champion_features, lookup_by_norm
+            )
+            force_partial = valid_count < 5
+        else:
+            force_score, champions, warnings_force = compute_force_score(
+                team, soloq_df, champion_features, lookup_by_norm  # type: ignore[arg-type]
+            )
 
-    synergy_raw, synergy_cal, warnings_synergy = compute_synergy_score(team, side, patch)
-    synergy_insight = compute_synergy_contributions(team, side, patch, synergy_cal)
-    feature_map, resolved_picks, warnings_features = build_team_feature_vector(
-        team, side, patch, champion_features, lookup_by_norm, role_tags
-    )
-    attribute_profile, meraki_roles = build_team_enrichment(
-        champion_features,
-        feature_map=feature_map,
-        resolved_picks=resolved_picks,
-    )
+    with profile_step("synergy_ml"):
+        synergy_raw, synergy_cal, warnings_synergy = compute_synergy_score(team, side, patch)
+        synergy_insight = compute_synergy_contributions(team, side, patch, synergy_cal)
+
+    with profile_step("archetype_attributes"):
+        feature_map, resolved_picks, warnings_features = build_team_feature_vector(
+            team, side, patch, champion_features, lookup_by_norm, role_tags
+        )
+        attribute_profile, meraki_roles = build_team_enrichment(
+            champion_features,
+            feature_map=feature_map,
+            resolved_picks=resolved_picks,
+        )
 
     side_bonus_blue, side_bonus_red = get_side_bonuses()
     side_bonus = side_bonus_blue if side == 0 else side_bonus_red
@@ -1243,69 +1296,88 @@ def predict_draft(
     if len(blue_team) != 5 or len(red_team) != 5:
         raise ValueError("Chaque équipe doit contenir exactement 5 champions")
 
+    parent = current_profile()
+    increment_counter("predict_draft_calls")
+    wall_start = time.perf_counter()
+
     patch = parse_patch(patch)
-    soloq_df = None if mode == "pro" else load_soloq_scores(patch)
-    champion_features, role_tags, lookup_by_norm = get_meraki_context()
 
-    blue_details, warnings_blue = build_team_prediction_details(
-        blue_team,
-        side=0,
-        patch=patch,
-        soloq_df=soloq_df,
-        champion_features=champion_features,
-        lookup_by_norm=lookup_by_norm,
-        role_tags=role_tags,
-        mode=mode,
-    )
-    red_details, warnings_red = build_team_prediction_details(
-        red_team,
-        side=1,
-        patch=patch,
-        soloq_df=soloq_df,
-        champion_features=champion_features,
-        lookup_by_norm=lookup_by_norm,
-        role_tags=role_tags,
-        mode=mode,
-    )
+    with profile_step("predict_setup_context"):
+        if mode == "pro":
+            soloq_df = None
+        else:
+            soloq_df = load_soloq_scores(patch)
+        champion_features, role_tags, lookup_by_norm = get_meraki_context()
+        get_feature_order()
+        get_synergy_model()
 
-    score_blue = blue_details["score_final"]
-    score_red = red_details["score_final"]
-    blue_prob, red_prob = score_diff_to_probabilities(score_blue, score_red)
+    with profile_step("predict_blue_team"):
+        blue_details, warnings_blue = build_team_prediction_details(
+            blue_team,
+            side=0,
+            patch=patch,
+            soloq_df=soloq_df,
+            champion_features=champion_features,
+            lookup_by_norm=lookup_by_norm,
+            role_tags=role_tags,
+            mode=mode,
+        )
+    with profile_step("predict_red_team"):
+        red_details, warnings_red = build_team_prediction_details(
+            red_team,
+            side=1,
+            patch=patch,
+            soloq_df=soloq_df,
+            champion_features=champion_features,
+            lookup_by_norm=lookup_by_norm,
+            role_tags=role_tags,
+            mode=mode,
+        )
 
-    differential = compute_attribute_differential(
-        blue_details["attribute_profile"],
-        red_details["attribute_profile"],
-    )
+    with profile_step("softmax"):
+        score_blue = blue_details["score_final"]
+        score_red = red_details["score_final"]
+        blue_prob, red_prob = score_diff_to_probabilities(score_blue, score_red)
 
-    blue_duos, warnings_blue_duos = build_team_duo_synergies(blue_team, mode=mode)
-    red_duos, warnings_red_duos = build_team_duo_synergies(red_team, mode=mode)
-    bot_lane_matchup = build_bot_lane_matchup(
-        blue_team,
-        red_team,
-        soloq_df,
-        champion_features,
-        lookup_by_norm,
-        blue_duos["duo_bot_lane"],
-        red_duos["duo_bot_lane"],
-        mode=mode,
-    )
-    jungle_support_matchup = build_jungle_support_matchup(
-        blue_team,
-        red_team,
-        soloq_df,
-        champion_features,
-        lookup_by_norm,
-        blue_duos["duo_jungle_support"],
-        red_duos["duo_jungle_support"],
-        mode=mode,
-    )
-    duo_differential = build_duo_differential(
-        bot_lane_matchup,
-        jungle_support_matchup,
-        blue_duos=blue_duos,
-        red_duos=red_duos,
-        mode=mode,
-    )
+        differential = compute_attribute_differential(
+            blue_details["attribute_profile"],
+            red_details["attribute_profile"],
+        )
+
+    with profile_step("duos"):
+        blue_duos, warnings_blue_duos = build_team_duo_synergies(blue_team, mode=mode)
+        red_duos, warnings_red_duos = build_team_duo_synergies(red_team, mode=mode)
+        bot_lane_matchup = build_bot_lane_matchup(
+            blue_team,
+            red_team,
+            soloq_df,
+            champion_features,
+            lookup_by_norm,
+            blue_duos["duo_bot_lane"],
+            red_duos["duo_bot_lane"],
+            mode=mode,
+        )
+        jungle_support_matchup = build_jungle_support_matchup(
+            blue_team,
+            red_team,
+            soloq_df,
+            champion_features,
+            lookup_by_norm,
+            blue_duos["duo_jungle_support"],
+            red_duos["duo_jungle_support"],
+            mode=mode,
+        )
+        duo_differential = build_duo_differential(
+            bot_lane_matchup,
+            jungle_support_matchup,
+            blue_duos=blue_duos,
+            red_duos=red_duos,
+            mode=mode,
+        )
+
+    if parent is not None:
+        elapsed_ms = (time.perf_counter() - wall_start) * 1000
+        parent.add_ms("predict_draft_inner", elapsed_ms)
 
     return {
         "mode": mode,

@@ -89,9 +89,15 @@ def build_pro_winrate_lookup(
 
 def get_pro_winrate_lookup(oracle_csv: Path = DEFAULT_ORACLE_CSV) -> dict[tuple[str, str], tuple[float, int]]:
     global _pro_winrate_lookup, _pro_oracle_path
-    if _pro_winrate_lookup is None or _pro_oracle_path != oracle_csv:
-        _pro_winrate_lookup = build_pro_winrate_lookup(oracle_csv)
-        _pro_oracle_path = oracle_csv
+    from draft_profiling import record_data_load
+
+    cached = _pro_winrate_lookup is not None and _pro_oracle_path == oracle_csv
+    if cached:
+        record_data_load("oracle_pro_winrate_lookup", hit=True)
+        return _pro_winrate_lookup
+    record_data_load("oracle_pro_winrate_lookup", hit=False, detail="build_pro_winrate_lookup")
+    _pro_winrate_lookup = build_pro_winrate_lookup(oracle_csv)
+    _pro_oracle_path = oracle_csv
     return _pro_winrate_lookup
 
 
@@ -333,7 +339,12 @@ def load_presence_lookup(
 ) -> dict[tuple[str, str], float]:
     """Charge presence_score (pick_rate + ban_rate) depuis meta_tierlist.csv."""
     global _presence_lookup, _presence_csv_path
-    if _presence_csv_path == tierlist_csv and _presence_lookup is not None:
+    from draft_profiling import profile_step, record_data_load
+    import time
+
+    cached = _presence_csv_path == tierlist_csv and _presence_lookup is not None
+    if cached:
+        record_data_load("meta_tierlist_csv", hit=True)
         return _presence_lookup
 
     if not tierlist_csv.exists():
@@ -343,9 +354,18 @@ def load_presence_lookup(
         )
         _presence_lookup = {}
         _presence_csv_path = tierlist_csv
+        record_data_load("meta_tierlist_csv", hit=False, detail="missing file")
         return _presence_lookup
 
-    df = pd.read_csv(tierlist_csv)
+    start = time.perf_counter()
+    with profile_step("load_meta_tierlist_csv"):
+        df = pd.read_csv(tierlist_csv)
+    record_data_load(
+        "meta_tierlist_csv",
+        hit=False,
+        duration_ms=(time.perf_counter() - start) * 1000,
+        detail=str(tierlist_csv),
+    )
     lookup: dict[tuple[str, str], float] = {}
     for _, row in df.iterrows():
         champion = str(row["champion"]).strip()

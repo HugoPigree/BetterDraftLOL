@@ -1,4 +1,5 @@
 import type { WorldsTeam } from "../types/worlds";
+import { bundledCoachPortraitUrl } from "./coachPortraits";
 
 const TEAM_LINES: Record<
   string,
@@ -136,19 +137,6 @@ export function regionAccentClass(region: string): string {
   }
 }
 
-const COACH_PORTRAITS: Record<string, string> = {
-  t1: "/coaches/tom.jpg",
-  geng: "/coaches/ryu.jpg",
-  blg: "/coaches/daeny.jpg",
-  g2: "/coaches/perkz.jpg",
-  hle: "/coaches/homme.jpg",
-  tes: "/coaches/poppy.jpg",
-  dk: "/coaches/cvmax.jpg",
-};
-
 export function coachPortraitUrl(team: WorldsTeam): string | null {
-  if (team.coach_portrait) {
-    return team.coach_portrait;
-  }
-  return COACH_PORTRAITS[team.id] ?? null;
+  return bundledCoachPortraitUrl(team.id);
 }
