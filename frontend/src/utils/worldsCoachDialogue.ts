@@ -138,5 +138,5 @@ export function regionAccentClass(region: string): string {
 }
 
 export function coachPortraitUrl(team: WorldsTeam): string | null {
-  return bundledCoachPortraitUrl(team.id);
+  return bundledCoachPortraitUrl(team.id, team.coach);
 }
