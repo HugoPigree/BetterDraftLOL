@@ -1,14 +1,17 @@
-import type { LecFixture, LecSeasonState, LecTeam } from "../types/lec";
+import type { LecCareerProgress, LecFixture, LecSeasonState, LecTeam, LecUpgradeKey } from "../types/lec";
 import { opponentForFixture } from "../utils/lecTeamBranding";
 import { LecBrand } from "./LecBrand";
+import { LecProgressionPanel } from "./LecProgressionPanel";
 import { LecStandings } from "./LecStandings";
 import { LecTeamBadge } from "./LecTeamBadge";
 
 interface LecSeasonHubProps {
   season: LecSeasonState;
   playerTeam: LecTeam;
+  progress: LecCareerProgress;
   onBack: () => void;
   onPlayNext: () => void;
+  onUpgrade: (key: LecUpgradeKey) => void;
 }
 
 function recentResults(season: LecSeasonState) {
@@ -24,7 +27,14 @@ function nextFixture(season: LecSeasonState): LecFixture | null {
   );
 }
 
-export function LecSeasonHub({ season, playerTeam, onBack, onPlayNext }: LecSeasonHubProps) {
+export function LecSeasonHub({
+  season,
+  playerTeam,
+  progress,
+  onBack,
+  onPlayNext,
+  onUpgrade,
+}: LecSeasonHubProps) {
   const next = nextFixture(season);
   const opponent = next ? opponentForFixture(season.teams, next) : null;
   const playerRow = season.standings.find((row) => row.is_player_team);
@@ -89,6 +99,7 @@ export function LecSeasonHub({ season, playerTeam, onBack, onPlayNext }: LecSeas
         </section>
 
         <section className="lec-hub__side">
+          <LecProgressionPanel progress={progress} onUpgrade={onUpgrade} />
           <h3>Classement LEC</h3>
           <LecStandings standings={season.standings} compact />
           {recent.length > 0 && (

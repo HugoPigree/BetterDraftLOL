@@ -15,6 +15,14 @@ import {
 } from "../utils/lecBracket";
 import { opponentForFixture } from "../utils/lecTeamBranding";
 import { storyChapterForWeek } from "../utils/lecStory";
+import type { LecCareerProgress, LecUpgradeKey } from "../types/lec";
+import {
+  awardProgressAfterMatch,
+  createDefaultProgress,
+  rollWeeklyEvent,
+  scoutingDraftSeedSalt,
+  spendUpgradePoint,
+} from "../utils/lecProgression";
 import { recordLecMatchResult, startLecSeason } from "../services/api";
 
 const STORAGE_KEY = "betterdraft-lec-career-v1";
@@ -30,7 +38,12 @@ function loadSnapshot(): LecCareerSnapshot | null {
     if (!raw) {
       return null;
     }
-    return JSON.parse(raw) as LecCareerSnapshot;
+    const parsed = JSON.parse(raw) as Partial<LecCareerSnapshot>;
+    return {
+      ...(parsed as LecCareerSnapshot),
+      progress: parsed.progress ?? createDefaultProgress(),
+      seasonSeed: parsed.seasonSeed ?? "",
+    };
   } catch {
     return null;
   }
@@ -68,6 +81,10 @@ export function useLecCareer() {
   const [lastMatchSummary, setLastMatchSummary] = useState<LecLastMatchSummary | null>(
     restored?.lastMatchSummary ?? null,
   );
+  const [progress, setProgress] = useState<LecCareerProgress>(
+    restored?.progress ?? createDefaultProgress(),
+  );
+  const [seasonSeed, setSeasonSeed] = useState(restored?.seasonSeed ?? "");
 
   useEffect(() => {
     if (phase === "matchResult" && !lastMatchSummary) {
@@ -123,6 +140,8 @@ export function useLecCareer() {
       storyChapterSeen,
       pendingStoryChapterId,
       lastMatchSummary,
+      progress,
+      seasonSeed,
     });
   }, [
     phase,
@@ -133,6 +152,8 @@ export function useLecCareer() {
     storyChapterSeen,
     pendingStoryChapterId,
     lastMatchSummary,
+    progress,
+    seasonSeed,
   ]);
 
   const queueStoryIfNeeded = useCallback(
@@ -163,6 +184,8 @@ export function useLecCareer() {
         setStoryChapterSeen([]);
         setPendingStoryChapterId("intro-1");
         setAfterStoryAction("hub");
+        setProgress(createDefaultProgress());
+        setSeasonSeed(`${teamName}:${Date.now()}`);
         setPhase("storyIntro");
       } catch (startError) {
         setError(
@@ -192,8 +215,12 @@ export function useLecCareer() {
       playerSide: next.week % 2 === 1 ? "blue" : "red",
       pickOrder: next.week % 2 === 1 ? "first" : "last",
     });
+    setProgress((current) => ({
+      ...current,
+      weeklyEvent: rollWeeklyEvent(next.week, seasonSeed || "lec"),
+    }));
     setPhase("matchIntro");
-  }, [season]);
+  }, [season, seasonSeed]);
 
   const completeStoryChapter = useCallback(() => {
     if (!pendingStoryChapterId) {
@@ -312,6 +339,7 @@ export function useLecCareer() {
           context: "regular",
         });
         setCurrentFixtureId(null);
+        setProgress((current) => awardProgressAfterMatch(current, playerWon));
         setPhase("matchResult");
       } catch (recordError) {
         setError(
@@ -428,6 +456,7 @@ export function useLecCareer() {
         context: "playoffs",
       });
       setCurrentPlayoffMatchId(null);
+      setProgress((current) => awardProgressAfterMatch(current, playerWon));
       setPhase("matchResult");
     },
     [season, currentPlayoffMatch, playerTeam],
@@ -450,7 +479,18 @@ export function useLecCareer() {
     setError(null);
     setLastPlayerWon(null);
     setLastMatchSummary(null);
+    setProgress(createDefaultProgress());
+    setSeasonSeed("");
   }, []);
+
+  const purchaseUpgrade = useCallback((key: LecUpgradeKey) => {
+    setProgress((current) => spendUpgradePoint(current, key) ?? current);
+  }, []);
+
+  const draftSeed = useMemo(() => {
+    const base = currentFixture?.id ?? currentPlayoffMatchId ?? seasonSeed;
+    return `${base}${scoutingDraftSeedSalt(progress)}`;
+  }, [currentFixture?.id, currentPlayoffMatchId, seasonSeed, progress]);
 
   const returnToHub = useCallback(() => {
     setPhase("seasonHub");
@@ -498,6 +538,9 @@ export function useLecCareer() {
     error,
     lastPlayerWon,
     lastMatchSummary,
+    progress,
+    draftSeed,
+    purchaseUpgrade,
     pendingStoryChapterId,
     startSeason,
     completeStoryChapter,

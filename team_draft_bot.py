@@ -65,9 +65,10 @@ def _maybe_signature_pick(
 ) -> dict[str, Any] | None:
     """Signature pick optionnelle — uniquement si le champion est dans le pool meta pro."""
     signatures = get_player_signatures(player, role, top_n=6)
-    for signature in signatures:
-        if signature.pick_rate < SIGNATURE_PICK_RATE_THRESHOLD:
-            continue
+    signature_pool = [item for item in signatures if item.pick_rate >= SIGNATURE_PICK_RATE_THRESHOLD]
+    rng.shuffle(signature_pool)
+    signature_chance = 0.22 + rng.random() * 0.24
+    for signature in signature_pool:
         champion = signature.champion
         if champion.casefold() in reserved:
             continue
@@ -78,7 +79,7 @@ def _maybe_signature_pick(
         champion_features, _, lookup_by_norm = get_meraki_context()
         if not is_pro_viable_on_role(champion, role, champion_features, lookup_by_norm):
             continue
-        if rng.random() > SIGNATURE_PICK_CHANCE:
+        if rng.random() > signature_chance:
             continue
         return {
             "action": "pick",
@@ -153,8 +154,20 @@ def choose_team_bot_action(
     """
     del fast  # conservé pour compat API ; le pipeline ML complet est toujours utilisé
 
+    bot_rng_seed = seed
+    if bot_rng_seed is None:
+        bot_rng_seed = hash(
+            (
+                action_type,
+                bot_side,
+                patch.strip(),
+                tuple(sorted(available_champions)),
+                tuple(str(slot.get("champion", "")) for slot in bot_picks + opponent_picks),
+            )
+        ) & 0x7FFFFFFF
+
     if action_type == "pick" and team_roster:
-        rng = random.Random(seed)
+        rng = random.Random(bot_rng_seed)
         catalog = get_champion_role_catalog()
         reserved = {
             str(slot.get("champion", "")).strip().casefold()
@@ -188,4 +201,5 @@ def choose_team_bot_action(
         patch=patch,
         available_champions=available_champions,
         mode=mode,
+        seed=bot_rng_seed,
     )

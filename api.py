@@ -371,6 +371,7 @@ class DraftBotMoveRequest(BaseModel):
     patch: str = Field(min_length=1)
     available_champions: list[str] = Field(min_length=1)
     mode: Literal["mixed", "pro"] = "mixed"
+    seed: int | None = None
 
 
 class DraftBotMoveResponse(BaseModel):
@@ -444,6 +445,8 @@ class WorldsSimulateMatchRequest(BaseModel):
     opponent_team_id: str | None = None
     player_roster: WorldsRosterInput | None = None
     opponent_roster: WorldsRosterInput | None = None
+    player_roster_power: float | None = Field(default=None, ge=0.0, le=1.0)
+    player_clutch_bonus: float = Field(default=0.0, ge=-0.2, le=0.2)
     seed: int | None = None
     patch: str = Field(default="16.13", min_length=1)
 
@@ -785,6 +788,7 @@ def create_app() -> FastAPI:
                 available_champions=request.available_champions,
                 team_roster=request.team_roster.model_dump(),
                 mode=request.mode,
+                seed=request.seed,
             )
         except FileNotFoundError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -873,8 +877,13 @@ def create_app() -> FastAPI:
                 prediction=prediction_payload,
                 player_roster=player_roster,
                 opponent_roster=opponent_roster,
-                player_roster_power=0.5,
+                player_roster_power=(
+                    request.player_roster_power
+                    if request.player_roster_power is not None
+                    else 0.5
+                ),
                 opponent_roster_power=opponent_power,
+                player_clutch_bonus=request.player_clutch_bonus,
                 seed=request.seed,
             )
         except Exception as exc:

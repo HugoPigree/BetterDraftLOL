@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Role } from "../types/draft";
+import { simulationPowerBonus, simulationClutchBonus } from "../utils/lecProgression";
 import type { MatchSimulationResult, WorldsPhase } from "../types/worlds";
 import { buildDraftSequence } from "../draft/sequence";
 import { useBotExplanation } from "../hooks/useBotExplanation";
@@ -83,6 +84,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     champions,
     patch,
     opponentTeamId: activeOpponent?.id ?? "g2",
+    draftSeed: lec.draftSeed,
     opponentRoster: activeOpponent?.roster ?? {
       TOP: "",
       JUNGLE: "",
@@ -230,6 +232,14 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     }
   }
 
+  const simulationBonuses = useMemo(
+    () => ({
+      playerRosterPower: Math.min(0.75, 0.5 + simulationPowerBonus(lec.progress)),
+      playerClutchBonus: simulationClutchBonus(lec.progress),
+    }),
+    [lec.progress],
+  );
+
   const muteButton = (
     <button
       type="button"
@@ -286,8 +296,10 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
         <LecSeasonHub
           season={lec.season}
           playerTeam={lec.playerTeam}
+          progress={lec.progress}
           onBack={onBack}
           onPlayNext={lec.openNextMatch}
+          onUpgrade={lec.purchaseUpgrade}
         />
       </>
     );
@@ -472,6 +484,8 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
           opponentRoster={activeOpponent.roster}
           playerSide={playerSide}
           draftPrediction={draftPrediction}
+          playerRosterPower={simulationBonuses.playerRosterPower}
+          playerClutchBonus={simulationBonuses.playerClutchBonus}
           onComplete={handleSimulationComplete}
         />
       </>

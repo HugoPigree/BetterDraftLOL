@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import random
 from typing import Any, Literal
 
 from suggest_draft import (
@@ -101,6 +102,23 @@ def _fallback_pick(
     raise ValueError("Aucun champion disponible pour le pick du bot")
 
 
+def _pick_weighted_suggestion(
+    suggestions: list[dict[str, Any]],
+    rng: random.Random,
+) -> dict[str, Any] | None:
+    if not suggestions:
+        return None
+    weights = [1.0 / (index + 1.35) for index in range(len(suggestions))]
+    total = sum(weights)
+    roll = rng.random() * total
+    cursor = 0.0
+    for suggestion, weight in zip(suggestions, weights, strict=False):
+        cursor += weight
+        if roll <= cursor:
+            return suggestion
+    return suggestions[-1]
+
+
 def choose_bot_ban(
     bot_side: TeamSide,
     bot_picks: list[dict[str, Any]],
@@ -108,6 +126,8 @@ def choose_bot_ban(
     patch: str,
     available_champions: list[str],
     mode: PredictionMode = BOT_MODE,
+    *,
+    seed: int | None = None,
 ) -> dict[str, Any]:
     """Choisit le ban le plus menaçant pour l'adversaire."""
     catalog = get_champion_role_catalog()
@@ -125,6 +145,7 @@ def choose_bot_ban(
 
     bot_team = _pad_team_meta(bot_guessed, catalog, pool, reserved, patch, mode)
     opponent_remaining = _remaining_roles(opponent_guessed) or ROLES_ORDER.copy()
+    rng = random.Random(seed)
 
     result = suggest_ban(
         available_champions=pool,
@@ -133,18 +154,18 @@ def choose_bot_ban(
         patch=patch,
         team_picks=bot_team,
         team_side=bot_side,
-        top_n=1,
+        top_n=5,
         mode=mode,
     )
 
     suggestions = result.get("suggestions") or []
-    if suggestions:
-        top = suggestions[0]
+    chosen = _pick_weighted_suggestion(suggestions, rng)
+    if chosen:
         return {
             "action": "ban",
-            "champion": top["champion"],
+            "champion": chosen["champion"],
             "role": None,
-            "reason": top.get("reason"),
+            "reason": chosen.get("reason"),
         }
 
     champion = _fallback_ban(pool, catalog, reserved)
@@ -158,6 +179,8 @@ def choose_bot_pick(
     patch: str,
     available_champions: list[str],
     mode: PredictionMode = BOT_MODE,
+    *,
+    seed: int | None = None,
 ) -> dict[str, Any]:
     """Choisit un pick cohérent (meta pro + synergie ML + duos mesurés)."""
     catalog = get_champion_role_catalog()
@@ -182,6 +205,7 @@ def choose_bot_pick(
         available_champions=pool,
         team_side=bot_side,
         mode=mode,
+        rng_seed=seed,
     )
 
     champion = choice.get("champion")
@@ -211,6 +235,8 @@ def choose_bot_action(
     patch: str,
     available_champions: list[str],
     mode: PredictionMode = BOT_MODE,
+    *,
+    seed: int | None = None,
 ) -> dict[str, Any]:
     """Point d'entrée unique pour le tour du bot."""
     if action_type == "ban":
@@ -221,6 +247,7 @@ def choose_bot_action(
             patch=patch,
             available_champions=available_champions,
             mode=mode,
+            seed=seed,
         )
     if action_type == "pick":
         return choose_bot_pick(
@@ -230,5 +257,6 @@ def choose_bot_action(
             patch=patch,
             available_champions=available_champions,
             mode=mode,
+            seed=seed,
         )
     raise ValueError(f"Action invalide: {action_type}")

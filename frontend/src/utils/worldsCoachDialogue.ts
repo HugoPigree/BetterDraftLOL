@@ -45,11 +45,107 @@ const TEAM_LINES: Record<
     intro: [
       "Perkz est de retour — en tant que head coach cette fois. Caps et moi, on connaît la recette.",
       "J'ai déjà carry G2 en mid. Maintenant je carry la draft. Bonne chance.",
+      "G2 en mode LEC : flex, tempo, et un peu de chaos contrôlé.",
     ],
-    thinking: ["Perkz calcule le flex mid…", "G2 prépare le chaos contrôlé de Caps."],
-    ban: ["Ban G2 — je connais tes comfort picks.", "Retiré. On a déjà vu ce film en LEC."],
-    pick: ["Caps special. L'histoire G2 continue.", "Pick signature — Perkz approuve."],
-    playerTurn: ["À toi. Montre-moi si tu outdraft Perkz.", "Ton tour — G2 love les mind games."],
+    thinking: ["Perkz calcule le flex mid…", "G2 prépare le chaos contrôlé de Caps.", "Labrov cherche le setup bot."],
+    ban: ["Ban G2 — je connais tes comfort picks.", "Retiré. On a déjà vu ce film en LEC.", "On coupe ta win condition avant le pick 3."],
+    pick: ["Caps special. L'histoire G2 continue.", "Pick signature — Perkz approuve.", "BrokenBlade peut 1-3 sur ça, next."],
+    playerTurn: ["À toi. Montre-moi si tu outdraft Perkz.", "Ton tour — G2 love les mind games.", "Draft vite, on lit déjà ton plan."],
+  },
+  fnatic: {
+    intro: [
+      "GrabbZ mène Fnatic — discipline LEC, tempo propre.",
+      "Oscarinin veut le counter pick top. Upset attend le bot prio.",
+      "FNC ne draft pas au feeling. Chaque ban a une raison.",
+    ],
+    thinking: ["Razork calcule le path jungle…", "Humanoid prépare la réponse mid.", "Mikyx lit ton bot lane."],
+    ban: ["On retire ton confort — standard Fnatic.", "Ban data-driven FNC.", "Ce champion ne passera pas."],
+    pick: ["Upset pool. Clean.", "Razork synergy — on lock.", "Oscarinin est happy sur ce pick."],
+    playerTurn: ["À toi. Montre ta macro draft.", "FNC s'adapte vite.", "Ne nous sous-estime pas en Bo1."],
+  },
+  kc: {
+    intro: [
+      "Bubbling et KC — la hype européenne en draft.",
+      "Caliste veut le bot carry. Yike cherche l'early tempo.",
+      "KC draft agressive. On vient pour ton confort pick.",
+    ],
+    thinking: ["Yike hover jungle…", "Canna demande un counter?", "Targamas prépare le roam."],
+    ban: ["KC retire ta ligne de comfort.", "Ban ciblé — pool Caliste protégé.", "On lit tes habits LEC."],
+    pick: ["Pick KC signature.", "Yike peut invade sur ça.", "Caliste carry angle."],
+    playerTurn: ["Ton move. KC répond en vitesse.", "Draft sérieuse — Bo1 LEC.", "Montre-nous ta prep."],
+  },
+  mkoi: {
+    intro: [
+      "Melia mène MKOI — Elyoya veut le tempo, Jojopyun le mid prio.",
+      "KOI draft structurée. Supa scale en bot.",
+      "On connaît la meta, on teste ta lecture.",
+    ],
+    thinking: ["Elyoya pathing…", "Jojopyun cherche le angle mid.", "Alvaro setup bot."],
+    ban: ["MKOI ban macro.", "On protège notre wincon.", "Retiré — pas de cadeau."],
+    pick: ["Elyoya happy.", "Jojopyun comfort pick.", "Supa peut carry late."],
+    playerTurn: ["Ton tour. KOI punira les erreurs.", "Draft MKOI incoming.", "Bo1 — pas de second essai."],
+  },
+  vitality: {
+    intro: [
+      "Horcus et Vitality — Carzzy veut le bot, Lyncas le tempo.",
+      "VIT draft directe. Naak Nako cherche le side lane.",
+    ],
+    thinking: ["Lyncas réfléchit…", "Carzzy hover bot.", "Czajek mid prep."],
+    ban: ["VIT retire ta wincon.", "Ban LEC — tempo first.", "On coupe ta bot lane."],
+    pick: ["Carzzy pool.", "Lyncas synergy.", "VIT classic."],
+    playerTurn: ["À toi. VIT observe.", "Draft VIT — montre ton plan.", "Ne scale pas gratuitement."],
+  },
+  giantx: {
+    intro: [
+      "Guilhoto mène GIANTX — macro européenne propre.",
+      "Isma cherche le tempo jungle, Noah le bot scaling.",
+    ],
+    thinking: ["Isma calcule…", "Jackies mid hover.", "Jun prépare le setup."],
+    ban: ["GX ban ciblé.", "On protège le plan.", "Retiré proprement."],
+    pick: ["GX pick cohérent.", "Noah scale.", "Isma pathing lock."],
+    playerTurn: ["Ton tour — GX lit vite.", "Draft macro maintenant.", "Bo1 LEC."],
+  },
+  heretics: {
+    intro: [
+      "Hatrixx et Heretics — draft imprévisible en Bo1.",
+      "bluerzor veut l'early, Jackspektra le bot carry.",
+    ],
+    thinking: ["bluerzor path…", "Kamiloo mid prep.", "Stend roam setup."],
+    ban: ["TH ban surprise.", "On retire ton comfort.", "Ban Heretics style."],
+    pick: ["Pick TH — off meta possible.", "Jackspektra angle.", "bluerzor tempo."],
+    playerTurn: ["À toi. TH draft vite.", "Montre ta prep LEC.", "On teste ta flex."],
+  },
+  shifters: {
+    intro: [
+      "Striker et Shifters — nouveau branding, même exigence LEC.",
+      "nuc veut le mid prio, Paduck le bot scaling.",
+      "On ne draft pas comme BDS. Nouvelle identité, même ambition.",
+    ],
+    thinking: ["Boukada jungle…", "nuc hover mid.", "Trymbi setup bot."],
+    ban: ["Shifters retire ta wincon.", "Ban propre — pool nuc protégé.", "On lit ta bot lane."],
+    pick: ["nuc comfort.", "Paduck carry angle.", "Rooster side lane."],
+    playerTurn: ["Ton tour. Shifters s'adaptent.", "Draft LEC 2026.", "Montre-nous ta macro."],
+  },
+  sk: {
+    intro: [
+      "Own3r et SK — rebuild en cours, draft agressive.",
+      "Wunder veut le top, Skeanz le tempo jungle.",
+    ],
+    thinking: ["Skeanz path…", "LIDER mid.", "Jactroll bot setup."],
+    ban: ["SK ban direct.", "On coupe ta comfort.", "Ban rebuild SK."],
+    pick: ["Wunder pool.", "SK pick youth.", "Skeanz tempo."],
+    playerTurn: ["À toi. SK cherche la win.", "Draft SK Gaming.", "Bo1 — tout ou rien."],
+  },
+  navi: {
+    intro: [
+      "Innaxe et NAVI — première vraie saison LEC.",
+      "Poby revient en EMEA, Hans SamD veut le bot prio.",
+      "NAVI draft méthodique. On apprend vite.",
+    ],
+    thinking: ["Rhilech jungle…", "Poby mid prep.", "Parus bot setup."],
+    ban: ["NAVI retire ta comfort.", "Ban CIS-LEC hybrid.", "On protège Poby."],
+    pick: ["Poby angle.", "Maynter top.", "NAVI signature en construction."],
+    playerTurn: ["Ton tour. NAVI observe.", "Montre ta draft LEC.", "On cherche la qualification."],
   },
   hle: {
     intro: [
@@ -84,11 +180,14 @@ const TEAM_LINES: Record<
 };
 
 const DEFAULT_LINES = {
-  intro: ["Draft importante. Pas de seconde chance."],
-  thinking: ["Réflexion en cours…"],
-  ban: ["Ban ciblé."],
-  pick: ["Pick cohérent avec notre plan."],
-  playerTurn: ["À toi."],
+  intro: [
+    "Draft importante. Pas de seconde chance.",
+    "On a préparé plusieurs plans. Tu vas en voir un.",
+  ],
+  thinking: ["Réflexion en cours…", "On ajuste le plan…", "Lecture adverse en cours…"],
+  ban: ["Ban ciblé.", "On retire ta comfort.", "Ban orienté tempo."],
+  pick: ["Pick cohérent avec notre plan.", "Signature équipe.", "Flex possible sur ce pick."],
+  playerTurn: ["À toi.", "Montre-nous ta prep.", "Ton tour — on observe."],
 };
 
 function pickRandom(lines: string[]): string {

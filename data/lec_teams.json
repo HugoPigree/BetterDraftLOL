@@ -1,5 +1,5 @@
 {
-  "season_label": "LEC 2025 — Saison régulière",
+  "season_label": "LEC 2026 — Saison régulière",
   "format": {
     "regular_season": "bo1",
     "playoffs": "bo3",
@@ -80,11 +80,11 @@
       "brand_color": "#FFD700",
       "power_rating": 0.51,
       "roster": {
-        "TOP": "Lot",
-        "JUNGLE": "LJLA",
-        "MIDDLE": "Vetheo",
+        "TOP": "Naak Nako",
+        "JUNGLE": "Lyncas",
+        "MIDDLE": "Czajek",
         "BOTTOM": "Carzzy",
-        "UTILITY": "Naak Nako"
+        "UTILITY": "Fleshy"
       }
     },
     {
@@ -96,7 +96,7 @@
       "brand_color": "#00A3E0",
       "power_rating": 0.52,
       "roster": {
-        "TOP": "Odoamne",
+        "TOP": "Lot",
         "JUNGLE": "Isma",
         "MIDDLE": "Jackies",
         "BOTTOM": "Noah",
@@ -112,27 +112,27 @@
       "brand_color": "#E8D5B7",
       "power_rating": 0.48,
       "roster": {
-        "TOP": "Tracyn",
-        "JUNGLE": "Sheo",
+        "TOP": "iBo",
+        "JUNGLE": "bluerzor",
         "MIDDLE": "Kamiloo",
         "BOTTOM": "Jackspektra",
         "UTILITY": "Stend"
       }
     },
     {
-      "id": "bds",
-      "name": "Team BDS",
-      "short_name": "BDS",
+      "id": "shifters",
+      "name": "Shifters",
+      "short_name": "SHFT",
       "region": "LEC",
       "coach": "Striker",
-      "brand_color": "#00B4D8",
+      "brand_color": "#5CE1E6",
       "power_rating": 0.49,
       "roster": {
         "TOP": "Rooster",
         "JUNGLE": "Boukada",
         "MIDDLE": "nuc",
-        "BOTTOM": "Ice",
-        "UTILITY": "Parus"
+        "BOTTOM": "Paduck",
+        "UTILITY": "Trymbi"
       }
     },
     {
@@ -152,19 +152,19 @@
       }
     },
     {
-      "id": "rogue",
-      "name": "Rogue",
-      "short_name": "RGE",
+      "id": "navi",
+      "name": "Natus Vincere",
+      "short_name": "NAVI",
       "region": "LEC",
-      "coach": "Blumigan",
-      "brand_color": "#E4002B",
-      "power_rating": 0.44,
+      "coach": "Innaxe",
+      "brand_color": "#FFE500",
+      "power_rating": 0.46,
       "roster": {
-        "TOP": "Adam",
-        "JUNGLE": "Markoon",
-        "MIDDLE": "Larssen",
-        "BOTTOM": "Patrik",
-        "UTILITY": "Jehiac"
+        "TOP": "Maynter",
+        "JUNGLE": "Rhilech",
+        "MIDDLE": "Poby",
+        "BOTTOM": "Hans SamD",
+        "UTILITY": "Parus"
       }
     }
   ]

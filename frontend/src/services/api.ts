@@ -426,6 +426,7 @@ export async function worldsDraftBotMove(
   availableChampions: string[],
   teamId: string,
   teamRoster: WorldsRoster,
+  seed?: number,
 ): Promise<DraftBotMoveResponse> {
   return postJson<DraftBotMoveResponse>(
     "/worlds/draft-bot/move",
@@ -439,6 +440,7 @@ export async function worldsDraftBotMove(
       mode: "pro",
       team_id: teamId,
       team_roster: teamRoster,
+      seed,
     },
     "Tour du bot Worlds impossible",
   );
@@ -472,6 +474,8 @@ export async function startWorldsSimulation(
   opponentTeamId?: string,
   playerRoster?: WorldsRoster,
   opponentRoster?: WorldsRoster,
+  playerRosterPower?: number,
+  playerClutchBonus?: number,
 ): Promise<MatchSimulationStartResponse> {
   return postJson<MatchSimulationStartResponse>(
     "/worlds/simulate-match",
@@ -485,6 +489,8 @@ export async function startWorldsSimulation(
       opponent_team_id: opponentTeamId,
       player_roster: playerRoster,
       opponent_roster: opponentRoster,
+      ...(playerRosterPower !== undefined ? { player_roster_power: playerRosterPower } : {}),
+      ...(playerClutchBonus !== undefined ? { player_clutch_bonus: playerClutchBonus } : {}),
     },
     "Impossible de démarrer la simulation",
   );

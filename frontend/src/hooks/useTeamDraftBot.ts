@@ -22,6 +22,7 @@ interface UseTeamDraftBotOptions {
   patch: string;
   opponentTeamId: string;
   opponentRoster: WorldsRoster;
+  draftSeed?: string;
 }
 
 const BOT_DELAY_MS = 0;
@@ -34,6 +35,7 @@ export function useTeamDraftBot({
   patch,
   opponentTeamId,
   opponentRoster,
+  draftSeed = "",
 }: UseTeamDraftBotOptions) {
   const [thinking, setThinking] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -72,6 +74,13 @@ export function useTeamDraftBot({
       const opponentPicks = teamPicksForSide(draft, opponentTeam(side));
 
       try {
+        const moveSeed = hashDraftSeed(
+          draftSeed,
+          opponentTeamId,
+          actionIndex,
+          actionType,
+          patch,
+        );
         const move = await worldsDraftBotMove(
           actionType,
           side,
@@ -81,6 +90,7 @@ export function useTeamDraftBot({
           availableChampions,
           opponentTeamId,
           opponentRoster,
+          moveSeed,
         );
 
         if (cancelled || requestId !== requestIdRef.current) {
@@ -132,7 +142,24 @@ export function useTeamDraftBot({
     patch,
     opponentTeamId,
     opponentRoster,
+    draftSeed,
   ]);
 
   return { thinking, error, lastMove };
+}
+
+function hashDraftSeed(
+  draftSeed: string,
+  opponentTeamId: string,
+  actionIndex: number,
+  actionType: "ban" | "pick",
+  patch: string,
+): number {
+  const raw = `${draftSeed}|${opponentTeamId}|${actionIndex}|${actionType}|${patch}`;
+  let hash = 2166136261;
+  for (let index = 0; index < raw.length; index += 1) {
+    hash ^= raw.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
 }

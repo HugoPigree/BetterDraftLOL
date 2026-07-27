@@ -89,6 +89,29 @@ export interface LecStoryChapter {
   lines: LecStoryLine[];
 }
 
+export interface LecLastMatchSummary {
+  round_label: string;
+  opponent_name: string;
+  context: "regular" | "playoffs";
+}
+
+export type LecUpgradeKey = "scouting" | "infrastructure" | "clutch";
+
+export interface LecWeeklyEvent {
+  id: string;
+  title: string;
+  description: string;
+  powerBonus: number;
+  clutchBonus: number;
+}
+
+export interface LecCareerProgress {
+  upgradePoints: number;
+  upgrades: Record<LecUpgradeKey, number>;
+  weeklyEvent: LecWeeklyEvent | null;
+  winStreak: number;
+}
+
 export interface LecCareerSnapshot {
   phase: LecPhase;
   season: LecSeasonState;
@@ -98,12 +121,8 @@ export interface LecCareerSnapshot {
   storyChapterSeen: string[];
   pendingStoryChapterId: string | null;
   lastMatchSummary: LecLastMatchSummary | null;
-}
-
-export interface LecLastMatchSummary {
-  round_label: string;
-  opponent_name: string;
-  context: "regular" | "playoffs";
+  progress: LecCareerProgress;
+  seasonSeed: string;
 }
 
 export const LEC_ROLES = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"] as const;

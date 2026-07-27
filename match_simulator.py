@@ -124,6 +124,7 @@ def adjust_phase_probability(
     phase_advantage: float,
     choice: Choice | None,
     noise: float,
+    clutch_bonus: float = 0.0,
 ) -> float:
     phase_prob = base + PHASE_ADVANTAGE_WEIGHT * phase_advantage + NOISE_WEIGHT * noise
     phase_prob = clamp(phase_prob, MIN_WIN_PROB, MAX_WIN_PROB)
@@ -131,8 +132,10 @@ def adjust_phase_probability(
         phase_prob += ENGAGE_BONUS * sign(phase_advantage)
         if phase_advantage > 0:
             phase_prob += ENGAGE_CAPITALIZE * phase_advantage
+        phase_prob += clutch_bonus
     elif choice == "temporize":
         phase_prob = TEMPORIZE_NEUTRAL + 0.02 * sign(phase_advantage)
+        phase_prob += clutch_bonus * 0.35
     return clamp(phase_prob, MIN_WIN_PROB, MAX_WIN_PROB)
 
 
@@ -142,6 +145,7 @@ def resolve_phase_outcome(
     phase_advantage: float,
     choice: Choice | None,
     rng: random.Random,
+    clutch_bonus: float = 0.0,
 ) -> tuple[bool, float]:
     noise = rng.random()
     prob = adjust_phase_probability(
@@ -149,6 +153,7 @@ def resolve_phase_outcome(
         phase_advantage=phase_advantage,
         choice=choice,
         noise=noise,
+        clutch_bonus=clutch_bonus,
     )
     return rng.random() < prob, prob
 
@@ -350,6 +355,7 @@ class SimulationState:
     decision_plan: list[dict[str, Any]]
     late_advantage: float
     rng: random.Random
+    player_clutch_bonus: float = 0.0
     phase_results: dict[PhaseName, dict[str, Any]] = field(default_factory=dict)
     pending_phase: PhaseName | None = "early"
     completed: bool = False
@@ -377,6 +383,7 @@ def _state_to_payload(state: SimulationState) -> dict[str, Any]:
         "opponent_roster": state.opponent_roster,
         "player_roster_power": state.player_roster_power,
         "opponent_roster_power": state.opponent_roster_power,
+        "player_clutch_bonus": state.player_clutch_bonus,
         "prediction": state.prediction,
         "base": state.base,
         "decision_plan": state.decision_plan,
@@ -398,6 +405,7 @@ def _state_from_payload(payload: dict[str, Any]) -> SimulationState:
         opponent_roster=dict(payload["opponent_roster"]),
         player_roster_power=float(payload["player_roster_power"]),
         opponent_roster_power=float(payload["opponent_roster_power"]),
+        player_clutch_bonus=float(payload.get("player_clutch_bonus", 0.0)),
         prediction=dict(payload["prediction"]),
         base=float(payload["base"]),
         decision_plan=list(
@@ -479,6 +487,7 @@ def start_simulation(
     opponent_roster: Roster | None = None,
     player_roster_power: float = 0.5,
     opponent_roster_power: float = 0.55,
+    player_clutch_bonus: float = 0.0,
     seed: int | None = None,
 ) -> dict[str, Any]:
     _purge_expired_states()
@@ -512,6 +521,7 @@ def start_simulation(
         decision_plan=decision_plan,
         late_advantage=late_advantage,
         rng=rng,
+        player_clutch_bonus=player_clutch_bonus,
     )
     _store[simulation_id] = state
 
@@ -637,6 +647,7 @@ def resolve_simulation_phase(
         phase_advantage=phase_advantage,
         choice=choice,
         rng=state.rng,
+        clutch_bonus=state.player_clutch_bonus,
     )
     explanation = build_explanation_text(
         slot["dilemma_type"],
@@ -693,6 +704,7 @@ def resolve_simulation_phase(
             phase_advantage=state.late_advantage,
             choice="engage",
             rng=state.rng,
+            clutch_bonus=state.player_clutch_bonus,
         )
         state.phase_results["late"] = {
             "phase_won": late_won,

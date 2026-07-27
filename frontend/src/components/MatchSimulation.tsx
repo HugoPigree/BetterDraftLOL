@@ -16,6 +16,8 @@ interface MatchSimulationProps {
   opponentRoster?: WorldsRoster;
   playerSide: Team;
   draftPrediction: PredictResponse;
+  playerRosterPower?: number;
+  playerClutchBonus?: number;
   onComplete: (playerWins: boolean, result: MatchSimulationResult) => void;
 }
 
@@ -84,6 +86,8 @@ export function MatchSimulation({
   opponentRoster,
   playerSide,
   draftPrediction,
+  playerRosterPower,
+  playerClutchBonus,
   onComplete,
 }: MatchSimulationProps) {
   const [mode, setMode] = useState<SimMode>("booting");
@@ -118,6 +122,8 @@ export function MatchSimulation({
           opponentTeamId,
           playerRoster,
           opponentRoster,
+          playerRosterPower,
+          playerClutchBonus,
         );
         setSimulationToken(started.simulation_token);
         setEarlyContext(started.early_context);
@@ -134,6 +140,8 @@ export function MatchSimulation({
     opponentTeamId,
     opponentTeamName,
     playerRoster,
+    playerRosterPower,
+    playerClutchBonus,
     playerSide,
     playerTeamName,
   ]);
