@@ -5,7 +5,6 @@ export interface LecDraftAnalysis {
   playerWinProbability: number;
   playerScore: number;
   opponentScore: number;
-  highlights: string[];
 }
 
 function picksForSide(
@@ -58,35 +57,10 @@ export function analyzeCareerDraft({
   const delta = playerScore - opponentScore;
   const playerWinProbability = Math.min(0.78, Math.max(0.22, 0.5 + delta * 0.85));
 
-  const highlights: string[] = [];
-  const inVoguePlayer = playerPicks.filter(
-    (pick) => pick.role && (patch.viable_by_role[pick.role]?.slice(0, 5).includes(pick.champion) ?? false),
-  );
-  const offMetaPlayer = playerPicks.filter(
-    (pick) => pick.role && !(patch.viable_by_role[pick.role]?.includes(pick.champion) ?? true),
-  );
-
-  if (inVoguePlayer.length >= 3) {
-    highlights.push("Ta comp colle bien à la meta du patch.");
-  } else if (inVoguePlayer.length >= 1) {
-    highlights.push(`${inVoguePlayer.length} pick(s) en vogue ce patch.`);
-  }
-  if (offMetaPlayer.length >= 2) {
-    highlights.push("Plusieurs picks hors meta — edge réduit.");
-  }
-  if (delta > 0.08) {
-    highlights.push("Avantage draft estimé sur l'adversaire.");
-  } else if (delta < -0.08) {
-    highlights.push("Draft adverse mieux alignée avec la meta.");
-  } else {
-    highlights.push("Draft équilibrée — match serré attendu.");
-  }
-
   return {
     playerWinProbability,
     playerScore,
     opponentScore,
-    highlights,
   };
 }
 

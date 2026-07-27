@@ -53,8 +53,10 @@ function loadSnapshot(): LecCareerSnapshot | null {
         migrateScoutDossier({ ...dossier, teamId }),
       ]),
     );
+    const restoredPhase = parsed.phase === "simulating" ? "seasonHub" : parsed.phase;
     return {
       ...(parsed as LecCareerSnapshot),
+      phase: restoredPhase ?? "setup",
       progress: parsed.progress ?? createDefaultProgress(),
       seasonSeed: parsed.seasonSeed ?? "",
       scoutDossiers,
@@ -375,10 +377,6 @@ export function useLecCareer() {
     setPhase("draftResult");
   }, []);
 
-  const beginSimulation = useCallback(() => {
-    setPhase("simulating");
-  }, []);
-
   const finishRegularMatch = useCallback(
     async (playerWon: boolean) => {
       if (!season || !currentFixture || !playerTeam) {
@@ -652,7 +650,6 @@ export function useLecCareer() {
     openNextMatch,
     beginDraft,
     showDraftResult,
-    beginSimulation,
     finishRegularMatch,
     finishPlayoffMatch,
     continueAfterMatch,

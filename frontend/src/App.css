@@ -5804,27 +5804,6 @@ button {
   font-size: 0.9rem;
 }
 
-.lec-draft-recap {
-  display: grid;
-  gap: 1rem;
-  padding: 0.5rem 0;
-}
-
-.lec-draft-recap__header h3 {
-  margin: 0 0 0.25rem;
-}
-
-.lec-draft-recap__header p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.88rem;
-}
-
-.lec-draft-recap__probability p {
-  margin: 0.5rem 0 0;
-  text-align: center;
-}
-
 .lec-draft-recap__bar {
   height: 10px;
   border-radius: 999px;
@@ -5838,33 +5817,69 @@ button {
   background: linear-gradient(90deg, #6366f1, #22c55e);
 }
 
-.lec-draft-recap__highlights {
-  margin: 0;
-  padding-left: 1.1rem;
-  color: rgba(255, 255, 255, 0.78);
-}
-
-.lec-draft-recap__comps {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.lec-draft-recap__comps article {
-  padding: 0.75rem;
-  border-radius: 10px;
-  border: 1px solid var(--lol-border);
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.lec-draft-recap__comps p {
-  margin: 0.35rem 0 0;
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.88rem;
-}
-
 .lec-draft-recap__cta {
   justify-self: center;
   min-width: 220px;
+}
+
+.lec-post-draft-screen {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 1rem 1rem 2rem;
+}
+
+.lec-post-draft-screen__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.lec-post-draft-screen__header h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.lec-post-draft {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.lec-post-draft__board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.lec-post-draft__side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lec-post-draft__bans {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.lec-post-draft__ban-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: center;
+}
+
+.lec-draft-recap {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--lol-border);
+}
+
+.lec-draft-recap__scores {
+  margin: 0.65rem 0 0;
+  text-align: center;
+  font-size: 1.05rem;
 }
 
 .lec-draft-timer {

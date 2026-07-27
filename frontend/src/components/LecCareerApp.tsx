@@ -20,6 +20,8 @@ import { ChampionGrid } from "./ChampionGrid";
 import { ConfirmRolesPhase } from "./ConfirmRolesPhase";
 import { DraftBoard } from "./DraftBoard";
 import { LecCareerDraftRecap } from "./LecCareerDraftRecap";
+import { LecCareerPostDraft } from "./LecCareerPostDraft";
+import { LecMatchOutcome } from "./LecMatchOutcome";
 import { LecPatchNotes } from "./LecPatchNotes";
 import { LecPlayoffsHub } from "./LecPlayoffsHub";
 import { LecScoutPanel } from "./LecScoutPanel";
@@ -30,7 +32,6 @@ import { LecStoryScene } from "./LecStoryScene";
 import { MatchIntro } from "./MatchIntro";
 import { WorldsCoachPanel } from "./WorldsCoachPanel";
 import { WorldsDraftHeader } from "./WorldsDraftHeader";
-import { WorldsMatchOutcome } from "./WorldsMatchOutcome";
 
 const TURN_TIMER_SECONDS = 12;
 
@@ -91,9 +92,6 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
   const careerBotEnabled =
     lec.phase === "drafting" &&
     Boolean(activeOpponent && lec.season?.career_universe && lec.careerPatch);
-  const botSide = playerSide === "blue" ? "red" : "blue";
-  const opponentPicks = botSide === "blue" ? postDraft.redPicks : postDraft.bluePicks;
-  const playerPicks = playerSide === "blue" ? postDraft.bluePicks : postDraft.redPicks;
 
   const careerDraftAnalysis = useMemo(() => {
     if (lec.phase !== "draftResult") {
@@ -172,6 +170,12 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     botError,
     lastBotMove: botLastMove,
   });
+
+  useEffect(() => {
+    if (lec.phase === "simulating") {
+      lec.returnToHub();
+    }
+  }, [lec.phase, lec.returnToHub]);
 
   useEffect(() => {
     setMetaLoading(Boolean(lec.season && !lec.season.career_universe && lec.phase !== "setup"));
@@ -448,45 +452,29 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
 
   if (lec.phase === "draftResult" && lec.playerTeam && activeOpponent && careerDraftAnalysis) {
     return (
-      <div className="app-shell worlds-draft-shell">
+      <div className="worlds-screen lec-post-draft-screen">
         {muteButton}
-        <WorldsDraftHeader
-          opponentName={activeOpponent.name}
-          phaseLabel="RECAP DRAFT"
+        <header className="lec-post-draft-screen__header">
+          <button type="button" className="worlds-btn worlds-btn--ghost" onClick={handleReturnToHub}>
+            Retour
+          </button>
+          <h2>vs {activeOpponent.name}</h2>
+        </header>
+        <LecCareerPostDraft
+          draft={draft}
+          ddragonVersion={ddragonVersion}
+          bluePicks={postDraft.bluePicks}
+          redPicks={postDraft.redPicks}
           playerSide={playerSide}
-          onBack={handleReturnToHub}
-        />
-        <main className="app worlds-cs-main">
-          <DraftBoard
-            draft={draft}
-            ddragonVersion={ddragonVersion}
-            patch={patch}
-            onPatchChange={setPatch}
-            dataStatusLabel={dataStatusLabel}
-            predictionMode="pro"
-            onPredictionModeChange={() => undefined}
-            playerSide={playerSide}
-            onPlayerSideChange={() => undefined}
-            botEnabled
-            onBotEnabledChange={() => undefined}
-            botThinking={false}
-            botError={null}
-            mode="result"
-            hideModeControls
-            resultBluePicks={postDraft.bluePicks}
-            resultRedPicks={postDraft.redPicks}
-          >
-            <LecCareerDraftRecap
-              analysis={careerDraftAnalysis}
-              playerTeamName={lec.playerTeam.name}
-              opponentTeamName={activeOpponent.name}
-              playerPicks={playerPicks}
-              opponentPicks={opponentPicks}
-              onPlayMatch={handleCareerMatchPlay}
-              loading={lec.loading}
-            />
-          </DraftBoard>
-        </main>
+        >
+          <LecCareerDraftRecap
+            analysis={careerDraftAnalysis}
+            playerTeamName={lec.playerTeam.name}
+            opponentTeamName={activeOpponent.name}
+            onPlayMatch={handleCareerMatchPlay}
+            loading={lec.loading}
+          />
+        </LecCareerPostDraft>
       </div>
     );
   }
@@ -495,11 +483,10 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     return (
       <>
         {muteButton}
-        <WorldsMatchOutcome
+        <LecMatchOutcome
           playerWon={Boolean(lec.lastPlayerWon)}
           opponentName={lec.lastMatchSummary.opponent_name}
           roundLabel={lec.lastMatchSummary.round_label}
-          matchHistory={null}
           onContinue={handleMatchOutcomeContinue}
         />
       </>
