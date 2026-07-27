@@ -6,7 +6,13 @@ import type {
   WorldsRoster,
   WorldsStartResponse,
 } from "../types/worlds";
-import type { LecRecordResultResponse, LecSeasonState } from "../types/lec";
+import type {
+  LecCareerPatch,
+  LecPlayerProfile,
+  LecRecordResultResponse,
+  LecSeasonState,
+  LecTeamIdentity,
+} from "../types/lec";
 import type { PredictionMode, PredictResponse, SuggestBanResponse, SuggestPickResponse, SuggestRetrospectiveBanResponse, SuggestRetrospectivePickResponse } from "../types/predict";
 import { fetchChampionPositionsFromMeraki } from "../utils/championPositions";
 
@@ -394,6 +400,46 @@ export async function recordLecMatchResult(payload: {
       week: payload.week,
     },
     "Impossible d'enregistrer le résultat LEC",
+  );
+}
+
+export async function fetchCareerPatch(
+  universeSeed: number,
+  week: number,
+): Promise<LecCareerPatch> {
+  return getJson(
+    `/lec/career-patch?universe_seed=${universeSeed}&week=${week}`,
+    "Impossible de charger la patch carrière",
+  );
+}
+
+export async function lecCareerDraftBotMove(
+  actionType: "ban" | "pick",
+  botSide: "blue" | "red",
+  botPicks: DraftPick[],
+  opponentPicks: DraftPick[],
+  availableChampions: string[],
+  teamIdentity: LecTeamIdentity,
+  teamProfiles: LecPlayerProfile[],
+  careerPatch: LecCareerPatch,
+  seed?: number,
+): Promise<DraftBotMoveResponse> {
+  return postJson<DraftBotMoveResponse>(
+    "/lec/career-draft-bot/move",
+    {
+      action_type: actionType,
+      bot_side: botSide,
+      bot_picks: botPicks.map((pick) => ({ champion: pick.champion })),
+      opponent_picks: opponentPicks.map((pick) => ({ champion: pick.champion })),
+      patch: careerPatch.patch_id,
+      available_champions: availableChampions,
+      mode: "pro",
+      team_identity: teamIdentity,
+      team_profiles: teamProfiles,
+      career_patch: careerPatch,
+      seed,
+    },
+    "Tour du bot carrière impossible",
   );
 }
 

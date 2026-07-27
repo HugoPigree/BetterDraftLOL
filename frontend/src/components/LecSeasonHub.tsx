@@ -10,6 +10,7 @@ interface LecSeasonHubProps {
   onBack: () => void;
   onPlayNext: () => void;
   onResetCareer: () => void;
+  onOpenPatchNotes?: () => void;
 }
 
 function recentResults(season: LecSeasonState) {
@@ -31,6 +32,7 @@ export function LecSeasonHub({
   onBack,
   onPlayNext,
   onResetCareer,
+  onOpenPatchNotes,
 }: LecSeasonHubProps) {
   const next = nextFixture(season);
   const opponent = next ? opponentForFixture(season.teams, next) : null;
@@ -57,6 +59,11 @@ export function LecSeasonHub({
           Accueil
         </button>
         <LecBrand size="sm" subtitle={season.season_label} />
+        {onOpenPatchNotes && (
+          <button type="button" className="worlds-btn worlds-btn--ghost" onClick={onOpenPatchNotes}>
+            Notes de patch
+          </button>
+        )}
         <button
           type="button"
           className="worlds-btn worlds-btn--ghost lec-hub__reset"

@@ -1,17 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Role } from "../types/draft";
+import type { LecCareerPatch, LecPlayerProfile, LecTeamIdentity } from "../types/lec";
 import type { MatchSimulationResult, WorldsPhase } from "../types/worlds";
 import { buildDraftSequence } from "../draft/sequence";
 import { useBotExplanation } from "../hooks/useBotExplanation";
+import { useCareerDraftBot } from "../hooks/useCareerDraftBot";
 import { useDraftState } from "../hooks/useDraftState";
+import { useDraftTurnTimer } from "../hooks/useDraftTurnTimer";
 import { useLecCareer } from "../hooks/useLecCareer";
 import { formatMetaStatusLabel, useMetaStatus } from "../hooks/useMetaStatus";
 import { usePostDraftFlow } from "../hooks/usePostDraftFlow";
-import { useTeamDraftBot } from "../hooks/useTeamDraftBot";
 import { useWorldsAmbience, useWorldsDraftSfx } from "../hooks/useWorldsAmbience";
 import { useWorldsCoachDialogue } from "../hooks/useWorldsCoachDialogue";
 import { fetchChampionsFromApi } from "../services/api";
 import { fetchLatestDdragonVersion } from "../utils/ddragon";
+import { createScoutDossier } from "../utils/lecScout";
 import type { PredictResponse as PredictResult } from "../types/predict";
 import type { MatchHistorySummary } from "../types/matchHistory";
 import { BotVisualNovel } from "./BotVisualNovel";
@@ -20,7 +23,9 @@ import { ConfirmRolesPhase } from "./ConfirmRolesPhase";
 import { DraftBoard } from "./DraftBoard";
 import { DraftResult } from "./DraftResult";
 import { EditCompPhase } from "./EditCompPhase";
+import { LecPatchNotes } from "./LecPatchNotes";
 import { LecPlayoffsHub } from "./LecPlayoffsHub";
+import { LecScoutPanel } from "./LecScoutPanel";
 import { LecSeasonEndWithStandings, LecWorldsQualified } from "./LecSeasonEnd";
 import { LecSeasonHub } from "./LecSeasonHub";
 import { LecSetup } from "./LecSetup";
@@ -30,6 +35,25 @@ import { MatchSimulation } from "./MatchSimulation";
 import { WorldsCoachPanel } from "./WorldsCoachPanel";
 import { WorldsDraftHeader } from "./WorldsDraftHeader";
 import { WorldsMatchOutcome } from "./WorldsMatchOutcome";
+
+const TURN_TIMER_SECONDS = 12;
+
+const FALLBACK_CAREER_PATCH: LecCareerPatch = {
+  patch_id: "LEC-C1",
+  patch_label: "LEC Carrière 1.1",
+  week: 1,
+  tag_shifts: {},
+  notes: ["Meta carrière indisponible — relance une nouvelle carrière."],
+  viable_by_role: {},
+};
+
+const FALLBACK_IDENTITY: LecTeamIdentity = {
+  team_id: "unknown",
+  label: "Style équilibré",
+  tags: ["skirmish"],
+  spice_chance: 0.1,
+  ban_bias: ["skirmish"],
+};
 
 interface LecCareerAppProps {
   onBack: () => void;
@@ -53,6 +77,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
   const [draftError, setDraftError] = useState<string | null>(null);
   const [draftPrediction, setDraftPrediction] = useState<PredictResult | null>(null);
   const [lastMatchHistory, setLastMatchHistory] = useState<MatchHistorySummary | null>(null);
+  const [showPatchNotes, setShowPatchNotes] = useState(false);
   const simulationStartedRef = useRef(false);
   const isPlayoffFlow =
     lec.phase === "playoffIntro" ||
@@ -63,6 +88,16 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
   const postDraft = usePostDraftFlow(draft, championPositions);
   const playerSide = lec.playerSide;
   const activeOpponent = isPlayoffFlow ? lec.playoffOpponent : lec.currentOpponent;
+  const careerPatch = lec.careerPatch ?? FALLBACK_CAREER_PATCH;
+  const opponentIdentity =
+    (activeOpponent &&
+      lec.season?.career_universe?.team_identities[activeOpponent.id]) ||
+    FALLBACK_IDENTITY;
+  const opponentProfiles: LecPlayerProfile[] =
+    (activeOpponent && lec.season?.career_universe?.team_profiles[activeOpponent.id]) || [];
+  const careerBotEnabled =
+    lec.phase === "drafting" &&
+    Boolean(activeOpponent && lec.season?.career_universe && lec.careerPatch);
   const botSide = playerSide === "blue" ? "red" : "blue";
   const botPicks = botSide === "blue" ? postDraft.bluePicks : postDraft.redPicks;
   const opponentPicks = botSide === "blue" ? postDraft.redPicks : postDraft.bluePicks;
@@ -76,21 +111,54 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     enabled: lec.phase === "draftResult" && !postDraft.isEditing,
   });
 
-  const { thinking: botThinking, error: botError, lastMove: botLastMove } = useTeamDraftBot({
-    enabled: lec.phase === "drafting" && Boolean(activeOpponent),
+  const { thinking: botThinking, error: botError, lastMove: botLastMove } = useCareerDraftBot({
+    enabled: careerBotEnabled,
     draft,
     playerSide,
     champions,
-    patch,
-    opponentTeamId: activeOpponent?.id ?? "g2",
+    careerPatch,
+    teamIdentity: opponentIdentity,
+    teamProfiles: opponentProfiles,
     draftSeed: lec.draftSeed,
-    opponentRoster: activeOpponent?.roster ?? {
-      TOP: "",
-      JUNGLE: "",
-      MIDDLE: "",
-      BOTTOM: "",
-      UTILITY: "",
-    },
+  });
+
+  const isPlayerDraftTurn =
+    lec.phase === "drafting" &&
+    draft.whoseTurn === playerSide &&
+    !botThinking &&
+    !draft.isDraftComplete &&
+    Boolean(draft.currentActionType);
+
+  const handleTurnTimerExpire = useCallback(() => {
+    if (!isPlayerDraftTurn || draft.isDraftComplete || !draft.currentActionType) {
+      return;
+    }
+    const available = champions.filter((champion) => !draft.usedChampions.includes(champion));
+    if (!available.length) {
+      return;
+    }
+    const preferred =
+      draft.currentActionType === "pick"
+        ? Object.values(careerPatch.viable_by_role)
+            .flat()
+            .find((champion) => available.includes(champion))
+        : undefined;
+    draft.selectChampion(preferred ?? available[0]);
+  }, [
+    careerPatch.viable_by_role,
+    champions,
+    draft,
+    draft.currentActionType,
+    draft.isDraftComplete,
+    draft.usedChampions,
+    isPlayerDraftTurn,
+  ]);
+
+  const { remaining: turnTimerRemaining, urgent: turnTimerUrgent } = useDraftTurnTimer({
+    enabled: lec.phase === "drafting",
+    isPlayerTurn: isPlayerDraftTurn,
+    seconds: TURN_TIMER_SECONDS,
+    onExpire: handleTurnTimerExpire,
   });
 
   const ambienceActive = !["setup", "seasonEnd"].includes(lec.phase);
@@ -242,7 +310,9 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     </button>
   );
 
-  const dataStatusLabel = formatMetaStatusLabel(metaStatus);
+  const dataStatusLabel = lec.careerPatch
+    ? `${lec.careerPatch.patch_label} · Meta carrière`
+    : formatMetaStatusLabel(metaStatus);
   const boardMode =
     postDraft.phase === "confirmRoles"
       ? "confirmRoles"
@@ -284,12 +354,18 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     return (
       <>
         {muteButton}
+        {showPatchNotes && lec.careerPatch && (
+          <LecPatchNotes patch={lec.careerPatch} onClose={() => setShowPatchNotes(false)} />
+        )}
         <LecSeasonHub
           season={lec.season}
           playerTeam={lec.playerTeam}
           onBack={onBack}
           onPlayNext={lec.openNextMatch}
           onResetCareer={lec.resetCareer}
+          onOpenPatchNotes={
+            lec.careerPatch ? () => setShowPatchNotes(true) : undefined
+          }
         />
       </>
     );
@@ -332,15 +408,30 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     return (
       <>
         {muteButton}
-        <MatchIntro
-          match={introMatch}
-          playerTeam={lec.playerTeam}
-          opponent={activeOpponent}
-          draftPreferences={lec.draftPreferences}
-          onDraftPreferencesChange={lec.setDraftPreferences}
-          onBack={isPlayoffFlow ? () => lec.continueAfterPlayoff() : lec.returnToHub}
-          onStartDraft={handleBeginDraft}
-        />
+        <div className="lec-match-intro-wrap">
+          <MatchIntro
+            match={introMatch}
+            playerTeam={lec.playerTeam}
+            opponent={activeOpponent}
+            draftPreferences={lec.draftPreferences}
+            onDraftPreferencesChange={lec.setDraftPreferences}
+            onBack={isPlayoffFlow ? () => lec.continueAfterPlayoff() : lec.returnToHub}
+            onStartDraft={handleBeginDraft}
+          />
+          {lec.season?.career_universe && activeOpponent && (
+            <LecScoutPanel
+              opponentName={activeOpponent.name}
+              identity={
+                lec.season.career_universe.team_identities[activeOpponent.id] ?? FALLBACK_IDENTITY
+              }
+              dossier={
+                lec.scoutDossiers[activeOpponent.id] ?? createScoutDossier(activeOpponent.id)
+              }
+              discussLine={lec.discussLine}
+              onDiscuss={(questionIndex) => lec.discussWithOpponent(activeOpponent.id, questionIndex)}
+            />
+          )}
+        </div>
       </>
     );
   }
@@ -554,6 +645,11 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
         playerSide={playerSide}
         onBack={handleReturnToHub}
       />
+      {lec.phase === "drafting" && isPlayerDraftTurn && (
+        <div className={`lec-draft-timer${turnTimerUrgent ? " lec-draft-timer--urgent" : ""}`}>
+          Temps restant : {turnTimerRemaining}s
+        </div>
+      )}
       <main className="app worlds-cs-main">
         <DraftBoard
           draft={draft}
@@ -608,7 +704,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
               ddragonVersion={ddragonVersion}
               loading={loadingChampions}
               error={draftError}
-              isPlayerTurn={draft.whoseTurn === playerSide && !botThinking}
+              isPlayerTurn={isPlayerDraftTurn}
             />
           )}
         </DraftBoard>

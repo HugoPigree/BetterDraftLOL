@@ -35,6 +35,7 @@ from meta_status import get_meta_status
 from bot_speech_builder import build_bot_explanation_steps
 from match_simulator import resolve_simulation_phase, simulate_match, start_simulation
 from player_signatures import get_player_signatures
+from career_draft_bot import choose_career_bot_action
 from team_draft_bot import choose_team_bot_action
 from lec_season import (
     build_playoff_bracket,
@@ -46,6 +47,7 @@ from lec_season import (
     resolve_week_npc_matches,
     start_lec_season,
 )
+from career_meta import get_career_patch_for_week
 from worlds_teams import build_player_team, create_bracket, load_pro_teams, pick_opponent_teams
 
 logger = logging.getLogger(__name__)
@@ -421,6 +423,12 @@ class LecRecordResultRequest(BaseModel):
 class WorldsTeamDraftBotRequest(DraftBotMoveRequest):
     team_id: str = Field(min_length=1)
     team_roster: WorldsRosterInput
+
+
+class CareerDraftBotRequest(DraftBotMoveRequest):
+    team_identity: dict[str, Any] = Field(default_factory=dict)
+    team_profiles: list[dict[str, Any]] = Field(default_factory=list)
+    career_patch: dict[str, Any] = Field(default_factory=dict)
 
 
 class WorldsPredictionSnapshot(BaseModel):
@@ -936,6 +944,38 @@ def create_app() -> FastAPI:
             }
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.get("/lec/career-patch")
+    async def lec_career_patch_endpoint(
+        universe_seed: int,
+        week: int = 1,
+    ) -> dict[str, Any]:
+        try:
+            return get_career_patch_for_week(universe_seed, week)
+        except (FileNotFoundError, ValueError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post("/lec/career-draft-bot/move", response_model=DraftBotMoveResponse)
+    async def lec_career_draft_bot_move_endpoint(
+        request: CareerDraftBotRequest,
+    ) -> dict[str, Any]:
+        try:
+            return choose_career_bot_action(
+                action_type=request.action_type,
+                bot_side=request.bot_side,
+                bot_picks=[slot.model_dump() for slot in request.bot_picks],
+                opponent_picks=[slot.model_dump() for slot in request.opponent_picks],
+                available_champions=request.available_champions,
+                team_identity=request.team_identity,
+                team_profiles=request.team_profiles,
+                patch=request.career_patch,
+                seed=request.seed,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            logger.exception("Erreur interne pendant lec/career-draft-bot/move")
+            raise HTTPException(status_code=500, detail=str(exc)) from exc
 
     @app.post("/ask-chatbot-rules", response_model=AskChatbotRulesResponse)
     async def ask_chatbot_rules_endpoint(

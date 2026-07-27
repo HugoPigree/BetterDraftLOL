@@ -61,6 +61,46 @@ export interface LecSeasonState {
   story_chapter: number;
   playoffs?: BracketMatch[] | null;
   regular_complete?: boolean;
+  career_universe?: LecCareerUniverse | null;
+}
+
+export interface LecCareerPatch {
+  patch_id: string;
+  patch_label: string;
+  week: number;
+  tag_shifts: Record<string, number>;
+  notes: string[];
+  viable_by_role: Record<string, string[]>;
+}
+
+export interface LecTeamIdentity {
+  team_id: string;
+  label: string;
+  tags: string[];
+  spice_chance: number;
+  ban_bias: string[];
+}
+
+export interface LecPlayerProfile {
+  player: string;
+  role: string;
+  comfort: string[];
+  power: number;
+  flexibility: number;
+  tags: string[];
+}
+
+export interface LecCareerUniverse {
+  universe_seed: number;
+  patch: LecCareerPatch;
+  team_identities: Record<string, LecTeamIdentity>;
+  team_profiles: Record<string, LecPlayerProfile[]>;
+}
+
+export interface LecScoutDossier {
+  teamId: string;
+  hints: string[];
+  familiarity: number;
 }
 
 export interface LecRecordResultResponse {
@@ -123,6 +163,7 @@ export interface LecCareerSnapshot {
   lastMatchSummary: LecLastMatchSummary | null;
   progress: LecCareerProgress;
   seasonSeed: string;
+  scoutDossiers: Record<string, LecScoutDossier>;
 }
 
 export const LEC_ROLES = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"] as const;

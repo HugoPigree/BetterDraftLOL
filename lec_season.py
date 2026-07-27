@@ -7,6 +7,7 @@ import random
 from pathlib import Path
 from typing import Any
 
+from career_meta import generate_career_universe
 from worlds_teams import ROLES_ORDER, build_player_team
 
 DEFAULT_LEC_TEAMS_JSON = Path("data/lec_teams.json")
@@ -325,6 +326,8 @@ def start_lec_season(
     fixtures = generate_round_robin_schedule(team_ids, seed=seed)
     mark_player_fixtures(fixtures, "player")
 
+    career_universe = generate_career_universe(league_teams, seed=seed, week=1)
+
     return {
         "season_label": meta["season_label"],
         "format": meta["format"],
@@ -333,6 +336,7 @@ def start_lec_season(
         "standings": build_standings([], league_teams),
         "current_week": 1,
         "story_chapter": 0,
+        "career_universe": career_universe,
     }
 
 

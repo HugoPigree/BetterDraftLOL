@@ -4,6 +4,7 @@ import type {
   LecCareerSnapshot,
   LecLastMatchSummary,
   LecPhase,
+  LecScoutDossier,
   LecSeasonState,
 } from "../types/lec";
 import type { WorldsRoster } from "../types/worlds";
@@ -19,13 +20,13 @@ import type { LecCareerProgress, LecUpgradeKey } from "../types/lec";
 import {
   awardProgressAfterMatch,
   createDefaultProgress,
-  rollWeeklyEvent,
   scoutingDraftSeedSalt,
   spendUpgradePoint,
 } from "../utils/lecProgression";
-import { recordLecMatchResult, startLecSeason } from "../services/api";
+import { createScoutDossier, discussWithStaff } from "../utils/lecScout";
+import { recordLecMatchResult, fetchCareerPatch, startLecSeason } from "../services/api";
 
-const STORAGE_KEY = "betterdraft-lec-career-v1";
+const STORAGE_KEY = "betterdraft-lec-career-v2";
 
 const DEFAULT_DRAFT_PREFERENCES: DraftPreferences = {
   playerSide: "blue",
@@ -43,6 +44,7 @@ function loadSnapshot(): LecCareerSnapshot | null {
       ...(parsed as LecCareerSnapshot),
       progress: parsed.progress ?? createDefaultProgress(),
       seasonSeed: parsed.seasonSeed ?? "",
+      scoutDossiers: parsed.scoutDossiers ?? {},
     };
   } catch {
     return null;
@@ -85,6 +87,10 @@ export function useLecCareer() {
     restored?.progress ?? createDefaultProgress(),
   );
   const [seasonSeed, setSeasonSeed] = useState(restored?.seasonSeed ?? "");
+  const [scoutDossiers, setScoutDossiers] = useState<Record<string, LecScoutDossier>>(
+    restored?.scoutDossiers ?? {},
+  );
+  const [discussLine, setDiscussLine] = useState<string | null>(null);
 
   useEffect(() => {
     if (phase === "matchResult" && !lastMatchSummary) {
@@ -142,6 +148,7 @@ export function useLecCareer() {
       lastMatchSummary,
       progress,
       seasonSeed,
+      scoutDossiers,
     });
   }, [
     phase,
@@ -154,6 +161,7 @@ export function useLecCareer() {
     lastMatchSummary,
     progress,
     seasonSeed,
+    scoutDossiers,
   ]);
 
   const queueStoryIfNeeded = useCallback(
@@ -200,6 +208,29 @@ export function useLecCareer() {
     [],
   );
 
+  const careerPatch = season?.career_universe?.patch ?? null;
+
+  const syncCareerPatch = useCallback(
+    async (week: number) => {
+      if (!season?.career_universe) {
+        return;
+      }
+      try {
+        const patch = await fetchCareerPatch(season.career_universe.universe_seed, week);
+        setSeason({
+          ...season,
+          career_universe: {
+            ...season.career_universe,
+            patch,
+          },
+        });
+      } catch {
+        // fallback: keep existing patch
+      }
+    },
+    [season],
+  );
+
   const openMatchIntro = useCallback(() => {
     if (!season) {
       return;
@@ -215,12 +246,10 @@ export function useLecCareer() {
       playerSide: next.week % 2 === 1 ? "blue" : "red",
       pickOrder: next.week % 2 === 1 ? "first" : "last",
     });
-    setProgress((current) => ({
-      ...current,
-      weeklyEvent: rollWeeklyEvent(next.week, seasonSeed || "lec"),
-    }));
+    setDiscussLine(null);
+    void syncCareerPatch(next.week);
     setPhase("matchIntro");
-  }, [season, seasonSeed]);
+  }, [season, syncCareerPatch]);
 
   const completeStoryChapter = useCallback(() => {
     if (!pendingStoryChapterId) {
@@ -481,6 +510,8 @@ export function useLecCareer() {
     setLastMatchSummary(null);
     setProgress(createDefaultProgress());
     setSeasonSeed("");
+    setScoutDossiers({});
+    setDiscussLine(null);
   }, []);
 
   const purchaseUpgrade = useCallback((key: LecUpgradeKey) => {
@@ -491,6 +522,26 @@ export function useLecCareer() {
     const base = currentFixture?.id ?? currentPlayoffMatchId ?? seasonSeed;
     return `${base}${scoutingDraftSeedSalt(progress)}`;
   }, [currentFixture?.id, currentPlayoffMatchId, seasonSeed, progress]);
+
+  const discussWithOpponent = useCallback(
+    (opponentTeamId: string, questionIndex: number) => {
+      if (!season?.career_universe) {
+        return;
+      }
+      const identity = season.career_universe.team_identities[opponentTeamId];
+      if (!identity) {
+        return;
+      }
+      const dossier = scoutDossiers[opponentTeamId] ?? createScoutDossier(opponentTeamId);
+      const result = discussWithStaff(dossier, identity, questionIndex);
+      setScoutDossiers((current) => ({
+        ...current,
+        [opponentTeamId]: result.dossier,
+      }));
+      setDiscussLine(result.line);
+    },
+    [season?.career_universe, scoutDossiers],
+  );
 
   const returnToHub = useCallback(() => {
     setPhase("seasonHub");
@@ -541,6 +592,10 @@ export function useLecCareer() {
     progress,
     draftSeed,
     purchaseUpgrade,
+    careerPatch,
+    scoutDossiers,
+    discussLine,
+    discussWithOpponent,
     pendingStoryChapterId,
     startSeason,
     completeStoryChapter,
