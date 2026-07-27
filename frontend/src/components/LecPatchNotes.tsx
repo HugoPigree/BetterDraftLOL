@@ -1,4 +1,5 @@
 import type { LecCareerPatch } from "../types/lec";
+import { inVogueChampionsByRole } from "../utils/lecDraftAnalysis";
 
 interface LecPatchNotesProps {
   patch: LecCareerPatch;
@@ -6,6 +7,8 @@ interface LecPatchNotesProps {
 }
 
 export function LecPatchNotes({ patch, onClose }: LecPatchNotesProps) {
+  const inVogue = inVogueChampionsByRole(patch, 5);
+
   return (
     <div className="lec-modal" role="dialog" aria-modal="true" aria-labelledby="lec-patch-notes-title">
       <div className="lec-modal__panel lec-patch-notes">
@@ -20,25 +23,19 @@ export function LecPatchNotes({ patch, onClose }: LecPatchNotesProps) {
         </header>
 
         <section className="lec-patch-notes__body">
-          <h3>Notes de patch</h3>
-          <ul>
-            {patch.notes.map((note) => (
-              <li key={note}>{note}</li>
-            ))}
-          </ul>
+          <p className="lec-patch-notes__intro">
+            Champions en vogue ce patch — le style de jeu par équipe se découvre via le scouting.
+          </p>
 
-          <h3>Champions viables (aperçu)</h3>
+          <h3>En vogue par rôle</h3>
           <div className="lec-patch-notes__roles">
-            {Object.entries(patch.viable_by_role).map(([role, champions]) => (
+            {Object.entries(inVogue).map(([role, champions]) => (
               <article key={role}>
                 <strong>{role}</strong>
-                <p>{champions.slice(0, 8).join(", ")}{champions.length > 8 ? "…" : ""}</p>
+                <p>{champions.join(", ")}</p>
               </article>
             ))}
           </div>
-          <p className="lec-patch-notes__hint">
-            Les identités de draft par équipe ne sont pas listées ici — scout tes adversaires avant les matchs.
-          </p>
         </section>
       </div>
     </div>

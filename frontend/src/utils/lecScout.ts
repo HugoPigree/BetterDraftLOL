@@ -1,61 +1,96 @@
-import type { LecScoutDossier, LecTeamIdentity } from "../types/lec";
+import type { LecPlayerProfile, LecScoutDossier, LecTeamIdentity } from "../types/lec";
 
-const SCOUT_QUESTIONS: Record<
-  string,
-  { prompt: string; hintFromIdentity: (identity: LecTeamIdentity) => string }[]
-> = {
-  default: [
-    {
-      prompt: "Quel est leur tempo de draft ?",
-      hintFromIdentity: (identity) =>
-        `Le staff parle d'un style « ${identity.label} » — repère leurs tags ${identity.tags.slice(0, 2).join(" / ")}.`,
-    },
-    {
-      prompt: "Qui est le carry principal ?",
-      hintFromIdentity: (identity) =>
-        identity.tags.includes("scaling")
-          ? "Le win condition semble late — protège leur scaling."
-          : "Ils cherchent probablement l'early sur une lane prioritaire.",
-    },
-    {
-      prompt: "Quels bans les rendent inconfortables ?",
-      hintFromIdentity: (identity) =>
-        `Viser leurs forces ${identity.ban_bias.join(" et ")} peut les déstabiliser.`,
-    },
-  ],
-};
+export type ScoutAction = "style" | "picks";
 
 export function createScoutDossier(teamId: string): LecScoutDossier {
-  return { teamId, hints: [], familiarity: 0 };
+  return {
+    teamId,
+    styleRevealed: false,
+    revealedPicks: [],
+    familiarity: 0,
+  };
+}
+
+export function migrateScoutDossier(raw: Partial<LecScoutDossier> & { hints?: string[] }): LecScoutDossier {
+  if (raw.styleRevealed !== undefined || raw.revealedPicks) {
+    return {
+      teamId: raw.teamId ?? "",
+      styleRevealed: Boolean(raw.styleRevealed),
+      revealedPicks: raw.revealedPicks ?? [],
+      familiarity: raw.familiarity ?? 0,
+    };
+  }
+  return {
+    teamId: raw.teamId ?? "",
+    styleRevealed: (raw.hints?.length ?? 0) > 0,
+    revealedPicks: [],
+    familiarity: raw.familiarity ?? 0,
+  };
 }
 
 export function discussWithStaff(
   dossier: LecScoutDossier,
   identity: LecTeamIdentity,
-  questionIndex: number,
+  profiles: LecPlayerProfile[],
+  action: ScoutAction,
 ): { dossier: LecScoutDossier; line: string } {
-  const questions = SCOUT_QUESTIONS.default;
-  const question = questions[questionIndex % questions.length];
-  const hint = question.hintFromIdentity(identity);
-  if (dossier.hints.includes(hint)) {
+  if (action === "style") {
+    if (dossier.styleRevealed) {
+      return {
+        dossier,
+        line: `Style confirmé : ${identity.label} (${identity.tags.slice(0, 2).join(", ")}).`,
+      };
+    }
     return {
-      dossier,
-      line: "Ton staff n'a rien de neuf sur ce point pour l'instant.",
+      dossier: {
+        ...dossier,
+        styleRevealed: true,
+        familiarity: dossier.familiarity + 1,
+      },
+      line: `Style repéré : ${identity.label}. Ils privilégient ${identity.tags.slice(0, 2).join(" et ")}.`,
     };
   }
+
+  if (dossier.revealedPicks.length >= 2) {
+    return {
+      dossier,
+      line: "Ton staff n'a plus d'info fiable sur leurs picks favoris.",
+    };
+  }
+
+  const already = new Set(dossier.revealedPicks.map((entry) => `${entry.player}:${entry.champion}`));
+  const candidates = profiles.flatMap((profile) =>
+    (profile.comfort ?? []).map((champion) => ({
+      player: profile.player,
+      role: profile.role,
+      champion,
+    })),
+  );
+
+  const next = candidates.find(
+    (entry) => !already.has(`${entry.player}:${entry.champion}`),
+  );
+
+  if (!next) {
+    return {
+      dossier,
+      line: "Aucun pick favori identifié pour l'instant.",
+    };
+  }
+
   return {
     dossier: {
       ...dossier,
-      hints: [...dossier.hints, hint],
+      revealedPicks: [...dossier.revealedPicks, next],
       familiarity: dossier.familiarity + 1,
     },
-    line: hint,
+    line: `Pick favori repéré : ${next.player} (${next.role}) — ${next.champion}.`,
   };
 }
 
 export function familiarityLabel(familiarity: number): string {
-  if (familiarity >= 4) {
-    return "Dossier avancé";
+  if (familiarity >= 3) {
+    return "Dossier solide";
   }
   if (familiarity >= 2) {
     return "Dossier partiel";

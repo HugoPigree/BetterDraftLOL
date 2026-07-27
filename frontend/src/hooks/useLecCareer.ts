@@ -23,7 +23,8 @@ import {
   scoutingDraftSeedSalt,
   spendUpgradePoint,
 } from "../utils/lecProgression";
-import { createScoutDossier, discussWithStaff } from "../utils/lecScout";
+import { createScoutDossier, discussWithStaff, migrateScoutDossier } from "../utils/lecScout";
+import type { ScoutAction } from "../utils/lecScout";
 import {
   fetchCareerPatch,
   recordLecMatchResult,
@@ -45,11 +46,18 @@ function loadSnapshot(): LecCareerSnapshot | null {
       return null;
     }
     const parsed = JSON.parse(raw) as Partial<LecCareerSnapshot>;
+    const rawDossiers = parsed.scoutDossiers ?? {};
+    const scoutDossiers = Object.fromEntries(
+      Object.entries(rawDossiers).map(([teamId, dossier]) => [
+        teamId,
+        migrateScoutDossier({ ...dossier, teamId }),
+      ]),
+    );
     return {
       ...(parsed as LecCareerSnapshot),
       progress: parsed.progress ?? createDefaultProgress(),
       seasonSeed: parsed.seasonSeed ?? "",
-      scoutDossiers: parsed.scoutDossiers ?? {},
+      scoutDossiers,
     };
   } catch {
     return null;
@@ -565,7 +573,7 @@ export function useLecCareer() {
   }, [currentFixture?.id, currentPlayoffMatchId, seasonSeed, progress]);
 
   const discussWithOpponent = useCallback(
-    (opponentTeamId: string, questionIndex: number) => {
+    (opponentTeamId: string, action: ScoutAction) => {
       if (!season?.career_universe) {
         return;
       }
@@ -573,8 +581,9 @@ export function useLecCareer() {
       if (!identity) {
         return;
       }
+      const profiles = season.career_universe.team_profiles[opponentTeamId] ?? [];
       const dossier = scoutDossiers[opponentTeamId] ?? createScoutDossier(opponentTeamId);
-      const result = discussWithStaff(dossier, identity, questionIndex);
+      const result = discussWithStaff(dossier, identity, profiles, action);
       setScoutDossiers((current) => ({
         ...current,
         [opponentTeamId]: result.dossier,

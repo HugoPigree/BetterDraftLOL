@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Role } from "../types/draft";
 import type { LecCareerPatch, LecPlayerProfile, LecTeamIdentity } from "../types/lec";
-import type { MatchSimulationResult, WorldsPhase } from "../types/worlds";
+import type { WorldsPhase } from "../types/worlds";
 import { buildDraftSequence } from "../draft/sequence";
-import { useBotExplanation } from "../hooks/useBotExplanation";
 import { useCareerDraftBot } from "../hooks/useCareerDraftBot";
 import { useDraftState } from "../hooks/useDraftState";
 import { useDraftTurnTimer } from "../hooks/useDraftTurnTimer";
@@ -14,16 +13,13 @@ import { useWorldsAmbience, useWorldsDraftSfx } from "../hooks/useWorldsAmbience
 import { useWorldsCoachDialogue } from "../hooks/useWorldsCoachDialogue";
 import { fetchChampionsFromApi } from "../services/api";
 import { fetchLatestDdragonVersion } from "../utils/ddragon";
+import { analyzeCareerDraft, resolveCareerMatch } from "../utils/lecDraftAnalysis";
 import { createScoutDossier } from "../utils/lecScout";
 import { opponentForFixture } from "../utils/lecTeamBranding";
-import type { PredictResponse as PredictResult } from "../types/predict";
-import type { MatchHistorySummary } from "../types/matchHistory";
-import { BotVisualNovel } from "./BotVisualNovel";
 import { ChampionGrid } from "./ChampionGrid";
 import { ConfirmRolesPhase } from "./ConfirmRolesPhase";
 import { DraftBoard } from "./DraftBoard";
-import { DraftResult } from "./DraftResult";
-import { EditCompPhase } from "./EditCompPhase";
+import { LecCareerDraftRecap } from "./LecCareerDraftRecap";
 import { LecPatchNotes } from "./LecPatchNotes";
 import { LecPlayoffsHub } from "./LecPlayoffsHub";
 import { LecScoutPanel } from "./LecScoutPanel";
@@ -32,7 +28,6 @@ import { LecSeasonHub } from "./LecSeasonHub";
 import { LecSetup } from "./LecSetup";
 import { LecStoryScene } from "./LecStoryScene";
 import { MatchIntro } from "./MatchIntro";
-import { MatchSimulation } from "./MatchSimulation";
 import { WorldsCoachPanel } from "./WorldsCoachPanel";
 import { WorldsDraftHeader } from "./WorldsDraftHeader";
 import { WorldsMatchOutcome } from "./WorldsMatchOutcome";
@@ -76,16 +71,12 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
   const { status: metaStatus } = useMetaStatus();
   const [loadingChampions, setLoadingChampions] = useState(true);
   const [draftError, setDraftError] = useState<string | null>(null);
-  const [draftPrediction, setDraftPrediction] = useState<PredictResult | null>(null);
-  const [lastMatchHistory, setLastMatchHistory] = useState<MatchHistorySummary | null>(null);
   const [showPatchNotes, setShowPatchNotes] = useState(false);
   const [metaLoading, setMetaLoading] = useState(false);
-  const simulationStartedRef = useRef(false);
   const isPlayoffFlow =
     lec.phase === "playoffIntro" ||
     (lec.phase === "drafting" && Boolean(lec.currentPlayoffMatch)) ||
-    (lec.phase === "draftResult" && Boolean(lec.currentPlayoffMatch)) ||
-    (lec.phase === "simulating" && Boolean(lec.currentPlayoffMatch));
+    (lec.phase === "draftResult" && Boolean(lec.currentPlayoffMatch));
 
   const postDraft = usePostDraftFlow(draft, championPositions);
   const playerSide = lec.playerSide;
@@ -101,17 +92,20 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     lec.phase === "drafting" &&
     Boolean(activeOpponent && lec.season?.career_universe && lec.careerPatch);
   const botSide = playerSide === "blue" ? "red" : "blue";
-  const botPicks = botSide === "blue" ? postDraft.bluePicks : postDraft.redPicks;
   const opponentPicks = botSide === "blue" ? postDraft.redPicks : postDraft.bluePicks;
+  const playerPicks = playerSide === "blue" ? postDraft.bluePicks : postDraft.redPicks;
 
-  const botExplanation = useBotExplanation({
-    botSide,
-    botPicks,
-    opponentPicks,
-    patch,
-    mode: "pro",
-    enabled: lec.phase === "draftResult" && !postDraft.isEditing,
-  });
+  const careerDraftAnalysis = useMemo(() => {
+    if (lec.phase !== "draftResult") {
+      return null;
+    }
+    return analyzeCareerDraft({
+      playerSide,
+      bluePicks: postDraft.bluePicks,
+      redPicks: postDraft.redPicks,
+      patch: careerPatch,
+    });
+  }, [lec.phase, playerSide, postDraft.bluePicks, postDraft.redPicks, careerPatch]);
 
   const { thinking: botThinking, error: botError, lastMove: botLastMove } = useCareerDraftBot({
     enabled: careerBotEnabled,
@@ -239,12 +233,20 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
   }, [lec.phase, postDraft.phase, lec.showDraftResult]);
 
   function resetMatchState() {
-    botExplanation.skipAll();
     draft.resetDraft();
     postDraft.resetFlow();
-    setDraftPrediction(null);
-    setLastMatchHistory(null);
-    simulationStartedRef.current = false;
+  }
+
+  function handleCareerMatchPlay() {
+    if (!careerDraftAnalysis) {
+      return;
+    }
+    const playerWon = resolveCareerMatch(careerDraftAnalysis.playerWinProbability);
+    if (isPlayoffFlow) {
+      lec.finishPlayoffMatch(playerWon);
+    } else {
+      void lec.finishRegularMatch(playerWon);
+    }
   }
 
   function handleReturnToHub() {
@@ -267,41 +269,6 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
       lec.beginPlayoffDraft();
     } else {
       lec.beginDraft();
-    }
-  }
-
-  function handleLaunchSimulation(prediction?: PredictResult) {
-    const activePrediction = prediction ?? draftPrediction;
-    if (!lec.playerTeam || !activeOpponent || !activePrediction) {
-      return;
-    }
-    if (simulationStartedRef.current) {
-      return;
-    }
-    simulationStartedRef.current = true;
-    if (prediction) {
-      setDraftPrediction(prediction);
-    }
-    lec.beginSimulation();
-  }
-
-  function handleSimulationComplete(playerWins: boolean, simulation: MatchSimulationResult) {
-    if (lec.playerTeam && activeOpponent) {
-      setLastMatchHistory({
-        playerTeamName: lec.playerTeam.name,
-        opponentTeamName: activeOpponent.name,
-        playerSide,
-        playerWon: playerWins,
-        draftPrediction,
-        simulation,
-        bluePicks: postDraft.bluePicks,
-        redPicks: postDraft.redPicks,
-      });
-    }
-    if (isPlayoffFlow) {
-      lec.finishPlayoffMatch(playerWins);
-    } else {
-      void lec.finishRegularMatch(playerWins);
     }
   }
 
@@ -471,7 +438,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
                 lec.scoutDossiers[activeOpponent.id] ?? createScoutDossier(activeOpponent.id)
               }
               discussLine={lec.discussLine}
-              onDiscuss={(questionIndex) => lec.discussWithOpponent(activeOpponent.id, questionIndex)}
+              onDiscuss={(action) => lec.discussWithOpponent(activeOpponent.id, action)}
             />
           )}
         </div>
@@ -479,13 +446,13 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     );
   }
 
-  if (lec.phase === "draftResult" && lec.playerTeam && activeOpponent) {
+  if (lec.phase === "draftResult" && lec.playerTeam && activeOpponent && careerDraftAnalysis) {
     return (
-      <div className={`app-shell worlds-draft-shell${botExplanation.active ? " app-shell--bot-vn" : ""}`}>
+      <div className="app-shell worlds-draft-shell">
         {muteButton}
         <WorldsDraftHeader
           opponentName={activeOpponent.name}
-          phaseLabel="ANALYSE DE LA DRAFT"
+          phaseLabel="RECAP DRAFT"
           playerSide={playerSide}
           onBack={handleReturnToHub}
         />
@@ -506,112 +473,21 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
             botError={null}
             mode="result"
             hideModeControls
-            highlightedChampion={botExplanation.active ? botExplanation.highlightedChampion : null}
-            highlightedSide={botExplanation.active ? botExplanation.highlightedSide : null}
             resultBluePicks={postDraft.bluePicks}
             resultRedPicks={postDraft.redPicks}
-            onExplainBotChoices={
-              !postDraft.isEditing
-                ? () => {
-                    void botExplanation.start();
-                  }
-                : undefined
-            }
-            explainLoading={botExplanation.loading}
-            explainError={botExplanation.error}
-            resultPrimaryAction={
-              !postDraft.isEditing
-                ? {
-                    label: draftPrediction ? "Lancer la simulation" : "Calcul de l'analyse…",
-                    disabled: !draftPrediction,
-                    onClick: () => {
-                      if (draftPrediction) {
-                        handleLaunchSimulation(draftPrediction);
-                      }
-                    },
-                  }
-                : undefined
-            }
-            editComp={
-              postDraft.isEditing
-                ? {
-                    bluePicks: postDraft.bluePicks,
-                    redPicks: postDraft.redPicks,
-                    onBluePicksChange: postDraft.updateBluePicks,
-                    onRedPicksChange: postDraft.updateRedPicks,
-                    onSlotEdit: postDraft.selectSlot,
-                    selectedSlot: postDraft.selectedSlot,
-                  }
-                : undefined
-            }
           >
-            {postDraft.isEditing ? (
-              <EditCompPhase
-                bluePicks={postDraft.bluePicks}
-                redPicks={postDraft.redPicks}
-                blueValidation={postDraft.blueValidation}
-                redValidation={postDraft.redValidation}
-                championPositions={championPositions}
-                champions={champions}
-                bannedChampions={[...draft.blueBans, ...draft.redBans]}
-                ddragonVersion={ddragonVersion}
-                selectedSlot={postDraft.selectedSlot}
-                onReplacePick={postDraft.replaceSelectedPick}
-                onClearSelectedSlot={postDraft.clearSelectedSlot}
-                onDone={postDraft.stopEditing}
-              />
-            ) : (
-              !postDraft.selectedSlot && (
-                <DraftResult
-                  draft={draft}
-                  bluePicks={postDraft.bluePicks}
-                  redPicks={postDraft.redPicks}
-                  patch={patch}
-                  predictionMode="pro"
-                  ddragonVersion={ddragonVersion}
-                  champions={champions}
-                  usedChampions={postDraft.usedChampionsForAnalysis}
-                  onReset={resetMatchState}
-                  onStartEditing={postDraft.startEditing}
-                  isEditing={postDraft.isEditing}
-                  hideReset
-                  onResultChange={setDraftPrediction}
-                />
-              )
-            )}
-          </DraftBoard>
-          {botExplanation.active && (
-            <BotVisualNovel
-              visible={Boolean(botExplanation.currentStep?.text)}
-              line={botExplanation.currentStep?.text ?? ""}
-              botSide={botExplanation.highlightedSide}
-              explanationMode
-              stepLabel={null}
-              isLastStep={botExplanation.isLastStep}
-              onNext={botExplanation.next}
-              onSkipAll={botExplanation.skipAll}
+            <LecCareerDraftRecap
+              analysis={careerDraftAnalysis}
+              playerTeamName={lec.playerTeam.name}
+              opponentTeamName={activeOpponent.name}
+              playerPicks={playerPicks}
+              opponentPicks={opponentPicks}
+              onPlayMatch={handleCareerMatchPlay}
+              loading={lec.loading}
             />
-          )}
+          </DraftBoard>
         </main>
       </div>
-    );
-  }
-
-  if (lec.phase === "simulating" && lec.playerTeam && activeOpponent && draftPrediction) {
-    return (
-      <>
-        {muteButton}
-        <MatchSimulation
-          playerTeamName={lec.playerTeam.name}
-          opponentTeamName={activeOpponent.name}
-          opponentTeamId={activeOpponent.id}
-          playerRoster={lec.playerTeam.roster}
-          opponentRoster={activeOpponent.roster}
-          playerSide={playerSide}
-          draftPrediction={draftPrediction}
-          onComplete={handleSimulationComplete}
-        />
-      </>
     );
   }
 
@@ -623,7 +499,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
           playerWon={Boolean(lec.lastPlayerWon)}
           opponentName={lec.lastMatchSummary.opponent_name}
           roundLabel={lec.lastMatchSummary.round_label}
-          matchHistory={lastMatchHistory}
+          matchHistory={null}
           onContinue={handleMatchOutcomeContinue}
         />
       </>

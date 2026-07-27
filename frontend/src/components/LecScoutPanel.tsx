@@ -1,4 +1,5 @@
 import type { LecScoutDossier, LecTeamIdentity } from "../types/lec";
+import type { ScoutAction } from "../utils/lecScout";
 import { familiarityLabel } from "../utils/lecScout";
 
 interface LecScoutPanelProps {
@@ -6,7 +7,7 @@ interface LecScoutPanelProps {
   identity: LecTeamIdentity;
   dossier: LecScoutDossier;
   discussLine: string | null;
-  onDiscuss: (questionIndex: number) => void;
+  onDiscuss: (action: ScoutAction) => void;
 }
 
 export function LecScoutPanel({
@@ -23,29 +24,41 @@ export function LecScoutPanel({
           <p className="lec-hub__eyebrow">Scouting</p>
           <h3>Dossier — {opponentName}</h3>
           <p className="lec-scout__style">
-            Style repéré : <strong>{identity.label}</strong> · {familiarityLabel(dossier.familiarity)}
+            Style :{" "}
+            <strong>{dossier.styleRevealed ? identity.label : "???"}</strong>
+            {" · "}
+            {familiarityLabel(dossier.familiarity)}
           </p>
         </div>
       </header>
 
       <div className="lec-scout__actions">
-        <button type="button" className="worlds-btn worlds-btn--ghost" onClick={() => onDiscuss(0)}>
-          Discuter — tempo
+        <button
+          type="button"
+          className="worlds-btn worlds-btn--ghost"
+          disabled={dossier.styleRevealed}
+          onClick={() => onDiscuss("style")}
+        >
+          Discuter — style de jeu
         </button>
-        <button type="button" className="worlds-btn worlds-btn--ghost" onClick={() => onDiscuss(1)}>
-          Discuter — carry
-        </button>
-        <button type="button" className="worlds-btn worlds-btn--ghost" onClick={() => onDiscuss(2)}>
-          Discuter — bans
+        <button
+          type="button"
+          className="worlds-btn worlds-btn--ghost"
+          disabled={dossier.revealedPicks.length >= 2}
+          onClick={() => onDiscuss("picks")}
+        >
+          Discuter — picks favoris
         </button>
       </div>
 
       {discussLine && <p className="lec-scout__line">{discussLine}</p>}
 
-      {dossier.hints.length > 0 && (
+      {dossier.revealedPicks.length > 0 && (
         <ul className="lec-scout__hints">
-          {dossier.hints.map((hint) => (
-            <li key={hint}>{hint}</li>
+          {dossier.revealedPicks.map((pick) => (
+            <li key={`${pick.player}-${pick.champion}`}>
+              {pick.player} ({pick.role}) — {pick.champion}
+            </li>
           ))}
         </ul>
       )}

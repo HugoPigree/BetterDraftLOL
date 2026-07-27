@@ -99,7 +99,8 @@ export interface LecCareerUniverse {
 
 export interface LecScoutDossier {
   teamId: string;
-  hints: string[];
+  styleRevealed: boolean;
+  revealedPicks: Array<{ player: string; role: string; champion: string }>;
   familiarity: number;
 }
 

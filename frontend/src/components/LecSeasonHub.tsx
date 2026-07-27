@@ -6,6 +6,7 @@ import type {
   LecTeam,
   LecTeamIdentity,
 } from "../types/lec";
+import type { ScoutAction } from "../utils/lecScout";
 import { opponentForFixture } from "../utils/lecTeamBranding";
 import { LecBrand } from "./LecBrand";
 import { LecScoutPanel } from "./LecScoutPanel";
@@ -20,7 +21,7 @@ interface LecSeasonHubProps {
   nextOpponentIdentity: LecTeamIdentity | null;
   nextOpponentDossier: LecScoutDossier | null;
   discussLine: string | null;
-  onDiscuss: (opponentTeamId: string, questionIndex: number) => void;
+  onDiscuss: (opponentTeamId: string, action: ScoutAction) => void;
   onBack: () => void;
   onPlayNext: () => void;
   onResetCareer: () => void;
@@ -103,7 +104,6 @@ export function LecSeasonHub({
                   <span className="lec-hub__meta-badge">Meta carrière</span>
                   <strong>{careerPatch.patch_label}</strong>
                 </div>
-                {careerPatch.notes[0] && <p>{careerPatch.notes[0]}</p>}
                 <p className="lec-hub__meta-foot">
                   Draft avec timer 12s · Scout disponible avant chaque match
                 </p>
@@ -153,7 +153,7 @@ export function LecSeasonHub({
                   identity={nextOpponentIdentity}
                   dossier={nextOpponentDossier}
                   discussLine={discussLine}
-                  onDiscuss={(questionIndex) => onDiscuss(opponent.id, questionIndex)}
+                  onDiscuss={(action) => onDiscuss(opponent.id, action)}
                 />
               )}
               <button type="button" className="worlds-btn worlds-btn--primary" onClick={onPlayNext}>
