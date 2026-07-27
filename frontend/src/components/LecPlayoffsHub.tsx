@@ -8,6 +8,7 @@ interface LecPlayoffsHubProps {
   playerTeam: LecTeam;
   onBack: () => void;
   onPlayNext: () => void;
+  onResetCareer: () => void;
 }
 
 export function LecPlayoffsHub({
@@ -15,14 +16,32 @@ export function LecPlayoffsHub({
   playerTeam,
   onBack,
   onPlayNext,
+  onResetCareer,
 }: LecPlayoffsHubProps) {
+  function handleResetCareer() {
+    if (
+      window.confirm(
+        "Recommencer une nouvelle carrière ?\n\nTa saison, ta progression et tes upgrades seront effacées.",
+      )
+    ) {
+      onResetCareer();
+    }
+  }
+
   return (
     <div className="worlds-screen lec-hub lec-playoffs">
-      <header className="worlds-screen__header">
+      <header className="worlds-screen__header lec-hub__header">
         <button type="button" className="worlds-btn worlds-btn--ghost" onClick={onBack}>
           Saison
         </button>
         <LecBrand size="sm" subtitle="Playoffs LEC — Bo3 / Bo5" />
+        <button
+          type="button"
+          className="worlds-btn worlds-btn--ghost lec-hub__reset"
+          onClick={handleResetCareer}
+        >
+          Nouvelle carrière
+        </button>
       </header>
 
       <div className="lec-playoffs__grid">

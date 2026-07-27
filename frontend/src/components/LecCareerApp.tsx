@@ -300,6 +300,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
           onBack={onBack}
           onPlayNext={lec.openNextMatch}
           onUpgrade={lec.purchaseUpgrade}
+          onResetCareer={lec.resetCareer}
         />
       </>
     );
@@ -314,6 +315,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
           playerTeam={lec.playerTeam}
           onBack={handleReturnToHub}
           onPlayNext={lec.openPlayoffMatch}
+          onResetCareer={lec.resetCareer}
         />
       </>
     );

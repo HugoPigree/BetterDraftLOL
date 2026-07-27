@@ -5496,6 +5496,27 @@ button {
   color: rgba(255, 255, 255, 0.72);
 }
 
+.lec-hub__header {
+  flex-wrap: wrap;
+}
+
+.lec-hub__header .lec-brand {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.lec-hub__reset {
+  margin-left: auto;
+  color: rgba(252, 165, 165, 0.92);
+  border-color: rgba(252, 165, 165, 0.25);
+}
+
+.lec-hub__reset:hover {
+  color: #fecaca;
+  border-color: rgba(252, 165, 165, 0.45);
+  background: rgba(127, 29, 29, 0.18);
+}
+
 .lec-hub__layout {
   display: grid;
   grid-template-columns: 1.2fr 0.9fr;

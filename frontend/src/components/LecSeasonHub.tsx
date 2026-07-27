@@ -12,6 +12,7 @@ interface LecSeasonHubProps {
   onBack: () => void;
   onPlayNext: () => void;
   onUpgrade: (key: LecUpgradeKey) => void;
+  onResetCareer: () => void;
 }
 
 function recentResults(season: LecSeasonState) {
@@ -34,6 +35,7 @@ export function LecSeasonHub({
   onBack,
   onPlayNext,
   onUpgrade,
+  onResetCareer,
 }: LecSeasonHubProps) {
   const next = nextFixture(season);
   const opponent = next ? opponentForFixture(season.teams, next) : null;
@@ -43,13 +45,30 @@ export function LecSeasonHub({
   ).length;
   const recent = recentResults(season);
 
+  function handleResetCareer() {
+    if (
+      window.confirm(
+        "Recommencer une nouvelle carrière ?\n\nTa saison, ta progression et tes upgrades seront effacées.",
+      )
+    ) {
+      onResetCareer();
+    }
+  }
+
   return (
     <div className="worlds-screen lec-hub">
-      <header className="worlds-screen__header">
+      <header className="worlds-screen__header lec-hub__header">
         <button type="button" className="worlds-btn worlds-btn--ghost" onClick={onBack}>
           Accueil
         </button>
         <LecBrand size="sm" subtitle={season.season_label} />
+        <button
+          type="button"
+          className="worlds-btn worlds-btn--ghost lec-hub__reset"
+          onClick={handleResetCareer}
+        >
+          Nouvelle carrière
+        </button>
       </header>
 
       <div className="lec-hub__layout">
