@@ -36,7 +36,6 @@ export function LecScoutPanel({
         <button
           type="button"
           className="worlds-btn worlds-btn--ghost"
-          disabled={dossier.styleRevealed}
           onClick={() => onDiscuss("style")}
         >
           Discuter — style de jeu

@@ -23,7 +23,12 @@ import {
   scoutingDraftSeedSalt,
   spendUpgradePoint,
 } from "../utils/lecProgression";
-import { createScoutDossier, discussWithStaff, migrateScoutDossier } from "../utils/lecScout";
+import {
+  createScoutDossier,
+  careerUniverseNeedsRepair,
+  discussWithStaff,
+  migrateScoutDossier,
+} from "../utils/lecScout";
 import type { ScoutAction } from "../utils/lecScout";
 import {
   fetchCareerPatch,
@@ -124,7 +129,10 @@ export function useLecCareer() {
   }, [phase, lastMatchSummary]);
 
   useEffect(() => {
-    if (!season || season.career_universe || phase === "setup" || repairAttemptedRef.current) {
+    if (!season || phase === "setup" || repairAttemptedRef.current) {
+      return;
+    }
+    if (!careerUniverseNeedsRepair(season.career_universe)) {
       return;
     }
     repairAttemptedRef.current = true;
@@ -133,12 +141,17 @@ export function useLecCareer() {
       season.fixtures.find((fixture) => fixture.is_player_match && !fixture.played)?.week ??
       season.current_week ??
       1;
-    void repairCareerUniverse(season.teams, week, seasonSeed ? hashSeasonSeed(seasonSeed) : undefined)
+    const seed =
+      season.career_universe?.universe_seed ??
+      (seasonSeed ? hashSeasonSeed(seasonSeed) : undefined);
+    void repairCareerUniverse(season.teams, week, seed)
       .then((universe) => {
         if (cancelled) {
           return;
         }
         setSeason((current) => (current ? { ...current, career_universe: universe } : current));
+        setScoutDossiers({});
+        setDiscussLine(null);
       })
       .catch(() => {
         // banner guides manual reset
@@ -580,8 +593,16 @@ export function useLecCareer() {
         return;
       }
       const profiles = season.career_universe.team_profiles[opponentTeamId] ?? [];
+      const preferred = season.career_universe.team_preferred_picks?.[opponentTeamId];
       const dossier = scoutDossiers[opponentTeamId] ?? createScoutDossier(opponentTeamId);
-      const result = discussWithStaff(dossier, identity, profiles, action);
+      const result = discussWithStaff(
+        dossier,
+        identity,
+        profiles,
+        action,
+        opponentTeamId,
+        preferred,
+      );
       setScoutDossiers((current) => ({
         ...current,
         [opponentTeamId]: result.dossier,

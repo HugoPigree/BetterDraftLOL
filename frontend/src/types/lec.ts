@@ -84,7 +84,7 @@ export interface LecTeamIdentity {
 export interface LecPlayerProfile {
   player: string;
   role: string;
-  signature_picks: string[];
+  signature_picks?: string[];
   comfort: string[];
   power: number;
   flexibility: number;
