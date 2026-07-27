@@ -15,6 +15,7 @@ import { useWorldsCoachDialogue } from "../hooks/useWorldsCoachDialogue";
 import { fetchChampionsFromApi } from "../services/api";
 import { fetchLatestDdragonVersion } from "../utils/ddragon";
 import { createScoutDossier } from "../utils/lecScout";
+import { opponentForFixture } from "../utils/lecTeamBranding";
 import type { PredictResponse as PredictResult } from "../types/predict";
 import type { MatchHistorySummary } from "../types/matchHistory";
 import { BotVisualNovel } from "./BotVisualNovel";
@@ -318,6 +319,36 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
   const dataStatusLabel = lec.careerPatch
     ? `${lec.careerPatch.patch_label} · Meta carrière`
     : formatMetaStatusLabel(metaStatus);
+
+  const hubNextFixture = useMemo(() => {
+    if (!lec.season) {
+      return null;
+    }
+    return (
+      lec.season.fixtures.find((fixture) => fixture.is_player_match && !fixture.played) ?? null
+    );
+  }, [lec.season]);
+
+  const hubNextOpponent = useMemo(() => {
+    if (!lec.season || !hubNextFixture) {
+      return null;
+    }
+    return opponentForFixture(lec.season.teams, hubNextFixture);
+  }, [lec.season, hubNextFixture]);
+
+  const hubNextOpponentIdentity = useMemo(() => {
+    if (!hubNextOpponent || !lec.season?.career_universe) {
+      return null;
+    }
+    return lec.season.career_universe.team_identities[hubNextOpponent.id] ?? null;
+  }, [hubNextOpponent, lec.season?.career_universe]);
+
+  const hubNextOpponentDossier = useMemo(() => {
+    if (!hubNextOpponent) {
+      return null;
+    }
+    return lec.scoutDossiers[hubNextOpponent.id] ?? createScoutDossier(hubNextOpponent.id);
+  }, [hubNextOpponent, lec.scoutDossiers]);
   const boardMode =
     postDraft.phase === "confirmRoles"
       ? "confirmRoles"
@@ -370,6 +401,10 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
           playerTeam={lec.playerTeam}
           careerPatch={lec.careerPatch}
           metaLoading={metaLoading}
+          nextOpponentIdentity={hubNextOpponentIdentity}
+          nextOpponentDossier={hubNextOpponentDossier}
+          discussLine={lec.discussLine}
+          onDiscuss={lec.discussWithOpponent}
           onBack={onBack}
           onPlayNext={lec.openNextMatch}
           onResetCareer={lec.resetCareer}

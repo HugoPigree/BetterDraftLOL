@@ -1,6 +1,14 @@
-import type { LecCareerPatch, LecFixture, LecSeasonState, LecTeam } from "../types/lec";
+import type {
+  LecCareerPatch,
+  LecFixture,
+  LecScoutDossier,
+  LecSeasonState,
+  LecTeam,
+  LecTeamIdentity,
+} from "../types/lec";
 import { opponentForFixture } from "../utils/lecTeamBranding";
 import { LecBrand } from "./LecBrand";
+import { LecScoutPanel } from "./LecScoutPanel";
 import { LecStandings } from "./LecStandings";
 import { LecTeamBadge } from "./LecTeamBadge";
 
@@ -9,6 +17,10 @@ interface LecSeasonHubProps {
   playerTeam: LecTeam;
   careerPatch: LecCareerPatch | null;
   metaLoading?: boolean;
+  nextOpponentIdentity: LecTeamIdentity | null;
+  nextOpponentDossier: LecScoutDossier | null;
+  discussLine: string | null;
+  onDiscuss: (opponentTeamId: string, questionIndex: number) => void;
   onBack: () => void;
   onPlayNext: () => void;
   onResetCareer: () => void;
@@ -33,6 +45,10 @@ export function LecSeasonHub({
   playerTeam,
   careerPatch,
   metaLoading = false,
+  nextOpponentIdentity,
+  nextOpponentDossier,
+  discussLine,
+  onDiscuss,
   onBack,
   onPlayNext,
   onResetCareer,
@@ -131,9 +147,15 @@ export function LecSeasonHub({
               <p className="lec-hub__progress">
                 Match {playedCount + 1}/9 · Semaine {next.week}
               </p>
-              <p className="lec-hub__scout-hint">
-                Avant la draft : bouton « Discuter » pour deviner le plan adverse.
-              </p>
+              {nextOpponentIdentity && nextOpponentDossier && (
+                <LecScoutPanel
+                  opponentName={opponent.name}
+                  identity={nextOpponentIdentity}
+                  dossier={nextOpponentDossier}
+                  discussLine={discussLine}
+                  onDiscuss={(questionIndex) => onDiscuss(opponent.id, questionIndex)}
+                />
+              )}
               <button type="button" className="worlds-btn worlds-btn--primary" onClick={onPlayNext}>
                 Préparer le match
               </button>
