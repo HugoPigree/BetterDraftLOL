@@ -5519,10 +5519,11 @@ button {
 
 .lec-hub__layout {
   display: grid;
-  grid-template-columns: 1.2fr 0.9fr;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
   gap: 1.25rem;
   max-width: 1100px;
   margin: 0 auto;
+  align-items: start;
 }
 
 .lec-hub__hero,
@@ -5531,6 +5532,22 @@ button {
   border-radius: 12px;
   border: 1px solid var(--lol-border);
   background: rgba(255, 255, 255, 0.03);
+}
+
+.lec-hub__side-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.lec-hub__recent {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--lol-border);
+}
+
+.lec-hub__recent h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
 }
 
 .lec-hub__team-card {
@@ -5630,80 +5647,6 @@ button {
 
 .lec-hub__recent--loss {
   color: #fca5a5;
-}
-
-.lec-progress {
-  margin-bottom: 1.25rem;
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(10, 14, 24, 0.85);
-}
-
-.lec-progress__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.lec-progress__header h3 {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.lec-progress__points {
-  color: var(--lol-gold);
-  font-weight: 600;
-  font-size: 0.85rem;
-}
-
-.lec-progress__event {
-  margin-bottom: 0.75rem;
-  padding: 0.65rem 0.75rem;
-  border-radius: 8px;
-  background: rgba(255, 215, 0, 0.08);
-  border: 1px solid rgba(255, 215, 0, 0.18);
-}
-
-.lec-progress__event p {
-  margin: 0.25rem 0 0;
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 0.85rem;
-}
-
-.lec-progress__streak {
-  margin: 0 0 0.75rem;
-  color: #86efac;
-  font-size: 0.85rem;
-}
-
-.lec-progress__upgrades {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.lec-progress__upgrade {
-  display: grid;
-  gap: 0.15rem;
-  text-align: left;
-  padding: 0.65rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  color: inherit;
-  cursor: pointer;
-}
-
-.lec-progress__upgrade:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.lec-progress__upgrade small {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.78rem;
 }
 
 .lec-story__panel {

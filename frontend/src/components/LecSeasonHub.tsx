@@ -1,17 +1,14 @@
-import type { LecCareerProgress, LecFixture, LecSeasonState, LecTeam, LecUpgradeKey } from "../types/lec";
+import type { LecFixture, LecSeasonState, LecTeam } from "../types/lec";
 import { opponentForFixture } from "../utils/lecTeamBranding";
 import { LecBrand } from "./LecBrand";
-import { LecProgressionPanel } from "./LecProgressionPanel";
 import { LecStandings } from "./LecStandings";
 import { LecTeamBadge } from "./LecTeamBadge";
 
 interface LecSeasonHubProps {
   season: LecSeasonState;
   playerTeam: LecTeam;
-  progress: LecCareerProgress;
   onBack: () => void;
   onPlayNext: () => void;
-  onUpgrade: (key: LecUpgradeKey) => void;
   onResetCareer: () => void;
 }
 
@@ -31,10 +28,8 @@ function nextFixture(season: LecSeasonState): LecFixture | null {
 export function LecSeasonHub({
   season,
   playerTeam,
-  progress,
   onBack,
   onPlayNext,
-  onUpgrade,
   onResetCareer,
 }: LecSeasonHubProps) {
   const next = nextFixture(season);
@@ -48,7 +43,7 @@ export function LecSeasonHub({
   function handleResetCareer() {
     if (
       window.confirm(
-        "Recommencer une nouvelle carrière ?\n\nTa saison, ta progression et tes upgrades seront effacées.",
+        "Recommencer une nouvelle carrière ?\n\nTa saison en cours sera effacée.",
       )
     ) {
       onResetCareer();
@@ -115,12 +110,7 @@ export function LecSeasonHub({
               </button>
             </div>
           )}
-        </section>
 
-        <section className="lec-hub__side">
-          <LecProgressionPanel progress={progress} onUpgrade={onUpgrade} />
-          <h3>Classement LEC</h3>
-          <LecStandings standings={season.standings} compact />
           {recent.length > 0 && (
             <div className="lec-hub__recent">
               <h3>Derniers résultats</h3>
@@ -138,6 +128,11 @@ export function LecSeasonHub({
               </ul>
             </div>
           )}
+        </section>
+
+        <section className="lec-hub__side">
+          <h3 className="lec-hub__side-title">Classement LEC</h3>
+          <LecStandings standings={season.standings} compact />
         </section>
       </div>
     </div>
