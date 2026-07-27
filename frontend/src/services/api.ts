@@ -8,6 +8,7 @@ import type {
 } from "../types/worlds";
 import type {
   LecCareerPatch,
+  LecCareerUniverse,
   LecPlayerProfile,
   LecRecordResultResponse,
   LecSeasonState,
@@ -378,8 +379,25 @@ export async function startLecSeason(
       coach_name: coachName,
       roster,
       replace_team_id: replaceTeamId,
+      seed: Date.now(),
     },
     "Impossible de démarrer la saison LEC",
+  );
+}
+
+export async function repairCareerUniverse(
+  teams: LecSeasonState["teams"],
+  week: number,
+  seed?: number,
+): Promise<LecCareerUniverse> {
+  return postJson<LecCareerUniverse>(
+    "/lec/repair-universe",
+    {
+      teams,
+      week,
+      seed: seed ?? Date.now(),
+    },
+    "Impossible de charger la meta carrière",
   );
 }
 

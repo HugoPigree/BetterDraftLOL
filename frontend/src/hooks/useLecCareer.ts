@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { DraftPreferences } from "../types/draft";
 import type {
   LecCareerSnapshot,
@@ -24,7 +24,12 @@ import {
   spendUpgradePoint,
 } from "../utils/lecProgression";
 import { createScoutDossier, discussWithStaff } from "../utils/lecScout";
-import { recordLecMatchResult, fetchCareerPatch, startLecSeason } from "../services/api";
+import {
+  fetchCareerPatch,
+  recordLecMatchResult,
+  repairCareerUniverse,
+  startLecSeason,
+} from "../services/api";
 
 const STORAGE_KEY = "betterdraft-lec-career-v2";
 
@@ -53,6 +58,15 @@ function loadSnapshot(): LecCareerSnapshot | null {
 
 function saveSnapshot(snapshot: LecCareerSnapshot) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+}
+
+function hashSeasonSeed(value: string): number {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
 }
 
 export function useLecCareer() {
@@ -91,12 +105,38 @@ export function useLecCareer() {
     restored?.scoutDossiers ?? {},
   );
   const [discussLine, setDiscussLine] = useState<string | null>(null);
+  const repairAttemptedRef = useRef(false);
 
   useEffect(() => {
     if (phase === "matchResult" && !lastMatchSummary) {
       setPhase("seasonHub");
     }
   }, [phase, lastMatchSummary]);
+
+  useEffect(() => {
+    if (!season || season.career_universe || phase === "setup" || repairAttemptedRef.current) {
+      return;
+    }
+    repairAttemptedRef.current = true;
+    let cancelled = false;
+    const week =
+      season.fixtures.find((fixture) => fixture.is_player_match && !fixture.played)?.week ??
+      season.current_week ??
+      1;
+    void repairCareerUniverse(season.teams, week, seasonSeed ? hashSeasonSeed(seasonSeed) : undefined)
+      .then((universe) => {
+        if (cancelled) {
+          return;
+        }
+        setSeason((current) => (current ? { ...current, career_universe: universe } : current));
+      })
+      .catch(() => {
+        // banner guides manual reset
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [season, phase, seasonSeed]);
 
   const playerTeam = useMemo(
     () => season?.teams.find((team) => team.is_player_team) ?? null,
@@ -512,6 +552,7 @@ export function useLecCareer() {
     setSeasonSeed("");
     setScoutDossiers({});
     setDiscussLine(null);
+    repairAttemptedRef.current = false;
   }, []);
 
   const purchaseUpgrade = useCallback((key: LecUpgradeKey) => {

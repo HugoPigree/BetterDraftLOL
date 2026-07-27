@@ -1,4 +1,4 @@
-import type { LecFixture, LecSeasonState, LecTeam } from "../types/lec";
+import type { LecCareerPatch, LecFixture, LecSeasonState, LecTeam } from "../types/lec";
 import { opponentForFixture } from "../utils/lecTeamBranding";
 import { LecBrand } from "./LecBrand";
 import { LecStandings } from "./LecStandings";
@@ -7,10 +7,12 @@ import { LecTeamBadge } from "./LecTeamBadge";
 interface LecSeasonHubProps {
   season: LecSeasonState;
   playerTeam: LecTeam;
+  careerPatch: LecCareerPatch | null;
+  metaLoading?: boolean;
   onBack: () => void;
   onPlayNext: () => void;
   onResetCareer: () => void;
-  onOpenPatchNotes?: () => void;
+  onOpenPatchNotes: () => void;
 }
 
 function recentResults(season: LecSeasonState) {
@@ -29,6 +31,8 @@ function nextFixture(season: LecSeasonState): LecFixture | null {
 export function LecSeasonHub({
   season,
   playerTeam,
+  careerPatch,
+  metaLoading = false,
   onBack,
   onPlayNext,
   onResetCareer,
@@ -59,22 +63,44 @@ export function LecSeasonHub({
           Accueil
         </button>
         <LecBrand size="sm" subtitle={season.season_label} />
-        {onOpenPatchNotes && (
+        <div className="lec-hub__header-actions">
           <button type="button" className="worlds-btn worlds-btn--ghost" onClick={onOpenPatchNotes}>
             Notes de patch
           </button>
-        )}
-        <button
-          type="button"
-          className="worlds-btn worlds-btn--ghost lec-hub__reset"
-          onClick={handleResetCareer}
-        >
-          Nouvelle carrière
-        </button>
+          <button
+            type="button"
+            className="worlds-btn worlds-btn--ghost lec-hub__reset"
+            onClick={handleResetCareer}
+          >
+            Nouvelle carrière
+          </button>
+        </div>
       </header>
 
       <div className="lec-hub__layout">
         <section className="lec-hub__hero">
+          <section className="lec-hub__meta-banner">
+            {metaLoading && <p className="lec-hub__meta-loading">Chargement de la meta carrière…</p>}
+            {!metaLoading && careerPatch && (
+              <>
+                <div className="lec-hub__meta-top">
+                  <span className="lec-hub__meta-badge">Meta carrière</span>
+                  <strong>{careerPatch.patch_label}</strong>
+                </div>
+                {careerPatch.notes[0] && <p>{careerPatch.notes[0]}</p>}
+                <p className="lec-hub__meta-foot">
+                  Draft avec timer 12s · Scout disponible avant chaque match
+                </p>
+              </>
+            )}
+            {!metaLoading && !careerPatch && (
+              <p className="lec-hub__meta-warning">
+                Meta carrière indisponible — clique sur « Nouvelle carrière » après un hard refresh
+                (Ctrl+Shift+R).
+              </p>
+            )}
+          </section>
+
           <div className="lec-hub__team-card">
             <LecTeamBadge team={playerTeam} size="lg" active />
             <div>
@@ -104,6 +130,9 @@ export function LecSeasonHub({
               </div>
               <p className="lec-hub__progress">
                 Match {playedCount + 1}/9 · Semaine {next.week}
+              </p>
+              <p className="lec-hub__scout-hint">
+                Avant la draft : bouton « Discuter » pour deviner le plan adverse.
               </p>
               <button type="button" className="worlds-btn worlds-btn--primary" onClick={onPlayNext}>
                 Préparer le match

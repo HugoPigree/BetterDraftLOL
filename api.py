@@ -47,7 +47,7 @@ from lec_season import (
     resolve_week_npc_matches,
     start_lec_season,
 )
-from career_meta import get_career_patch_for_week
+from career_meta import generate_career_universe, get_career_patch_for_week
 from worlds_teams import build_player_team, create_bracket, load_pro_teams, pick_opponent_teams
 
 logger = logging.getLogger(__name__)
@@ -418,6 +418,12 @@ class LecRecordResultRequest(BaseModel):
     fixtures: list[dict[str, Any]] = Field(min_length=1)
     teams: list[dict[str, Any]] = Field(min_length=1)
     week: int = Field(ge=1, le=9)
+
+
+class LecRepairUniverseRequest(BaseModel):
+    teams: list[dict[str, Any]] = Field(min_length=1)
+    seed: int | None = None
+    week: int = Field(default=1, ge=1, le=9)
 
 
 class WorldsTeamDraftBotRequest(DraftBotMoveRequest):
@@ -952,6 +958,20 @@ def create_app() -> FastAPI:
     ) -> dict[str, Any]:
         try:
             return get_career_patch_for_week(universe_seed, week)
+        except (FileNotFoundError, ValueError) as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post("/lec/repair-universe")
+    async def lec_repair_universe_endpoint(
+        request: LecRepairUniverseRequest,
+    ) -> dict[str, Any]:
+        try:
+            universe = generate_career_universe(
+                [dict(team) for team in request.teams],
+                seed=request.seed,
+                week=request.week,
+            )
+            return universe
         except (FileNotFoundError, ValueError) as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 

@@ -78,6 +78,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
   const [draftPrediction, setDraftPrediction] = useState<PredictResult | null>(null);
   const [lastMatchHistory, setLastMatchHistory] = useState<MatchHistorySummary | null>(null);
   const [showPatchNotes, setShowPatchNotes] = useState(false);
+  const [metaLoading, setMetaLoading] = useState(false);
   const simulationStartedRef = useRef(false);
   const isPlayoffFlow =
     lec.phase === "playoffIntro" ||
@@ -176,6 +177,10 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     botError,
     lastBotMove: botLastMove,
   });
+
+  useEffect(() => {
+    setMetaLoading(Boolean(lec.season && !lec.season.career_universe && lec.phase !== "setup"));
+  }, [lec.season, lec.phase]);
 
   useEffect(() => {
     if (!patchInitializedRef.current && metaStatus?.latest_patch) {
@@ -354,18 +359,21 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     return (
       <>
         {muteButton}
-        {showPatchNotes && lec.careerPatch && (
-          <LecPatchNotes patch={lec.careerPatch} onClose={() => setShowPatchNotes(false)} />
+        {showPatchNotes && (
+          <LecPatchNotes
+            patch={lec.careerPatch ?? FALLBACK_CAREER_PATCH}
+            onClose={() => setShowPatchNotes(false)}
+          />
         )}
         <LecSeasonHub
           season={lec.season}
           playerTeam={lec.playerTeam}
+          careerPatch={lec.careerPatch}
+          metaLoading={metaLoading}
           onBack={onBack}
           onPlayNext={lec.openNextMatch}
           onResetCareer={lec.resetCareer}
-          onOpenPatchNotes={
-            lec.careerPatch ? () => setShowPatchNotes(true) : undefined
-          }
+          onOpenPatchNotes={() => setShowPatchNotes(true)}
         />
       </>
     );

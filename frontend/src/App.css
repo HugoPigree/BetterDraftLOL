@@ -5506,9 +5506,55 @@ button {
 }
 
 .lec-hub__reset {
-  margin-left: auto;
   color: rgba(252, 165, 165, 0.92);
   border-color: rgba(252, 165, 165, 0.25);
+}
+
+.lec-hub__header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.lec-hub__meta-banner {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(200, 170, 110, 0.25);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.lec-hub__meta-top {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.35rem;
+}
+
+.lec-hub__meta-badge {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lol-gold);
+}
+
+.lec-hub__meta-foot,
+.lec-hub__scout-hint {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.lec-hub__meta-warning {
+  margin: 0;
+  color: #fcd34d;
+  font-size: 0.88rem;
+}
+
+.lec-hub__meta-loading {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .lec-hub__reset:hover {
