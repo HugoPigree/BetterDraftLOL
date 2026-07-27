@@ -1,0 +1,82 @@
+{
+  "_comment": "Picks preferentiels par equipe LEC (mode carriere). Le scouting en revele 1-2. Le bot les favorise sans les forcer a chaque draft.",
+  "teams": {
+    "fnatic": {
+      "TOP": ["K'Sante", "Renekton"],
+      "JUNGLE": ["Maokai", "Vi"],
+      "MIDDLE": ["Ahri", "Azir"],
+      "BOTTOM": ["Kai'Sa", "Varus"],
+      "UTILITY": ["Rakan", "Rell"]
+    },
+    "g2": {
+      "TOP": ["Gnar", "Ornn"],
+      "JUNGLE": ["Jarvan IV", "Wukong"],
+      "MIDDLE": ["Ahri", "Sylas"],
+      "BOTTOM": ["Draven", "Jinx"],
+      "UTILITY": ["Nautilus", "Rell"]
+    },
+    "kc": {
+      "TOP": ["Aatrox", "Renekton"],
+      "JUNGLE": ["Lee Sin", "Vi"],
+      "MIDDLE": ["Ahri", "Taliyah"],
+      "BOTTOM": ["Kai'Sa", "Ezreal"],
+      "UTILITY": ["Rakan", "Leona"]
+    },
+    "mkoi": {
+      "TOP": ["Camille", "Gnar"],
+      "JUNGLE": ["Jarvan IV", "Lee Sin"],
+      "MIDDLE": ["Azir", "Ahri"],
+      "BOTTOM": ["Varus", "Jinx"],
+      "UTILITY": ["Rell", "Nautilus"]
+    },
+    "vitality": {
+      "TOP": ["K'Sante", "Sion"],
+      "JUNGLE": ["Sejuani", "Vi"],
+      "MIDDLE": ["Orianna", "Viktor"],
+      "BOTTOM": ["Kai'Sa", "Lucian"],
+      "UTILITY": ["Alistar", "Nautilus"]
+    },
+    "giantx": {
+      "TOP": ["Ornn", "K'Sante"],
+      "JUNGLE": ["Maokai", "Sejuani"],
+      "MIDDLE": ["Hwei", "Ahri"],
+      "BOTTOM": ["Ezreal", "Varus"],
+      "UTILITY": ["Rell", "Braum"]
+    },
+    "heretics": {
+      "TOP": ["Renekton", "Ambessa"],
+      "JUNGLE": ["Lee Sin", "Viego"],
+      "MIDDLE": ["Akali", "Sylas"],
+      "BOTTOM": ["Kalista", "Samira"],
+      "UTILITY": ["Thresh", "Nautilus"]
+    },
+    "shifters": {
+      "TOP": ["Jayce", "Gnar"],
+      "JUNGLE": ["Xin Zhao", "Vi"],
+      "MIDDLE": ["Ryze", "Ahri"],
+      "BOTTOM": ["Jinx", "Caitlyn"],
+      "UTILITY": ["Bard", "Rakan"]
+    },
+    "sk": {
+      "TOP": ["Aatrox", "Sion"],
+      "JUNGLE": ["Jarvan IV", "Lee Sin"],
+      "MIDDLE": ["Akali", "Zed"],
+      "BOTTOM": ["Aphelios", "Jinx"],
+      "UTILITY": ["Leona", "Nautilus"]
+    },
+    "navi": {
+      "TOP": ["Ornn", "Sion"],
+      "JUNGLE": ["Sejuani", "Maokai"],
+      "MIDDLE": ["Azir", "Orianna"],
+      "BOTTOM": ["Varus", "Jinx"],
+      "UTILITY": ["Rell", "Alistar"]
+    },
+    "player": {
+      "TOP": ["K'Sante", "Gnar"],
+      "JUNGLE": ["Vi", "Maokai"],
+      "MIDDLE": ["Ahri", "Orianna"],
+      "BOTTOM": ["Kai'Sa", "Varus"],
+      "UTILITY": ["Rell", "Nautilus"]
+    }
+  }
+}

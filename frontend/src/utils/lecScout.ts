@@ -28,6 +28,20 @@ export function migrateScoutDossier(raw: Partial<LecScoutDossier> & { hints?: st
   };
 }
 
+export function scoutPickCandidates(profiles: LecPlayerProfile[]): Array<{
+  player: string;
+  role: string;
+  champion: string;
+}> {
+  return profiles.flatMap((profile) => {
+    const champion = profile.signature_picks?.[0] ?? profile.comfort?.[0];
+    if (!champion) {
+      return [];
+    }
+    return [{ player: profile.player, role: profile.role, champion }];
+  });
+}
+
 export function discussWithStaff(
   dossier: LecScoutDossier,
   identity: LecTeamIdentity,
@@ -58,17 +72,11 @@ export function discussWithStaff(
     };
   }
 
-  const already = new Set(dossier.revealedPicks.map((entry) => `${entry.player}:${entry.champion}`));
-  const candidates = profiles.flatMap((profile) =>
-    (profile.comfort ?? []).map((champion) => ({
-      player: profile.player,
-      role: profile.role,
-      champion,
-    })),
-  );
+  const already = new Set(dossier.revealedPicks.map((entry) => `${entry.role}:${entry.champion}`));
+  const candidates = scoutPickCandidates(profiles);
 
   const next = candidates.find(
-    (entry) => !already.has(`${entry.player}:${entry.champion}`),
+    (entry) => !already.has(`${entry.role}:${entry.champion}`),
   );
 
   if (!next) {

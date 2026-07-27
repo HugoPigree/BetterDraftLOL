@@ -11,7 +11,8 @@ from suggest_draft import soft_assign_roles, get_champion_role_catalog
 ActionType = Literal["ban", "pick"]
 TeamSide = Literal["blue", "red"]
 
-COMFORT_PICK_CHANCE = 0.42
+COMFORT_SCORE_BONUS = 0.18
+SIGNATURE_SCORE_BONUS = 0.38
 SPICE_FLOOR = 0.08
 
 
@@ -64,12 +65,16 @@ def _score_champion(
         if champion not in viable:
             score -= 0.35
 
-    if profile and champion in (profile.get("comfort") or []):
-        score += 0.28 * float(profile.get("power", 0.65))
+    if profile and champion in (profile.get("signature_picks") or []):
+        score += SIGNATURE_SCORE_BONUS * float(profile.get("power", 0.65))
+    elif profile and champion in (profile.get("comfort") or []):
+        score += COMFORT_SCORE_BONUS * float(profile.get("power", 0.65))
 
     if action_type == "ban":
-        if profile and champion in (profile.get("comfort") or []):
-            score += 0.22
+        if profile and champion in (profile.get("signature_picks") or []):
+            score += 0.25
+        elif profile and champion in (profile.get("comfort") or []):
+            score += 0.18
         return score
 
     spice = float(identity.get("spice_chance", 0.1))
@@ -122,16 +127,6 @@ def choose_career_bot_action(
     next_role = remaining_roles[0] if remaining_roles else None
     next_profile = _profile_for_role(team_profiles, next_role) if next_role else None
 
-    if action_type == "pick" and next_profile and rng.random() < COMFORT_PICK_CHANCE:
-        for comfort in next_profile.get("comfort") or []:
-            if comfort in pool:
-                return {
-                    "action": "pick",
-                    "champion": comfort,
-                    "role": next_role,
-                    "reason": f"Comfort pick {next_profile.get('player', 'joueur')}.",
-                }
-
     if action_type == "pick" and next_role:
         viable = set((patch.get("viable_by_role") or {}).get(next_role, []))
         pool = [champion for champion in pool if not viable or champion in viable] or pool
@@ -149,11 +144,14 @@ def choose_career_bot_action(
         )
         if action_type == "ban":
             for profile in team_profiles:
-                if champion in (profile.get("comfort") or []):
-                    score += 0.15
+                if champion in (profile.get("signature_picks") or []):
+                    score += 0.2
+                elif champion in (profile.get("comfort") or []):
+                    score += 0.12
         scored.append((score, champion))
 
-    chosen = _pick_weighted(scored, rng)
+    top_n = 7 if action_type == "pick" else 5
+    chosen = _pick_weighted(scored, rng, top_n=top_n)
     if action_type == "ban":
         return {
             "action": "ban",

@@ -81,3 +81,51 @@ def test_career_bot_varies_with_seed():
         for seed in range(20, 35)
     }
     assert len(moves) >= 2
+
+
+def test_preferred_picks_loaded_from_file():
+    universe = generate_career_universe(
+        [{"id": "g2", "roster": {"TOP": "A", "JUNGLE": "B", "MIDDLE": "C", "BOTTOM": "D", "UTILITY": "E"}}],
+        seed=1,
+    )
+    mid = next(item for item in universe["team_profiles"]["g2"] if item["role"] == "MIDDLE")
+    assert mid["signature_picks"]
+    assert "Ahri" in mid["signature_picks"]
+    assert universe["team_preferred_picks"]["g2"]
+
+
+def test_signature_picks_stable_when_patch_changes():
+    from career_meta import refresh_career_universe_week
+
+    team = {"id": "kc", "roster": {"TOP": "A", "JUNGLE": "B", "MIDDLE": "C", "BOTTOM": "D", "UTILITY": "E"}}
+    universe = generate_career_universe([team], seed=5)
+    refreshed = refresh_career_universe_week(universe, [team], week=5)
+    before = universe["team_profiles"]["kc"]
+    after = refreshed["team_profiles"]["kc"]
+    for role in ("TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"):
+        assert next(p for p in before if p["role"] == role)["signature_picks"] == next(
+            p for p in after if p["role"] == role
+        )["signature_picks"]
+
+
+def test_career_bot_first_pick_not_always_identical():
+    universe = generate_career_universe(
+        [{"id": "mkoi", "roster": {"TOP": "A", "JUNGLE": "B", "MIDDLE": "C", "BOTTOM": "D", "UTILITY": "E"}}],
+        seed=3,
+    )
+    pool = universe["patch"]["viable_by_role"]["TOP"] + ["Aatrox", "Sion", "Ornn"]
+    picks = {
+        choose_career_bot_action(
+            action_type="pick",
+            bot_side="red",
+            bot_picks=[],
+            opponent_picks=[],
+            available_champions=sorted(set(pool)),
+            team_identity=universe["team_identities"]["mkoi"],
+            team_profiles=universe["team_profiles"]["mkoi"],
+            patch=universe["patch"],
+            seed=seed,
+        )["champion"]
+        for seed in range(100, 130)
+    }
+    assert len(picks) >= 2

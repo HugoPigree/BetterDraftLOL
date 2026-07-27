@@ -47,7 +47,7 @@ export function LecScoutPanel({
           disabled={dossier.revealedPicks.length >= 2}
           onClick={() => onDiscuss("picks")}
         >
-          Discuter — picks favoris
+          Discuter — picks favoris (1–2)
         </button>
       </div>
 

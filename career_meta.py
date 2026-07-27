@@ -11,6 +11,7 @@ Role = Literal["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"]
 ROLES: tuple[Role, ...] = ("TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY")
 
 DEFAULT_POOL_JSON = Path("data/career_champion_pool.json")
+DEFAULT_PREFERRED_PICKS_JSON = Path("data/career_team_preferred_picks.json")
 PATCH_ROTATION_WEEKS = 2
 
 _PATCH_SHIFT_TEMPLATES: list[list[tuple[str, float]]] = [
@@ -43,6 +44,26 @@ def _load_pool_data(json_path: Path = DEFAULT_POOL_JSON) -> dict[str, Any]:
     if not json_path.exists():
         raise FileNotFoundError(f"Pool carrière introuvable: {json_path}")
     return json.loads(json_path.read_text(encoding="utf-8"))
+
+
+def _load_preferred_picks_data(
+    json_path: Path = DEFAULT_PREFERRED_PICKS_JSON,
+) -> dict[str, dict[str, list[str]]]:
+    if not json_path.exists():
+        return {}
+    payload = json.loads(json_path.read_text(encoding="utf-8"))
+    return payload.get("teams") or {}
+
+
+def _build_champion_index(pool_data: dict[str, Any]) -> dict[str, str]:
+    index: dict[str, str] = {}
+    for name in (pool_data.get("champions") or {}):
+        index[name.casefold()] = name
+    return index
+
+
+def _resolve_champion(name: str, champion_index: dict[str, str]) -> str | None:
+    return champion_index.get(name.strip().casefold())
 
 
 def _normalize_tag(tag: str) -> str:
@@ -117,32 +138,67 @@ def build_patch_state(*, universe_seed: int, week: int) -> dict[str, Any]:
     }
 
 
-def _generate_player_profile(
+def _build_player_profile(
     *,
+    team_id: str,
     player_name: str,
     role: Role,
     team_tags: list[str],
     viable: list[str],
     by_role_lookup: dict[str, dict[str, list[str]]],
+    preferred_picks: dict[str, dict[str, list[str]]],
+    champion_index: dict[str, str],
     rng: random.Random,
 ) -> dict[str, Any]:
+    """signature_picks = fichier data (scout). comfort = signatures + pool meta (bot, variété)."""
     role_champs = by_role_lookup.get(role, {})
-    weighted: list[tuple[float, str]] = []
+    signature: list[str] = []
+    for raw in preferred_picks.get(team_id, {}).get(role, [])[:2]:
+        resolved = _resolve_champion(raw, champion_index)
+        if resolved and resolved not in signature:
+            signature.append(resolved)
+
+    if not signature:
+        weighted_fallback: list[tuple[float, str]] = []
+        for champion in viable:
+            tags = role_champs.get(champion, [])
+            overlap = sum(1 for tag in tags if tag in team_tags)
+            weighted_fallback.append((overlap + rng.random() * 0.6, champion))
+        weighted_fallback.sort(key=lambda item: (-item[0], item[1]))
+        signature = [name for _, name in weighted_fallback[:2]]
+
+    weighted_extras: list[tuple[float, str]] = []
     for champion in viable:
+        if champion in signature:
+            continue
         tags = role_champs.get(champion, [])
         overlap = sum(1 for tag in tags if tag in team_tags)
-        weighted.append((overlap + rng.random() * 0.6, champion))
-    weighted.sort(key=lambda item: (-item[0], item[1]))
-    comfort_count = 3 + rng.randint(0, 2)
-    comfort = [name for _, name in weighted[:comfort_count]]
+        weighted_extras.append((overlap + rng.random() * 0.5, champion))
+    weighted_extras.sort(key=lambda item: (-item[0], item[1]))
+    extra_count = 2 + rng.randint(0, 1)
+    extras = [name for _, name in weighted_extras[:extra_count]]
+    comfort = signature + extras
+
     return {
         "player": player_name,
         "role": role,
+        "signature_picks": signature,
         "comfort": comfort,
         "power": round(0.55 + rng.random() * 0.3, 3),
         "flexibility": round(0.25 + rng.random() * 0.45, 3),
         "tags": team_tags[:2],
     }
+
+
+def _summarize_team_preferred_picks(profiles: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        {
+            "player": profile["player"],
+            "role": profile["role"],
+            "champions": list(profile.get("signature_picks") or []),
+        }
+        for profile in profiles
+    ]
 
 
 def build_team_identity(
@@ -169,8 +225,11 @@ def build_team_profiles(
     identity: dict[str, Any],
     patch_state: dict[str, Any],
     pool_data: dict[str, Any],
+    preferred_picks: dict[str, dict[str, list[str]]],
+    champion_index: dict[str, str],
     rng: random.Random,
 ) -> list[dict[str, Any]]:
+    team_id = str(team.get("id", "player"))
     roster = team.get("roster") or {}
     by_role = _champions_by_role(pool_data)
     lookup = {
@@ -182,12 +241,15 @@ def build_team_profiles(
     for role in ROLES:
         player_name = str(roster.get(role, role.title())).strip() or role.title()
         profiles.append(
-            _generate_player_profile(
+            _build_player_profile(
+                team_id=team_id,
                 player_name=player_name,
                 role=role,
                 team_tags=identity["tags"],
                 viable=viable.get(role, []),
                 by_role_lookup=lookup,
+                preferred_picks=preferred_picks,
+                champion_index=champion_index,
                 rng=rng,
             )
         )
@@ -203,29 +265,37 @@ def generate_career_universe(
     """Génère la meta carrière complète pour une saison (déterministe)."""
     universe_seed = _seed_int(seed)
     pool_data = _load_pool_data()
+    preferred_picks = _load_preferred_picks_data()
+    champion_index = _build_champion_index(pool_data)
     patch_state = build_patch_state(universe_seed=universe_seed, week=week)
 
     team_identities: dict[str, dict[str, Any]] = {}
     team_profiles: dict[str, list[dict[str, Any]]] = {}
+    team_preferred_picks: dict[str, list[dict[str, Any]]] = {}
 
     for index, team in enumerate(teams):
         team_id = str(team.get("id", f"team-{index}"))
         team_rng = random.Random(universe_seed + index * 104729)
         identity = build_team_identity(team_id, pool_data=pool_data, rng=team_rng)
         team_identities[team_id] = identity
-        team_profiles[team_id] = build_team_profiles(
+        profiles = build_team_profiles(
             team,
             identity=identity,
             patch_state=patch_state,
             pool_data=pool_data,
+            preferred_picks=preferred_picks,
+            champion_index=champion_index,
             rng=team_rng,
         )
+        team_profiles[team_id] = profiles
+        team_preferred_picks[team_id] = _summarize_team_preferred_picks(profiles)
 
     return {
         "universe_seed": universe_seed,
         "patch": patch_state,
         "team_identities": team_identities,
         "team_profiles": team_profiles,
+        "team_preferred_picks": team_preferred_picks,
     }
 
 
@@ -244,9 +314,12 @@ def refresh_career_universe_week(
     """Met à jour le patch courant sans regénérer identités/profils."""
     seed = int(universe.get("universe_seed", 0))
     pool_data = _load_pool_data()
+    preferred_picks = _load_preferred_picks_data()
+    champion_index = _build_champion_index(pool_data)
     patch_state = build_patch_state(universe_seed=seed, week=week)
     team_identities = universe.get("team_identities") or {}
     team_profiles: dict[str, list[dict[str, Any]]] = {}
+    team_preferred_picks: dict[str, list[dict[str, Any]]] = {}
 
     for index, team in enumerate(teams):
         team_id = str(team.get("id", f"team-{index}"))
@@ -256,16 +329,21 @@ def refresh_career_universe_week(
             rng=random.Random(seed + index * 104729),
         )
         team_rng = random.Random(seed + index * 104729 + week * 17)
-        team_profiles[team_id] = build_team_profiles(
+        profiles = build_team_profiles(
             team,
             identity=identity,
             patch_state=patch_state,
             pool_data=pool_data,
+            preferred_picks=preferred_picks,
+            champion_index=champion_index,
             rng=team_rng,
         )
+        team_profiles[team_id] = profiles
+        team_preferred_picks[team_id] = _summarize_team_preferred_picks(profiles)
 
     return {
         **universe,
         "patch": patch_state,
         "team_profiles": team_profiles,
+        "team_preferred_picks": team_preferred_picks,
     }

@@ -84,10 +84,17 @@ export interface LecTeamIdentity {
 export interface LecPlayerProfile {
   player: string;
   role: string;
+  signature_picks: string[];
   comfort: string[];
   power: number;
   flexibility: number;
   tags: string[];
+}
+
+export interface LecTeamPreferredPick {
+  player: string;
+  role: string;
+  champions: string[];
 }
 
 export interface LecCareerUniverse {
@@ -95,6 +102,7 @@ export interface LecCareerUniverse {
   patch: LecCareerPatch;
   team_identities: Record<string, LecTeamIdentity>;
   team_profiles: Record<string, LecPlayerProfile[]>;
+  team_preferred_picks?: Record<string, LecTeamPreferredPick[]>;
 }
 
 export interface LecScoutDossier {
