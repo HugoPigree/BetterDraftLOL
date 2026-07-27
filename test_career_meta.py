@@ -129,3 +129,58 @@ def test_career_bot_first_pick_not_always_identical():
         for seed in range(100, 130)
     }
     assert len(picks) >= 2
+
+
+def test_career_bot_pick_weights_signature_and_meta():
+    from collections import Counter
+
+    universe = generate_career_universe(
+        [{"id": "g2", "roster": {"TOP": "A", "JUNGLE": "B", "MIDDLE": "C", "BOTTOM": "D", "UTILITY": "E"}}],
+        seed=2,
+    )
+    top_profile = next(item for item in universe["team_profiles"]["g2"] if item["role"] == "TOP")
+    signature = top_profile["signature_picks"][0]
+    viable_top = universe["patch"]["viable_by_role"]["TOP"]
+    assert signature in viable_top
+
+    pool = list(dict.fromkeys(viable_top + ["Aatrox", "Sion"]))
+    counts = Counter(
+        choose_career_bot_action(
+            action_type="pick",
+            bot_side="red",
+            bot_picks=[],
+            opponent_picks=[],
+            available_champions=pool,
+            team_identity=universe["team_identities"]["g2"],
+            team_profiles=universe["team_profiles"]["g2"],
+            patch=universe["patch"],
+            seed=seed,
+        )["champion"]
+        for seed in range(200)
+    )
+    assert counts[signature] >= 25
+
+
+def test_career_bot_ban_targets_opponent_signature():
+    universe = generate_career_universe(
+        [{"id": "g2", "roster": {"TOP": "A", "JUNGLE": "B", "MIDDLE": "C", "BOTTOM": "D", "UTILITY": "E"}}],
+        seed=4,
+    )
+    player_profiles = universe["team_profiles"]["g2"]
+    mid_signature = next(
+        item for item in player_profiles if item["role"] == "MIDDLE"
+    )["signature_picks"][0]
+
+    move = choose_career_bot_action(
+        action_type="ban",
+        bot_side="red",
+        bot_picks=[],
+        opponent_picks=[],
+        available_champions=[mid_signature, "Zac", "Trundle"],
+        team_identity=universe["team_identities"]["g2"],
+        team_profiles=universe["team_profiles"]["g2"],
+        opponent_profiles=player_profiles,
+        patch=universe["patch"],
+        seed=99,
+    )
+    assert move["champion"] == mid_signature

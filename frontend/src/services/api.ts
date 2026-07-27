@@ -441,6 +441,7 @@ export async function lecCareerDraftBotMove(
   teamProfiles: LecPlayerProfile[],
   careerPatch: LecCareerPatch,
   seed?: number,
+  opponentProfiles: LecPlayerProfile[] = [],
 ): Promise<DraftBotMoveResponse> {
   return postJson<DraftBotMoveResponse>(
     "/lec/career-draft-bot/move",
@@ -454,6 +455,7 @@ export async function lecCareerDraftBotMove(
       mode: "pro",
       team_identity: teamIdentity,
       team_profiles: teamProfiles,
+      opponent_profiles: opponentProfiles,
       career_patch: careerPatch,
       seed,
     },

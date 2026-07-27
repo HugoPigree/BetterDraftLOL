@@ -19,6 +19,7 @@ interface UseCareerDraftBotOptions {
   careerPatch: LecCareerPatch;
   teamIdentity: LecTeamIdentity;
   teamProfiles: LecPlayerProfile[];
+  opponentProfiles?: LecPlayerProfile[];
   draftSeed?: string;
 }
 
@@ -32,6 +33,7 @@ export function useCareerDraftBot({
   careerPatch,
   teamIdentity,
   teamProfiles,
+  opponentProfiles = [],
   draftSeed = "",
 }: UseCareerDraftBotOptions) {
   const [thinking, setThinking] = useState(false);
@@ -88,6 +90,7 @@ export function useCareerDraftBot({
           teamProfiles,
           careerPatch,
           moveSeed,
+          opponentProfiles,
         );
 
         if (cancelled || requestId !== requestIdRef.current) {
@@ -139,6 +142,7 @@ export function useCareerDraftBot({
     careerPatch,
     teamIdentity,
     teamProfiles,
+    opponentProfiles,
     draftSeed,
   ]);
 

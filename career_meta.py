@@ -201,6 +201,18 @@ def _summarize_team_preferred_picks(profiles: list[dict[str, Any]]) -> list[dict
     ]
 
 
+def build_champion_tag_lookup(
+    pool_data: dict[str, Any] | None = None,
+) -> dict[str, dict[str, list[str]]]:
+    """Tags par champion et par rôle — utilisé par le bot carrière."""
+    payload = pool_data or _load_pool_data()
+    by_role = _champions_by_role(payload)
+    return {
+        role: {item["name"]: item["tags"] for item in items}
+        for role, items in by_role.items()
+    }
+
+
 def build_team_identity(
     team_id: str,
     *,

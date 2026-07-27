@@ -434,6 +434,7 @@ class WorldsTeamDraftBotRequest(DraftBotMoveRequest):
 class CareerDraftBotRequest(DraftBotMoveRequest):
     team_identity: dict[str, Any] = Field(default_factory=dict)
     team_profiles: list[dict[str, Any]] = Field(default_factory=list)
+    opponent_profiles: list[dict[str, Any]] = Field(default_factory=list)
     career_patch: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -988,6 +989,7 @@ def create_app() -> FastAPI:
                 available_champions=request.available_champions,
                 team_identity=request.team_identity,
                 team_profiles=request.team_profiles,
+                opponent_profiles=request.opponent_profiles,
                 patch=request.career_patch,
                 seed=request.seed,
             )

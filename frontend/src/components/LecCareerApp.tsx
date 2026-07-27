@@ -14,6 +14,7 @@ import { useWorldsCoachDialogue } from "../hooks/useWorldsCoachDialogue";
 import { fetchChampionsFromApi } from "../services/api";
 import { fetchLatestDdragonVersion } from "../utils/ddragon";
 import { analyzeCareerDraft, resolveCareerMatch } from "../utils/lecDraftAnalysis";
+import { inVogueChampionSet, suggestCareerDraftChampion } from "../utils/careerDraftPick";
 import { createScoutDossier } from "../utils/lecScout";
 import { opponentForFixture } from "../utils/lecTeamBranding";
 import { ChampionGrid } from "./ChampionGrid";
@@ -89,6 +90,15 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     FALLBACK_IDENTITY;
   const opponentProfiles: LecPlayerProfile[] =
     (activeOpponent && lec.season?.career_universe?.team_profiles[activeOpponent.id]) || [];
+  const playerProfiles: LecPlayerProfile[] =
+    (lec.playerTeam && lec.season?.career_universe?.team_profiles[lec.playerTeam.id]) || [];
+  const playerIdentity =
+    (lec.playerTeam && lec.season?.career_universe?.team_identities[lec.playerTeam.id]) ||
+    FALLBACK_IDENTITY;
+  const careerInVogue = useMemo(
+    () => inVogueChampionSet(careerPatch, 5),
+    [careerPatch],
+  );
   const careerBotEnabled =
     lec.phase === "drafting" &&
     Boolean(activeOpponent && lec.season?.career_universe && lec.careerPatch);
@@ -113,6 +123,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     careerPatch,
     teamIdentity: opponentIdentity,
     teamProfiles: opponentProfiles,
+    opponentProfiles: playerProfiles,
     draftSeed: lec.draftSeed,
   });
 
@@ -131,21 +142,28 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
     if (!available.length) {
       return;
     }
-    const preferred =
-      draft.currentActionType === "pick"
-        ? Object.values(careerPatch.viable_by_role)
-            .flat()
-            .find((champion) => available.includes(champion))
-        : undefined;
-    draft.selectChampion(preferred ?? available[0]);
+    const suggested = suggestCareerDraftChampion({
+      actionType: draft.currentActionType,
+      available,
+      championPositions,
+      patch: careerPatch,
+      teamProfiles: playerProfiles,
+      teamIdentity: playerIdentity,
+      opponentProfiles: opponentProfiles,
+    });
+    draft.selectChampion(suggested ?? available[0]);
   }, [
-    careerPatch.viable_by_role,
+    careerPatch,
+    championPositions,
     champions,
     draft,
     draft.currentActionType,
     draft.isDraftComplete,
     draft.usedChampions,
     isPlayerDraftTurn,
+    opponentProfiles,
+    playerIdentity,
+    playerProfiles,
   ]);
 
   const { remaining: turnTimerRemaining, urgent: turnTimerUrgent } = useDraftTurnTimer({
@@ -611,6 +629,7 @@ export function LecCareerApp({ onBack }: LecCareerAppProps) {
               loading={loadingChampions}
               error={draftError}
               isPlayerTurn={isPlayerDraftTurn}
+              metaHighlights={lec.phase === "drafting" ? careerInVogue : undefined}
             />
           )}
         </DraftBoard>

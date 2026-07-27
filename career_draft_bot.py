@@ -1,19 +1,25 @@
-"""Bot de draft pour le mode carrière — identité équipe + meta fictive."""
+"""Bot de draft pour le mode carrière — meta patch + picks préférentiels équipe."""
 
 from __future__ import annotations
 
 import random
+from functools import lru_cache
 from typing import Any, Literal
 
-from career_meta import ROLES, Role
+from career_meta import ROLES, build_champion_tag_lookup
 from suggest_draft import soft_assign_roles, get_champion_role_catalog
 
 ActionType = Literal["ban", "pick"]
 TeamSide = Literal["blue", "red"]
 
-COMFORT_SCORE_BONUS = 0.18
-SIGNATURE_SCORE_BONUS = 0.38
+COMFORT_SCORE_BONUS = 0.16
+SIGNATURE_SCORE_BONUS = 0.34
 SPICE_FLOOR = 0.08
+
+
+@lru_cache(maxsize=1)
+def _tag_lookup() -> dict[str, dict[str, list[str]]]:
+    return build_champion_tag_lookup()
 
 
 def _used_champions(
@@ -45,6 +51,65 @@ def _profile_for_role(
     return None
 
 
+def _vogue_bonus(champion: str, role: str | None, patch: dict[str, Any]) -> float:
+    if not role:
+        return 0.0
+    viable = (patch.get("viable_by_role") or {}).get(role, [])
+    if champion not in viable:
+        return -0.38
+    index = viable.index(champion)
+    depth = max(len(viable), 1)
+    return 0.14 + (1 - index / depth) * 0.24
+
+
+def _patch_tag_bonus(champion: str, role: str | None, patch: dict[str, Any]) -> float:
+    if not role:
+        return 0.0
+    tags = _tag_lookup().get(role, {}).get(champion, [])
+    shifts = patch.get("tag_shifts") or {}
+    return sum(float(shifts.get(tag, 0.0)) for tag in tags) * 0.45
+
+
+def _identity_tag_bonus(champion: str, role: str | None, identity: dict[str, Any]) -> float:
+    if not role:
+        return 0.0
+    tags = _tag_lookup().get(role, {}).get(champion, [])
+    identity_tags = set(identity.get("tags") or [])
+    overlap = sum(1 for tag in tags if tag in identity_tags)
+    return overlap * 0.07
+
+
+def _preference_bonus(champion: str, profile: dict[str, Any] | None) -> float:
+    if not profile:
+        return 0.0
+    power = float(profile.get("power", 0.65))
+    if champion in (profile.get("signature_picks") or []):
+        return SIGNATURE_SCORE_BONUS * power
+    if champion in (profile.get("comfort") or []):
+        return COMFORT_SCORE_BONUS * power
+    return 0.0
+
+
+def _ban_target_bonus(
+    champion: str,
+    *,
+    patch: dict[str, Any],
+    opponent_profiles: list[dict[str, Any]],
+) -> float:
+    score = 0.0
+    for role in ROLES:
+        score = max(score, _vogue_bonus(champion, role, patch))
+        if score > 0.2:
+            break
+
+    for profile in opponent_profiles:
+        if champion in (profile.get("signature_picks") or []):
+            score += 0.32
+        elif champion in (profile.get("comfort") or []):
+            score += 0.16
+    return score
+
+
 def _score_champion(
     *,
     champion: str,
@@ -55,31 +120,19 @@ def _score_champion(
     action_type: ActionType,
     rng: random.Random,
 ) -> float:
-    shifts = patch.get("tag_shifts") or {}
-    identity_tags = set(identity.get("tags") or [])
-    score = 0.55 + rng.uniform(-0.05, 0.05)
+    score = 0.5 + rng.uniform(-0.04, 0.04)
 
-    pool_data_tags: list[str] = []
-    if role:
-        viable = (patch.get("viable_by_role") or {}).get(role, [])
-        if champion not in viable:
-            score -= 0.35
+    if action_type == "pick" and role:
+        score += _vogue_bonus(champion, role, patch)
+        score += _patch_tag_bonus(champion, role, patch)
+        score += _identity_tag_bonus(champion, role, identity)
+        score += _preference_bonus(champion, profile)
 
-    if profile and champion in (profile.get("signature_picks") or []):
-        score += SIGNATURE_SCORE_BONUS * float(profile.get("power", 0.65))
-    elif profile and champion in (profile.get("comfort") or []):
-        score += COMFORT_SCORE_BONUS * float(profile.get("power", 0.65))
-
-    if action_type == "ban":
-        if profile and champion in (profile.get("signature_picks") or []):
-            score += 0.25
-        elif profile and champion in (profile.get("comfort") or []):
-            score += 0.18
+        comfort = (profile.get("comfort") or []) if profile else []
+        spice = float(identity.get("spice_chance", 0.1))
+        if profile and champion not in comfort and rng.random() < spice:
+            score += 0.1
         return score
-
-    spice = float(identity.get("spice_chance", 0.1))
-    if profile and champion not in (profile.get("comfort") or []) and rng.random() < spice:
-        score += 0.12
 
     return score
 
@@ -97,7 +150,7 @@ def _pick_weighted(
     total = sum(weights)
     roll = rng.random() * total
     cursor = 0.0
-    for (score, champion), weight in zip(pool, weights, strict=False):
+    for (_score, champion), weight in zip(pool, weights, strict=False):
         cursor += weight
         if roll <= cursor:
             return champion
@@ -114,6 +167,7 @@ def choose_career_bot_action(
     team_identity: dict[str, Any],
     team_profiles: list[dict[str, Any]],
     patch: dict[str, Any],
+    opponent_profiles: list[dict[str, Any]] | None = None,
     seed: int | None = None,
 ) -> dict[str, Any]:
     del bot_side
@@ -126,43 +180,48 @@ def choose_career_bot_action(
     remaining_roles = _remaining_roles(bot_picks)
     next_role = remaining_roles[0] if remaining_roles else None
     next_profile = _profile_for_role(team_profiles, next_role) if next_role else None
+    enemy_profiles = opponent_profiles or []
 
     if action_type == "pick" and next_role:
         viable = set((patch.get("viable_by_role") or {}).get(next_role, []))
-        pool = [champion for champion in pool if not viable or champion in viable] or pool
+        meta_pool = [champion for champion in pool if champion in viable]
+        if meta_pool:
+            pool = meta_pool
 
     scored: list[tuple[float, str]] = []
     for champion in pool:
-        score = _score_champion(
-            champion=champion,
-            role=next_role if action_type == "pick" else None,
-            identity=team_identity,
-            patch=patch,
-            profile=next_profile if action_type == "pick" else None,
-            action_type=action_type,
-            rng=rng,
-        )
         if action_type == "ban":
-            for profile in team_profiles:
-                if champion in (profile.get("signature_picks") or []):
-                    score += 0.2
-                elif champion in (profile.get("comfort") or []):
-                    score += 0.12
+            score = _ban_target_bonus(
+                champion,
+                patch=patch,
+                opponent_profiles=enemy_profiles,
+            )
+            score += rng.uniform(-0.03, 0.03)
+        else:
+            score = _score_champion(
+                champion=champion,
+                role=next_role,
+                identity=team_identity,
+                patch=patch,
+                profile=next_profile,
+                action_type=action_type,
+                rng=rng,
+            )
         scored.append((score, champion))
 
-    top_n = 7 if action_type == "pick" else 5
+    top_n = 7 if action_type == "pick" else 6
     chosen = _pick_weighted(scored, rng, top_n=top_n)
     if action_type == "ban":
         return {
             "action": "ban",
             "champion": chosen,
             "role": None,
-            "reason": "Ban orienté identité équipe.",
+            "reason": "Ban meta / menace adversaire.",
         }
 
     return {
         "action": "pick",
         "champion": chosen,
         "role": next_role,
-        "reason": f"Pick {team_identity.get('label', 'signature')}.",
+        "reason": f"Pick {team_identity.get('label', 'signature')} — meta + pool équipe.",
     }

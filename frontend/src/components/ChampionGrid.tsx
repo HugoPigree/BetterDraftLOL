@@ -17,6 +17,7 @@ interface ChampionGridProps {
   loading: boolean;
   error: string | null;
   isPlayerTurn?: boolean;
+  metaHighlights?: Set<string>;
 }
 
 const ROLE_LABELS: Record<RoleFilter, string> = {
@@ -63,6 +64,7 @@ export function ChampionGrid({
   loading,
   error,
   isPlayerTurn = true,
+  metaHighlights,
 }: ChampionGridProps) {
   const isMobile = useMediaQuery("(max-width: 720px)");
   const [search, setSearch] = useState("");
@@ -180,10 +182,16 @@ export function ChampionGrid({
         </div>
       </header>
 
-      {isPickTurn && (
+      {isPickTurn && metaHighlights?.size ? (
         <p className="champion-pool__hint">
-          Les postes se confirment après la draft — le filtre rôle sert seulement à naviguer.
+          Contour doré = en vogue ce patch carrière. Priorise-les ou tes picks préférés.
         </p>
+      ) : (
+        isPickTurn && (
+          <p className="champion-pool__hint">
+            Les postes se confirment après la draft — le filtre rôle sert seulement à naviguer.
+          </p>
+        )
       )}
 
       {loading && <p className="champion-pool__message">Chargement des champions...</p>}
@@ -204,13 +212,15 @@ export function ChampionGrid({
           const overlay = isBanned ? "ban" : isPicked ? "picked" : "none";
           const isEstimated = estimatedSet.has(champion);
 
+          const isMeta = metaHighlights?.has(champion) ?? false;
+
           return (
             <button
               key={champion}
               type="button"
               className={`champion-pool__item ${isUsed ? "champion-pool__item--used" : ""} ${
                 isEstimated ? "champion-pool__item--estimated" : ""
-              }`}
+              } ${isMeta ? "champion-pool__item--meta" : ""}`}
               disabled={isDisabled || isUsed}
               onClick={() => {
                 draft.selectChampion(champion);
